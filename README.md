@@ -15,23 +15,28 @@ de aplicativos.
   equações do 2º grau, geometria plana), cada um com 24 exercícios
   divididos em 4 níveis de dificuldade (Fácil/Médio/Difícil/Olimpíada),
   escolhidos livremente pelo aluno.
-- **Ensino Médio** — começando com "Função do 1º Grau" (coeficientes,
-  raiz, gráfico), também em 4 níveis de dificuldade. Mais tópicos
-  (trigonometria, geometria analítica) entram nos próximos ciclos.
+- **Ensino Médio** — 3 tópicos: "Função do 1º Grau" (coeficientes,
+  raiz, gráfico), "Função Quadrática" (vértice, concavidade, gráfico em
+  parábola) e "Trigonometria no Triângulo Retângulo" (seno, cosseno,
+  tangente, Teorema de Pitágoras), todos em 4 níveis de dificuldade e
+  com gráfico interativo embutido (parábola e `sin(x)`). Geometria
+  analítica entra em próximos ciclos.
 - **Estatística** — trilha independente com 3 níveis (Iniciante:
   medidas de tendência central; Intermediário: probabilidade básica e
   regras de probabilidade; Avançado: distribuição normal, escore-z e
   intervalos de confiança). Os níveis Intermediário e Avançado agora
   têm 2 tópicos cada, em vez de 1 — mais volume de conteúdo pago.
-- **Programação & Machine Learning** — nova trilha independente,
-  começando com "Lógica de Programação" (Programação — Iniciante):
-  variáveis, comparações e condicionais, ensinados com pseudocódigo
-  (independente de linguagem) já que o app não executa código de
-  verdade — os exercícios pedem pra prever o valor final de variáveis
-  após um trecho de pseudocódigo, não pra escrever código. Programação
-  Intermediário/Avançado e Machine Learning — Introdução aparecem como
-  "em breve", com Avançado e Machine Learning já marcados como Premium
-  para quando forem lançados.
+- **Programação & Machine Learning** — trilha independente com 2
+  níveis disponíveis: "Lógica de Programação" (Programação —
+  Iniciante: variáveis, comparações, condicionais) e "Estruturas de
+  Repetição" (Programação — Intermediário: laços 'para'/'enquanto',
+  repetições aninhadas, um traço de Fibonacci no nível olimpíada) —
+  ambos ensinados com pseudocódigo (independente de linguagem) já que
+  o app não executa código de verdade; os exercícios pedem pra prever
+  o valor final de variáveis após um trecho de pseudocódigo, não pra
+  escrever código. Programação Avançado e Machine Learning —
+  Introdução aparecem como "em breve", já marcados como Premium para
+  quando forem lançados.
 - Fundamental I, Ensino Superior e Econometria aparecem como "em breve"
   — a estrutura de dados (`src/data/curriculum.ts`) já suporta
   adicionar novos níveis e tópicos sem mudar a arquitetura.

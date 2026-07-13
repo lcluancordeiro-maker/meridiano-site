@@ -6,6 +6,7 @@ import {
   fundamental2Topics,
   medioTopics,
   programacaoInicianteTopics,
+  programacaoIntermediarioTopics,
   type Difficulty,
   type Exercise,
 } from "../src/data/curriculum";
@@ -35,6 +36,11 @@ const TRACKS: { levelId: string; topicId: string; exercises: Exercise[] }[] = [
   })),
   ...programacaoInicianteTopics.map((t) => ({
     levelId: "programacao-iniciante",
+    topicId: t.id,
+    exercises: t.exercises,
+  })),
+  ...programacaoIntermediarioTopics.map((t) => ({
+    levelId: "programacao-intermediario",
     topicId: t.id,
     exercises: t.exercises,
   })),

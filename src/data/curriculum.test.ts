@@ -11,6 +11,7 @@ import {
   levels,
   medioTopics,
   programacaoInicianteTopics,
+  programacaoIntermediarioTopics,
   type Topic,
 } from "./curriculum";
 
@@ -21,6 +22,7 @@ const ALL_TRACKS: { levelId: string; topics: Topic[] }[] = [
   { levelId: "estatistica-intermediario", topics: estatisticaIntermediarioTopics },
   { levelId: "estatistica-avancado", topics: estatisticaAvancadoTopics },
   { levelId: "programacao-iniciante", topics: programacaoInicianteTopics },
+  { levelId: "programacao-intermediario", topics: programacaoIntermediarioTopics },
 ];
 
 describe("levels", () => {
@@ -57,6 +59,11 @@ describe("levels", () => {
     expect(getLevel("programacao-iniciante")?.premium).toBe(false);
     expect(getLevel("programacao-avancado")?.premium).toBe(true);
     expect(getLevel("machine-learning-iniciante")?.premium).toBe(true);
+  });
+
+  it("makes Programação — Intermediário available and free", () => {
+    expect(getLevel("programacao-intermediario")?.available).toBe(true);
+    expect(getLevel("programacao-intermediario")?.premium).toBe(false);
   });
 });
 
