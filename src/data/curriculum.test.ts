@@ -9,6 +9,8 @@ import {
   getTopic,
   getTopicsForLevel,
   levels,
+  matematicaFinanceiraAvancadoTopics,
+  matematicaFinanceiraInicianteTopics,
   medioTopics,
   programacaoInicianteTopics,
   programacaoIntermediarioTopics,
@@ -23,6 +25,8 @@ const ALL_TRACKS: { levelId: string; topics: Topic[] }[] = [
   { levelId: "estatistica-avancado", topics: estatisticaAvancadoTopics },
   { levelId: "programacao-iniciante", topics: programacaoInicianteTopics },
   { levelId: "programacao-intermediario", topics: programacaoIntermediarioTopics },
+  { levelId: "matematica-financeira-iniciante", topics: matematicaFinanceiraInicianteTopics },
+  { levelId: "matematica-financeira-avancado", topics: matematicaFinanceiraAvancadoTopics },
 ];
 
 describe("levels", () => {
@@ -64,6 +68,11 @@ describe("levels", () => {
   it("makes Programação — Intermediário available and free", () => {
     expect(getLevel("programacao-intermediario")?.available).toBe(true);
     expect(getLevel("programacao-intermediario")?.premium).toBe(false);
+  });
+
+  it("keeps Matemática Financeira — Iniciante free and gates the Avançado tier behind Premium", () => {
+    expect(getLevel("matematica-financeira-iniciante")?.premium).toBe(false);
+    expect(getLevel("matematica-financeira-avancado")?.premium).toBe(true);
   });
 });
 

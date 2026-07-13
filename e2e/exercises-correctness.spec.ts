@@ -4,6 +4,7 @@ import {
   DIFFICULTY_ORDER,
   estatisticaInicianteTopics,
   fundamental2Topics,
+  matematicaFinanceiraInicianteTopics,
   medioTopics,
   programacaoInicianteTopics,
   programacaoIntermediarioTopics,
@@ -19,11 +20,13 @@ import {
  * difficulty filter, option matching, etc.) fails here, even though it can't
  * catch a wrong `answer` value baked into the content itself.
  *
- * estatistica-intermediario and estatistica-avancado are deliberately absent:
- * both are Premium-gated (see src/lib/entitlements.ts), and there's no way to
- * get an authenticated + subscribed session in this test environment (same
+ * estatistica-intermediario, estatistica-avancado and
+ * matematica-financeira-avancado are deliberately absent: all are
+ * Premium-gated (see src/lib/entitlements.ts), and there's no way to get an
+ * authenticated + subscribed session in this test environment (same
  * limitation as Supabase auth — see e2e/auth.spec.ts). Their content was
- * verified against this same suite before the paywall existed; paywall.spec.ts
+ * verified against this same suite before the paywall existed (or via the
+ * temporary premium:false workaround documented in the README); paywall.spec.ts
  * covers the behavior that *is* testable here (the paywall itself renders).
  */
 const TRACKS: { levelId: string; topicId: string; exercises: Exercise[] }[] = [
@@ -41,6 +44,11 @@ const TRACKS: { levelId: string; topicId: string; exercises: Exercise[] }[] = [
   })),
   ...programacaoIntermediarioTopics.map((t) => ({
     levelId: "programacao-intermediario",
+    topicId: t.id,
+    exercises: t.exercises,
+  })),
+  ...matematicaFinanceiraInicianteTopics.map((t) => ({
+    levelId: "matematica-financeira-iniciante",
     topicId: t.id,
     exercises: t.exercises,
   })),

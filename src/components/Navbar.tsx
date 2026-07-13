@@ -2,6 +2,7 @@ import Link from "next/link";
 import NavbarXpBadge from "./NavbarXpBadge";
 import ThemeToggle from "./ThemeToggle";
 import LanguageSwitcher from "./LanguageSwitcher";
+import MobileNavMenu from "./MobileNavMenu";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/actions/auth";
 import { getServerLocale } from "@/i18n/getServerLocale";
@@ -14,6 +15,15 @@ export default async function Navbar() {
   const isPremium = user ? await isPremiumUser() : false;
   const locale = await getServerLocale();
   const dict = getDictionary(locale);
+
+  const navItems = [
+    { href: "/#niveis", label: dict.nav.trilhas },
+    { href: "/calculadora", label: dict.nav.calculadora },
+    { href: "/foto", label: dict.nav.resolverFoto },
+    { href: "/quadro", label: dict.nav.quadro },
+    { href: "/turmas", label: dict.nav.turmas },
+    { href: "/progresso", label: dict.nav.progresso },
+  ];
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-surface/90 backdrop-blur">
@@ -28,25 +38,7 @@ export default async function Navbar() {
             Meridiano <span className="text-primary">Matemática</span>
           </span>
         </Link>
-        <nav className="flex items-center gap-4 text-sm font-medium text-muted sm:gap-6">
-          <Link href="/#niveis" className="hover:text-foreground transition-colors">
-            {dict.nav.trilhas}
-          </Link>
-          <Link href="/calculadora" className="hover:text-foreground transition-colors">
-            {dict.nav.calculadora}
-          </Link>
-          <Link href="/foto" className="hover:text-foreground transition-colors">
-            {dict.nav.resolverFoto}
-          </Link>
-          <Link href="/quadro" className="hover:text-foreground transition-colors">
-            {dict.nav.quadro}
-          </Link>
-          <Link href="/turmas" className="hover:text-foreground transition-colors">
-            {dict.nav.turmas}
-          </Link>
-          <Link href="/progresso" className="hover:text-foreground transition-colors">
-            {dict.nav.progresso}
-          </Link>
+        <MobileNavMenu navItems={navItems} openLabel={dict.nav.abrirMenu} closeLabel={dict.nav.fecharMenu}>
           <Link
             href="/assinatura"
             className={
@@ -80,7 +72,7 @@ export default async function Navbar() {
               {dict.nav.entrar}
             </Link>
           )}
-        </nav>
+        </MobileNavMenu>
       </div>
     </header>
   );

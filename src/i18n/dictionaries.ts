@@ -10,6 +10,8 @@ export type Dictionary = {
     progresso: string;
     entrar: string;
     sair: string;
+    abrirMenu: string;
+    fecharMenu: string;
   };
   home: {
     heroTag: string;
@@ -25,6 +27,8 @@ export type Dictionary = {
     programacaoSubtitle: string;
     econometriaHeading: string;
     econometriaSubtitle: string;
+    financasHeading: string;
+    financasSubtitle: string;
     emBreve: string;
     comecarTrilha: string;
     sobreHeading: string;
@@ -153,6 +157,12 @@ export type Dictionary = {
     practiceLink: string;
     shareCodeHint: string;
   };
+  pwa: {
+    installTitle: string;
+    installBody: string;
+    installButton: string;
+    dismissButton: string;
+  };
 };
 
 export const dictionaries: Record<Locale, Dictionary> = {
@@ -166,6 +176,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       progresso: "Progresso",
       entrar: "Entrar",
       sair: "Sair",
+      abrirMenu: "Abrir menu",
+      fecharMenu: "Fechar menu",
     },
     home: {
       heroTag: "Do fundamental ao superior",
@@ -183,6 +195,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       programacaoSubtitle: "Do fundamental ao superior — lógica de programação, algoritmos e os conceitos por trás do machine learning.",
       econometriaHeading: "Econometria",
       econometriaSubtitle: "Regressão e modelos preditivos, com pré-requisito de Estatística e Cálculo.",
+      financasHeading: "Matemática Financeira",
+      financasSubtitle: "Juros simples e compostos, descontos e financiamentos — para entender o dinheiro no dia a dia.",
       emBreve: "Em breve",
       comecarTrilha: "Começar trilha",
       sobreHeading: "Sobre o Meridiano Matemática",
@@ -313,6 +327,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       practiceLink: "Praticar",
       shareCodeHint: "Compartilhe este código com seus alunos para que eles entrem na turma.",
     },
+    pwa: {
+      installTitle: "Instalar o app",
+      installBody: "Adicione o Meridiano Matemática à tela inicial para acesso rápido, em tela cheia e offline.",
+      installButton: "Instalar",
+      dismissButton: "Agora não",
+    },
   },
   en: {
     nav: {
@@ -324,6 +344,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       progresso: "Progress",
       entrar: "Log in",
       sair: "Log out",
+      abrirMenu: "Open menu",
+      fecharMenu: "Close menu",
     },
     home: {
       heroTag: "From elementary to college",
@@ -341,6 +363,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       programacaoSubtitle: "From elementary to college — programming logic, algorithms, and the concepts behind machine learning.",
       econometriaHeading: "Econometrics",
       econometriaSubtitle: "Regression and predictive models, with a Statistics and Calculus prerequisite.",
+      financasHeading: "Personal Finance Math",
+      financasSubtitle: "Simple and compound interest, discounts and loans — to understand everyday money.",
       emBreve: "Coming soon",
       comecarTrilha: "Start track",
       sobreHeading: "About Meridiano Matemática",
@@ -471,6 +495,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       practiceLink: "Practice",
       shareCodeHint: "Share this code with your students so they can join the class.",
     },
+    pwa: {
+      installTitle: "Install the app",
+      installBody: "Add Meridiano Matemática to your home screen for quick, full-screen, offline access.",
+      installButton: "Install",
+      dismissButton: "Not now",
+    },
   },
   es: {
     nav: {
@@ -482,6 +512,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       progresso: "Progreso",
       entrar: "Iniciar sesión",
       sair: "Cerrar sesión",
+      abrirMenu: "Abrir menú",
+      fecharMenu: "Cerrar menú",
     },
     home: {
       heroTag: "De primaria a la universidad",
@@ -499,6 +531,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       programacaoSubtitle: "De primaria a la universidad — lógica de programación, algoritmos y los conceptos detrás del machine learning.",
       econometriaHeading: "Econometría",
       econometriaSubtitle: "Regresión y modelos predictivos, con requisito previo de Estadística y Cálculo.",
+      financasHeading: "Matemática Financiera",
+      financasSubtitle: "Interés simple y compuesto, descuentos y financiamientos — para entender el dinero del día a día.",
       emBreve: "Próximamente",
       comecarTrilha: "Empezar ruta",
       sobreHeading: "Sobre Meridiano Matemática",
@@ -628,6 +662,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       studentAssignmentsHeading: "Tareas de la clase",
       practiceLink: "Practicar",
       shareCodeHint: "Comparte este código con tus estudiantes para que se unan a la clase.",
+    },
+    pwa: {
+      installTitle: "Instalar la app",
+      installBody: "Agrega Meridiano Matemática a tu pantalla de inicio para acceso rápido, a pantalla completa y sin conexión.",
+      installButton: "Instalar",
+      dismissButton: "Ahora no",
     },
   },
 };

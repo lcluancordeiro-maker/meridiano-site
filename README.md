@@ -1,8 +1,9 @@
 # Meridiano Matemática
 
-App web (PWA) de ensino de matemática e estatística, do Ensino
-Fundamental ao Superior, com teoria, calculadora gráfica, exercícios em
-4 níveis de dificuldade e gamificação.
+App web (PWA) de ensino de matemática, estatística, matemática
+financeira, programação e machine learning, do Ensino Fundamental ao
+Superior, com teoria, calculadora gráfica, exercícios em 4 níveis de
+dificuldade e gamificação.
 
 Por ser um PWA, funciona em qualquer navegador e pode ser instalado na
 tela inicial no iOS e Android como um app nativo — sem precisar de loja
@@ -95,6 +96,20 @@ de aplicativos.
   vê o XP/sequência de cada um e atribui tarefas (nível + tópico +
   dificuldade); os alunos veem as tarefas atribuídas com um link direto
   pra praticar. Veja "Sobre as turmas" abaixo para os detalhes de RLS.
+- **Matemática Financeira** — trilha independente com 2 níveis:
+  Iniciante, grátis ("Juros Simples" e "Descontos e Acréscimos
+  Percentuais" — fator multiplicativo, aumentos/descontos sucessivos) e
+  Avançado, Premium ("Juros Compostos", com gráfico interativo de
+  crescimento exponencial, e "Financiamentos: Price e SAC", comparando
+  amortização constante com parcelas fixas).
+- **App para desktop e smartphone**: além de já ser um PWA instalável
+  (veja abaixo), a navegação agora é totalmente responsiva — em telas
+  estreitas o menu do topo vira um botão de hambúrguer que abre um
+  painel com todos os links, mantendo a barra horizontal normal em
+  telas largas (`src/components/MobileNavMenu.tsx`). Um banner
+  "Instalar o app" aparece automaticamente quando o navegador oferece a
+  instalação (evento `beforeinstallprompt`), com botão de instalar e de
+  dispensar (`src/components/InstallPwaPrompt.tsx`).
 
 ## Rodando localmente
 
@@ -337,6 +352,12 @@ todo push e pull request.
   tarefas atribuídas); `src/app/actions/turmas.ts` — criar turma, entrar
   por código, atribuir tarefa; `src/lib/turmaCode.ts` — gerador do
   código de acesso.
+- `src/components/MobileNavMenu.tsx` — menu de navegação responsivo
+  (hambúrguer em telas estreitas, barra horizontal em telas largas),
+  usado pelo `Navbar.tsx`.
+- `src/components/InstallPwaPrompt.tsx` — banner de instalação do PWA,
+  captura o evento `beforeinstallprompt` e é renderizado globalmente no
+  `src/app/layout.tsx`.
 - `e2e/` — testes end-to-end (Playwright).
 
 ## Adicionando conteúdo

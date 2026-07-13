@@ -3,6 +3,7 @@ import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import CloudSyncInit from "@/components/CloudSyncInit";
+import InstallPwaPrompt from "@/components/InstallPwaPrompt";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import { getServerLocale } from "@/i18n/getServerLocale";
 
@@ -55,7 +56,10 @@ export default async function RootLayout({
     <html lang={locale} className={`${inter.variable} ${sora.variable} h-full`} suppressHydrationWarning>
       <body className="min-h-full flex flex-col font-sans antialiased">
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
-        <LanguageProvider initialLocale={locale}>{children}</LanguageProvider>
+        <LanguageProvider initialLocale={locale}>
+          {children}
+          <InstallPwaPrompt />
+        </LanguageProvider>
         <ServiceWorkerRegister />
         <CloudSyncInit />
       </body>
