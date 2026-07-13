@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import AuthForm from "@/components/AuthForm";
+import OAuthButtons from "@/components/OAuthButtons";
 import { signup } from "@/app/actions/auth";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getServerLocale } from "@/i18n/getServerLocale";
@@ -22,6 +23,9 @@ export default async function CadastroPage() {
           </p>
         ) : (
           <div className="mt-8">
+            <div className="mb-6">
+              <OAuthButtons dict={auth} />
+            </div>
             <AuthForm action={signup} mode="signup" />
             <p className="mt-4 text-sm text-muted">
               {auth.jaTemConta}{" "}

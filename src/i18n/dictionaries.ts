@@ -52,6 +52,10 @@ export type Dictionary = {
     entrarButton: string;
     criarContaButton: string;
     enviando: string;
+    continuarComGoogle: string;
+    continuarComMicrosoft: string;
+    ouContinueComEmail: string;
+    oauthErro: string;
   };
   foto: {
     title: string;
@@ -221,6 +225,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       entrarButton: "Entrar",
       criarContaButton: "Criar conta",
       enviando: "Enviando...",
+      continuarComGoogle: "Continuar com Google",
+      continuarComMicrosoft: "Continuar com Microsoft",
+      ouContinueComEmail: "ou continue com e-mail",
+      oauthErro: "Não foi possível concluir o login. Tente novamente.",
     },
     foto: {
       title: "Resolver por foto",
@@ -389,6 +397,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       entrarButton: "Log in",
       criarContaButton: "Create account",
       enviando: "Submitting...",
+      continuarComGoogle: "Continue with Google",
+      continuarComMicrosoft: "Continue with Microsoft",
+      ouContinueComEmail: "or continue with email",
+      oauthErro: "We couldn't complete the login. Please try again.",
     },
     foto: {
       title: "Photo solver",
@@ -557,6 +569,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       entrarButton: "Iniciar sesión",
       criarContaButton: "Crear cuenta",
       enviando: "Enviando...",
+      continuarComGoogle: "Continuar con Google",
+      continuarComMicrosoft: "Continuar con Microsoft",
+      ouContinueComEmail: "o continúa con correo electrónico",
+      oauthErro: "No pudimos completar el inicio de sesión. Inténtalo de nuevo.",
     },
     foto: {
       title: "Resolver por foto",

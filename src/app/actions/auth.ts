@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 
@@ -58,4 +59,27 @@ export async function logout(): Promise<void> {
   const supabase = await createClient();
   if (supabase) await supabase.auth.signOut();
   redirect("/");
+}
+
+async function startOAuth(provider: "google" | "azure"): Promise<void> {
+  if (!isSupabaseConfigured) redirect("/entrar");
+  const supabase = await createClient();
+  if (!supabase) redirect("/entrar");
+
+  const origin = (await headers()).get("origin");
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider,
+    options: { redirectTo: `${origin}/auth/callback` },
+  });
+  if (error || !data.url) redirect("/entrar?erro=oauth");
+
+  redirect(data.url);
+}
+
+export async function signInWithGoogle(): Promise<void> {
+  await startOAuth("google");
+}
+
+export async function signInWithMicrosoft(): Promise<void> {
+  await startOAuth("azure");
 }

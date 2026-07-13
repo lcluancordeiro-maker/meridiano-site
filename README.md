@@ -53,8 +53,11 @@ de aplicativos.
   (`localStorage`) — funciona sem conta (modo convidado).
 - **Contas (opcional)**: login/cadastro (`/entrar`, `/cadastro`) via
   Supabase Auth sincronizam XP, progresso e conquistas na nuvem entre
-  dispositivos. Sem configurar o Supabase, o app roda 100% em modo
-  local — nada quebra. Veja "Configurando contas (Supabase)" abaixo.
+  dispositivos. Além de e-mail/senha, dá pra entrar direto com **Google**
+  ou **Microsoft** — sem precisar criar outra senha. Sem configurar o
+  Supabase, o app roda 100% em modo local — nada quebra. Veja
+  "Configurando contas (Supabase)" e "Login com Google e Microsoft"
+  abaixo.
 - **Resolver por foto** (`/foto`, exclusivo para quem tem conta): o
   aluno fotografa um problema de matemática e recebe a solução passo a
   passo, gerada pela Claude API (visão). Veja "Configurando resolver
@@ -143,6 +146,40 @@ cada mudança também é replicada em segundo plano para o Supabase
 eles substituem os locais (sincronização entre dispositivos); se for o
 primeiro login, o progresso local (de convidado) é enviado para a
 nuvem, sem perda.
+
+### Login com Google e Microsoft
+
+Além de e-mail/senha, `/entrar` e `/cadastro` mostram os botões
+"Continuar com Google" e "Continuar com Microsoft" — quem já tem uma
+dessas contas não precisa criar senha nova. Funciona via OAuth do
+Supabase Auth; a conta é criada automaticamente no primeiro login com
+qualquer um dos dois.
+
+Para habilitar (com o Supabase já configurado acima):
+
+1. **Google**: crie um OAuth Client ID em
+   [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
+   (tipo "Web application"). Em **Authorized redirect URIs**, adicione a
+   Callback URL que o Supabase mostra no passo 3.
+2. **Microsoft**: registre um app em
+   [Azure Portal → App registrations](https://portal.azure.com) e crie
+   um client secret. Em **Redirect URI**, use a mesma Callback URL do
+   Supabase (plataforma "Web").
+3. No painel do Supabase, em **Authentication → Providers**, habilite
+   **Google** e **Azure** e cole o Client ID/Secret de cada um. O
+   Supabase mostra, em cada provedor, a **Callback URL** a usar nos
+   passos 1 e 2 (algo como
+   `https://<seu-projeto>.supabase.co/auth/v1/callback`).
+4. Em **Authentication → URL Configuration**, adicione a URL do seu app
+   (ex.: `http://localhost:3000` em desenvolvimento, ou o domínio de
+   produção) em **Redirect URLs** — é para lá que o Supabase manda o
+   usuário de volta depois do login (rota `/auth/callback` no app, que
+   troca o código por uma sessão).
+
+Sem esses provedores habilitados, os botões continuam visíveis mas o
+login retorna um erro amigável — nada quebra. `src/app/actions/auth.ts`
+(`signInWithGoogle`/`signInWithMicrosoft`) e
+`src/app/auth/callback/route.ts` concentram toda a lógica.
 
 > Nesta versão do Next.js, "Middleware" foi renomeado para "Proxy"
 > (arquivo `proxy.ts`, função `proxy`) — é isso que mantém a sessão do
@@ -355,6 +392,10 @@ todo push e pull request.
 - `src/components/MobileNavMenu.tsx` — menu de navegação responsivo
   (hambúrguer em telas estreitas, barra horizontal em telas largas),
   usado pelo `Navbar.tsx`.
+- `src/components/OAuthButtons.tsx` + `signInWithGoogle`/
+  `signInWithMicrosoft` em `src/app/actions/auth.ts` — login com
+  Google/Microsoft; `src/app/auth/callback/route.ts` troca o código de
+  autorização por uma sessão do Supabase.
 - `src/components/InstallPwaPrompt.tsx` — banner de instalação do PWA,
   captura o evento `beforeinstallprompt` e é renderizado globalmente no
   `src/app/layout.tsx`.
