@@ -175,6 +175,14 @@ export function recordCorrectAnswer(difficulty: Difficulty): void {
   commit(state);
 }
 
+/** Adds a flat XP bonus not tied to a specific difficulty (e.g. the Daily
+ * Challenge bonus). */
+export function recordBonusXp(amount: number): void {
+  const state = { ...ensureCache() };
+  addXp(state, amount);
+  commit(state);
+}
+
 const FUNDAMENTAL_2_TOPIC_IDS = fundamental2Topics.map((t) => t.id);
 
 /** Call once when a topic's exercise set is finished (any attempt). */

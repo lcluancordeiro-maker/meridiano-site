@@ -52,6 +52,15 @@ de aplicativos.
   tópicos sem mudar a arquitetura.
 - **Calculadora gráfica** (`/calculadora`) com parser de expressões
   próprio (sem `eval`), zoom e navegação por arraste.
+- **Desafio do Dia** (na home, inspirado no Brilliant.org): um problema em
+  destaque, o mesmo para todo mundo no mesmo dia (seleção determinística
+  por data — `src/lib/dailyChallenge.ts`), escolhido só entre exercícios
+  gratuitos de dificuldade Fácil/Médio. Responder (certo ou errado) conta
+  para uma sequência própria, separada da sequência geral de prática;
+  acertar dá um bônus fixo de XP. Funciona sem conta (modo convidado,
+  salvo no `localStorage`) — a sequência do Desafio do Dia ainda não é
+  sincronizada na nuvem quando logado, diferente da sequência geral (é um
+  possível próximo passo).
 - **Gamificação**: XP por resposta certa (escalado por dificuldade),
   níveis, sequência (streak) diária e conquistas.
 - **Dashboard de progresso** (`/progresso`) com gráficos de desempenho
@@ -410,6 +419,9 @@ unitários e e2e em todo push e pull request.
 - `src/lib/progress.ts` — progresso por tópico e dificuldade no
   `localStorage`.
 - `src/lib/gamification.ts` — XP, streak e badges.
+- `src/lib/dailyChallenge.ts` + `src/components/DailyChallenge.tsx` —
+  Desafio do Dia: seleção determinística do problema por data, sequência
+  e histórico próprios em `localStorage`.
 - `src/lib/mathExpr.ts` — parser/avaliador de expressões matemáticas
   para a calculadora gráfica.
 - `src/components/PracticeSection.tsx` + `DifficultyPicker.tsx` +

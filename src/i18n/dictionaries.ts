@@ -13,6 +13,14 @@ export type Dictionary = {
     abrirMenu: string;
     fecharMenu: string;
   };
+  dailyChallenge: {
+    heading: string;
+    subtitle: string;
+    streakLabelSingular: string;
+    streakLabelPlural: string;
+    comeBackTomorrow: string;
+    moreAt: string;
+  };
   home: {
     heroTag: string;
     heroTitle: string;
@@ -189,6 +197,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       sair: "Sair",
       abrirMenu: "Abrir menu",
       fecharMenu: "Fechar menu",
+    },
+    dailyChallenge: {
+      heading: "Desafio do Dia",
+      subtitle: "Um problema novo todo dia, igual pra todo mundo — responda para manter sua sequência.",
+      streakLabelSingular: "dia seguido",
+      streakLabelPlural: "dias seguidos",
+      comeBackTomorrow: "Volte amanhã para o próximo desafio!",
+      moreAt: "Praticar mais:",
     },
     home: {
       heroTag: "Do fundamental ao superior",
@@ -369,6 +385,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       abrirMenu: "Open menu",
       fecharMenu: "Close menu",
     },
+    dailyChallenge: {
+      heading: "Daily Challenge",
+      subtitle: "A new problem every day, the same one for everyone — answer it to keep your streak.",
+      streakLabelSingular: "day streak",
+      streakLabelPlural: "day streak",
+      comeBackTomorrow: "Come back tomorrow for the next challenge!",
+      moreAt: "Practice more:",
+    },
     home: {
       heroTag: "From elementary to college",
       heroTitle:
@@ -547,6 +571,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       sair: "Cerrar sesión",
       abrirMenu: "Abrir menú",
       fecharMenu: "Cerrar menú",
+    },
+    dailyChallenge: {
+      heading: "Desafío del Día",
+      subtitle: "Un problema nuevo cada día, igual para todos — respóndelo para mantener tu racha.",
+      streakLabelSingular: "día seguido",
+      streakLabelPlural: "días seguidos",
+      comeBackTomorrow: "¡Vuelve mañana para el próximo desafío!",
+      moreAt: "Practicar más:",
     },
     home: {
       heroTag: "De primaria a la universidad",
