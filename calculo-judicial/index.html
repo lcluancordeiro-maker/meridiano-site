@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Judicial — Correção Monetária, Trabalhista e Pensão</title>
+<meta name="description" content="Ferramenta gratuita para cálculos judiciais: atualização monetária com índices do Banco Central, rescisão trabalhista, horas extras e pensão por danos.">
+
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#072A33">
+<link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16.png">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Calc Judicial">
+<meta name="mobile-web-app-capable" content="yes">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --petrol:#0E4B5A;
+    --petrol-dark:#0A3A47;
+    --petrol-deep:#072A33;
+    --gray-light:#EEF2F3;
+    --gray-med:#B9C4C9;
+    --gray-text:#5B6B70;
+    --dark-text:#1B2528;
+    --white:#FFFFFF;
+    --ok:#1E7A46;
+    --ok-bg:#E7F4EC;
+    --warn:#9A5B00;
+    --warn-bg:#FBF0DD;
+    --err:#B3261E;
+    --err-bg:#FBEAE9;
+    --max-w:1080px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Inter',Arial,sans-serif;
+    color:var(--dark-text);
+    background:var(--gray-light);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif; font-weight:600; margin:0; letter-spacing:-0.01em; color:var(--petrol-deep);}
+  a{color:inherit;}
+  .wrap{max-width:var(--max-w); margin:0 auto; padding:0 24px;}
+  :focus-visible{outline:2px solid var(--petrol); outline-offset:2px;}
+
+  header.site{background:var(--petrol-deep); color:var(--white); padding:28px 0 24px;}
+  .brand{display:flex; align-items:center; gap:12px; text-decoration:none;}
+  .brand .mark{width:36px; height:36px; flex-shrink:0;}
+  .brand-text h1{font-size:1.35rem; color:var(--white);}
+  .brand-text span{display:block; font-size:0.82rem; color:#9FB8BF; margin-top:2px;}
+  .header-inner{display:flex; align-items:center; justify-content:space-between; gap:16px;}
+
+  .btn-install{
+    display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); color:var(--white);
+    border:1px solid rgba(255,255,255,0.35); padding:9px 16px; border-radius:5px; font:inherit;
+    font-weight:600; font-size:0.86rem; cursor:pointer; white-space:nowrap; transition:background .15s;
+  }
+  .btn-install:hover{background:rgba(255,255,255,0.2);}
+  .btn-install svg{width:16px; height:16px; flex-shrink:0;}
+
+  .offline-banner{
+    background:var(--err-bg); color:var(--err); font-size:0.85rem; font-weight:600;
+    text-align:center; padding:9px 16px;
+  }
+
+  .ios-install-tip{background:var(--petrol); color:var(--white); font-size:0.85rem; padding:10px 0;}
+  .ios-install-tip-inner{display:flex; align-items:center; justify-content:space-between; gap:14px;}
+  .ios-install-tip button{background:transparent; border:none; color:var(--white); font-size:1.3rem; line-height:1; cursor:pointer; padding:0 4px;}
+
+  @media (max-width:480px){
+    .brand-text span{display:none;}
+    .btn-install span.label-full{display:none;}
+  }
+
+  .disclaimer{
+    background:var(--warn-bg); color:var(--warn); border-bottom:1px solid #EAD9B4;
+    font-size:0.85rem; padding:10px 0;
+  }
+  .disclaimer .wrap{display:flex; align-items:flex-start; gap:10px;}
+  .disclaimer svg{width:16px; height:16px; flex-shrink:0; margin-top:2px;}
+
+  nav.tabs{
+    background:var(--white); border-bottom:1px solid var(--gray-med);
+    position:sticky; top:0; z-index:20; overflow-x:auto;
+  }
+  nav.tabs .wrap{display:flex; gap:4px; padding:0 24px;}
+  .tab-btn{
+    appearance:none; border:none; background:transparent; cursor:pointer;
+    padding:16px 18px; font:inherit; font-weight:600; font-size:0.92rem; color:var(--gray-text);
+    border-bottom:3px solid transparent; white-space:nowrap; transition:color .15s, border-color .15s;
+  }
+  .tab-btn:hover{color:var(--petrol);}
+  .tab-btn.active{color:var(--petrol-dark); border-bottom-color:var(--petrol);}
+
+  main{padding:40px 0 80px;}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  .intro{max-width:66ch; margin-bottom:32px;}
+  .intro h2{font-size:1.5rem; margin-bottom:10px;}
+  .intro p{color:var(--gray-text); font-size:0.98rem;}
+
+  .card{background:var(--white); border-radius:8px; padding:28px; box-shadow:0 1px 3px rgba(7,42,51,0.08); margin-bottom:24px;}
+  .card h3{font-size:1.05rem; margin-bottom:18px; padding-bottom:12px; border-bottom:1px solid var(--gray-light);}
+
+  .field-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px 20px;}
+  .field{display:flex; flex-direction:column; gap:6px;}
+  .field.span-2{grid-column:span 2;}
+  .field label{font-size:0.84rem; font-weight:600; color:var(--dark-text);}
+  .field .hint{font-size:0.76rem; color:var(--gray-text); font-weight:400;}
+  input[type="text"], input[type="number"], input[type="date"], select{
+    font:inherit; font-size:0.95rem; padding:10px 12px; border:1.5px solid var(--gray-med);
+    border-radius:5px; background:var(--white); color:var(--dark-text); width:100%;
+  }
+  input:focus, select:focus{border-color:var(--petrol);}
+  .radio-group{display:flex; gap:16px; flex-wrap:wrap; align-items:center; padding-top:4px;}
+  .radio-group label{display:flex; align-items:center; gap:6px; font-size:0.88rem; font-weight:500; color:var(--dark-text); cursor:pointer;}
+  .check-row{display:flex; align-items:center; gap:8px;}
+  .check-row label{font-size:0.88rem; font-weight:500; cursor:pointer;}
+
+  .actions{display:flex; align-items:center; gap:14px; margin-top:24px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--petrol); color:var(--white); border:none; padding:13px 26px; border-radius:5px;
+    font:inherit; font-weight:600; font-size:0.95rem; cursor:pointer; transition:background .15s;
+  }
+  .btn-primary:hover{background:var(--petrol-dark);}
+  .btn-primary:disabled{background:var(--gray-med); cursor:not-allowed;}
+  .btn-ghost{
+    background:transparent; border:1.5px solid var(--gray-med); color:var(--dark-text);
+    padding:11px 20px; border-radius:5px; font:inherit; font-weight:600; font-size:0.9rem; cursor:pointer;
+  }
+  .btn-ghost:hover{border-color:var(--petrol); color:var(--petrol);}
+  .status{font-size:0.86rem; color:var(--gray-text);}
+  .status.loading::before{content:"⏳ "; }
+  .status.error{color:var(--err);}
+
+  .result{display:none;}
+  .result.show{display:block;}
+  .result-total{
+    background:var(--ok-bg); border:1px solid #BFE2CC; border-radius:6px; padding:20px 22px;
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:18px;
+  }
+  .result-total .label{font-size:0.86rem; font-weight:600; color:var(--ok);}
+  .result-total .value{font-family:'Fraunces',serif; font-size:1.7rem; font-weight:600; color:var(--petrol-deep);}
+  table.breakdown{width:100%; border-collapse:collapse; font-size:0.9rem;}
+  table.breakdown th{text-align:left; color:var(--gray-text); font-weight:600; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.03em; padding:8px 10px; border-bottom:1.5px solid var(--gray-med);}
+  table.breakdown td{padding:10px 10px; border-bottom:1px solid var(--gray-light);}
+  table.breakdown tr:last-child td{font-weight:700; border-bottom:none;}
+  table.breakdown td.num{text-align:right; font-variant-numeric:tabular-nums;}
+  .note-box{background:var(--gray-light); border-radius:6px; padding:14px 16px; font-size:0.82rem; color:var(--gray-text); margin-top:16px;}
+
+  footer{background:var(--petrol-deep); color:#9FB8BF; padding:28px 0; font-size:0.82rem;}
+  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+
+  @media print{
+    header.site, .disclaimer, nav.tabs, .actions, footer, .card > form{display:none !important;}
+    body{background:var(--white);}
+    .result{display:block !important;}
+  }
+  @media (max-width:640px){
+    .field.span-2{grid-column:span 1;}
+    .result-total{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap header-inner">
+    <a href="#" class="brand">
+      <svg class="mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="48" fill="#FFFFFF"/>
+        <path d="M28 72 L28 30 L40 30 L50 50 L60 30 L72 30 L72 72 L60 72 L60 44 L50 62 L40 44 L40 72 Z" fill="#0E4B5A"/>
+      </svg>
+      <span class="brand-text">
+        <h1>Calculadora Judicial</h1>
+        <span>Correção monetária · Trabalhista · Pensão e indenização</span>
+      </span>
+    </a>
+    <button type="button" class="btn-install" id="install-btn" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13m0 0l-4-4m4 4l4-4M5 19h14"/></svg>
+      Instalar app
+    </button>
+  </div>
+</header>
+
+<div class="offline-banner" id="offline-banner" hidden>Você está offline. Correção monetária precisa de conexão; as demais calculadoras funcionam normalmente.</div>
+
+<div class="ios-install-tip" id="ios-install-tip" hidden>
+  <div class="wrap ios-install-tip-inner">
+    <span>Para instalar: toque em <strong>Compartilhar</strong> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;width:14px;height:14px;vertical-align:-2px;"><path d="M12 3v12m0-12l-4 4m4-4l4 4M5 21h14a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-3m-10 0H5a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1"/></svg> e depois em <strong>Adicionar à Tela de Início</strong>.</span>
+    <button type="button" id="ios-install-dismiss" aria-label="Fechar">×</button>
+  </div>
+</div>
+
+<div class="disclaimer">
+  <div class="wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.3 3.86l-8.2 14.2A1.5 1.5 0 0 0 3.4 20.4h17.2a1.5 1.5 0 0 0 1.3-2.34l-8.2-14.2a1.5 1.5 0 0 0-2.6 0z"/></svg>
+    <span>Ferramenta de simulação e apoio ao cálculo, com finalidade orientativa. Os resultados são estimativas baseadas em premissas e fórmulas simplificadas — não substituem parecer técnico contábil ou perícia judicial.</span>
+  </div>
+</div>
+
+<nav class="tabs">
+  <div class="wrap">
+    <button class="tab-btn active" data-tab="correcao">Correção monetária + juros</button>
+    <button class="tab-btn" data-tab="rescisao">Rescisão trabalhista</button>
+    <button class="tab-btn" data-tab="horas">Horas extras</button>
+    <button class="tab-btn" data-tab="pensao">Pensão / indenização</button>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+
+    <!-- ===================== CORREÇÃO MONETÁRIA ===================== -->
+    <section class="tab-panel active" id="tab-correcao">
+      <div class="intro">
+        <h2>Correção monetária e juros de mora</h2>
+        <p>Atualiza um valor entre duas datas aplicando, mês a mês, o índice escolhido — buscado em tempo real na API de Séries Temporais do Banco Central (SGS) — e, opcionalmente, juros de mora.</p>
+      </div>
+
+      <div class="card">
+        <h3>Dados do cálculo</h3>
+        <form id="form-correcao">
+          <div class="field-grid">
+            <div class="field">
+              <label for="c-valor">Valor principal (R$)</label>
+              <input type="number" id="c-valor" min="0" step="0.01" placeholder="10000,00" required>
+            </div>
+            <div class="field">
+              <label for="c-indice">Índice de correção</label>
+              <select id="c-indice">
+                <option value="ipca">IPCA (variação mensal)</option>
+                <option value="ipcae">IPCA-E (variação mensal)</option>
+                <option value="inpc">INPC (variação mensal)</option>
+                <option value="igpm">IGP-M (variação mensal)</option>
+                <option value="tr">TR (mensal)</option>
+                <option value="selic">Selic acumulada no mês (já inclui juros)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="c-data-inicial">Data inicial (do débito/fato)</label>
+              <input type="date" id="c-data-inicial" required>
+            </div>
+            <div class="field">
+              <label for="c-data-final">Data final (do cálculo)</label>
+              <input type="date" id="c-data-final" required>
+            </div>
+          </div>
+
+          <div id="c-juros-block" style="margin-top:22px;">
+            <div class="field-grid">
+              <div class="field">
+                <label for="c-juros-taxa">Juros de mora (% ao mês)</label>
+                <input type="number" id="c-juros-taxa" min="0" step="0.01" value="1">
+              </div>
+              <div class="field">
+                <label for="c-juros-termo">Termo inicial dos juros</label>
+                <input type="date" id="c-juros-termo">
+                <span class="hint">Por padrão, igual à data inicial.</span>
+              </div>
+              <div class="field">
+                <label>Incidência dos juros</label>
+                <div class="radio-group">
+                  <label><input type="radio" name="c-juros-base" value="corrigido" checked> Sobre valor corrigido</label>
+                  <label><input type="radio" name="c-juros-base" value="original"> Sobre valor original</label>
+                </div>
+              </div>
+              <div class="field">
+                <label>Tipo de juros</label>
+                <div class="radio-group">
+                  <label><input type="radio" name="c-juros-tipo" value="simples" checked> Simples</label>
+                  <label><input type="radio" name="c-juros-tipo" value="composto"> Compostos</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn-primary" id="c-btn">Calcular</button>
+            <button type="button" class="btn-ghost" id="c-print" style="display:none;">Imprimir resultado</button>
+            <span class="status" id="c-status"></span>
+          </div>
+        </form>
+      </div>
+
+      <div class="card result" id="c-result">
+        <h3>Resultado</h3>
+        <div class="result-total">
+          <span class="label">Valor total atualizado</span>
+          <span class="value" id="c-total">R$ 0,00</span>
+        </div>
+        <table class="breakdown">
+          <thead><tr><th>Item</th><th class="num">Valor</th></tr></thead>
+          <tbody id="c-breakdown"></tbody>
+        </table>
+        <div class="note-box" id="c-note"></div>
+      </div>
+    </section>
+
+    <!-- ===================== RESCISÃO TRABALHISTA ===================== -->
+    <section class="tab-panel" id="tab-rescisao">
+      <div class="intro">
+        <h2>Rescisão trabalhista</h2>
+        <p>Estimativa das principais verbas rescisórias conforme a modalidade de desligamento. Não considera descontos de INSS/IRRF, médias de variáveis (comissões, horas extras habituais) nem convenções coletivas específicas.</p>
+      </div>
+
+      <div class="card">
+        <h3>Dados do contrato</h3>
+        <form id="form-rescisao">
+          <div class="field-grid">
+            <div class="field">
+              <label for="r-salario">Salário-base mensal (R$)</label>
+              <input type="number" id="r-salario" min="0" step="0.01" required>
+            </div>
+            <div class="field">
+              <label for="r-admissao">Data de admissão</label>
+              <input type="date" id="r-admissao" required>
+            </div>
+            <div class="field">
+              <label for="r-demissao">Data de demissão</label>
+              <input type="date" id="r-demissao" required>
+            </div>
+            <div class="field">
+              <label for="r-tipo">Tipo de rescisão</label>
+              <select id="r-tipo">
+                <option value="sem_justa_causa">Sem justa causa (empregador)</option>
+                <option value="rescisao_indireta">Rescisão indireta</option>
+                <option value="pedido_demissao">Pedido de demissão</option>
+                <option value="justa_causa">Justa causa</option>
+                <option value="termino_contrato">Término de contrato / experiência</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="r-aviso">Aviso prévio</label>
+              <select id="r-aviso">
+                <option value="indenizado">Indenizado</option>
+                <option value="trabalhado">Trabalhado</option>
+                <option value="na">Não aplicável</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="r-ferias-vencidas">Períodos de férias vencidas em aberto</label>
+              <input type="number" id="r-ferias-vencidas" min="0" step="1" value="0">
+            </div>
+            <div class="field">
+              <label for="r-fgts-saldo">Saldo de FGTS depositado (R$)</label>
+              <input type="number" id="r-fgts-saldo" min="0" step="0.01" placeholder="Opcional — se vazio, estima 8% ao mês">
+            </div>
+          </div>
+          <div class="actions">
+            <button type="submit" class="btn-primary">Calcular</button>
+            <button type="button" class="btn-ghost" id="r-print" style="display:none;">Imprimir resultado</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card result" id="r-result">
+        <h3>Resultado</h3>
+        <div class="result-total">
+          <span class="label">Total estimado da rescisão</span>
+          <span class="value" id="r-total">R$ 0,00</span>
+        </div>
+        <table class="breakdown">
+          <thead><tr><th>Verba</th><th class="num">Valor</th></tr></thead>
+          <tbody id="r-breakdown"></tbody>
+        </table>
+        <div class="note-box" id="r-note"></div>
+      </div>
+    </section>
+
+    <!-- ===================== HORAS EXTRAS ===================== -->
+    <section class="tab-panel" id="tab-horas">
+      <div class="intro">
+        <h2>Horas extras e reflexos</h2>
+        <p>Calcula o valor das horas extras a 50% e 100%, o reflexo no Descanso Semanal Remunerado (DSR) e, opcionalmente, os reflexos em 13º salário, férias e FGTS.</p>
+      </div>
+
+      <div class="card">
+        <h3>Dados do período</h3>
+        <form id="form-horas">
+          <div class="field-grid">
+            <div class="field">
+              <label for="h-salario">Salário-base mensal (R$)</label>
+              <input type="number" id="h-salario" min="0" step="0.01" required>
+            </div>
+            <div class="field">
+              <label for="h-jornada">Jornada mensal (horas)</label>
+              <input type="number" id="h-jornada" min="1" step="1" value="220">
+            </div>
+            <div class="field">
+              <label for="h-he50">Horas extras a 50% (qtd no período)</label>
+              <input type="number" id="h-he50" min="0" step="0.01" value="0">
+            </div>
+            <div class="field">
+              <label for="h-he100">Horas extras a 100% (qtd no período)</label>
+              <input type="number" id="h-he100" min="0" step="0.01" value="0">
+            </div>
+            <div class="field">
+              <label for="h-uteis">Dias úteis no período</label>
+              <input type="number" id="h-uteis" min="1" step="1" value="25">
+            </div>
+            <div class="field">
+              <label for="h-repouso">Domingos e feriados no período</label>
+              <input type="number" id="h-repouso" min="0" step="1" value="5">
+            </div>
+            <div class="field">
+              <label for="h-meses">Meses a projetar reflexos</label>
+              <input type="number" id="h-meses" min="1" step="1" value="1">
+            </div>
+          </div>
+          <div class="field-grid" style="margin-top:16px;">
+            <div class="check-row">
+              <input type="checkbox" id="h-dsr" checked>
+              <label for="h-dsr">Incluir reflexo em DSR</label>
+            </div>
+            <div class="check-row">
+              <input type="checkbox" id="h-reflexos">
+              <label for="h-reflexos">Projetar reflexos em 13º, férias e FGTS</label>
+            </div>
+          </div>
+          <div class="actions">
+            <button type="submit" class="btn-primary">Calcular</button>
+            <button type="button" class="btn-ghost" id="h-print" style="display:none;">Imprimir resultado</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card result" id="h-result">
+        <h3>Resultado</h3>
+        <div class="result-total">
+          <span class="label">Total estimado</span>
+          <span class="value" id="h-total">R$ 0,00</span>
+        </div>
+        <table class="breakdown">
+          <thead><tr><th>Item</th><th class="num">Valor</th></tr></thead>
+          <tbody id="h-breakdown"></tbody>
+        </table>
+        <div class="note-box" id="h-note"></div>
+      </div>
+    </section>
+
+    <!-- ===================== PENSÃO / INDENIZAÇÃO ===================== -->
+    <section class="tab-panel" id="tab-pensao">
+      <div class="intro">
+        <h2>Pensão / indenização por danos</h2>
+        <p>Estima o valor de pensionamento mensal e o total devido com base em renda, percentual de pensão e expectativa de vida (tábua de mortalidade aproximada). Valores de expectativa de vida são aproximações de referência — para uso técnico, consulte a tábua completa e atualizada do IBGE.</p>
+      </div>
+
+      <div class="card">
+        <h3>Dados da vítima / beneficiário</h3>
+        <form id="form-pensao">
+          <div class="field-grid">
+            <div class="field">
+              <label for="p-renda">Renda mensal da vítima (R$)</label>
+              <input type="number" id="p-renda" min="0" step="0.01" required>
+            </div>
+            <div class="field">
+              <label for="p-percentual">Percentual de pensão (%)</label>
+              <input type="number" id="p-percentual" min="0" max="100" step="0.01" value="66.67">
+              <span class="hint">Ex.: 2/3 = 66,67% (deduzindo 1/3 de gastos próprios)</span>
+            </div>
+            <div class="field">
+              <label for="p-idade">Idade da vítima na data do evento</label>
+              <input type="number" id="p-idade" min="0" max="110" step="1" required>
+            </div>
+            <div class="field">
+              <label for="p-sexo">Sexo (para tábua de expectativa de vida)</label>
+              <select id="p-sexo">
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="p-duracao">Duração da pensão</label>
+              <select id="p-duracao">
+                <option value="vitalicia">Vitalícia (até expectativa de vida)</option>
+                <option value="temporaria">Temporária (até idade-limite informada)</option>
+              </select>
+            </div>
+            <div class="field" id="p-idade-limite-field" style="display:none;">
+              <label for="p-idade-limite">Idade-limite da pensão (ex.: 25 anos, dependente)</label>
+              <input type="number" id="p-idade-limite" min="0" max="110" step="1" value="25">
+            </div>
+            <div class="field">
+              <label for="p-desagio">Taxa de deságio / desconto (% ao ano)</label>
+              <input type="number" id="p-desagio" min="0" step="0.01" value="0">
+              <span class="hint">Use 0% para soma simples, sem trazer a valor presente.</span>
+            </div>
+          </div>
+          <div class="actions">
+            <button type="submit" class="btn-primary">Calcular</button>
+            <button type="button" class="btn-ghost" id="p-print" style="display:none;">Imprimir resultado</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card result" id="p-result">
+        <h3>Resultado</h3>
+        <div class="result-total">
+          <span class="label">Valor total estimado da pensão</span>
+          <span class="value" id="p-total">R$ 0,00</span>
+        </div>
+        <table class="breakdown">
+          <thead><tr><th>Item</th><th class="num">Valor</th></tr></thead>
+          <tbody id="p-breakdown"></tbody>
+        </table>
+        <div class="note-box" id="p-note"></div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Calculadora Judicial — ferramenta de apoio ao cálculo.</span>
+    <span>Índices de correção monetária: API de Séries Temporais do Banco Central (SGS).</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- Utilities ---------------- */
+  function brl(v){
+    if(!isFinite(v)) v = 0;
+    return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+  }
+  function pct(v){ return v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:4}) + '%'; }
+  function num(id){ return parseFloat(document.getElementById(id).value) || 0; }
+  function val(id){ return document.getElementById(id).value; }
+  function todayISO(){ return new Date().toISOString().slice(0,10); }
+
+  function dateFromISO(iso){
+    var p = iso.split('-');
+    return new Date(parseInt(p[0],10), parseInt(p[1],10)-1, parseInt(p[2],10));
+  }
+  function isoToBCB(iso){
+    var p = iso.split('-');
+    return p[2] + '/' + p[1] + '/' + p[0];
+  }
+  function fullMonthsBetween(d1, d2){
+    var months = (d2.getFullYear()-d1.getFullYear())*12 + (d2.getMonth()-d1.getMonth());
+    if(d2.getDate() < d1.getDate()) months--;
+    return Math.max(months, 0);
+  }
+  function addRow(tbody, label, value, isTotal){
+    var tr = document.createElement('tr');
+    var td1 = document.createElement('td');
+    td1.textContent = label;
+    var td2 = document.createElement('td');
+    td2.className = 'num';
+    td2.textContent = value;
+    tr.appendChild(td1); tr.appendChild(td2);
+    if(isTotal) tr.style.fontWeight = '700';
+    tbody.appendChild(tr);
+  }
+
+  // set sensible defaults for date fields
+  document.querySelectorAll('input[type="date"]').forEach(function(el){
+    if(el.id === 'c-data-final' || el.id === 'r-demissao'){ el.value = todayISO(); }
+  });
+
+  /* ---------------- Tabs ---------------- */
+  var tabBtns = document.querySelectorAll('.tab-btn');
+  tabBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      tabBtns.forEach(function(b){ b.classList.remove('active'); });
+      document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  /* ================= CORREÇÃO MONETÁRIA ================= */
+  var INDICES = {
+    ipca:  {code: 433,   label: 'IPCA (variação mensal)'},
+    ipcae: {code: 10764, label: 'IPCA-E (variação mensal)'},
+    inpc:  {code: 188,   label: 'INPC (variação mensal)'},
+    igpm:  {code: 189,   label: 'IGP-M (variação mensal)'},
+    tr:    {code: 226,   label: 'TR (mensal)'},
+    selic: {code: 4390,  label: 'Selic acumulada no mês'}
+  };
+
+  var cIndiceEl = document.getElementById('c-indice');
+  var cJurosBlock = document.getElementById('c-juros-block');
+  function toggleJurosBlock(){
+    cJurosBlock.style.display = (cIndiceEl.value === 'selic') ? 'none' : 'block';
+  }
+  cIndiceEl.addEventListener('change', toggleJurosBlock);
+  toggleJurosBlock();
+
+  async function fetchBCBSeries(code, dataInicialISO, dataFinalISO){
+    var url = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.' + code +
+      '/dados?formato=json&dataInicial=' + isoToBCB(dataInicialISO) + '&dataFinal=' + isoToBCB(dataFinalISO);
+    var res = await fetch(url);
+    if(!res.ok) throw new Error('Falha ao consultar a API do Banco Central (HTTP ' + res.status + ').');
+    var json = await res.json();
+    return json.map(function(item){
+      return { data: item.data, valor: parseFloat(String(item.valor).replace(',', '.')) };
+    });
+  }
+
+  document.getElementById('form-correcao').addEventListener('submit', async function(e){
+    e.preventDefault();
+    var statusEl = document.getElementById('c-status');
+    var btn = document.getElementById('c-btn');
+    var resultEl = document.getElementById('c-result');
+    resultEl.classList.remove('show');
+    document.getElementById('c-print').style.display = 'none';
+
+    var principal = num('c-valor');
+    var indiceKey = cIndiceEl.value;
+    var dataInicial = val('c-data-inicial');
+    var dataFinal = val('c-data-final');
+
+    if(!principal || !dataInicial || !dataFinal){
+      statusEl.textContent = 'Preencha valor e datas.';
+      statusEl.className = 'status error';
+      return;
+    }
+    var dIni = dateFromISO(dataInicial), dFim = dateFromISO(dataFinal);
+    if(dIni >= dFim){
+      statusEl.textContent = 'A data final deve ser posterior à data inicial.';
+      statusEl.className = 'status error';
+      return;
+    }
+
+    btn.disabled = true;
+    statusEl.textContent = 'Buscando índices no Banco Central…';
+    statusEl.className = 'status loading';
+
+    try{
+      var indice = INDICES[indiceKey];
+      var series = await fetchBCBSeries(indice.code, dataInicial, dataFinal);
+
+      if(!series.length){
+        statusEl.textContent = 'Nenhum índice publicado foi encontrado nesse período. Verifique se há pelo menos um mês completo entre as datas.';
+        statusEl.className = 'status error';
+        btn.disabled = false;
+        return;
+      }
+
+      var factor = 1;
+      series.forEach(function(item){ factor *= (1 + item.valor/100); });
+      var accumulatedPct = (factor - 1) * 100;
+      var correctedValue = principal * factor;
+
+      var breakdown = document.getElementById('c-breakdown');
+      breakdown.innerHTML = '';
+      addRow(breakdown, 'Valor original', brl(principal));
+      addRow(breakdown, indice.label + ' acumulado no período (' + series.length + ' meses)', pct(accumulatedPct));
+      addRow(breakdown, 'Valor corrigido', brl(correctedValue));
+
+      var jurosValue = 0;
+      var noteExtra = '';
+
+      if(indiceKey === 'selic'){
+        noteExtra = 'A Selic acumulada já incorpora juros e correção monetária; nenhum juro de mora adicional foi somado.';
+      } else {
+        var taxaJuros = num('c-juros-taxa');
+        var termoJurosISO = val('c-juros-termo') || dataInicial;
+        var baseJuros = document.querySelector('input[name="c-juros-base"]:checked').value;
+        var tipoJuros = document.querySelector('input[name="c-juros-tipo"]:checked').value;
+
+        var dTermo = dateFromISO(termoJurosISO);
+        var mesesJuros = fullMonthsBetween(dTermo, dFim);
+        var base = (baseJuros === 'original') ? principal : correctedValue;
+
+        if(taxaJuros > 0 && mesesJuros > 0){
+          jurosValue = (tipoJuros === 'simples')
+            ? base * (taxaJuros/100) * mesesJuros
+            : base * (Math.pow(1 + taxaJuros/100, mesesJuros) - 1);
+        }
+        addRow(breakdown, 'Juros de mora (' + tipoJuros + ', ' + taxaJuros + '%a.m., ' + mesesJuros + ' meses, sobre valor ' + baseJuros + ')', brl(jurosValue));
+      }
+
+      var total = correctedValue + jurosValue;
+      addRow(breakdown, 'Valor total', brl(total), true);
+
+      document.getElementById('c-total').textContent = brl(total);
+      document.getElementById('c-note').textContent = 'Cálculo mês a mês com base nos índices efetivamente divulgados pelo Banco Central (série SGS ' + indice.code + ') entre ' + dataInicial.split('-').reverse().join('/') + ' e ' + dataFinal.split('-').reverse().join('/') + '. ' + noteExtra;
+
+      resultEl.classList.add('show');
+      document.getElementById('c-print').style.display = 'inline-block';
+      statusEl.textContent = 'Cálculo concluído.';
+      statusEl.className = 'status';
+    } catch(err){
+      statusEl.textContent = 'Não foi possível obter os índices do Banco Central agora. ' + err.message;
+      statusEl.className = 'status error';
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  document.getElementById('c-print').addEventListener('click', function(){ window.print(); });
+
+  /* ================= RESCISÃO TRABALHISTA ================= */
+  var RESCISAO_RULES = {
+    sem_justa_causa:  {avisoPrevio:true,  feriasProp:true,  decimoProp:true,  multaFGTS:true,  saqueFGTS:true},
+    rescisao_indireta:{avisoPrevio:true,  feriasProp:true,  decimoProp:true,  multaFGTS:true,  saqueFGTS:true},
+    pedido_demissao:  {avisoPrevio:false, feriasProp:true,  decimoProp:true,  multaFGTS:false, saqueFGTS:false},
+    justa_causa:      {avisoPrevio:false, feriasProp:false, decimoProp:false, multaFGTS:false, saqueFGTS:false},
+    termino_contrato: {avisoPrevio:false, feriasProp:true,  decimoProp:true,  multaFGTS:false, saqueFGTS:true}
+  };
+
+  document.getElementById('form-rescisao').addEventListener('submit', function(e){
+    e.preventDefault();
+    var salario = num('r-salario');
+    var admissaoISO = val('r-admissao');
+    var demissaoISO = val('r-demissao');
+    var tipo = val('r-tipo');
+    var avisoTipo = val('r-aviso');
+    var feriasVencidasQtd = num('r-ferias-vencidas');
+    var fgtsSaldoInformado = num('r-fgts-saldo');
+
+    if(!salario || !admissaoISO || !demissaoISO){ return; }
+    var dAdm = dateFromISO(admissaoISO), dDem = dateFromISO(demissaoISO);
+    if(dAdm >= dDem){ alert('A data de demissão deve ser posterior à data de admissão.'); return; }
+
+    var rules = RESCISAO_RULES[tipo];
+    var diaria = salario / 30;
+    var breakdown = document.getElementById('r-breakdown');
+    breakdown.innerHTML = '';
+    var total = 0;
+
+    // 1. Saldo de salário (dias trabalhados no mês da demissão)
+    var saldoSalario = diaria * dDem.getDate();
+    addRow(breakdown, 'Saldo de salário (' + dDem.getDate() + ' dias)', brl(saldoSalario));
+    total += saldoSalario;
+
+    // Tempo de serviço total em meses completos
+    var mesesTotais = fullMonthsBetween(dAdm, dDem);
+    var anosCompletos = Math.floor(mesesTotais / 12);
+
+    // 2. Aviso prévio indenizado
+    if(rules.avisoPrevio && avisoTipo === 'indenizado'){
+      var diasAviso = Math.min(30 + 3*anosCompletos, 90);
+      var avisoValor = diaria * diasAviso;
+      addRow(breakdown, 'Aviso prévio indenizado (' + diasAviso + ' dias)', brl(avisoValor));
+      total += avisoValor;
+    }
+
+    // 3. Férias vencidas + 1/3
+    if(feriasVencidasQtd > 0){
+      var feriasVencidasValor = salario * feriasVencidasQtd * (4/3);
+      addRow(breakdown, 'Férias vencidas + 1/3 (' + feriasVencidasQtd + ' período(s))', brl(feriasVencidasValor));
+      total += feriasVencidasValor;
+    }
+
+    // 4. Férias proporcionais + 1/3 (período aquisitivo em curso)
+    if(rules.feriasProp){
+      var mesesPeriodoAtual = mesesTotais % 12;
+      if(dDem.getDate() >= 15) mesesPeriodoAtual += 1;
+      mesesPeriodoAtual = Math.min(mesesPeriodoAtual, 12);
+      var feriasPropValor = (salario / 12) * mesesPeriodoAtual * (4/3);
+      addRow(breakdown, 'Férias proporcionais + 1/3 (' + mesesPeriodoAtual + '/12)', brl(feriasPropValor));
+      total += feriasPropValor;
+    }
+
+    // 5. 13º proporcional (meses do ano corrente da demissão)
+    if(rules.decimoProp){
+      var inicioAnoDemissao = new Date(dDem.getFullYear(), 0, 1);
+      var baseDecimo = dAdm > inicioAnoDemissao ? dAdm : inicioAnoDemissao;
+      var meses13 = (dDem.getFullYear() - baseDecimo.getFullYear())*12 + (dDem.getMonth() - baseDecimo.getMonth());
+      if(dDem.getDate() >= 15) meses13 += 1;
+      meses13 = Math.min(Math.max(meses13,0), 12);
+      var decimoValor = (salario/12) * meses13;
+      addRow(breakdown, '13º salário proporcional (' + meses13 + '/12)', brl(decimoValor));
+      total += decimoValor;
+    }
+
+    // 6. FGTS + multa 40%
+    var fgtsSaldo = fgtsSaldoInformado > 0 ? fgtsSaldoInformado : (salario * 0.08 * mesesTotais);
+    if(rules.multaFGTS){
+      var multaFGTS = fgtsSaldo * 0.4;
+      addRow(breakdown, 'Multa rescisória do FGTS (40% sobre ' + brl(fgtsSaldo) + ')', brl(multaFGTS));
+      total += multaFGTS;
+    }
+
+    addRow(breakdown, 'Total estimado', brl(total), true);
+    document.getElementById('r-total').textContent = brl(total);
+    document.getElementById('r-note').textContent = 'Tempo de serviço considerado: ' + mesesTotais + ' meses completos. Cálculo simplificado — não considera descontos de INSS/IRRF, médias de parcelas variáveis ou disposições de convenção/acordo coletivo aplicável.';
+
+    document.getElementById('r-result').classList.add('show');
+    document.getElementById('r-print').style.display = 'inline-block';
+  });
+  document.getElementById('r-print').addEventListener('click', function(){ window.print(); });
+
+  /* ================= HORAS EXTRAS ================= */
+  document.getElementById('form-horas').addEventListener('submit', function(e){
+    e.preventDefault();
+    var salario = num('h-salario');
+    var jornada = num('h-jornada') || 220;
+    var he50 = num('h-he50');
+    var he100 = num('h-he100');
+    var diasUteis = num('h-uteis') || 1;
+    var domFer = num('h-repouso');
+    var mesesProjecao = num('h-meses') || 1;
+    var incluirDSR = document.getElementById('h-dsr').checked;
+    var incluirReflexos = document.getElementById('h-reflexos').checked;
+
+    if(!salario){ return; }
+
+    var valorHora = salario / jornada;
+    var valorHE50 = valorHora * 1.5 * he50;
+    var valorHE100 = valorHora * 2 * he100;
+    var totalHE = valorHE50 + valorHE100;
+    var dsr = incluirDSR ? (totalHE / diasUteis) * domFer : 0;
+    var totalComDSR = totalHE + dsr;
+
+    var breakdown = document.getElementById('h-breakdown');
+    breakdown.innerHTML = '';
+    addRow(breakdown, 'Valor da hora normal', brl(valorHora));
+    addRow(breakdown, 'Horas extras 50% (' + he50 + 'h)', brl(valorHE50));
+    addRow(breakdown, 'Horas extras 100% (' + he100 + 'h)', brl(valorHE100));
+    if(incluirDSR) addRow(breakdown, 'Reflexo em DSR', brl(dsr));
+
+    var total = totalComDSR;
+
+    if(incluirReflexos){
+      var decimo = (totalComDSR/12) * mesesProjecao;
+      var ferias = (totalComDSR/12) * mesesProjecao * (4/3);
+      var fgts = (totalComDSR + decimo) * 0.08;
+      addRow(breakdown, 'Reflexo em 13º salário', brl(decimo));
+      addRow(breakdown, 'Reflexo em férias + 1/3', brl(ferias));
+      addRow(breakdown, 'Reflexo em FGTS (8%)', brl(fgts));
+      total += decimo + ferias + fgts;
+    }
+
+    addRow(breakdown, 'Total estimado', brl(total), true);
+    document.getElementById('h-total').textContent = brl(total);
+    document.getElementById('h-note').textContent = 'Cálculo simplificado sobre o período informado. Para valores habituais recorrentes, os reflexos em 13º, férias e FGTS devem ser recalculados a cada competência.';
+
+    document.getElementById('h-result').classList.add('show');
+    document.getElementById('h-print').style.display = 'inline-block';
+  });
+  document.getElementById('h-print').addEventListener('click', function(){ window.print(); });
+
+  /* ================= PENSÃO / INDENIZAÇÃO ================= */
+  // Expectativa de vida adicional (anos), aproximada por idade e sexo — valores de referência.
+  var LIFE_TABLE = {
+    M: {0:72.2,10:63.3,20:53.9,30:44.9,40:35.9,50:27.4,60:19.8,70:13.2,80:7.9,90:4.4,100:2.5},
+    F: {0:79.4,10:70.2,20:60.5,30:50.8,40:41.2,50:32.0,60:23.3,70:15.5,80:9.1,90:4.9,100:2.6}
+  };
+  function lifeExpectancy(age, sex){
+    var table = LIFE_TABLE[sex];
+    var keys = Object.keys(table).map(Number).sort(function(a,b){return a-b;});
+    if(age <= keys[0]) return table[keys[0]];
+    if(age >= keys[keys.length-1]) return table[keys[keys.length-1]];
+    for(var i=0; i<keys.length-1; i++){
+      var k0 = keys[i], k1 = keys[i+1];
+      if(age >= k0 && age <= k1){
+        var t = (age - k0) / (k1 - k0);
+        return table[k0] + t * (table[k1] - table[k0]);
+      }
+    }
+    return table[keys[keys.length-1]];
+  }
+
+  document.getElementById('p-duracao').addEventListener('change', function(){
+    document.getElementById('p-idade-limite-field').style.display = (this.value === 'temporaria') ? 'flex' : 'none';
+  });
+
+  document.getElementById('form-pensao').addEventListener('submit', function(e){
+    e.preventDefault();
+    var renda = num('p-renda');
+    var percentual = num('p-percentual');
+    var idade = num('p-idade');
+    var sexo = val('p-sexo');
+    var duracao = val('p-duracao');
+    var idadeLimite = num('p-idade-limite');
+    var desagioAno = num('p-desagio');
+
+    if(!renda || idade === 0 && document.getElementById('p-idade').value === ''){ return; }
+
+    var pensaoMensal = renda * (percentual/100);
+
+    var meses;
+    var expectativaAnos = lifeExpectancy(idade, sexo);
+    if(duracao === 'vitalicia'){
+      meses = Math.round(expectativaAnos * 12);
+    } else {
+      meses = Math.max(Math.round((idadeLimite - idade) * 12), 0);
+    }
+
+    var breakdown = document.getElementById('p-breakdown');
+    breakdown.innerHTML = '';
+    addRow(breakdown, 'Pensão mensal (' + percentual.toFixed(2) + '% de ' + brl(renda) + ')', brl(pensaoMensal));
+    if(duracao === 'vitalicia'){
+      addRow(breakdown, 'Expectativa de vida adicional estimada (' + sexo + ', ' + idade + ' anos)', expectativaAnos.toFixed(1) + ' anos');
+    }
+    addRow(breakdown, 'Período de pensionamento', meses + ' meses');
+
+    var total;
+    var taxaMensal = Math.pow(1 + desagioAno/100, 1/12) - 1;
+    if(desagioAno > 0 && meses > 0){
+      total = pensaoMensal * ((1 - Math.pow(1+taxaMensal, -meses)) / taxaMensal);
+      addRow(breakdown, 'Valor presente (deságio de ' + desagioAno + '% a.a.)', brl(total));
+    } else {
+      total = pensaoMensal * meses;
+      addRow(breakdown, 'Soma simples (sem deságio)', brl(total));
+    }
+
+    addRow(breakdown, 'Valor total estimado', brl(total), true);
+    document.getElementById('p-total').textContent = brl(total);
+    document.getElementById('p-note').textContent = 'Expectativa de vida calculada por interpolação sobre tabela aproximada de referência (não é a tábua completa e oficial do IBGE). Para uso técnico/pericial, substitua pela tábua vigente na data do cálculo. Este resultado não considera pensão a múltiplos dependentes, constituição de capital ou dedução de benefícios previdenciários.';
+
+    document.getElementById('p-result').classList.add('show');
+    document.getElementById('p-print').style.display = 'inline-block';
+  });
+  document.getElementById('p-print').addEventListener('click', function(){ window.print(); });
+
+  /* ================= PWA: instalação, offline, service worker ================= */
+  var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('./sw.js').catch(function(err){
+        console.warn('Falha ao registrar o service worker:', err);
+      });
+    });
+  }
+
+  // Offline banner
+  var offlineBanner = document.getElementById('offline-banner');
+  function updateOnlineStatus(){ offlineBanner.hidden = navigator.onLine; }
+  window.addEventListener('online', updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+  updateOnlineStatus();
+
+  // Android/Chrome install prompt
+  var installBtn = document.getElementById('install-btn');
+  var deferredPrompt = null;
+  if(!isStandalone){
+    window.addEventListener('beforeinstallprompt', function(e){
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.hidden = false;
+    });
+    installBtn.addEventListener('click', async function(){
+      if(!deferredPrompt) return;
+      installBtn.hidden = true;
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+    });
+    window.addEventListener('appinstalled', function(){ installBtn.hidden = true; });
+  }
+
+  // iOS Safari: no beforeinstallprompt — show a one-time manual instruction banner.
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(navigator.userAgent);
+  var iosTip = document.getElementById('ios-install-tip');
+  if(isIOS && isSafari && !isStandalone && !localStorage.getItem('ios-install-tip-dismissed')){
+    iosTip.hidden = false;
+  }
+  document.getElementById('ios-install-dismiss').addEventListener('click', function(){
+    iosTip.hidden = true;
+    localStorage.setItem('ios-install-tip-dismissed', '1');
+  });
+
+})();
+</script>
+</body>
+</html>

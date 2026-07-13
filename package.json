@@ -1,0 +1,17 @@
+{
+  "name": "calculadora-judicial",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Calculadora Judicial — app web/PWA e wrapper Capacitor para Android e iOS.",
+  "scripts": {
+    "cap:sync": "cap sync",
+    "cap:open:android": "cap open android",
+    "cap:open:ios": "cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.4.1",
+    "@capacitor/cli": "8.4.1",
+    "@capacitor/core": "8.4.1",
+    "@capacitor/ios": "8.4.1"
+  }
+}
