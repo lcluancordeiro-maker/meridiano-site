@@ -102,17 +102,23 @@ de aplicativos.
   UERJ (Premium: estilo discursivo/interdisciplinar), UNESP (Premium:
   múltipla escolha direta), OBMEP (Premium: raciocínio lógico estilo
   1ª fase) e OIM (Premium: teoria dos números, combinatória e geometria
-  de olimpíada internacional). Cada prova já tem 2 tópicos — o
-  simulado geral (20 exercícios) mais um segundo tópico com um recorte
-  temático específico (16 exercícios): "Geometria e Escalas" no ENEM,
-  "Funções e Geometria Analítica" na UERJ, "Trigonometria e Geometria
-  Espacial" na UNESP, "2ª Fase: Desafios Avançados" na OBMEP e
-  "Geometria e Desigualdades" na OIM — todos genuinamente no estilo
-  daquele exame, não um simulado genérico reaproveitado. Fase 1 do
-  preparatório — SAT Math e GMAT Quantitative ficam para uma Fase 2;
-  Gaokao (multidisciplinar, em chinês) e PISA (avaliação de letramento
-  da OCDE, não uma prova que se "treina" com simulados) ficaram de
-  fora por não se encaixarem no formato do app.
+  de olimpíada internacional). Cada uma dessas 5 provas já tem 2
+  tópicos — o simulado geral (20 exercícios) mais um segundo tópico com
+  um recorte temático específico (16 exercícios): "Geometria e Escalas"
+  no ENEM, "Funções e Geometria Analítica" na UERJ, "Trigonometria e
+  Geometria Espacial" na UNESP, "2ª Fase: Desafios Avançados" na OBMEP
+  e "Geometria e Desigualdades" na OIM — todos genuinamente no estilo
+  daquele exame, não um simulado genérico reaproveitado.
+  **Fase 2** adiciona **SAT Math** (Premium: álgebra e funções, estilo
+  múltipla escolha com 4 alternativas — uma a menos que o ENEM) e
+  **GMAT Quant** (Premium: raciocínio lógico-quantitativo rápido, com
+  problemas de razão, taxas e contextos de negócio). Como o resto do
+  conteúdo do app, os enunciados do SAT/GMAT ficam em português por
+  consistência com a base de exercícios — as provas reais são em
+  inglês, então vale complementar o preparo com material em inglês
+  também. Gaokao (multidisciplinar, em chinês) e PISA (avaliação de
+  letramento da OCDE, não uma prova que se "treina" com simulados)
+  ficaram de fora por não se encaixarem no formato do app.
 - **Gamificação**: XP por resposta certa (escalado por dificuldade),
   níveis, sequência (streak) diária e conquistas.
 - **Dashboard de progresso** (`/progresso`) com gráficos de desempenho

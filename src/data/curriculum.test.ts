@@ -19,8 +19,10 @@ import {
   programacaoIntermediarioTopics,
   superiorTopics,
   vestibularEnemTopics,
+  vestibularGmatTopics,
   vestibularObmepTopics,
   vestibularOimTopics,
+  vestibularSatTopics,
   vestibularUerjTopics,
   vestibularUnespTopics,
   type Topic,
@@ -45,6 +47,8 @@ const ALL_TRACKS: { levelId: string; topics: Topic[] }[] = [
   { levelId: "vestibular-unesp", topics: vestibularUnespTopics },
   { levelId: "vestibular-obmep", topics: vestibularObmepTopics },
   { levelId: "vestibular-oim", topics: vestibularOimTopics },
+  { levelId: "vestibular-sat", topics: vestibularSatTopics },
+  { levelId: "vestibular-gmat", topics: vestibularGmatTopics },
 ];
 
 describe("levels", () => {
@@ -102,7 +106,14 @@ describe("levels", () => {
 
   it("keeps the ENEM exam prep free and gates the other vestibulares behind Premium", () => {
     expect(getLevel("vestibular-enem")?.premium).toBe(false);
-    for (const id of ["vestibular-uerj", "vestibular-unesp", "vestibular-obmep", "vestibular-oim"]) {
+    for (const id of [
+      "vestibular-uerj",
+      "vestibular-unesp",
+      "vestibular-obmep",
+      "vestibular-oim",
+      "vestibular-sat",
+      "vestibular-gmat",
+    ]) {
       expect(getLevel(id)?.available, id).toBe(true);
       expect(getLevel(id)?.premium, id).toBe(true);
     }
