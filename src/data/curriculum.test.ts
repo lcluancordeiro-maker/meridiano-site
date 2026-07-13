@@ -10,6 +10,7 @@ import {
   getTopicsForLevel,
   levels,
   medioTopics,
+  programacaoInicianteTopics,
   type Topic,
 } from "./curriculum";
 
@@ -19,6 +20,7 @@ const ALL_TRACKS: { levelId: string; topics: Topic[] }[] = [
   { levelId: "estatistica-iniciante", topics: estatisticaInicianteTopics },
   { levelId: "estatistica-intermediario", topics: estatisticaIntermediarioTopics },
   { levelId: "estatistica-avancado", topics: estatisticaAvancadoTopics },
+  { levelId: "programacao-iniciante", topics: programacaoInicianteTopics },
 ];
 
 describe("levels", () => {
@@ -49,6 +51,12 @@ describe("levels", () => {
   it("gates the advanced statistics tiers behind Premium", () => {
     expect(getLevel("estatistica-intermediario")?.premium).toBe(true);
     expect(getLevel("estatistica-avancado")?.premium).toBe(true);
+  });
+
+  it("keeps Programação — Iniciante free and gates the advanced/ML tiers behind Premium", () => {
+    expect(getLevel("programacao-iniciante")?.premium).toBe(false);
+    expect(getLevel("programacao-avancado")?.premium).toBe(true);
+    expect(getLevel("machine-learning-iniciante")?.premium).toBe(true);
   });
 });
 

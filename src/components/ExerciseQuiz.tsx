@@ -139,7 +139,7 @@ export default function ExerciseQuiz({
         <ProgressBar value={index / exercises.length} />
       </div>
 
-      <p className="mt-6 font-display text-lg font-medium text-foreground">
+      <p className="mt-6 whitespace-pre-line font-display text-lg font-medium text-foreground">
         {exercise.prompt}
       </p>
 

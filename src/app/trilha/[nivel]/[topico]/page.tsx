@@ -82,7 +82,7 @@ export default async function TopicPage({
                   </div>
                   {section.example && (
                     <div className="mt-4 rounded-xl border border-border bg-surface p-4">
-                      <p className="text-sm font-semibold text-foreground">
+                      <p className="whitespace-pre-line text-sm font-semibold text-foreground">
                         Exemplo: {section.example.problem}
                       </p>
                       <p className="mt-1 text-sm leading-relaxed text-muted">

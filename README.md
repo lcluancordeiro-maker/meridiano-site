@@ -21,6 +21,15 @@ de aplicativos.
 - **Estatística** — trilha independente com 3 níveis (Iniciante:
   medidas de tendência central; Intermediário: probabilidade básica;
   Avançado: distribuição normal e escore-z).
+- **Programação & Machine Learning** — nova trilha independente,
+  começando com "Lógica de Programação" (Programação — Iniciante):
+  variáveis, comparações e condicionais, ensinados com pseudocódigo
+  (independente de linguagem) já que o app não executa código de
+  verdade — os exercícios pedem pra prever o valor final de variáveis
+  após um trecho de pseudocódigo, não pra escrever código. Programação
+  Intermediário/Avançado e Machine Learning — Introdução aparecem como
+  "em breve", com Avançado e Machine Learning já marcados como Premium
+  para quando forem lançados.
 - Fundamental I, Ensino Superior e Econometria aparecem como "em breve"
   — a estrutura de dados (`src/data/curriculum.ts`) já suporta
   adicionar novos níveis e tópicos sem mudar a arquitetura.

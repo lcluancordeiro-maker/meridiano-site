@@ -21,6 +21,8 @@ export type Dictionary = {
     niveisDisponiveis: string;
     estatisticaHeading: string;
     estatisticaSubtitle: string;
+    programacaoHeading: string;
+    programacaoSubtitle: string;
     econometriaHeading: string;
     econometriaSubtitle: string;
     emBreve: string;
@@ -177,6 +179,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       niveisDisponiveis: "Já disponíveis: Ensino Fundamental II e Ensino Médio — os demais níveis chegam em breve.",
       estatisticaHeading: "Estatística",
       estatisticaSubtitle: "Uma trilha independente, organizada em três níveis — do descritivo ao inferencial.",
+      programacaoHeading: "Programação & Machine Learning",
+      programacaoSubtitle: "Do fundamental ao superior — lógica de programação, algoritmos e os conceitos por trás do machine learning.",
       econometriaHeading: "Econometria",
       econometriaSubtitle: "Regressão e modelos preditivos, com pré-requisito de Estatística e Cálculo.",
       emBreve: "Em breve",
@@ -333,6 +337,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       niveisDisponiveis: "Already available: Middle School and High School — other levels are coming soon.",
       estatisticaHeading: "Statistics",
       estatisticaSubtitle: "An independent track with three levels — from descriptive to inferential.",
+      programacaoHeading: "Programming & Machine Learning",
+      programacaoSubtitle: "From elementary to college — programming logic, algorithms, and the concepts behind machine learning.",
       econometriaHeading: "Econometrics",
       econometriaSubtitle: "Regression and predictive models, with a Statistics and Calculus prerequisite.",
       emBreve: "Coming soon",
@@ -489,6 +495,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       niveisDisponiveis: "Ya disponibles: Secundaria y Bachillerato — los demás niveles llegan pronto.",
       estatisticaHeading: "Estadística",
       estatisticaSubtitle: "Una ruta independiente, organizada en tres niveles — de lo descriptivo a lo inferencial.",
+      programacaoHeading: "Programación & Machine Learning",
+      programacaoSubtitle: "De primaria a la universidad — lógica de programación, algoritmos y los conceptos detrás del machine learning.",
       econometriaHeading: "Econometría",
       econometriaSubtitle: "Regresión y modelos predictivos, con requisito previo de Estadística y Cálculo.",
       emBreve: "Próximamente",

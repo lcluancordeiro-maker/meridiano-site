@@ -43,7 +43,7 @@ export type Topic = {
   graphExpressions?: string[];
 };
 
-export type LevelGroup = "serie" | "estatistica" | "econometria";
+export type LevelGroup = "serie" | "estatistica" | "econometria" | "programacao";
 
 export type Level = {
   id: string;
@@ -130,6 +130,42 @@ export const levels: Level[] = [
     available: false,
     premium: true,
     group: "econometria",
+  },
+  {
+    id: "programacao-iniciante",
+    name: "Programação — Iniciante",
+    shortName: "Programação I",
+    description: "Lógica de programação: variáveis, comparações e condicionais.",
+    available: true,
+    premium: false,
+    group: "programacao",
+  },
+  {
+    id: "programacao-intermediario",
+    name: "Programação — Intermediário",
+    shortName: "Programação II",
+    description: "Repetições, funções e listas — em breve.",
+    available: false,
+    premium: false,
+    group: "programacao",
+  },
+  {
+    id: "programacao-avancado",
+    name: "Programação — Avançado",
+    shortName: "Programação III",
+    description: "Orientação a objetos e algoritmos — em breve.",
+    available: false,
+    premium: true,
+    group: "programacao",
+  },
+  {
+    id: "machine-learning-iniciante",
+    name: "Machine Learning — Introdução",
+    shortName: "Machine Learning",
+    description: "Aprendizado supervisionado, regressão e overfitting — em breve.",
+    available: false,
+    premium: true,
+    group: "programacao",
   },
 ];
 
@@ -2322,12 +2358,238 @@ export const medioTopics: Topic[] = [
   },
 ];
 
+export const programacaoInicianteTopics: Topic[] = [
+  {
+    id: "logica-de-programacao",
+    title: "Lógica de Programação",
+    summary:
+      "Os blocos básicos de todo programa: variáveis, comparações e estruturas condicionais.",
+    minutes: 20,
+    theory: [
+      {
+        heading: "O que é um algoritmo?",
+        body: [
+          "Um algoritmo é uma sequência de passos bem definidos para resolver um problema — como uma receita de bolo: cada passo é executado na ordem, um de cada vez.",
+          "Programar é escrever algoritmos numa forma que o computador consiga seguir. Aqui vamos usar pseudocódigo — uma notação simples e independente de linguagem — para pensar na lógica antes da sintaxe de qualquer linguagem específica.",
+        ],
+      },
+      {
+        heading: "Variáveis",
+        body: [
+          "Uma variável guarda um valor que pode mudar ao longo do algoritmo. Vamos usar a seta ← para representar 'atribuir um valor a uma variável'.",
+          "Quando o lado direito de uma atribuição usa a própria variável, primeiro calculamos o valor atual e só depois atualizamos.",
+        ],
+        example: {
+          problem: "x ← 5\nx ← x + 3",
+          solution: "Primeiro x recebe 5. Depois, x ← x + 3 calcula 5 + 3 = 8 e guarda 8 em x. Valor final: 8.",
+        },
+      },
+      {
+        heading: "Operadores de comparação",
+        body: [
+          "Comparações como >, <, >=, <=, == (igual) e != (diferente) sempre resultam em verdadeiro ou falso — nunca em um número.",
+        ],
+        example: {
+          problem: "7 > 3",
+          solution: "7 é maior que 3, então o resultado é verdadeiro.",
+        },
+      },
+      {
+        heading: "Estruturas condicionais (se / senão)",
+        body: [
+          "Uma estrutura 'se / senão' executa um bloco de código só quando uma condição é verdadeira, e outro bloco quando é falsa.",
+          "Condicionais podem ser aninhadas: um 'se' pode conter outro 'se' dentro do seu bloco 'senão'.",
+        ],
+        example: {
+          problem: "x ← 8\nse x > 5 então\n  y ← 1\nsenão\n  y ← 0",
+          solution: "Como 8 > 5 é verdadeiro, o bloco do 'então' executa: y recebe 1.",
+        },
+      },
+    ],
+    exercises: [
+      {
+        id: "f1",
+        prompt: "x ← 4\nQual é o valor de x?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "4",
+        explanation: "A atribuição x ← 4 guarda o valor 4 na variável x.",
+      },
+      {
+        id: "f2",
+        prompt: "x ← 10\nx ← x + 5\nQual é o valor final de x?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "15",
+        explanation: "x começa em 10; x ← x + 5 calcula 10 + 5 = 15.",
+      },
+      {
+        id: "f3",
+        prompt: "O resultado de 7 > 3 é verdadeiro ou falso?",
+        type: "multiple-choice",
+        difficulty: "facil",
+        options: ["Verdadeiro", "Falso"],
+        answer: "Verdadeiro",
+        explanation: "7 é maior que 3, então a comparação é verdadeira.",
+      },
+      {
+        id: "f4",
+        prompt: "O resultado de 5 == 5 é verdadeiro ou falso?",
+        type: "multiple-choice",
+        difficulty: "facil",
+        options: ["Verdadeiro", "Falso"],
+        answer: "Verdadeiro",
+        explanation: "== compara igualdade; 5 é igual a 5, então é verdadeiro.",
+      },
+      {
+        id: "f5",
+        prompt: "Qual estrutura executa um bloco de código somente se uma condição for verdadeira?",
+        type: "multiple-choice",
+        difficulty: "facil",
+        options: ["se (condicional)", "variável", "comparação", "pseudocódigo"],
+        answer: "se (condicional)",
+        explanation: "A estrutura condicional ('se / senão') decide qual bloco executar com base numa condição.",
+      },
+      {
+        id: "q1",
+        prompt: "x ← 3\nx ← x * 2\nx ← x + 1\nQual o valor final de x?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "7",
+        explanation: "x ← 3, depois x ← 3*2 = 6, depois x ← 6+1 = 7.",
+      },
+      {
+        id: "q2",
+        prompt: "x ← 8\ny ← 3\nQual o valor de x - y?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "5",
+        explanation: "8 - 3 = 5.",
+      },
+      {
+        id: "q3",
+        prompt: "O resultado de 10 != 10 é verdadeiro ou falso?",
+        type: "multiple-choice",
+        difficulty: "medio",
+        options: ["Verdadeiro", "Falso"],
+        answer: "Falso",
+        explanation: "!= significa 'diferente de'. Como 10 é igual a 10, o resultado é falso.",
+      },
+      {
+        id: "q4",
+        prompt: "x ← 5\nse x > 3 então\n  y ← 1\nsenão\n  y ← 0\nQual o valor de y?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "1",
+        explanation: "Como 5 > 3 é verdadeiro, executa o bloco do 'então': y recebe 1.",
+      },
+      {
+        id: "q5",
+        prompt: "x ← 5\nse x > 10 então\n  y ← 1\nsenão\n  y ← 0\nQual o valor de y?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "0",
+        explanation: "Como 5 > 10 é falso, executa o bloco do 'senão': y recebe 0.",
+      },
+      {
+        id: "d1",
+        prompt: "x ← 2\nx ← x * x\nse x > 3 então\n  x ← x + 10\nQual o valor final de x?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "14",
+        explanation: "x ← 2, depois x ← 2*2 = 4. Como 4 > 3 é verdadeiro, x ← 4 + 10 = 14.",
+      },
+      {
+        id: "d2",
+        prompt: "x ← 7\ny ← x - 2\nse y >= 5 então\n  y ← y * 2\nsenão\n  y ← y + 1\nQual o valor final de y?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "10",
+        explanation: "y ← 7-2 = 5. Como 5 >= 5 é verdadeiro, y ← 5*2 = 10.",
+      },
+      {
+        id: "d3",
+        prompt: "x ← 4\ny ← 9\nse x > y então\n  z ← x\nsenão\n  z ← y\nQual o valor de z?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "9",
+        explanation: "Como 4 > 9 é falso, executa o 'senão': z recebe o valor de y, que é 9.",
+      },
+      {
+        id: "d4",
+        prompt: "x ← 10\nx ← x - 3\nx ← x - 3\nse x > 3 então\n  x ← 0\nsenão\n  x ← 100\nQual o valor final de x?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "0",
+        explanation: "x ← 10-3-3 = 4. Como 4 > 3 é verdadeiro, x ← 0.",
+      },
+      {
+        id: "d5",
+        prompt: "a ← 3\nb ← a + 2\na ← b - 1\nQual o valor final de a?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "4",
+        explanation: "a ← 3, b ← 3+2 = 5. Depois a ← 5-1 = 4.",
+      },
+      {
+        id: "o1",
+        prompt:
+          "x ← 5\ny ← 10\nse x > y então\n  maior ← x\nsenão\n  maior ← y\nse maior > 8 então\n  resultado ← maior * 2\nsenão\n  resultado ← maior\nQual o valor de resultado?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "20",
+        explanation:
+          "Como 5 > 10 é falso, maior recebe y = 10. Como 10 > 8 é verdadeiro, resultado ← 10*2 = 20.",
+      },
+      {
+        id: "o2",
+        prompt:
+          "x ← 6\nse x > 10 então\n  y ← 1\nsenão\n  se x > 5 então\n    y ← 2\n  senão\n    y ← 3\nQual o valor de y?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "2",
+        explanation:
+          "6 > 10 é falso, então entra no 'senão'. Ali, 6 > 5 é verdadeiro, então y recebe 2 (o 'se' aninhado).",
+      },
+      {
+        id: "o3",
+        prompt:
+          "n ← 4\nresultado ← 1\nresultado ← resultado * n\nn ← n - 1\nresultado ← resultado * n\nn ← n - 1\nQual o valor final de resultado?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "12",
+        explanation:
+          "resultado ← 1*4 = 4, n ← 3. Depois resultado ← 4*3 = 12, n ← 2. (Este é o início do cálculo de um fatorial, repetido manualmente.)",
+      },
+      {
+        id: "o4",
+        prompt: "a ← 2\nb ← 3\ntmp ← a\na ← b\nb ← tmp\nQual o valor final de a?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "3",
+        explanation:
+          "Isso é a troca clássica de valores usando uma variável temporária (tmp). tmp guarda o valor antigo de a (2). Depois a recebe o valor de b (3).",
+      },
+      {
+        id: "o5",
+        prompt: "a ← 2\nb ← 3\ntmp ← a\na ← b\nb ← tmp\nQual o valor final de b?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "2",
+        explanation:
+          "Na troca clássica com variável temporária, b recebe o valor guardado em tmp, que era o valor antigo de a (2).",
+      },
+    ],
+  },
+];
+
 const TOPICS_BY_LEVEL: Record<string, Topic[]> = {
   "fundamental-2": fundamental2Topics,
   medio: medioTopics,
   "estatistica-iniciante": estatisticaInicianteTopics,
   "estatistica-intermediario": estatisticaIntermediarioTopics,
   "estatistica-avancado": estatisticaAvancadoTopics,
+  "programacao-iniciante": programacaoInicianteTopics,
 };
 
 export function getLevel(levelId: string): Level | undefined {
