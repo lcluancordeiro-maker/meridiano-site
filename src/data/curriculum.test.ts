@@ -18,6 +18,11 @@ import {
   programacaoInicianteTopics,
   programacaoIntermediarioTopics,
   superiorTopics,
+  vestibularEnemTopics,
+  vestibularObmepTopics,
+  vestibularOimTopics,
+  vestibularUerjTopics,
+  vestibularUnespTopics,
   type Topic,
 } from "./curriculum";
 
@@ -35,6 +40,11 @@ const ALL_TRACKS: { levelId: string; topics: Topic[] }[] = [
   { levelId: "econometria-iniciante", topics: econometriaTopics },
   { levelId: "programacao-avancado", topics: programacaoAvancadoTopics },
   { levelId: "machine-learning-iniciante", topics: machineLearningInicianteTopics },
+  { levelId: "vestibular-enem", topics: vestibularEnemTopics },
+  { levelId: "vestibular-uerj", topics: vestibularUerjTopics },
+  { levelId: "vestibular-unesp", topics: vestibularUnespTopics },
+  { levelId: "vestibular-obmep", topics: vestibularObmepTopics },
+  { levelId: "vestibular-oim", topics: vestibularOimTopics },
 ];
 
 describe("levels", () => {
@@ -85,6 +95,14 @@ describe("levels", () => {
 
   it("makes Superior, Econometria, Programação Avançado and Machine Learning available (all Premium)", () => {
     for (const id of ["superior", "econometria-iniciante", "programacao-avancado", "machine-learning-iniciante"]) {
+      expect(getLevel(id)?.available, id).toBe(true);
+      expect(getLevel(id)?.premium, id).toBe(true);
+    }
+  });
+
+  it("keeps the ENEM exam prep free and gates the other vestibulares behind Premium", () => {
+    expect(getLevel("vestibular-enem")?.premium).toBe(false);
+    for (const id of ["vestibular-uerj", "vestibular-unesp", "vestibular-obmep", "vestibular-oim"]) {
       expect(getLevel(id)?.available, id).toBe(true);
       expect(getLevel(id)?.premium, id).toBe(true);
     }

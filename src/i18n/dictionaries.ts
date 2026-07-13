@@ -37,6 +37,8 @@ export type Dictionary = {
     econometriaSubtitle: string;
     financasHeading: string;
     financasSubtitle: string;
+    vestibularesHeading: string;
+    vestibularesSubtitle: string;
     emBreve: string;
     comecarTrilha: string;
     sobreHeading: string;
@@ -236,6 +238,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       econometriaSubtitle: "Regressão e modelos preditivos, com pré-requisito de Estatística e Cálculo.",
       financasHeading: "Matemática Financeira",
       financasSubtitle: "Juros simples e compostos, descontos e financiamentos — para entender o dinheiro no dia a dia.",
+      vestibularesHeading: "Preparatório para Vestibulares",
+      vestibularesSubtitle: "Simulados no estilo real de cada prova: ENEM, UERJ, UNESP e as olimpíadas OBMEP e OIM.",
       emBreve: "Em breve",
       comecarTrilha: "Começar trilha",
       sobreHeading: "Sobre o Meridiano Matemática",
@@ -436,6 +440,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       econometriaSubtitle: "Regression and predictive models, with a Statistics and Calculus prerequisite.",
       financasHeading: "Personal Finance Math",
       financasSubtitle: "Simple and compound interest, discounts and loans — to understand everyday money.",
+      vestibularesHeading: "Exam Prep",
+      vestibularesSubtitle: "Practice sets styled after the real exams: Brazil's ENEM, UERJ, UNESP, and the OBMEP/OIM math olympiads.",
       emBreve: "Coming soon",
       comecarTrilha: "Start track",
       sobreHeading: "About Meridiano Matemática",
@@ -635,6 +641,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       econometriaSubtitle: "Regresión y modelos predictivos, con requisito previo de Estadística y Cálculo.",
       financasHeading: "Matemática Financiera",
       financasSubtitle: "Interés simple y compuesto, descuentos y financiamientos — para entender el dinero del día a día.",
+      vestibularesHeading: "Preparación para Exámenes",
+      vestibularesSubtitle: "Simulacros al estilo real de cada prueba: ENEM, UERJ, UNESP y las olimpiadas OBMEP y OIM.",
       emBreve: "Próximamente",
       comecarTrilha: "Empezar ruta",
       sobreHeading: "Sobre Meridiano Matemática",

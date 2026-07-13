@@ -8,6 +8,7 @@ import {
   medioTopics,
   programacaoInicianteTopics,
   programacaoIntermediarioTopics,
+  vestibularEnemTopics,
   type Difficulty,
   type Exercise,
 } from "../src/data/curriculum";
@@ -20,14 +21,15 @@ import {
  * difficulty filter, option matching, etc.) fails here, even though it can't
  * catch a wrong `answer` value baked into the content itself.
  *
- * estatistica-intermediario, estatistica-avancado and
- * matematica-financeira-avancado are deliberately absent: all are
- * Premium-gated (see src/lib/entitlements.ts), and there's no way to get an
- * authenticated + subscribed session in this test environment (same
- * limitation as Supabase auth — see e2e/auth.spec.ts). Their content was
- * verified against this same suite before the paywall existed (or via the
- * temporary premium:false workaround documented in the README); paywall.spec.ts
- * covers the behavior that *is* testable here (the paywall itself renders).
+ * estatistica-intermediario, estatistica-avancado,
+ * matematica-financeira-avancado and the vestibular-uerj/unesp/obmep/oim exam
+ * tracks are deliberately absent: all are Premium-gated (see
+ * src/lib/entitlements.ts), and there's no way to get an authenticated +
+ * subscribed session in this test environment (same limitation as Supabase
+ * auth — see e2e/auth.spec.ts). Their content was verified against this same
+ * suite before the paywall existed (or via the temporary premium:false
+ * workaround documented in the README); paywall.spec.ts covers the behavior
+ * that *is* testable here (the paywall itself renders).
  */
 const TRACKS: { levelId: string; topicId: string; exercises: Exercise[] }[] = [
   ...fundamental2Topics.map((t) => ({ levelId: "fundamental-2", topicId: t.id, exercises: t.exercises })),
@@ -52,6 +54,7 @@ const TRACKS: { levelId: string; topicId: string; exercises: Exercise[] }[] = [
     topicId: t.id,
     exercises: t.exercises,
   })),
+  ...vestibularEnemTopics.map((t) => ({ levelId: "vestibular-enem", topicId: t.id, exercises: t.exercises })),
 ];
 
 async function answerExercise(page: Page, exercise: Exercise) {

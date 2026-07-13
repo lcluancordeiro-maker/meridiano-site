@@ -85,6 +85,18 @@ de aplicativos.
   diária (15 mensagens grátis, 60 Premium). A conversa fica só no
   navegador (não é salva no banco nem sincronizada entre dispositivos —
   um possível próximo passo). Veja "Configurando o tutor de IA" abaixo.
+- **Preparatório para Vestibulares**: simulados no estilo real de cada
+  prova — ENEM (grátis: questões contextualizadas, múltipla escolha),
+  UERJ (Premium: estilo discursivo/interdisciplinar), UNESP (Premium:
+  múltipla escolha direta), OBMEP (Premium: raciocínio lógico estilo
+  1ª fase) e OIM (Premium: teoria dos números, combinatória e geometria
+  de olimpíada internacional). Cada prova tem sua própria trilha com
+  teoria (formato da prova + dicas de preparo) e 20 exercícios
+  genuinamente no estilo daquele exame, não um simulado genérico
+  reaproveitado. Fase 1 do preparatório — SAT Math e GMAT Quantitative
+  ficam para uma Fase 2; Gaokao (multidisciplinar, em chinês) e PISA
+  (avaliação de letramento da OCDE, não uma prova que se "treina" com
+  simulados) ficaram de fora por não se encaixarem no formato do app.
 - **Gamificação**: XP por resposta certa (escalado por dificuldade),
   níveis, sequência (streak) diária e conquistas.
 - **Dashboard de progresso** (`/progresso`) com gráficos de desempenho
@@ -307,8 +319,10 @@ usuário tem acesso Premium.
 
 **Quais trilhas são Premium**: veja o campo `premium` de cada nível em
 `src/data/curriculum.ts`. Hoje são Estatística Intermediário e
-Avançado, Matemática Financeira Avançado, Ensino Superior, Econometria
-e Programação Avançado/Machine Learning.
+Avançado, Matemática Financeira Avançado, Ensino Superior, Econometria,
+Programação Avançado/Machine Learning, e os simulados UERJ, UNESP,
+OBMEP e OIM (o ENEM fica grátis, como porta de entrada do
+preparatório).
 
 ### Formas de pagamento
 
