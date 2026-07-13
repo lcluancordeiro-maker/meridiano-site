@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
+import type Stripe from "stripe";
 import { createClient } from "@/lib/supabase/server";
 import { createServiceRoleClient } from "@/lib/supabase/serviceRole";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getStripeClient } from "@/lib/stripe/client";
 import { isStripeConfigured, STRIPE_PREMIUM_PRICE_ID } from "@/lib/stripe/config";
+import { mapIntervalToPixSchedule } from "@/lib/stripe/pixSchedule";
 
 export async function POST(request: Request) {
   if (!isSupabaseConfigured || !isStripeConfigured) {
@@ -46,10 +48,44 @@ export async function POST(request: Request) {
 
   const origin = new URL(request.url).origin;
 
+  // "card" covers débito/crédito and international cards out of the box —
+  // Stripe doesn't distinguish debit vs. credit as separate payment methods,
+  // that's determined by the card's issuer. Boleto and Pix are Brazil/BRL-only,
+  // so they're only offered when the Premium price itself is billed in BRL.
+  const price = await stripe.prices.retrieve(STRIPE_PREMIUM_PRICE_ID!);
+  const paymentMethodTypes: Stripe.Checkout.SessionCreateParams.PaymentMethodType[] = ["card"];
+  let paymentMethodOptions: Stripe.Checkout.SessionCreateParams.PaymentMethodOptions | undefined;
+
+  if (price.currency === "brl") {
+    paymentMethodTypes.push("boleto", "pix");
+
+    if (price.recurring && price.unit_amount) {
+      // Pix Automático: the customer authorizes a recurring mandate in their
+      // bank app. Unlike boleto (a one-off voucher the customer must pay by
+      // hand each cycle — Stripe has no auto-debit option for it), Pix
+      // mandates DO auto-renew, but confirmation can take up to a few days
+      // after each billing date, so Premium access may lag briefly after a
+      // renewal compared to card.
+      paymentMethodOptions = {
+        pix: {
+          mandate_options: {
+            amount_type: "fixed",
+            amount: price.unit_amount,
+            currency: "brl",
+            payment_schedule: mapIntervalToPixSchedule(price.recurring.interval, price.recurring.interval_count),
+            reference: "Meridiano Matematica Premium",
+          },
+        },
+      };
+    }
+  }
+
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
     customer: customerId,
     line_items: [{ price: STRIPE_PREMIUM_PRICE_ID, quantity: 1 }],
+    payment_method_types: paymentMethodTypes,
+    payment_method_options: paymentMethodOptions,
     success_url: `${origin}/assinatura?success=true`,
     cancel_url: `${origin}/assinatura?canceled=true`,
     metadata: { supabase_user_id: user.id },

@@ -162,6 +162,36 @@ usuário tem acesso Premium.
 Avançado; Ensino Superior e Econometria (ainda "em breve") já nascem
 marcados como Premium para quando forem lançados.
 
+### Formas de pagamento
+
+O checkout aceita **cartão** (crédito e débito — Stripe não distingue
+os dois como métodos separados, isso depende só do cartão/banco do
+cliente; cobre bandeiras internacionais automaticamente), **boleto**
+e **Pix**, esses dois últimos apenas quando o preço do Premium está em
+BRL (`src/app/api/stripe/checkout/route.ts` decide isso olhando a
+moeda do Price no momento do checkout).
+
+Dois detalhes importantes sobre renovação, que são limitações do
+método de pagamento em si, não do código:
+
+- **Boleto não renova sozinho.** Cada cobrança gera um boleto novo que
+  o cliente precisa pagar manualmente; se não pagar, a assinatura cai
+  para `past_due`/`unpaid` conforme as regras de cobrança configuradas
+  no Dashboard da Stripe (Settings → Billing → Subscriptions and
+  emails). Bom para quem não tem cartão, mas não é "fire and forget".
+- **Pix usa mandato (Pix Automático)**, uma funcionalidade recente da
+  Stripe: no primeiro pagamento o cliente autoriza a cobrança recorrente
+  no app do banco dele, e as cobranças seguintes são automáticas dentro
+  do valor autorizado — mas a confirmação de cada cobrança pode levar
+  alguns dias, então o acesso Premium pode demorar um pouco a mais pra
+  renovar depois de cada ciclo, comparado a cartão. Vale confirmar no
+  Dashboard da Stripe se Pix Automático já está disponível pra sua
+  conta antes de divulgar essa opção.
+
+Nenhuma dessas duas formas foi testada com uma cobrança real nesta
+sessão (sem chaves da Stripe configuradas aqui) — teste no modo de
+teste da Stripe antes de ativar em produção.
+
 ## Sobre o idioma
 
 O seletor de idioma (`src/i18n/`) traduz toda a navegação e as páginas

@@ -35,6 +35,8 @@ export default async function AssinaturaPage() {
           </li>
         </ul>
 
+        <p className="mt-6 text-xs text-muted">{premium.paymentMethods}</p>
+
         <div className="mt-8">
           {!isSupabaseConfigured || !isStripeConfigured ? (
             <p className="rounded-xl border border-border bg-surface p-4 text-sm text-muted">

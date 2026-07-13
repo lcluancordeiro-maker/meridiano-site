@@ -106,6 +106,7 @@ export type Dictionary = {
     benefit1: string;
     benefit2: string;
     benefit3: string;
+    paymentMethods: string;
     subscribeButton: string;
     manageButton: string;
     activeStatus: string;
@@ -228,6 +229,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       benefit1: "Todas as trilhas, incluindo Estatística Intermediário/Avançado e futuras trilhas avançadas",
       benefit2: "Cota bem maior de resolução por foto e pelo quadro de rascunho",
       benefit3: "Apoie diretamente o desenvolvimento de novos conteúdos",
+      paymentMethods: "Aceita cartão de crédito/débito, boleto e Pix.",
       subscribeButton: "Assinar Premium",
       manageButton: "Gerenciar assinatura",
       activeStatus: "Você já é Premium — obrigado pelo apoio!",
@@ -348,6 +350,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       benefit1: "Every track, including Statistics Intermediate/Advanced and future advanced tracks",
       benefit2: "A much higher quota for photo and whiteboard solving",
       benefit3: "Directly support the development of new content",
+      paymentMethods: "Accepts credit/debit card, and (in Brazil) boleto and Pix.",
       subscribeButton: "Subscribe to Premium",
       manageButton: "Manage subscription",
       activeStatus: "You're already Premium — thanks for the support!",
@@ -468,6 +471,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       benefit1: "Todas las rutas, incluyendo Estadística Intermedio/Avanzado y futuras rutas avanzadas",
       benefit2: "Una cuota mucho mayor para resolver por foto y por la pizarra",
       benefit3: "Apoya directamente el desarrollo de nuevo contenido",
+      paymentMethods: "Acepta tarjeta de crédito/débito, boleto y Pix (en Brasil).",
       subscribeButton: "Suscribirse a Premium",
       manageButton: "Administrar suscripción",
       activeStatus: "Ya eres Premium — ¡gracias por el apoyo!",
