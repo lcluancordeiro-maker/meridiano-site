@@ -1,4 +1,5 @@
 import Link from "next/link";
+import NavbarXpBadge from "./NavbarXpBadge";
 
 export default function Navbar() {
   return (
@@ -18,9 +19,13 @@ export default function Navbar() {
           <Link href="/#niveis" className="hover:text-foreground transition-colors">
             Trilhas
           </Link>
-          <Link href="/#sobre" className="hover:text-foreground transition-colors">
-            Sobre
+          <Link href="/calculadora" className="hover:text-foreground transition-colors">
+            Calculadora
           </Link>
+          <Link href="/progresso" className="hover:text-foreground transition-colors">
+            Progresso
+          </Link>
+          <NavbarXpBadge />
         </nav>
       </div>
     </header>

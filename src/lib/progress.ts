@@ -5,7 +5,7 @@ export type TopicProgress = {
   updatedAt: number;
 };
 
-type ProgressStore = Record<string, TopicProgress>;
+export type ProgressStore = Record<string, TopicProgress>;
 
 const STORAGE_KEY = "meridiano-math-progress";
 
@@ -29,15 +29,13 @@ function topicKey(levelId: string, topicId: string): string {
 }
 
 // In-memory cache so useSyncExternalStore can return a stable reference
-// between renders instead of re-parsing localStorage every call.
-const cache: ProgressStore = {};
-let cacheLoaded = false;
+// between renders. The reference is replaced (not mutated) on every write
+// so identity comparisons correctly detect changes.
+let cache: ProgressStore | null = null;
 
-function ensureCacheLoaded() {
-  if (!cacheLoaded) {
-    Object.assign(cache, readStore());
-    cacheLoaded = true;
-  }
+function ensureCache(): ProgressStore {
+  if (!cache) cache = readStore();
+  return cache;
 }
 
 const listeners = new Set<() => void>();
@@ -55,8 +53,11 @@ export function getTopicProgressSnapshot(
   levelId: string,
   topicId: string
 ): TopicProgress | undefined {
-  ensureCacheLoaded();
-  return cache[topicKey(levelId, topicId)];
+  return ensureCache()[topicKey(levelId, topicId)];
+}
+
+export function getAllProgressSnapshot(): ProgressStore {
+  return ensureCache();
 }
 
 export function saveTopicProgress(
@@ -65,7 +66,6 @@ export function saveTopicProgress(
   score: number,
   total: number
 ): void {
-  const store = readStore();
   const key = topicKey(levelId, topicId);
   const value: TopicProgress = {
     completed: true,
@@ -73,10 +73,9 @@ export function saveTopicProgress(
     total,
     updatedAt: Date.now(),
   };
-  store[key] = value;
-  writeStore(store);
-  cache[key] = value;
-  cacheLoaded = true;
+  const next = { ...ensureCache(), [key]: value };
+  cache = next;
+  writeStore(next);
   emitChange();
 }
 

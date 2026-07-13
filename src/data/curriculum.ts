@@ -27,6 +27,8 @@ export type Topic = {
   minutes: number;
   theory: TheorySection[];
   exercises: Exercise[];
+  /** Optional starting expressions for an embedded interactive graph. */
+  graphExpressions?: string[];
 };
 
 export type Level = {
@@ -255,6 +257,7 @@ export const fundamental2Topics: Topic[] = [
     summary:
       "Aprenda a trabalhar com variáveis e a resolver equações do primeiro grau.",
     minutes: 20,
+    graphExpressions: ["2x + 3"],
     theory: [
       {
         heading: "O que é uma variável?",

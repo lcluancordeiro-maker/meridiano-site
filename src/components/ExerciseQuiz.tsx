@@ -3,6 +3,13 @@
 import { useState } from "react";
 import type { Exercise } from "@/data/curriculum";
 import { saveTopicProgress } from "@/lib/progress";
+import {
+  BADGES,
+  XP_PER_CORRECT,
+  getGamificationSnapshot,
+  recordCorrectAnswer,
+  recordTopicCompletion,
+} from "@/lib/gamification";
 import ProgressBar from "./ProgressBar";
 
 function normalize(value: string): string {
@@ -23,6 +30,7 @@ export default function ExerciseQuiz({
   const [checked, setChecked] = useState(false);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+  const [newBadges, setNewBadges] = useState<string[]>([]);
 
   const exercise = exercises[index];
   const isCorrect = checked && normalize(selected) === normalize(exercise.answer);
@@ -32,6 +40,7 @@ export default function ExerciseQuiz({
     setChecked(true);
     if (normalize(selected) === normalize(exercise.answer)) {
       setScore((s) => s + 1);
+      recordCorrectAnswer();
     }
   }
 
@@ -39,6 +48,10 @@ export default function ExerciseQuiz({
     const isLast = index === exercises.length - 1;
     if (isLast) {
       saveTopicProgress(levelId, topicId, score, exercises.length);
+      const badgesBefore = getGamificationSnapshot().unlockedBadges;
+      recordTopicCompletion(levelId, topicId, score, exercises.length);
+      const badgesAfter = getGamificationSnapshot().unlockedBadges;
+      setNewBadges(badgesAfter.filter((id) => !badgesBefore.includes(id)));
       setFinished(true);
       return;
     }
@@ -53,6 +66,7 @@ export default function ExerciseQuiz({
     setChecked(false);
     setScore(0);
     setFinished(false);
+    setNewBadges([]);
   }
 
   if (finished) {
@@ -70,6 +84,36 @@ export default function ExerciseQuiz({
             ? "Muito bem! Você domina esse tópico."
             : "Bom começo — revise a teoria e tente de novo para fixar o conteúdo."}
         </p>
+        <p className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
+          +{score * XP_PER_CORRECT} XP nesta tentativa
+        </p>
+        {newBadges.length > 0 && (
+          <div className="mt-6 flex flex-col items-center gap-2">
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted">
+              Nova conquista{newBadges.length > 1 ? "s" : ""}!
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
+              {newBadges.map((id) => {
+                const badge = BADGES.find((b) => b.id === id);
+                if (!badge) return null;
+                return (
+                  <div
+                    key={id}
+                    className="flex items-center gap-2 rounded-xl border border-border bg-background px-3 py-2 text-left"
+                  >
+                    <span className="text-xl">{badge.icon}</span>
+                    <span>
+                      <span className="block text-sm font-semibold text-foreground">
+                        {badge.name}
+                      </span>
+                      <span className="block text-xs text-muted">{badge.description}</span>
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
         <button
           onClick={handleRestart}
           className="mt-6 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
@@ -146,8 +190,13 @@ export default function ExerciseQuiz({
             isCorrect ? "bg-success-bg text-success" : "bg-error-bg text-error"
           }`}
         >
-          <p className="font-semibold">
+          <p className="flex items-center gap-2 font-semibold">
             {isCorrect ? "Certinho!" : `Resposta correta: ${exercise.answer}`}
+            {isCorrect && (
+              <span className="rounded-full bg-white/60 px-2 py-0.5 text-xs font-bold text-success">
+                +{XP_PER_CORRECT} XP
+              </span>
+            )}
           </p>
           <p className="mt-1 text-foreground/80">{exercise.explanation}</p>
         </div>

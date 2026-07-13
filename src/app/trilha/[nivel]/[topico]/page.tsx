@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import ExerciseQuiz from "@/components/ExerciseQuiz";
+import FunctionGrapher from "@/components/FunctionGrapher";
 import { fundamental2Topics, getLevel, getTopic } from "@/data/curriculum";
 
 export function generateStaticParams() {
@@ -66,6 +67,18 @@ export default async function TopicPage({
             </div>
           ))}
         </div>
+
+        {topic.graphExpressions && (
+          <div className="mt-10">
+            <h2 className="mb-1 font-display text-xl font-semibold text-foreground">
+              Explore no gráfico
+            </h2>
+            <p className="mb-4 text-sm text-muted">
+              Mude a expressão abaixo e veja como o gráfico se transforma.
+            </p>
+            <FunctionGrapher initialExpressions={topic.graphExpressions} />
+          </div>
+        )}
 
         <div className="mt-12">
           <h2 className="mb-4 font-display text-xl font-semibold text-foreground">
