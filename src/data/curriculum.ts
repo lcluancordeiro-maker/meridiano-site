@@ -2040,6 +2040,94 @@ export const estatisticaIntermediarioTopics: Topic[] = [
       },
     ],
   },
+  {
+    id: "regras-de-probabilidade",
+    title: "Regras de Probabilidade",
+    summary: "Combine eventos com as regras da adição, da multiplicação e a probabilidade condicional.",
+    minutes: 20,
+    theory: [
+      {
+        heading: "Regra da adição (eventos mutuamente exclusivos)",
+        body: [
+          "Dois eventos são mutuamente exclusivos quando não podem ocorrer ao mesmo tempo. Nesse caso, a probabilidade de A ou B é a soma das probabilidades individuais: P(A ou B) = P(A) + P(B).",
+        ],
+        example: {
+          problem: "Ao lançar um dado, qual a probabilidade de sair 2 ou 3?",
+          solution: "P(2) = 1/6, P(3) = 1/6. Como são mutuamente exclusivos, P(2 ou 3) = 1/6 + 1/6 = 2/6 = 1/3.",
+        },
+      },
+      {
+        heading: "Eventos independentes e a regra da multiplicação",
+        body: [
+          "Dois eventos são independentes quando a ocorrência de um não afeta a probabilidade do outro. Nesse caso, P(A e B) = P(A) × P(B).",
+        ],
+        example: {
+          problem: "Ao lançar uma moeda e um dado, qual a probabilidade de sair cara e o número 4?",
+          solution: "P(cara) = 1/2, P(4) = 1/6. Como são independentes, P(cara e 4) = 1/2 × 1/6 = 1/12.",
+        },
+      },
+      {
+        heading: "Probabilidade condicional",
+        body: [
+          "A probabilidade condicional P(A|B) é a probabilidade de A ocorrer, sabendo que B já ocorreu: P(A|B) = P(A e B) / P(B).",
+        ],
+      },
+    ],
+    exercises: [
+      {
+        id: "q1",
+        prompt: "Ao lançar um dado, qual a probabilidade de sair 2 ou 5? (formato a/b, simplificado)",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "1/3",
+        explanation: "Mutuamente exclusivos: P(2)+P(5) = 1/6+1/6 = 2/6 = 1/3.",
+      },
+      {
+        id: "q2",
+        prompt: "Ao lançar uma moeda e um dado ao mesmo tempo, qual a probabilidade de sair cara e o número 6? (formato a/b)",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "1/12",
+        explanation: "Eventos independentes: P(cara) × P(6) = 1/2 × 1/6 = 1/12.",
+      },
+      {
+        id: "q3",
+        prompt:
+          "Numa turma, 60% dos alunos jogam futebol e 30% jogam vôlei (eventos independentes). Qual a probabilidade (em %) de um aluno jogar futebol e vôlei?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "18",
+        explanation: "P(futebol e vôlei) = 0,6 × 0,3 = 0,18 = 18%.",
+      },
+      {
+        id: "q4",
+        prompt: "Ao lançar um dado, os eventos 'sair número par' e 'sair número 5' são mutuamente exclusivos?",
+        type: "multiple-choice",
+        difficulty: "medio",
+        options: ["Sim", "Não"],
+        answer: "Sim",
+        explanation: "5 não é par, então os dois eventos nunca ocorrem ao mesmo tempo num único lançamento.",
+      },
+      {
+        id: "q5",
+        prompt:
+          "Numa urna com 5 bolas vermelhas e 5 azuis, tira-se uma bola, anota a cor e devolve à urna. Tira-se outra bola. Qual a probabilidade de as duas serem vermelhas? (formato a/b, simplificado)",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "1/4",
+        explanation: "Com reposição, os sorteios são independentes: 1/2 × 1/2 = 1/4.",
+      },
+      {
+        id: "q6",
+        prompt: "Qual é a fórmula da probabilidade condicional P(A|B)?",
+        type: "multiple-choice",
+        difficulty: "medio",
+        options: ["P(A e B) / P(B)", "P(A) × P(B)", "P(A) + P(B)", "P(A) - P(B)"],
+        answer: "P(A e B) / P(B)",
+        explanation: "A probabilidade condicional divide a probabilidade conjunta pela probabilidade da condição.",
+      },
+    ],
+  },
 ];
 
 export const estatisticaAvancadoTopics: Topic[] = [
@@ -2123,6 +2211,88 @@ export const estatisticaAvancadoTopics: Topic[] = [
         options: ["Sino (simétrico)", "Uniforme (retangular)", "Assimétrico à direita", "Bimodal"],
         answer: "Sino (simétrico)",
         explanation: "A distribuição normal tem a característica curva em forma de sino, simétrica em torno da média.",
+      },
+    ],
+  },
+  {
+    id: "intervalos-de-confianca",
+    title: "Intervalos de Confiança",
+    summary: "Estime um intervalo plausível para a média populacional, em vez de um único valor.",
+    minutes: 20,
+    theory: [
+      {
+        heading: "O que é um intervalo de confiança?",
+        body: [
+          "Em vez de estimar a média populacional com um único número, um intervalo de confiança dá uma faixa de valores plausíveis, associada a um nível de confiança (por exemplo, 95%).",
+        ],
+      },
+      {
+        heading: "Margem de erro",
+        body: [
+          "A margem de erro é E = z × (σ / √n), onde z é o escore-z do nível de confiança escolhido, σ é o desvio padrão e n é o tamanho da amostra.",
+        ],
+        example: {
+          problem: "Amostra com média 50, desvio padrão 10, n = 25 e z = 2",
+          solution: "E = z × (σ/√n) = 2 × (10/√25) = 2 × (10/5) = 2 × 2 = 4.",
+        },
+      },
+      {
+        heading: "Construindo o intervalo",
+        body: [
+          "O intervalo de confiança é: (média amostral - margem de erro) até (média amostral + margem de erro).",
+        ],
+      },
+    ],
+    exercises: [
+      {
+        id: "q1",
+        prompt: "Uma amostra tem média 50, desvio padrão 10 e tamanho 25. Usando z = 2, qual é a margem de erro?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "4",
+        explanation: "E = 2 × (10/√25) = 2 × (10/5) = 2 × 2 = 4.",
+      },
+      {
+        id: "q2",
+        prompt: "Com média amostral 50 e margem de erro 4, qual é o limite superior do intervalo de confiança?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "54",
+        explanation: "Limite superior = média + margem de erro = 50 + 4 = 54.",
+      },
+      {
+        id: "q3",
+        prompt: "Com média amostral 50 e margem de erro 4, qual é o limite inferior do intervalo de confiança?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "46",
+        explanation: "Limite inferior = média - margem de erro = 50 - 4 = 46.",
+      },
+      {
+        id: "q4",
+        prompt: "Uma amostra tem média 200, desvio padrão 20 e tamanho 100. Usando z = 2, qual é a margem de erro?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "4",
+        explanation: "E = 2 × (20/√100) = 2 × (20/10) = 2 × 2 = 4.",
+      },
+      {
+        id: "q5",
+        prompt: "Se o tamanho da amostra aumenta (mantendo o resto igual), o que acontece com a margem de erro?",
+        type: "multiple-choice",
+        difficulty: "medio",
+        options: ["Diminui", "Aumenta", "Não muda", "Fica negativa"],
+        answer: "Diminui",
+        explanation: "Como n está no denominador dentro da raiz, uma amostra maior reduz a margem de erro.",
+      },
+      {
+        id: "q6",
+        prompt: "Qual valor de z é normalmente usado para um nível de confiança de 95%?",
+        type: "multiple-choice",
+        difficulty: "medio",
+        options: ["1,96", "1", "2,58", "3"],
+        answer: "1,96",
+        explanation: "z ≈ 1,96 é o valor padrão associado a 95% de confiança numa distribuição normal.",
       },
     ],
   },

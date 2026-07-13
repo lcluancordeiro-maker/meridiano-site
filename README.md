@@ -19,8 +19,10 @@ de aplicativos.
   raiz, gráfico), também em 4 níveis de dificuldade. Mais tópicos
   (trigonometria, geometria analítica) entram nos próximos ciclos.
 - **Estatística** — trilha independente com 3 níveis (Iniciante:
-  medidas de tendência central; Intermediário: probabilidade básica;
-  Avançado: distribuição normal e escore-z).
+  medidas de tendência central; Intermediário: probabilidade básica e
+  regras de probabilidade; Avançado: distribuição normal, escore-z e
+  intervalos de confiança). Os níveis Intermediário e Avançado agora
+  têm 2 tópicos cada, em vez de 1 — mais volume de conteúdo pago.
 - **Programação & Machine Learning** — nova trilha independente,
   começando com "Lógica de Programação" (Programação — Iniciante):
   variáveis, comparações e condicionais, ensinados com pseudocódigo
@@ -278,6 +280,15 @@ resposta (`exercise.answer`) e confirma que o app marca como
 "Certinho!" — isto é, toda vez que um exercício é adicionado ou editado,
 rodar `npm run test:e2e` confere automaticamente que a correção
 continua funcionando para ele.
+
+Conteúdo em trilhas Premium (hoje, Estatística Intermediário/Avançado)
+não aparece nesse arquivo, porque a suíte não consegue logar como
+assinante neste ambiente de teste — o professor veria o paywall, não o
+exercício. Ao adicionar conteúdo a uma trilha Premium, vale a pena
+verificar manualmente rodando os testes com `premium: false`
+temporário no nível em questão (revertendo antes de commitar) — foi
+assim que "Regras de Probabilidade" e "Intervalos de Confiança" foram
+conferidos.
 
 O CI (`.github/workflows/ci.yml`) roda lint, testes unitários e e2e em
 todo push e pull request.
