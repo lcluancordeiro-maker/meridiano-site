@@ -187,6 +187,13 @@ de aplicativos.
   "Instalar o app" aparece automaticamente quando o navegador oferece a
   instalação (evento `beforeinstallprompt`), com botão de instalar e de
   dispensar (`src/components/InstallPwaPrompt.tsx`).
+- **Prontidão para produção**: `sitemap.xml`/`robots.txt` gerados a
+  partir do catálogo de trilhas, metadados OpenGraph/Twitter,
+  monitoramento de erros opcional (Sentry) e analytics de página sem
+  cookies opcional (compatível com Plausible) — todos inertes até você
+  configurar as variáveis de ambiente correspondentes. Domínio próprio
+  também documentado, mas é um passo manual (DNS/registrador) que só
+  você pode fazer. Veja "Preparando para produção" abaixo.
 
 ## Rodando localmente
 
@@ -406,6 +413,84 @@ evento `push` e mostra a notificação; clicar nela abre `/progresso`.
 Não testado com um envio real nesta sessão (sem chaves VAPID
 configuradas aqui) — teste com uma inscrição de verdade antes de
 agendar o cron em produção.
+
+## Preparando para produção
+
+Quatro peças de "prontidão para produção" — domínio próprio, SEO,
+monitoramento de erros e analytics. Todas são opcionais: sem
+configurar nada, o app funciona normalmente (só que com URLs
+`localhost` no sitemap e sem monitoramento/analytics).
+
+### Domínio próprio
+
+Isso depende do seu provedor de hospedagem e registrador de domínio —
+não é algo que dá pra automatizar por código. Passos gerais:
+
+1. Registre um domínio (ex.: em registro.br, se for `.com.br`).
+2. No painel do seu provedor de hospedagem (Vercel, Netlify etc.),
+   adicione o domínio ao projeto — ele vai indicar os registros DNS
+   (geralmente um `A`/`ALIAS` para a raiz e um `CNAME` para `www`).
+3. Cadastre esses registros no painel do seu registrador. A propagação
+   DNS pode levar de minutos a até 48h.
+4. Preencha `NEXT_PUBLIC_SITE_URL` com a URL final (ex.:
+   `https://meridianomatematica.com.br`) — o sitemap, o robots.txt e as
+   tags OpenGraph passam a usar essa URL em vez de `localhost:3000`.
+
+### SEO
+
+Sem configurar nada além do domínio acima, o app já expõe:
+
+- `/sitemap.xml` (`src/app/sitemap.ts`) — gerado a partir de
+  `src/data/curriculum.ts`: a home, páginas estáticas (calculadora,
+  quadro, etc.) e uma URL para cada trilha/tópico disponível
+  (`available: true`). Trilhas "em breve" ficam de fora.
+  `src/app/sitemap.test.ts` cobre esse comportamento.
+- `/robots.txt` (`src/app/robots.ts`) — libera tudo, exceto `/api/`,
+  `/auth/callback` e `/progresso` (uma página pessoal, sem valor pra
+  indexação), e aponta pro sitemap acima.
+- Metadados OpenGraph/Twitter e `metadataBase` (`src/app/layout.tsx`),
+  usados por WhatsApp/redes sociais ao gerar a prévia de um link
+  compartilhado, e um título com template (`%s — Meridiano
+  Matemática`) pra páginas que definirem seu próprio `title`.
+
+### Monitoramento de erros (Sentry)
+
+Sem configurar, nenhum evento é enviado — o app funciona normalmente.
+
+1. Crie uma conta e um projeto Next.js em [sentry.io](https://sentry.io)
+   e copie o DSN do projeto.
+2. Preencha `NEXT_PUBLIC_SENTRY_DSN` e `SENTRY_DSN` (mesmo valor nas
+   duas) em `.env.local`.
+3. Reinicie o servidor.
+
+Como funciona: `instrumentation-client.ts` (erros/performance no
+navegador) e `instrumentation.ts` (`register()` para erros de
+servidor, `onRequestError` para erros de Server Components/rotas)
+inicializam o SDK do Sentry só se o DSN estiver definido — sem ele,
+essas funções retornam imediatamente e o `@sentry/nextjs` fica
+instalado, mas inerte. Não testado com um DSN de verdade nesta sessão
+(sem conta Sentry configurada aqui) — verifique um erro de teste
+chegando ao painel antes de confiar no monitoramento em produção.
+
+### Analytics
+
+Sem configurar, nenhum script de analytics é carregado. O app suporta
+qualquer serviço compatível com o formato de script do
+[Plausible](https://plausible.io) (cookieless, sem consentimento de
+cookies necessário) — incluindo instâncias próprias/[Umami](https://umami.is)
+que imitam esse formato.
+
+1. Crie um site em plausible.io (ou rode sua própria instância) e
+   copie o domínio cadastrado lá (geralmente igual ao
+   `NEXT_PUBLIC_SITE_URL`, sem o `https://`).
+2. Preencha `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` em `.env.local`.
+3. Só se você hospedar seu próprio Plausible/Umami: preencha também
+   `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` apontando pro `script.js` do seu
+   servidor (sem essa variável, usa o script oficial do plausible.io).
+
+Como funciona: `src/components/Analytics.tsx` renderiza um `<Script>`
+carregando o `script.js` do Plausible só quando o domínio está
+configurado — sem ele, o componente não renderiza nada.
 
 ## Sobre as turmas
 

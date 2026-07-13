@@ -5,10 +5,12 @@ import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import CloudSyncInit from "@/components/CloudSyncInit";
 import InstallPwaPrompt from "@/components/InstallPwaPrompt";
 import TutorChat from "@/components/TutorChat";
+import Analytics from "@/components/Analytics";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import { getServerLocale } from "@/i18n/getServerLocale";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { SITE_URL } from "@/lib/siteUrl";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -20,10 +22,16 @@ const sora = Sora({
   subsets: ["latin"],
 });
 
+const description =
+  "Aprenda matemática do ensino fundamental ao superior, com teoria e exercícios interativos.";
+
 export const metadata: Metadata = {
-  title: "Meridiano Matemática",
-  description:
-    "Aprenda matemática do ensino fundamental ao superior, com teoria e exercícios interativos.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Meridiano Matemática",
+    template: "%s — Meridiano Matemática",
+  },
+  description,
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -37,6 +45,19 @@ export const metadata: Metadata = {
       { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: "Meridiano Matemática",
+    title: "Meridiano Matemática",
+    description,
+    url: "/",
+  },
+  twitter: {
+    card: "summary",
+    title: "Meridiano Matemática",
+    description,
   },
 };
 
@@ -68,6 +89,7 @@ export default async function RootLayout({
         </LanguageProvider>
         <ServiceWorkerRegister />
         <CloudSyncInit />
+        <Analytics />
       </body>
     </html>
   );
