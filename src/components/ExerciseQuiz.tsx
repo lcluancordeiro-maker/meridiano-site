@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import type { Exercise } from "@/data/curriculum";
+import type { Difficulty, Exercise } from "@/data/curriculum";
 import { saveTopicProgress } from "@/lib/progress";
 import {
   BADGES,
-  XP_PER_CORRECT,
+  DIFFICULTY_XP,
   getGamificationSnapshot,
   recordCorrectAnswer,
   recordTopicCompletion,
@@ -19,12 +19,15 @@ function normalize(value: string): string {
 export default function ExerciseQuiz({
   levelId,
   topicId,
+  difficulty,
   exercises,
 }: {
   levelId: string;
   topicId: string;
+  difficulty: Difficulty;
   exercises: Exercise[];
 }) {
+  const xpPerCorrect = DIFFICULTY_XP[difficulty];
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState("");
   const [checked, setChecked] = useState(false);
@@ -40,16 +43,16 @@ export default function ExerciseQuiz({
     setChecked(true);
     if (normalize(selected) === normalize(exercise.answer)) {
       setScore((s) => s + 1);
-      recordCorrectAnswer();
+      recordCorrectAnswer(difficulty);
     }
   }
 
   function handleNext() {
     const isLast = index === exercises.length - 1;
     if (isLast) {
-      saveTopicProgress(levelId, topicId, score, exercises.length);
+      saveTopicProgress(levelId, topicId, difficulty, score, exercises.length);
       const badgesBefore = getGamificationSnapshot().unlockedBadges;
-      recordTopicCompletion(levelId, topicId, score, exercises.length);
+      recordTopicCompletion(levelId, topicId, difficulty, score, exercises.length);
       const badgesAfter = getGamificationSnapshot().unlockedBadges;
       setNewBadges(badgesAfter.filter((id) => !badgesBefore.includes(id)));
       setFinished(true);
@@ -85,7 +88,7 @@ export default function ExerciseQuiz({
             : "Bom começo — revise a teoria e tente de novo para fixar o conteúdo."}
         </p>
         <p className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
-          +{score * XP_PER_CORRECT} XP nesta tentativa
+          +{score * xpPerCorrect} XP nesta tentativa
         </p>
         {newBadges.length > 0 && (
           <div className="mt-6 flex flex-col items-center gap-2">
@@ -194,7 +197,7 @@ export default function ExerciseQuiz({
             {isCorrect ? "Certinho!" : `Resposta correta: ${exercise.answer}`}
             {isCorrect && (
               <span className="rounded-full bg-white/60 px-2 py-0.5 text-xs font-bold text-success">
-                +{XP_PER_CORRECT} XP
+                +{xpPerCorrect} XP
               </span>
             )}
           </p>

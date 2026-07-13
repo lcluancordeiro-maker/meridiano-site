@@ -1,9 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import type { Topic } from "@/data/curriculum";
+import { DIFFICULTY_ORDER, type Topic } from "@/data/curriculum";
 import { useTopicProgress } from "@/lib/useTopicProgress";
-import ProgressBar from "./ProgressBar";
+
+function TierDot({
+  levelId,
+  topicId,
+  difficulty,
+}: {
+  levelId: string;
+  topicId: string;
+  difficulty: (typeof DIFFICULTY_ORDER)[number];
+}) {
+  const progress = useTopicProgress(levelId, topicId, difficulty);
+  return (
+    <span
+      title={difficulty}
+      className={`h-2 w-2 rounded-full ${progress?.completed ? "bg-success" : "bg-border"}`}
+      aria-hidden
+    />
+  );
+}
 
 export default function TopicCard({
   levelId,
@@ -12,10 +30,6 @@ export default function TopicCard({
   levelId: string;
   topic: Topic;
 }) {
-  const progress = useTopicProgress(levelId, topic.id);
-
-  const ratio = progress ? progress.score / progress.total : 0;
-
   return (
     <Link
       href={`/trilha/${levelId}/${topic.id}`}
@@ -25,22 +39,17 @@ export default function TopicCard({
         <h3 className="font-display text-lg font-semibold text-foreground">
           {topic.title}
         </h3>
-        {progress?.completed && (
-          <span className="shrink-0 rounded-full bg-success-bg px-2.5 py-1 text-xs font-semibold text-success">
-            Concluído
-          </span>
-        )}
       </div>
       <p className="text-sm leading-relaxed text-muted">{topic.summary}</p>
-      <div className="mt-auto flex flex-col gap-2">
-        <ProgressBar value={progress ? ratio : 0} />
-        <div className="flex items-center justify-between text-xs text-muted">
-          <span>~{topic.minutes} min</span>
-          <span>
-            {progress
-              ? `${progress.score}/${progress.total} acertos`
-              : `${topic.exercises.length} exercícios`}
-          </span>
+      <div className="mt-auto flex items-center justify-between text-xs text-muted">
+        <span>~{topic.minutes} min</span>
+        <div className="flex items-center gap-2">
+          <span>Níveis:</span>
+          <div className="flex gap-1">
+            {DIFFICULTY_ORDER.map((d) => (
+              <TierDot key={d} levelId={levelId} topicId={topic.id} difficulty={d} />
+            ))}
+          </div>
         </div>
       </div>
     </Link>

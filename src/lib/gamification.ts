@@ -1,4 +1,5 @@
-import { fundamental2Topics } from "@/data/curriculum";
+import { DIFFICULTY_ORDER, fundamental2Topics, type Difficulty } from "@/data/curriculum";
+import { getAllProgressSnapshot } from "./progress";
 
 export type Badge = {
   id: string;
@@ -38,6 +39,18 @@ export const BADGES: Badge[] = [
     description: "Estude 7 dias seguidos.",
     icon: "🔥",
   },
+  {
+    id: "olympian",
+    name: "Nível Olimpíada",
+    description: "Acerte 100% de um exercício nível olimpíada.",
+    icon: "🥇",
+  },
+  {
+    id: "all-difficulties",
+    name: "Todos os níveis",
+    description: "Complete os 4 níveis de dificuldade de um mesmo tópico.",
+    icon: "🎓",
+  },
 ];
 
 export type GamificationState = {
@@ -53,8 +66,13 @@ export type GamificationState = {
 };
 
 const STORAGE_KEY = "meridiano-math-gamification";
-export const XP_PER_CORRECT = 10;
 export const XP_TOPIC_COMPLETION_BONUS = 50;
+export const DIFFICULTY_XP: Record<Difficulty, number> = {
+  facil: 5,
+  medio: 10,
+  dificil: 15,
+  olimpiada: 25,
+};
 
 function emptyState(): GamificationState {
   return {
@@ -151,9 +169,9 @@ function addXp(state: GamificationState, amount: number) {
 }
 
 /** Call once per correct exercise answer. */
-export function recordCorrectAnswer(): void {
+export function recordCorrectAnswer(difficulty: Difficulty): void {
   const state = { ...ensureCache() };
-  addXp(state, XP_PER_CORRECT);
+  addXp(state, DIFFICULTY_XP[difficulty]);
   commit(state);
 }
 
@@ -163,6 +181,7 @@ const FUNDAMENTAL_2_TOPIC_IDS = fundamental2Topics.map((t) => t.id);
 export function recordTopicCompletion(
   levelId: string,
   topicId: string,
+  difficulty: Difficulty,
   score: number,
   total: number
 ): void {
@@ -187,6 +206,9 @@ export function recordTopicCompletion(
 
   if (total > 0 && score === total) {
     unlockBadge(state, "perfect-score");
+    if (difficulty === "olimpiada") {
+      unlockBadge(state, "olympian");
+    }
   }
 
   if (
@@ -194,6 +216,14 @@ export function recordTopicCompletion(
     FUNDAMENTAL_2_TOPIC_IDS.every((id) => state.completedTopics.includes(`fundamental-2/${id}`))
   ) {
     unlockBadge(state, "fundamental-2-complete");
+  }
+
+  const allProgress = getAllProgressSnapshot();
+  const allDifficultiesDone = DIFFICULTY_ORDER.every(
+    (d) => allProgress[`${levelId}/${topicId}/${d}`]?.completed
+  );
+  if (allDifficultiesDone) {
+    unlockBadge(state, "all-difficulties");
   }
 
   commit(state);

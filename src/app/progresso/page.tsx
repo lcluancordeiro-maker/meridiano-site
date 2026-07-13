@@ -8,7 +8,7 @@ import XpTrendChart from "@/components/charts/XpTrendChart";
 import { useGamification } from "@/lib/useGamification";
 import { useAllProgress } from "@/lib/useAllProgress";
 import { levelFromXp, getXpLast } from "@/lib/gamification";
-import { fundamental2Topics } from "@/data/curriculum";
+import { DIFFICULTY_ORDER, fundamental2Topics } from "@/data/curriculum";
 
 const TOPIC_SHORT_LABELS: Record<string, string> = {
   "numeros-inteiros": "Inteiros",
@@ -38,10 +38,18 @@ export default function ProgressoPage() {
   const xpTrend = getXpLast(7);
 
   const accuracyData = fundamental2Topics.map((topic, i) => {
-    const p = allProgress[`fundamental-2/${topic.id}`];
+    let score = 0;
+    let total = 0;
+    for (const d of DIFFICULTY_ORDER) {
+      const p = allProgress[`fundamental-2/${topic.id}/${d}`];
+      if (p) {
+        score += p.score;
+        total += p.total;
+      }
+    }
     return {
       label: TOPIC_SHORT_LABELS[topic.id] ?? topic.title,
-      value: p ? Math.round((p.score / p.total) * 100) : null,
+      value: total > 0 ? Math.round((score / total) * 100) : null,
       color: TOPIC_COLORS[i % TOPIC_COLORS.length],
     };
   });

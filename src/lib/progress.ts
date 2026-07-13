@@ -1,3 +1,5 @@
+import type { Difficulty } from "@/data/curriculum";
+
 export type TopicProgress = {
   completed: boolean;
   score: number;
@@ -24,8 +26,8 @@ function writeStore(store: ProgressStore) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
 }
 
-function topicKey(levelId: string, topicId: string): string {
-  return `${levelId}/${topicId}`;
+function topicKey(levelId: string, topicId: string, difficulty: Difficulty): string {
+  return `${levelId}/${topicId}/${difficulty}`;
 }
 
 // In-memory cache so useSyncExternalStore can return a stable reference
@@ -51,9 +53,10 @@ export function subscribeProgress(listener: () => void): () => void {
 
 export function getTopicProgressSnapshot(
   levelId: string,
-  topicId: string
+  topicId: string,
+  difficulty: Difficulty
 ): TopicProgress | undefined {
-  return ensureCache()[topicKey(levelId, topicId)];
+  return ensureCache()[topicKey(levelId, topicId, difficulty)];
 }
 
 export function getAllProgressSnapshot(): ProgressStore {
@@ -63,10 +66,11 @@ export function getAllProgressSnapshot(): ProgressStore {
 export function saveTopicProgress(
   levelId: string,
   topicId: string,
+  difficulty: Difficulty,
   score: number,
   total: number
 ): void {
-  const key = topicKey(levelId, topicId);
+  const key = topicKey(levelId, topicId, difficulty);
   const value: TopicProgress = {
     completed: true,
     score,

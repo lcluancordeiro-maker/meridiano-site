@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import ExerciseQuiz from "@/components/ExerciseQuiz";
+import PracticeSection from "@/components/PracticeSection";
 import FunctionGrapher from "@/components/FunctionGrapher";
 import { fundamental2Topics, getLevel, getTopic } from "@/data/curriculum";
 
@@ -84,7 +84,7 @@ export default async function TopicPage({
           <h2 className="mb-4 font-display text-xl font-semibold text-foreground">
             Praticar
           </h2>
-          <ExerciseQuiz
+          <PracticeSection
             levelId={level.id}
             topicId={topic.id}
             exercises={topic.exercises}
