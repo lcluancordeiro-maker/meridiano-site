@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   DIFFICULTY_ORDER,
+  econometriaTopics,
   estatisticaAvancadoTopics,
   estatisticaInicianteTopics,
   estatisticaIntermediarioTopics,
@@ -9,11 +10,14 @@ import {
   getTopic,
   getTopicsForLevel,
   levels,
+  machineLearningInicianteTopics,
   matematicaFinanceiraAvancadoTopics,
   matematicaFinanceiraInicianteTopics,
   medioTopics,
+  programacaoAvancadoTopics,
   programacaoInicianteTopics,
   programacaoIntermediarioTopics,
+  superiorTopics,
   type Topic,
 } from "./curriculum";
 
@@ -27,6 +31,10 @@ const ALL_TRACKS: { levelId: string; topics: Topic[] }[] = [
   { levelId: "programacao-intermediario", topics: programacaoIntermediarioTopics },
   { levelId: "matematica-financeira-iniciante", topics: matematicaFinanceiraInicianteTopics },
   { levelId: "matematica-financeira-avancado", topics: matematicaFinanceiraAvancadoTopics },
+  { levelId: "superior", topics: superiorTopics },
+  { levelId: "econometria-iniciante", topics: econometriaTopics },
+  { levelId: "programacao-avancado", topics: programacaoAvancadoTopics },
+  { levelId: "machine-learning-iniciante", topics: machineLearningInicianteTopics },
 ];
 
 describe("levels", () => {
@@ -73,6 +81,13 @@ describe("levels", () => {
   it("keeps Matemática Financeira — Iniciante free and gates the Avançado tier behind Premium", () => {
     expect(getLevel("matematica-financeira-iniciante")?.premium).toBe(false);
     expect(getLevel("matematica-financeira-avancado")?.premium).toBe(true);
+  });
+
+  it("makes Superior, Econometria, Programação Avançado and Machine Learning available (all Premium)", () => {
+    for (const id of ["superior", "econometria-iniciante", "programacao-avancado", "machine-learning-iniciante"]) {
+      expect(getLevel(id)?.available, id).toBe(true);
+      expect(getLevel(id)?.premium, id).toBe(true);
+    }
   });
 });
 

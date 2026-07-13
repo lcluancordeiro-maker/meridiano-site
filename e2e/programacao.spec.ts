@@ -11,10 +11,16 @@ test.describe("Programação & Machine Learning track", () => {
       "/trilha/programacao-iniciante"
     );
 
-    // Advanced/ML levels are unavailable ("em breve") — no link yet.
-    const mlHeading = page.getByRole("heading", { name: "Machine Learning — Introdução", exact: true });
-    await expect(mlHeading).toBeVisible();
-    await expect(page.locator('a[href="/trilha/machine-learning-iniciante"]')).toHaveCount(0);
+    // Programação Avançado and Machine Learning are available now, but
+    // Premium — the link exists and leads to the paywall (see paywall.spec.ts).
+    await expect(page.getByRole("link", { name: /Machine Learning — Introdução/ })).toHaveAttribute(
+      "href",
+      "/trilha/machine-learning-iniciante"
+    );
+    await expect(page.getByRole("link", { name: /Programação — Avançado/ })).toHaveAttribute(
+      "href",
+      "/trilha/programacao-avancado"
+    );
   });
 
   test("the intro topic teaches and quizzes pseudocode with line breaks preserved", async ({ page }) => {

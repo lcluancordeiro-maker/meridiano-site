@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import DrawingCanvas, { type DrawingCanvasHandle, type Tool } from "@/components/DrawingCanvas";
 import SolutionDisplay from "@/components/SolutionDisplay";
 import type { PhotoSolution } from "@/lib/photoSolve";
 import { errorMessageFor } from "@/lib/photoSolveErrors";
 import { useTranslation } from "@/i18n/LanguageContext";
+
+const AUTO_ANALYZE_DEBOUNCE_MS = 2000;
 
 export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
   const { dict } = useTranslation();
@@ -26,12 +28,19 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
   ];
 
   const canvasRef = useRef<DrawingCanvasHandle>(null);
+  const autoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [color, setColor] = useState(COLORS[0].value);
   const [lineWidth, setLineWidth] = useState(LINE_WIDTHS[1].value);
   const [tool, setTool] = useState<Tool>("pen");
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
+  const statusRef = useRef(status);
   const [errorText, setErrorText] = useState<string | null>(null);
   const [solution, setSolution] = useState<PhotoSolution | null>(null);
+  const [autoAnalyze, setAutoAnalyze] = useState(false);
+
+  useEffect(() => {
+    statusRef.current = status;
+  }, [status]);
 
   function selectColor(value: string) {
     setColor(value);
@@ -50,7 +59,7 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
     });
   }
 
-  async function handleResolve() {
+  const handleResolve = useCallback(async () => {
     setStatus("loading");
     setErrorText(null);
     setSolution(null);
@@ -81,7 +90,21 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
       setErrorText(errorMessageFor(dict, undefined));
       setStatus("error");
     }
-  }
+  }, [dict]);
+
+  const handleStrokeEnd = useCallback(() => {
+    if (!autoAnalyze || !canResolve) return;
+    if (autoTimerRef.current) clearTimeout(autoTimerRef.current);
+    autoTimerRef.current = setTimeout(() => {
+      if (statusRef.current !== "loading") void handleResolve();
+    }, AUTO_ANALYZE_DEBOUNCE_MS);
+  }, [autoAnalyze, canResolve, handleResolve]);
+
+  useEffect(() => {
+    return () => {
+      if (autoTimerRef.current) clearTimeout(autoTimerRef.current);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col gap-4">
@@ -145,7 +168,14 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
         </div>
       </div>
 
-      <DrawingCanvas ref={canvasRef} color={color} lineWidth={lineWidth} tool={tool} ariaLabel={quadro.title} />
+      <DrawingCanvas
+        ref={canvasRef}
+        color={color}
+        lineWidth={lineWidth}
+        tool={tool}
+        ariaLabel={quadro.title}
+        onStrokeEnd={handleStrokeEnd}
+      />
 
       <div className="flex flex-wrap items-center gap-3">
         <button
@@ -157,14 +187,25 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
         </button>
 
         {canResolve ? (
-          <button
-            type="button"
-            onClick={handleResolve}
-            disabled={status === "loading"}
-            className="rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {status === "loading" ? quadro.analisando : quadro.resolverIA}
-          </button>
+          <>
+            <button
+              type="button"
+              onClick={handleResolve}
+              disabled={status === "loading"}
+              className="rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {status === "loading" ? quadro.analisando : quadro.resolverIA}
+            </button>
+            <label className="flex items-center gap-2 text-sm text-muted">
+              <input
+                type="checkbox"
+                checked={autoAnalyze}
+                onChange={(e) => setAutoAnalyze(e.target.checked)}
+                className="h-4 w-4 rounded border-border accent-[var(--color-primary)]"
+              />
+              {quadro.autoAnalisar}
+            </label>
+          </>
         ) : (
           <p className="text-sm text-muted">
             <Link href="/entrar" className="font-semibold text-primary hover:underline">

@@ -15,6 +15,11 @@ test.describe("quadro de rascunho", () => {
     await expect(page.getByRole("img", { name: "Quadro de rascunho" })).toBeVisible();
     await expect(page.getByText("Faça login")).toBeVisible();
     await expect(page.getByRole("button", { name: "Resolver com IA" })).toHaveCount(0);
+    // The auto-analyze toggle is gated behind the same canResolve check — no
+    // point offering it to a guest who can't call the AI resolve endpoint.
+    // The debounced auto-trigger itself needs a logged-in session to exercise
+    // end-to-end, which this sandbox can't authenticate (see e2e/auth.spec.ts).
+    await expect(page.getByText("Analisar automaticamente ao pausar")).toHaveCount(0);
   });
 
   test("drawing a stroke and downloading produces a PNG file", async ({ page }) => {

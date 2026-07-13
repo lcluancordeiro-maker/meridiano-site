@@ -78,6 +78,7 @@ export type Dictionary = {
     baixarPng: string;
     resolverIA: string;
     analisando: string;
+    autoAnalisar: string;
     facaLogin: string;
     paraResolver: string;
     borracha: string;
@@ -166,6 +167,12 @@ export type Dictionary = {
     installBody: string;
     installButton: string;
     dismissButton: string;
+    notificationsOnBody: string;
+    notificationsOffBody: string;
+    notificationsEnableButton: string;
+    notificationsDisableButton: string;
+    notificationsDenied: string;
+    notificationsError: string;
   };
 };
 
@@ -192,7 +199,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       verTrilhas: "Ver trilhas disponíveis",
       comecarFundamental2: "Começar Fundamental II",
       escolhaNivel: "Escolha seu nível de ensino",
-      niveisDisponiveis: "Já disponíveis: Ensino Fundamental II e Ensino Médio — os demais níveis chegam em breve.",
+      niveisDisponiveis: "Já disponíveis: Ensino Fundamental II, Ensino Médio e Ensino Superior — o Fundamental I chega em breve.",
       estatisticaHeading: "Estatística",
       estatisticaSubtitle: "Uma trilha independente, organizada em três níveis — do descritivo ao inferencial.",
       programacaoHeading: "Programação & Machine Learning",
@@ -252,6 +259,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       baixarPng: "Baixar PNG",
       resolverIA: "Resolver com IA",
       analisando: "Analisando...",
+      autoAnalisar: "Analisar automaticamente ao pausar",
       facaLogin: "Faça login",
       paraResolver: "para pedir a solução do que você desenhou.",
       borracha: "Borracha",
@@ -340,6 +348,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       installBody: "Adicione o Meridiano Matemática à tela inicial para acesso rápido, em tela cheia e offline.",
       installButton: "Instalar",
       dismissButton: "Agora não",
+      notificationsOnBody: "Lembretes de sequência ativados — avisamos quando sua sequência estiver em risco.",
+      notificationsOffBody: "Ative lembretes para não perder sua sequência de dias praticando.",
+      notificationsEnableButton: "Ativar lembretes",
+      notificationsDisableButton: "Desativar lembretes",
+      notificationsDenied: "Permissão de notificações negada — habilite nas configurações do navegador para ativar os lembretes.",
+      notificationsError: "Não foi possível ativar os lembretes agora. Tente novamente.",
     },
   },
   en: {
@@ -364,7 +378,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       verTrilhas: "See available tracks",
       comecarFundamental2: "Start Middle School",
       escolhaNivel: "Choose your grade level",
-      niveisDisponiveis: "Already available: Middle School and High School — other levels are coming soon.",
+      niveisDisponiveis: "Already available: Middle School, High School and College — Elementary School is coming soon.",
       estatisticaHeading: "Statistics",
       estatisticaSubtitle: "An independent track with three levels — from descriptive to inferential.",
       programacaoHeading: "Programming & Machine Learning",
@@ -424,6 +438,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       baixarPng: "Download PNG",
       resolverIA: "Solve with AI",
       analisando: "Analyzing...",
+      autoAnalisar: "Auto-analyze on pause",
       facaLogin: "Log in",
       paraResolver: "to ask for the solution to what you drew.",
       borracha: "Eraser",
@@ -512,6 +527,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       installBody: "Add Meridiano Matemática to your home screen for quick, full-screen, offline access.",
       installButton: "Install",
       dismissButton: "Not now",
+      notificationsOnBody: "Streak reminders are on — we'll warn you when your streak is at risk.",
+      notificationsOffBody: "Turn on reminders so you never lose your practice streak.",
+      notificationsEnableButton: "Enable reminders",
+      notificationsDisableButton: "Disable reminders",
+      notificationsDenied: "Notification permission denied — enable it in your browser settings to turn on reminders.",
+      notificationsError: "Couldn't enable reminders right now. Please try again.",
     },
   },
   es: {
@@ -536,7 +557,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       verTrilhas: "Ver rutas disponibles",
       comecarFundamental2: "Empezar Secundaria",
       escolhaNivel: "Elige tu nivel educativo",
-      niveisDisponiveis: "Ya disponibles: Secundaria y Bachillerato — los demás niveles llegan pronto.",
+      niveisDisponiveis: "Ya disponibles: Secundaria, Bachillerato y Universidad — Primaria llega pronto.",
       estatisticaHeading: "Estadística",
       estatisticaSubtitle: "Una ruta independiente, organizada en tres niveles — de lo descriptivo a lo inferencial.",
       programacaoHeading: "Programación & Machine Learning",
@@ -596,6 +617,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       baixarPng: "Descargar PNG",
       resolverIA: "Resolver con IA",
       analisando: "Analizando...",
+      autoAnalisar: "Analizar automáticamente al pausar",
       facaLogin: "Inicia sesión",
       paraResolver: "para pedir la solución de lo que dibujaste.",
       borracha: "Borrador",
@@ -684,6 +706,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       installBody: "Agrega Meridiano Matemática a tu pantalla de inicio para acceso rápido, a pantalla completa y sin conexión.",
       installButton: "Instalar",
       dismissButton: "Ahora no",
+      notificationsOnBody: "Recordatorios de racha activados — te avisamos cuando tu racha esté en riesgo.",
+      notificationsOffBody: "Activa los recordatorios para no perder tu racha de días practicando.",
+      notificationsEnableButton: "Activar recordatorios",
+      notificationsDisableButton: "Desactivar recordatorios",
+      notificationsDenied: "Permiso de notificaciones denegado — actívalo en la configuración del navegador para habilitar los recordatorios.",
+      notificationsError: "No pudimos activar los recordatorios ahora. Inténtalo de nuevo.",
     },
   },
 };

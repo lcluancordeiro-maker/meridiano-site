@@ -17,8 +17,8 @@ const MAX_UNDO_STEPS = 30;
 
 const DrawingCanvas = forwardRef<
   DrawingCanvasHandle,
-  { color: string; lineWidth: number; tool: Tool; ariaLabel: string }
->(function DrawingCanvas({ color, lineWidth, tool, ariaLabel }, ref) {
+  { color: string; lineWidth: number; tool: Tool; ariaLabel: string; onStrokeEnd?: () => void }
+>(function DrawingCanvas({ color, lineWidth, tool, ariaLabel, onStrokeEnd }, ref) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const undoStack = useRef<ImageData[]>([]);
     const isDrawing = useRef(false);
@@ -109,9 +109,11 @@ const DrawingCanvas = forwardRef<
     }
 
     function endStroke(event: React.PointerEvent<HTMLCanvasElement>) {
+      const wasDrawing = isDrawing.current;
       isDrawing.current = false;
       lastPoint.current = null;
       canvasRef.current?.releasePointerCapture(event.pointerId);
+      if (wasDrawing) onStrokeEnd?.();
     }
 
     return (

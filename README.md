@@ -29,26 +29,36 @@ de aplicativos.
   regras de probabilidade; Avançado: distribuição normal, escore-z e
   intervalos de confiança). Os níveis Intermediário e Avançado agora
   têm 2 tópicos cada, em vez de 1 — mais volume de conteúdo pago.
-- **Programação & Machine Learning** — trilha independente com 2
-  níveis disponíveis: "Lógica de Programação" (Programação —
-  Iniciante: variáveis, comparações, condicionais) e "Estruturas de
-  Repetição" (Programação — Intermediário: laços 'para'/'enquanto',
-  repetições aninhadas, um traço de Fibonacci no nível olimpíada) —
-  ambos ensinados com pseudocódigo (independente de linguagem) já que
-  o app não executa código de verdade; os exercícios pedem pra prever
-  o valor final de variáveis após um trecho de pseudocódigo, não pra
-  escrever código. Programação Avançado e Machine Learning —
-  Introdução aparecem como "em breve", já marcados como Premium para
-  quando forem lançados.
-- Fundamental I, Ensino Superior e Econometria aparecem como "em breve"
-  — a estrutura de dados (`src/data/curriculum.ts`) já suporta
-  adicionar novos níveis e tópicos sem mudar a arquitetura.
+- **Programação & Machine Learning** — trilha independente com 4
+  níveis disponíveis: "Lógica de Programação" (Iniciante: variáveis,
+  comparações, condicionais), "Estruturas de Repetição" (Intermediário:
+  laços 'para'/'enquanto', repetições aninhadas), "Orientação a
+  Objetos" (Avançado, Premium: classes, atributos, métodos,
+  encapsulamento) e "Fundamentos de Aprendizado Supervisionado"
+  (Machine Learning — Introdução, Premium: treino/teste, overfitting,
+  acurácia e matriz de confusão) — todos ensinados com pseudocódigo
+  (independente de linguagem) já que o app não executa código de
+  verdade; os exercícios pedem pra prever o valor final de variáveis
+  (ou calcular métricas) a partir de um enunciado, não pra escrever
+  código.
+- **Ensino Superior** (Premium): "Limites e Derivadas" — a porta de
+  entrada do Cálculo, com forma indeterminada, regra da potência e o
+  limite fundamental de sin(x)/x.
+- **Econometria** (Premium): "Regressão Linear Simples" — estimar
+  β0/β1 a partir de covariância e variância, prever valores e
+  interpretar o coeficiente de determinação (R²).
+- Fundamental I ainda aparece como "em breve" — a estrutura de dados
+  (`src/data/curriculum.ts`) já suporta adicionar novos níveis e
+  tópicos sem mudar a arquitetura.
 - **Calculadora gráfica** (`/calculadora`) com parser de expressões
   próprio (sem `eval`), zoom e navegação por arraste.
 - **Gamificação**: XP por resposta certa (escalado por dificuldade),
   níveis, sequência (streak) diária e conquistas.
 - **Dashboard de progresso** (`/progresso`) com gráficos de desempenho
-  por tópico e XP ao longo do tempo.
+  por tópico e XP ao longo do tempo. Quem está logado vê ali um botão
+  para ativar **lembretes de sequência por notificação push** — avisa
+  quando a sequência de dias praticando está prestes a quebrar. Veja
+  "Configurando notificações push" abaixo.
 - Progresso e gamificação salvos localmente no navegador
   (`localStorage`) — funciona sem conta (modo convidado).
 - **Contas (opcional)**: login/cadastro (`/entrar`, `/cadastro`) via
@@ -66,10 +76,13 @@ de aplicativos.
   com mouse, dedo ou caneta (cores, espessura, borracha, desfazer,
   baixar como PNG). Aberto a todos, sem conta; o botão "Resolver com
   IA" (que reaproveita o mesmo pipeline do "resolver por foto") exige
-  login. Reconhecimento de escrita à mão ao vivo (convertendo os
-  traços em equação enquanto o aluno escreve) é um item futuro — hoje
-  a IA analisa uma imagem estática do quadro, não os traços em tempo
-  real.
+  login. Quem está logado também pode ativar "Analisar
+  automaticamente ao pausar": 2 segundos depois do fim de um traço, o
+  quadro é enviado sozinho para a IA — sem precisar clicar no botão a
+  cada tentativa. Reconhecimento de escrita à mão *durante* o traço
+  (convertendo os traços em equação em tempo real, sem round-trip pra
+  API) continua sendo um item futuro maior — hoje a IA sempre analisa
+  uma imagem estática do quadro.
 - **Modo escuro**: alternância clara/escura no menu, com detecção da
   preferência do sistema e persistência em `localStorage`. Sem "flash"
   de tema errado ao carregar a página (script inline aplicado antes da
@@ -241,8 +254,8 @@ usuário tem acesso Premium.
 
 **Quais trilhas são Premium**: veja o campo `premium` de cada nível em
 `src/data/curriculum.ts`. Hoje são Estatística Intermediário e
-Avançado; Ensino Superior e Econometria (ainda "em breve") já nascem
-marcados como Premium para quando forem lançados.
+Avançado, Matemática Financeira Avançado, Ensino Superior, Econometria
+e Programação Avançado/Machine Learning.
 
 ### Formas de pagamento
 
@@ -273,6 +286,43 @@ método de pagamento em si, não do código:
 Nenhuma dessas duas formas foi testada com uma cobrança real nesta
 sessão (sem chaves da Stripe configuradas aqui) — teste no modo de
 teste da Stripe antes de ativar em produção.
+
+## Configurando notificações push
+
+Lembretes de sequência (streak) são opcionais — sem configurar, o
+botão de ativar fica oculto e o resto do app funciona normalmente.
+Requer contas (Supabase) já configuradas, porque a inscrição de push
+fica salva por usuário.
+
+1. Gere o par de chaves VAPID: `npx web-push generate-vapid-keys`.
+2. Preencha `NEXT_PUBLIC_VAPID_PUBLIC_KEY` e `VAPID_PRIVATE_KEY` em
+   `.env.local` com as chaves geradas, e `VAPID_SUBJECT` com um e-mail
+   ou URL de contato (ex.: `mailto:voce@exemplo.com`) — exigido pelo
+   protocolo Web Push.
+3. Rode `supabase/schema.sql` de novo no SQL Editor do Supabase (cria
+   a tabela `push_subscriptions`, se ainda não existir).
+4. Escolha um `CRON_SECRET` (qualquer string aleatória longa) e
+   preencha essa variável também.
+5. Configure um agendador externo para chamar, uma vez por dia,
+   `POST https://SEU_DOMINIO/api/push/send-streak-reminders` com o
+   header `x-cron-secret: <seu CRON_SECRET>`. Esse endpoint varre a
+   tabela `gamification_state` (via `service_role`) em busca de
+   usuários cuja sequência foi estendida ontem — ou seja, quebra hoje
+   se eles não praticarem — e envia um push a cada inscrição salva
+   deles, removendo automaticamente inscrições expiradas (410/404).
+   Qualquer agendador serve: um cron job de um provedor de hospedagem,
+   um workflow do GitHub Actions com `schedule:`, ou até um serviço
+   externo de "ping" HTTP diário.
+
+Como funciona no navegador: `/progresso` mostra um botão "Ativar
+lembretes" (`src/components/NotificationOptIn.tsx`) que pede permissão
+de notificação, assina o `PushManager` do navegador e salva a inscrição
+via `/api/push/subscribe`. O service worker (`public/sw.js`) escuta o
+evento `push` e mostra a notificação; clicar nela abre `/progresso`.
+
+Não testado com um envio real nesta sessão (sem chaves VAPID
+configuradas aqui) — teste com uma inscrição de verdade antes de
+agendar o cron em produção.
 
 ## Sobre as turmas
 
@@ -323,6 +373,7 @@ português.
 ## Testes
 
 ```bash
+npm run typecheck # checagem de tipos (tsc --noEmit)
 npm test          # testes unitários (Vitest) — lógica pura
 npm run test:watch
 npm run test:e2e  # testes end-to-end (Playwright) — builda, sobe o app e testa no navegador
@@ -349,8 +400,8 @@ temporário no nível em questão (revertendo antes de commitar) — foi
 assim que "Regras de Probabilidade" e "Intervalos de Confiança" foram
 conferidos.
 
-O CI (`.github/workflows/ci.yml`) roda lint, testes unitários e e2e em
-todo push e pull request.
+O CI (`.github/workflows/ci.yml`) roda lint, checagem de tipos, testes
+unitários e e2e em todo push e pull request.
 
 ## Estrutura
 
@@ -399,6 +450,15 @@ todo push e pull request.
 - `src/components/InstallPwaPrompt.tsx` — banner de instalação do PWA,
   captura o evento `beforeinstallprompt` e é renderizado globalmente no
   `src/app/layout.tsx`.
+- `src/lib/push/` — config (`isPushConfigured`), envio via `web-push`
+  (`server.ts`, VAPID); `src/components/NotificationOptIn.tsx` — botão
+  de ativar/desativar lembretes em `/progresso`; `src/app/api/push/` —
+  rotas de inscrição (`subscribe`, `unsubscribe`) e de envio
+  (`send-streak-reminders`, protegida por `CRON_SECRET` e disparada por
+  um agendador externo); `public/sw.js` — listeners `push` e
+  `notificationclick`.
+- `.github/workflows/ci.yml` — lint, checagem de tipos, testes
+  unitários e e2e em todo push/PR.
 - `e2e/` — testes end-to-end (Playwright).
 
 ## Adicionando conteúdo
