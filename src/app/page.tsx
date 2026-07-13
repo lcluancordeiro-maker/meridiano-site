@@ -45,8 +45,8 @@ export default function Home() {
             Escolha seu nível de ensino
           </h2>
           <p className="mt-2 text-muted">
-            Estamos começando pelo Ensino Fundamental II — os demais níveis
-            chegam em breve.
+            Já disponíveis: Ensino Fundamental II e Ensino Médio — os demais
+            níveis chegam em breve.
           </p>
         </div>
         <div className="grid gap-5 sm:grid-cols-2">

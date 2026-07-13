@@ -15,12 +15,15 @@ de aplicativos.
   equações do 2º grau, geometria plana), cada um com 24 exercícios
   divididos em 4 níveis de dificuldade (Fácil/Médio/Difícil/Olimpíada),
   escolhidos livremente pelo aluno.
+- **Ensino Médio** — começando com "Função do 1º Grau" (coeficientes,
+  raiz, gráfico), também em 4 níveis de dificuldade. Mais tópicos
+  (trigonometria, geometria analítica) entram nos próximos ciclos.
 - **Estatística** — trilha independente com 3 níveis (Iniciante:
   medidas de tendência central; Intermediário: probabilidade básica;
   Avançado: distribuição normal e escore-z).
-- Fundamental I, Ensino Médio, Ensino Superior e Econometria aparecem
-  como "em breve" — a estrutura de dados (`src/data/curriculum.ts`) já
-  suporta adicionar novos níveis e tópicos sem mudar a arquitetura.
+- Fundamental I, Ensino Superior e Econometria aparecem como "em breve"
+  — a estrutura de dados (`src/data/curriculum.ts`) já suporta
+  adicionar novos níveis e tópicos sem mudar a arquitetura.
 - **Calculadora gráfica** (`/calculadora`) com parser de expressões
   próprio (sem `eval`), zoom e navegação por arraste.
 - **Gamificação**: XP por resposta certa (escalado por dificuldade),

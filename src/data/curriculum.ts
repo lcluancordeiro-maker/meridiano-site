@@ -77,7 +77,7 @@ export const levels: Level[] = [
     name: "Ensino Médio",
     shortName: "Médio",
     description: "Funções, geometria analítica, trigonometria e estatística.",
-    available: false,
+    available: true,
     group: "serie",
   },
   {
@@ -2081,8 +2081,239 @@ export const estatisticaAvancadoTopics: Topic[] = [
   },
 ];
 
+export const medioTopics: Topic[] = [
+  {
+    id: "funcao-primeiro-grau",
+    title: "Função do 1º Grau",
+    summary:
+      "Aprenda a representar, interpretar e resolver problemas com funções afins f(x) = ax + b.",
+    minutes: 18,
+    graphExpressions: ["2x - 3"],
+    theory: [
+      {
+        heading: "O que é uma função do 1º grau?",
+        body: [
+          "Uma função do 1º grau (ou função afim) tem a forma f(x) = ax + b, com a ≠ 0.",
+          "O valor de a é chamado de coeficiente angular e o valor de b, de coeficiente linear.",
+        ],
+      },
+      {
+        heading: "Coeficiente angular e crescimento",
+        body: [
+          "Se a > 0, a função é crescente — conforme x aumenta, f(x) também aumenta.",
+          "Se a < 0, a função é decrescente — conforme x aumenta, f(x) diminui.",
+        ],
+        example: {
+          problem: "f(x) = 3x - 2",
+          solution: "Como a = 3 > 0, a função é crescente.",
+        },
+      },
+      {
+        heading: "Coeficiente linear",
+        body: [
+          "O coeficiente linear b é o valor de f(0) — é onde o gráfico da função corta o eixo y.",
+        ],
+        example: {
+          problem: "f(x) = -2x + 5",
+          solution: "f(0) = -2×0 + 5 = 5. A reta corta o eixo y no ponto (0, 5).",
+        },
+      },
+      {
+        heading: "Raiz (zero) da função",
+        body: [
+          "A raiz é o valor de x para o qual f(x) = 0. Para encontrá-la, resolva ax + b = 0, ou seja, x = -b/a.",
+          "Geometricamente, é o ponto onde a reta cruza o eixo x.",
+        ],
+        example: {
+          problem: "f(x) = 2x - 6",
+          solution: "2x - 6 = 0 → 2x = 6 → x = 3. A raiz é 3.",
+        },
+      },
+      {
+        heading: "Gráfico",
+        body: [
+          "O gráfico de uma função do 1º grau é sempre uma reta — por isso o nome 'afim', que preserva a estrutura linear.",
+        ],
+      },
+    ],
+    exercises: [
+      {
+        id: "f1",
+        prompt: "Dada f(x) = 2x + 3, qual o valor de f(2)?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "7",
+        explanation: "f(2) = 2×2 + 3 = 4 + 3 = 7.",
+      },
+      {
+        id: "f2",
+        prompt: "Dada f(x) = -x + 5, qual o valor de f(0)?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "5",
+        explanation: "f(0) = -0 + 5 = 5 — o coeficiente linear é o próprio f(0).",
+      },
+      {
+        id: "f3",
+        prompt: "Na função f(x) = 4x - 1, qual é o coeficiente angular (a)?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "4",
+        explanation: "Em f(x) = ax + b, o coeficiente angular é o número que multiplica x: a = 4.",
+      },
+      {
+        id: "f4",
+        prompt: "Na função f(x) = -3x + 7, qual é o coeficiente linear (b)?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "7",
+        explanation: "Em f(x) = ax + b, o coeficiente linear é o termo constante: b = 7.",
+      },
+      {
+        id: "f5",
+        prompt: "A função f(x) = 5x é crescente ou decrescente?",
+        type: "multiple-choice",
+        difficulty: "facil",
+        options: ["Crescente", "Decrescente"],
+        answer: "Crescente",
+        explanation: "Como a = 5 > 0, a função é crescente.",
+      },
+      {
+        id: "q1",
+        prompt: "Dada f(x) = 3x - 6, qual é a raiz (zero) da função?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "2",
+        explanation: "3x - 6 = 0 → 3x = 6 → x = 2.",
+      },
+      {
+        id: "q2",
+        prompt: "Dada f(x) = -2x + 8, qual é a raiz da função?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "4",
+        explanation: "-2x + 8 = 0 → -2x = -8 → x = 4.",
+      },
+      {
+        id: "q3",
+        prompt: "Qual o valor de f(3) para f(x) = 2x - 1?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "5",
+        explanation: "f(3) = 2×3 - 1 = 6 - 1 = 5.",
+      },
+      {
+        id: "q4",
+        prompt: "A reta f(x) = x + 4 corta o eixo y em qual ponto? Informe apenas o valor de y.",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "4",
+        explanation: "O ponto onde a reta corta o eixo y é (0, f(0)). f(0) = 0 + 4 = 4.",
+      },
+      {
+        id: "q5",
+        prompt: "Dada f(x) = -x + 10, para qual valor de x temos f(x) = 0?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "10",
+        explanation: "-x + 10 = 0 → x = 10.",
+      },
+      {
+        id: "d1",
+        prompt:
+          "Uma função do 1º grau passa pelos pontos (0, 3) e (1, 5). Qual é o coeficiente angular a?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "2",
+        explanation: "a = (variação de f) / (variação de x) = (5 - 3) / (1 - 0) = 2.",
+      },
+      {
+        id: "d2",
+        prompt:
+          "Uma função do 1º grau passa pelos pontos (0, -2) e (2, 4). Qual é o coeficiente angular a?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "3",
+        explanation: "a = (4 - (-2)) / (2 - 0) = 6 / 2 = 3.",
+      },
+      {
+        id: "d3",
+        prompt:
+          "Se f(1) = 5 e f(0) = 3 para uma função do 1º grau f(x) = ax + b, qual é o valor de a?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "2",
+        explanation: "f(1) - f(0) = (a×1 + b) - (a×0 + b) = a, então a = 5 - 3 = 2.",
+      },
+      {
+        id: "d4",
+        prompt: "A reta que passa por (2, 0) e (0, 6) tem qual coeficiente angular?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "-3",
+        explanation: "a = (6 - 0) / (0 - 2) = 6 / (-2) = -3.",
+      },
+      {
+        id: "d5",
+        prompt: "Para f(x) = ax + 2, sabendo que f(3) = 11, qual o valor de a?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "3",
+        explanation: "f(3) = 3a + 2 = 11 → 3a = 9 → a = 3.",
+      },
+      {
+        id: "o1",
+        prompt: "Uma função do 1º grau satisfaz f(2) = 7 e f(5) = 16. Qual é o valor de f(0)?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "1",
+        explanation:
+          "a = (16 - 7) / (5 - 2) = 9 / 3 = 3. De f(2) = 7: 3×2 + b = 7 → b = 1. Logo f(0) = b = 1.",
+      },
+      {
+        id: "o2",
+        prompt:
+          "Duas retas, f(x) = 2x + 1 e g(x) = -x + 7, se cruzam em um ponto. Qual é a coordenada x desse ponto?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "2",
+        explanation: "2x + 1 = -x + 7 → 3x = 6 → x = 2.",
+      },
+      {
+        id: "o3",
+        prompt:
+          "Duas retas, f(x) = 2x + 1 e g(x) = -x + 7, se cruzam em um ponto. Qual é a coordenada y desse ponto?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "5",
+        explanation: "No cruzamento, x = 2 (veja o exercício anterior). f(2) = 2×2 + 1 = 5.",
+      },
+      {
+        id: "o4",
+        prompt:
+          "Uma função do 1º grau tem raiz em x = 4 e passa pelo ponto (0, 8). Qual é o coeficiente angular a?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "-2",
+        explanation: "b = 8 (valor em x=0). Raiz: 4a + 8 = 0 → 4a = -8 → a = -2.",
+      },
+      {
+        id: "o5",
+        prompt:
+          "Numa função f(x) = ax + b, sabe-se que f(2) = 9 e que a soma a + b vale 5. Qual é o valor de b?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "1",
+        explanation:
+          "De f(2) = 9: 2a + b = 9. De a + b = 5: a = 5 - b. Substituindo: 2(5-b) + b = 9 → 10 - b = 9 → b = 1.",
+      },
+    ],
+  },
+];
+
 const TOPICS_BY_LEVEL: Record<string, Topic[]> = {
   "fundamental-2": fundamental2Topics,
+  medio: medioTopics,
   "estatistica-iniciante": estatisticaInicianteTopics,
   "estatistica-intermediario": estatisticaIntermediarioTopics,
   "estatistica-avancado": estatisticaAvancadoTopics,

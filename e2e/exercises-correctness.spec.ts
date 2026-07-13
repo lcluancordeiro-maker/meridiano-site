@@ -6,6 +6,7 @@ import {
   estatisticaInicianteTopics,
   estatisticaIntermediarioTopics,
   fundamental2Topics,
+  medioTopics,
   type Difficulty,
   type Exercise,
 } from "../src/data/curriculum";
@@ -20,6 +21,7 @@ import {
  */
 const TRACKS: { levelId: string; topicId: string; exercises: Exercise[] }[] = [
   ...fundamental2Topics.map((t) => ({ levelId: "fundamental-2", topicId: t.id, exercises: t.exercises })),
+  ...medioTopics.map((t) => ({ levelId: "medio", topicId: t.id, exercises: t.exercises })),
   ...estatisticaInicianteTopics.map((t) => ({
     levelId: "estatistica-iniciante",
     topicId: t.id,

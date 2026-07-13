@@ -9,11 +9,13 @@ import {
   getTopic,
   getTopicsForLevel,
   levels,
+  medioTopics,
   type Topic,
 } from "./curriculum";
 
 const ALL_TRACKS: { levelId: string; topics: Topic[] }[] = [
   { levelId: "fundamental-2", topics: fundamental2Topics },
+  { levelId: "medio", topics: medioTopics },
   { levelId: "estatistica-iniciante", topics: estatisticaInicianteTopics },
   { levelId: "estatistica-intermediario", topics: estatisticaIntermediarioTopics },
   { levelId: "estatistica-avancado", topics: estatisticaAvancadoTopics },
