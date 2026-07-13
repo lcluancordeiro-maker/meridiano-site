@@ -27,6 +27,9 @@ export default async function Navbar() {
           <Link href="/calculadora" className="hover:text-foreground transition-colors">
             Calculadora
           </Link>
+          <Link href="/foto" className="hover:text-foreground transition-colors">
+            Resolver por foto
+          </Link>
           <Link href="/progresso" className="hover:text-foreground transition-colors">
             Progresso
           </Link>

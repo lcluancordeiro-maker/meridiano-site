@@ -90,3 +90,53 @@ create policy "gamification_state_own"
   on public.gamification_state for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
+
+-- ---------------------------------------------------------------------
+-- photo_solve_usage: limite diário da funcionalidade "resolver por foto"
+-- (cada chamada tem custo real de API, então cada usuário tem uma cota).
+-- ---------------------------------------------------------------------
+create table if not exists public.photo_solve_usage (
+  user_id uuid not null references auth.users (id) on delete cascade,
+  usage_date date not null default current_date,
+  count integer not null default 0,
+  primary key (user_id, usage_date)
+);
+
+alter table public.photo_solve_usage enable row level security;
+
+drop policy if exists "photo_solve_usage_select_own" on public.photo_solve_usage;
+create policy "photo_solve_usage_select_own"
+  on public.photo_solve_usage for select
+  using (auth.uid() = user_id);
+
+-- Incrementa a contagem de hoje de forma atômica e recusa (exceção) quando
+-- o limite diário é ultrapassado. "security definer" porque o incremento em
+-- si não passa pela policy de select acima (não há policy de insert/update
+-- para o usuário comum) — a função é o único caminho de escrita.
+create or replace function public.increment_photo_usage(p_limit integer)
+returns integer
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  new_count integer;
+begin
+  if auth.uid() is null then
+    raise exception 'not_authenticated';
+  end if;
+
+  insert into public.photo_solve_usage (user_id, usage_date, count)
+  values (auth.uid(), current_date, 1)
+  on conflict (user_id, usage_date)
+  do update set count = public.photo_solve_usage.count + 1
+  returning count into new_count;
+
+  if new_count > p_limit then
+    raise exception 'daily_limit_exceeded';
+  end if;
+
+  return new_count;
+end;
+$$;
+
+grant execute on function public.increment_photo_usage(integer) to authenticated;

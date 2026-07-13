@@ -33,6 +33,10 @@ de aplicativos.
   Supabase Auth sincronizam XP, progresso e conquistas na nuvem entre
   dispositivos. Sem configurar o Supabase, o app roda 100% em modo
   local — nada quebra. Veja "Configurando contas (Supabase)" abaixo.
+- **Resolver por foto** (`/foto`, exclusivo para quem tem conta): o
+  aluno fotografa um problema de matemática e recebe a solução passo a
+  passo, gerada pela Claude API (visão). Veja "Configurando resolver
+  por foto" abaixo.
 
 ## Rodando localmente
 
@@ -70,6 +74,25 @@ nuvem, sem perda.
 > Nesta versão do Next.js, "Middleware" foi renomeado para "Proxy"
 > (arquivo `proxy.ts`, função `proxy`) — é isso que mantém a sessão do
 > Supabase atualizada a cada requisição.
+
+## Configurando resolver por foto
+
+Exige contas (Supabase) já configuradas (passo anterior) e uma chave da
+Claude API:
+
+1. Crie uma chave em [console.anthropic.com](https://console.anthropic.com).
+2. Adicione `ANTHROPIC_API_KEY=...` ao `.env.local`.
+3. Reinicie o servidor. O link "Resolver por foto" no topo passa a
+   funcionar para usuários logados.
+
+Sem `ANTHROPIC_API_KEY` configurada, a página `/foto` continua
+acessível mas a rota `/api/resolver-foto` responde com erro — o resto
+do app não é afetado.
+
+Cada usuário logado tem um limite de 15 fotos resolvidas por dia
+(`increment_photo_usage` em `supabase/schema.sql`, aplicado de forma
+atômica no banco) — proteção simples contra abuso, já que cada chamada
+tem custo real de API.
 
 ## Testes
 
@@ -110,6 +133,8 @@ todo push e pull request.
 - `src/lib/supabase/` — clientes Supabase (browser/server) e refresh de
   sessão; `src/lib/cloudSync.ts` — sincronização de progresso/XP com a
   nuvem quando logado.
+- `src/app/api/resolver-foto/route.ts` + `src/components/PhotoSolver.tsx`
+  — rota e UI de "resolver por foto" (Claude API com visão).
 - `supabase/schema.sql` — esquema do banco (tabelas + RLS).
 - `e2e/` — testes end-to-end (Playwright).
 
@@ -126,4 +151,5 @@ gabaritos continuam corretos.
 ## Stack
 
 Next.js (App Router) + TypeScript + Tailwind CSS. Contas/banco de dados:
-Supabase (opcional). Testes: Vitest (unitário) + Playwright (e2e).
+Supabase (opcional). IA (resolver por foto): Claude API (opcional).
+Testes: Vitest (unitário) + Playwright (e2e).
