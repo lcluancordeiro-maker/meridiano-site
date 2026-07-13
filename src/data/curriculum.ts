@@ -19,6 +19,12 @@ export type Exercise = {
   options?: string[];
   answer: string;
   explanation: string;
+  /** Shown instead of the correct answer on the first wrong attempt — a
+   * nudge pointing at the likely misconception, so the student gets a
+   * chance to self-correct before the answer is revealed on a second miss.
+   * Optional: exercises without one keep the original immediate-reveal
+   * behavior. */
+  commonMistakeHint?: string;
 };
 
 export type TheoryExample = {
@@ -2392,6 +2398,7 @@ export const medioTopics: Topic[] = [
         difficulty: "facil",
         answer: "7",
         explanation: "f(2) = 2×2 + 3 = 4 + 3 = 7.",
+        commonMistakeHint: "Substitua x=2 na expressão: primeiro calcule 2×2, depois some 3.",
       },
       {
         id: "f2",
@@ -2400,6 +2407,7 @@ export const medioTopics: Topic[] = [
         difficulty: "facil",
         answer: "5",
         explanation: "f(0) = -0 + 5 = 5 — o coeficiente linear é o próprio f(0).",
+        commonMistakeHint: "f(0) significa substituir x por 0 — qualquer número vezes 0 dá 0, então só sobra a constante.",
       },
       {
         id: "f3",
@@ -2408,6 +2416,7 @@ export const medioTopics: Topic[] = [
         difficulty: "facil",
         answer: "4",
         explanation: "Em f(x) = ax + b, o coeficiente angular é o número que multiplica x: a = 4.",
+        commonMistakeHint: "O coeficiente angular é o número que multiplica o x (com o sinal) — não confunda com o termo constante.",
       },
       {
         id: "f4",
@@ -2416,6 +2425,7 @@ export const medioTopics: Topic[] = [
         difficulty: "facil",
         answer: "7",
         explanation: "Em f(x) = ax + b, o coeficiente linear é o termo constante: b = 7.",
+        commonMistakeHint: "O coeficiente linear é o termo sem x (a constante) — não confunda com o coeficiente angular.",
       },
       {
         id: "f5",
@@ -2425,6 +2435,7 @@ export const medioTopics: Topic[] = [
         options: ["Crescente", "Decrescente"],
         answer: "Crescente",
         explanation: "Como a = 5 > 0, a função é crescente.",
+        commonMistakeHint: "Olhe o sinal do coeficiente angular a: positivo significa crescente, negativo significa decrescente.",
       },
       {
         id: "q1",
@@ -2433,6 +2444,7 @@ export const medioTopics: Topic[] = [
         difficulty: "medio",
         answer: "2",
         explanation: "3x - 6 = 0 → 3x = 6 → x = 2.",
+        commonMistakeHint: "Iguale a expressão a zero e isole x: primeiro passe o -6 para o outro lado, depois divida pelo coeficiente de x.",
       },
       {
         id: "q2",
@@ -2441,6 +2453,7 @@ export const medioTopics: Topic[] = [
         difficulty: "medio",
         answer: "4",
         explanation: "-2x + 8 = 0 → -2x = -8 → x = 4.",
+        commonMistakeHint: "Ao isolar x, cuidado com o sinal: dividir por um número negativo não muda a igualdade, só o valor final de x.",
       },
       {
         id: "q3",
@@ -2449,6 +2462,7 @@ export const medioTopics: Topic[] = [
         difficulty: "medio",
         answer: "5",
         explanation: "f(3) = 2×3 - 1 = 6 - 1 = 5.",
+        commonMistakeHint: "Substitua x=3 e resolva na ordem certa: multiplicação antes da subtração.",
       },
       {
         id: "q4",
@@ -2457,6 +2471,7 @@ export const medioTopics: Topic[] = [
         difficulty: "medio",
         answer: "4",
         explanation: "O ponto onde a reta corta o eixo y é (0, f(0)). f(0) = 0 + 4 = 4.",
+        commonMistakeHint: "O ponto onde a reta corta o eixo y é sempre (0, f(0)) — substitua x por 0, não por outro valor.",
       },
       {
         id: "q5",
@@ -2465,6 +2480,7 @@ export const medioTopics: Topic[] = [
         difficulty: "medio",
         answer: "10",
         explanation: "-x + 10 = 0 → x = 10.",
+        commonMistakeHint: "Iguale a expressão a 0 e isole x — preste atenção ao sinal ao mover o termo constante para o outro lado.",
       },
       {
         id: "d1",
@@ -2474,6 +2490,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "2",
         explanation: "a = (variação de f) / (variação de x) = (5 - 3) / (1 - 0) = 2.",
+        commonMistakeHint: "O coeficiente angular é a razão entre a variação de f(x) e a variação de x entre os pontos — não é só a diferença dos valores de y.",
       },
       {
         id: "d2",
@@ -2483,6 +2500,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "3",
         explanation: "a = (4 - (-2)) / (2 - 0) = 6 / 2 = 3.",
+        commonMistakeHint: "Subtrair um número negativo equivale a somar: 4 - (-2) vira 4 + 2.",
       },
       {
         id: "d3",
@@ -2492,6 +2510,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "2",
         explanation: "f(1) - f(0) = (a×1 + b) - (a×0 + b) = a, então a = 5 - 3 = 2.",
+        commonMistakeHint: "f(1) - f(0) elimina o termo b e sobra só a — não precisa descobrir b para achar a.",
       },
       {
         id: "d4",
@@ -2500,6 +2519,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "-3",
         explanation: "a = (6 - 0) / (0 - 2) = 6 / (-2) = -3.",
+        commonMistakeHint: "Cuidado com a ordem dos pontos: o denominador (variação de x) também pode ser negativo, o que inverte o sinal do resultado.",
       },
       {
         id: "d5",
@@ -2508,6 +2528,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "3",
         explanation: "f(3) = 3a + 2 = 11 → 3a = 9 → a = 3.",
+        commonMistakeHint: "Substitua x=3 na expressão com o coeficiente desconhecido a, iguale a 11, e isole a.",
       },
       {
         id: "o1",
@@ -2517,6 +2538,8 @@ export const medioTopics: Topic[] = [
         answer: "1",
         explanation:
           "a = (16 - 7) / (5 - 2) = 9 / 3 = 3. De f(2) = 7: 3×2 + b = 7 → b = 1. Logo f(0) = b = 1.",
+        commonMistakeHint:
+          "Primeiro ache o coeficiente angular usando os dois pontos, depois use um deles para achar b — e lembre que f(0) = b.",
       },
       {
         id: "o2",
@@ -2526,6 +2549,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "2",
         explanation: "2x + 1 = -x + 7 → 3x = 6 → x = 2.",
+        commonMistakeHint: "No cruzamento, as duas expressões valem o mesmo para o mesmo x — iguale f(x) = g(x) e resolva a equação.",
       },
       {
         id: "o3",
@@ -2535,6 +2559,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "5",
         explanation: "No cruzamento, x = 2 (veja o exercício anterior). f(2) = 2×2 + 1 = 5.",
+        commonMistakeHint: "Depois de achar o x do cruzamento, substitua esse valor em qualquer uma das duas funções — o resultado deve ser igual nas duas.",
       },
       {
         id: "o4",
@@ -2544,6 +2569,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "-2",
         explanation: "b = 8 (valor em x=0). Raiz: 4a + 8 = 0 → 4a = -8 → a = -2.",
+        commonMistakeHint: "'Raiz em x=4' significa que f(4) = 0 — monte essa equação usando o b que você já conhece.",
       },
       {
         id: "o5",
@@ -2554,6 +2580,8 @@ export const medioTopics: Topic[] = [
         answer: "1",
         explanation:
           "De f(2) = 9: 2a + b = 9. De a + b = 5: a = 5 - b. Substituindo: 2(5-b) + b = 9 → 10 - b = 9 → b = 1.",
+        commonMistakeHint:
+          "Você tem duas equações com duas incógnitas (a e b) — isole uma variável na segunda equação e substitua na primeira.",
       },
     ],
   },
@@ -3041,6 +3069,7 @@ export const medioTopics: Topic[] = [
         difficulty: "facil",
         answer: "5",
         explanation: "d = √(3² + 4²) = √(9+16) = √25 = 5.",
+        commonMistakeHint: "Use d = √((x2-x1)² + (y2-y1)²) — calcule cada diferença antes de elevar ao quadrado.",
       },
       {
         id: "f2",
@@ -3049,6 +3078,7 @@ export const medioTopics: Topic[] = [
         difficulty: "facil",
         answer: "4",
         explanation: "Mesma coordenada x — a distância é só a diferença em y: |5-1| = 4.",
+        commonMistakeHint: "Quando os pontos têm a mesma coordenada x, a distância é só o valor absoluto da diferença das coordenadas y.",
       },
       {
         id: "f3",
@@ -3057,6 +3087,7 @@ export const medioTopics: Topic[] = [
         difficulty: "facil",
         answer: "5",
         explanation: "(2+8)/2 = 5.",
+        commonMistakeHint: "O ponto médio é a média das coordenadas — some os dois valores de x e divida por 2.",
       },
       {
         id: "f4",
@@ -3065,6 +3096,7 @@ export const medioTopics: Topic[] = [
         difficulty: "facil",
         answer: "6",
         explanation: "(3+9)/2 = 6.",
+        commonMistakeHint: "Some as duas coordenadas y e divida por 2.",
       },
       {
         id: "f5",
@@ -3074,6 +3106,7 @@ export const medioTopics: Topic[] = [
         options: ["Crescente", "Decrescente"],
         answer: "Crescente",
         explanation: "Coeficiente angular positivo indica uma reta crescente.",
+        commonMistakeHint: "Reta crescente sobe da esquerda para a direita — isso acontece quando o coeficiente angular é positivo.",
       },
       {
         id: "q1",
@@ -3082,6 +3115,7 @@ export const medioTopics: Topic[] = [
         difficulty: "medio",
         answer: "5",
         explanation: "d = √((4-1)² + (6-2)²) = √(9+16) = √25 = 5.",
+        commonMistakeHint: "Calcule x2-x1 e y2-y1 primeiro, depois eleve cada um ao quadrado antes de somar.",
       },
       {
         id: "q2",
@@ -3090,6 +3124,7 @@ export const medioTopics: Topic[] = [
         difficulty: "medio",
         answer: "4",
         explanation: "(2+6)/2 = 4.",
+        commonMistakeHint: "Ponto médio em x: some as duas coordenadas x dos pontos e divida por 2.",
       },
       {
         id: "q3",
@@ -3098,6 +3133,7 @@ export const medioTopics: Topic[] = [
         difficulty: "medio",
         answer: "5",
         explanation: "(3+7)/2 = 5.",
+        commonMistakeHint: "Ponto médio em y: some as duas coordenadas y dos pontos e divida por 2.",
       },
       {
         id: "q4",
@@ -3106,6 +3142,7 @@ export const medioTopics: Topic[] = [
         difficulty: "medio",
         answer: "3",
         explanation: "m = (8-2)/(3-1) = 6/2 = 3.",
+        commonMistakeHint: "m = (variação de y) / (variação de x) — sempre y2-y1 dividido por x2-x1, na mesma ordem.",
       },
       {
         id: "q5",
@@ -3114,6 +3151,7 @@ export const medioTopics: Topic[] = [
         difficulty: "medio",
         answer: "2",
         explanation: "m = (5-1)/(2-0) = 4/2 = 2.",
+        commonMistakeHint: "Calcule y2-y1 e x2-x1 separadamente antes de dividir.",
       },
       {
         id: "d1",
@@ -3122,6 +3160,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "5",
         explanation: "d = √((2-(-2))² + (4-1)²) = √(16+9) = √25 = 5.",
+        commonMistakeHint: "Cuidado com os sinais negativos: subtrair um número negativo é como somar (2-(-2) vira 2+2).",
       },
       {
         id: "d2",
@@ -3130,6 +3169,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "2",
         explanation: "m = (6-(-2))/(3-(-1)) = 8/4 = 2.",
+        commonMistakeHint: "Subtrair um número negativo equivale a somar: 6-(-2) vira 6+2.",
       },
       {
         id: "d3",
@@ -3139,6 +3179,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "9",
         explanation: "y - 3 = 2(5-2) = 6, então y = 9.",
+        commonMistakeHint: "Substitua x=5 e os valores de A na fórmula y-y1=m(x-x1), resolva o lado direito primeiro e só depois isole y.",
       },
       {
         id: "d4",
@@ -3147,6 +3188,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "-1",
         explanation: "y - 4 = -1(6-1) = -5, então y = -1.",
+        commonMistakeHint: "Com m negativo, a reta desce — substitua x=6 na fórmula e resolva com atenção ao sinal de m.",
       },
       {
         id: "d5",
@@ -3155,6 +3197,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "-1",
         explanation: "(-4+2)/2 = -1.",
+        commonMistakeHint: "Some as coordenadas x dos dois pontos (uma delas é negativa) e divida por 2.",
       },
       {
         id: "o1",
@@ -3163,6 +3206,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "5",
         explanation: "d(B,C) = √((4-0)² + (0-3)²) = √(16+9) = √25 = 5.",
+        commonMistakeHint: "Identifique as coordenadas de B e C nesse triângulo e aplique a fórmula da distância entre eles, não entre A e outro ponto.",
       },
       {
         id: "o2",
@@ -3171,6 +3215,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "10",
         explanation: "(2 + Bx)/2 = 6, então 2 + Bx = 12, logo Bx = 10.",
+        commonMistakeHint: "Monte a equação do ponto médio (Ax+Bx)/2 = Mx e isole Bx.",
       },
       {
         id: "o3",
@@ -3179,6 +3224,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "5",
         explanation: "(5 + By)/2 = 5, então 5 + By = 10, logo By = 5.",
+        commonMistakeHint: "Monte a equação (Ay+By)/2 = My e isole By.",
       },
       {
         id: "o4",
@@ -3188,6 +3234,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "0",
         explanation: "m = (3-3)/(4-1) = 0/3 = 0 — uma reta horizontal.",
+        commonMistakeHint: "Quando as duas coordenadas y são iguais, a reta é horizontal — o que isso diz sobre o coeficiente angular?",
       },
       {
         id: "o5",
@@ -3197,6 +3244,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "5",
         explanation: "m(r) = (4-0)/(2-0) = 2. Para s: y - 1 = 2(3-1) = 4, então y = 5.",
+        commonMistakeHint: "Retas paralelas têm o mesmo coeficiente angular — calcule m usando A e B da reta r, depois use esse mesmo m com o ponto C para achar y em D.",
       },
     ],
   },

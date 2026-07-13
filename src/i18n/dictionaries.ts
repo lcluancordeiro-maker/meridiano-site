@@ -182,6 +182,18 @@ export type Dictionary = {
     notificationsDenied: string;
     notificationsError: string;
   };
+  tutor: {
+    openButtonLabel: string;
+    closeButtonLabel: string;
+    title: string;
+    subtitle: string;
+    welcomeMessage: string;
+    placeholder: string;
+    sendButton: string;
+    thinking: string;
+    requiresLogin: string;
+    notConfigured: string;
+  };
 };
 
 export const dictionaries: Record<Locale, Dictionary> = {
@@ -371,6 +383,19 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notificationsDenied: "Permissão de notificações negada — habilite nas configurações do navegador para ativar os lembretes.",
       notificationsError: "Não foi possível ativar os lembretes agora. Tente novamente.",
     },
+    tutor: {
+      openButtonLabel: "Abrir tutor de IA",
+      closeButtonLabel: "Fechar tutor de IA",
+      title: "Gauss — seu tutor de IA",
+      subtitle: "Tire dúvidas de qualquer matéria. Gauss te ajuda a pensar, não só entrega a resposta.",
+      welcomeMessage:
+        "Oi! Eu sou o Gauss 👋 Me conta o que você está estudando ou qual exercício está te dando trabalho.",
+      placeholder: "Digite sua pergunta...",
+      sendButton: "Enviar",
+      thinking: "Gauss está pensando...",
+      requiresLogin: "Faça login para conversar com o Gauss.",
+      notConfigured: "O tutor de IA ainda não está disponível neste app.",
+    },
   },
   en: {
     nav: {
@@ -558,6 +583,18 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notificationsDenied: "Notification permission denied — enable it in your browser settings to turn on reminders.",
       notificationsError: "Couldn't enable reminders right now. Please try again.",
     },
+    tutor: {
+      openButtonLabel: "Open AI tutor",
+      closeButtonLabel: "Close AI tutor",
+      title: "Gauss — your AI tutor",
+      subtitle: "Ask about any subject. Gauss helps you think it through instead of just giving the answer.",
+      welcomeMessage: "Hi! I'm Gauss 👋 Tell me what you're studying or which exercise is giving you trouble.",
+      placeholder: "Type your question...",
+      sendButton: "Send",
+      thinking: "Gauss is thinking...",
+      requiresLogin: "Log in to chat with Gauss.",
+      notConfigured: "The AI tutor isn't available in this app yet.",
+    },
   },
   es: {
     nav: {
@@ -744,6 +781,18 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notificationsDisableButton: "Desactivar recordatorios",
       notificationsDenied: "Permiso de notificaciones denegado — actívalo en la configuración del navegador para habilitar los recordatorios.",
       notificationsError: "No pudimos activar los recordatorios ahora. Inténtalo de nuevo.",
+    },
+    tutor: {
+      openButtonLabel: "Abrir tutor de IA",
+      closeButtonLabel: "Cerrar tutor de IA",
+      title: "Gauss — tu tutor de IA",
+      subtitle: "Resuelve dudas de cualquier materia. Gauss te ayuda a pensar, no solo te da la respuesta.",
+      welcomeMessage: "¡Hola! Soy Gauss 👋 Cuéntame qué estás estudiando o qué ejercicio te está costando.",
+      placeholder: "Escribe tu pregunta...",
+      sendButton: "Enviar",
+      thinking: "Gauss está pensando...",
+      requiresLogin: "Inicia sesión para chatear con Gauss.",
+      notConfigured: "El tutor de IA todavía no está disponible en esta app.",
     },
   },
 };

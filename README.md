@@ -69,6 +69,22 @@ de aplicativos.
   ao vivo; em "Geometria Analítica" (Ensino Médio), dois pontos
   arrastáveis recalculam distância, ponto médio e coeficiente angular
   em tempo real. Ver `src/components/widgets/`.
+- **Feedback de erro mais inteligente**: alguns exercícios têm um campo
+  `commonMistakeHint` — na primeira resposta errada, em vez de revelar a
+  resposta certa na hora, o app mostra uma dica apontando o erro de
+  raciocínio mais provável e deixa o aluno tentar de novo; só revela a
+  resposta certa numa segunda tentativa errada. Exercícios sem essa dica
+  (a maioria, por enquanto) mantêm o comportamento original de revelar na
+  hora. Hoje as dicas cobrem "Função do 1º Grau" e "Geometria Analítica"
+  (Ensino Médio) — dá pra adicionar aos poucos em outros tópicos.
+- **Tutor de IA (Gauss)**: um chat flutuante (canto inferior esquerdo,
+  disponível em qualquer página), inspirado no "Koji" do Brilliant.org.
+  Gauss usa o método socrático — faz perguntas e dá pistas em vez de
+  entregar a resposta de primeira — e responde sobre qualquer matéria do
+  catálogo. Exige login (mesmo padrão do "resolver por foto"), com cota
+  diária (15 mensagens grátis, 60 Premium). A conversa fica só no
+  navegador (não é salva no banco nem sincronizada entre dispositivos —
+  um possível próximo passo). Veja "Configurando o tutor de IA" abaixo.
 - **Gamificação**: XP por resposta certa (escalado por dificuldade),
   níveis, sequência (streak) diária e conquistas.
 - **Dashboard de progresso** (`/progresso`) com gráficos de desempenho
@@ -235,6 +251,26 @@ Cada usuário logado tem um limite diário de fotos resolvidas —
 simples contra abuso, já que cada chamada tem custo real de API. O
 mesmo limite vale para o botão "Resolver com IA" do quadro de
 rascunho, já que os dois usam a mesma rota (`/api/resolver-foto`).
+
+## Configurando o tutor de IA (Gauss)
+
+Usa a mesma `ANTHROPIC_API_KEY` configurada acima — nenhuma variável
+nova. Sem ela (ou sem contas configuradas), o chat continua aparecendo
+mas mostra a mensagem de indisponível/login em vez do bate-papo.
+
+Igual ao "resolver por foto", cada usuário logado tem um limite diário
+de mensagens — 15/dia no plano grátis, 60/dia no Premium
+(`increment_tutor_usage` em `supabase/schema.sql`). O prompt de sistema
+(`src/lib/tutor/systemPrompt.ts`) instrui o modelo a nunca entregar a
+resposta de um exercício de primeira — o objetivo é o aluno chegar lá
+com perguntas guiadas, não só receber a solução pronta (o mesmo
+espírito das dicas de erro comum, ver acima). O componente
+(`src/components/TutorChat.tsx`) hoje não sabe em qual trilha/tópico o
+aluno está — o prompt instrui o Gauss a perguntar, mas passar esse
+contexto automaticamente é um possível próximo passo.
+
+Não testado com uma conversa real nesta sessão (sem
+`ANTHROPIC_API_KEY` configurada aqui).
 
 ## Configurando assinaturas (Stripe)
 

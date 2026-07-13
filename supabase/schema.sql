@@ -408,3 +408,49 @@ create policy "push_subscriptions_own"
 -- Sem policy de select/delete para outros usuários: só o service role
 -- (usado pela rota /api/push/send-streak-reminders, nunca exposto ao
 -- navegador) lê todas as inscrições para enviar os lembretes.
+
+-- ---------------------------------------------------------------------
+-- tutor_usage: limite diário de mensagens para o tutor de IA (Gauss).
+-- Mesmo padrão de photo_solve_usage (cada mensagem tem custo real de API).
+-- ---------------------------------------------------------------------
+create table if not exists public.tutor_usage (
+  user_id uuid not null references auth.users (id) on delete cascade,
+  usage_date date not null default current_date,
+  count integer not null default 0,
+  primary key (user_id, usage_date)
+);
+
+alter table public.tutor_usage enable row level security;
+
+drop policy if exists "tutor_usage_select_own" on public.tutor_usage;
+create policy "tutor_usage_select_own"
+  on public.tutor_usage for select
+  using (auth.uid() = user_id);
+
+create or replace function public.increment_tutor_usage(p_limit integer)
+returns integer
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  new_count integer;
+begin
+  if auth.uid() is null then
+    raise exception 'not_authenticated';
+  end if;
+
+  insert into public.tutor_usage (user_id, usage_date, count)
+  values (auth.uid(), current_date, 1)
+  on conflict (user_id, usage_date)
+  do update set count = public.tutor_usage.count + 1
+  returning count into new_count;
+
+  if new_count > p_limit then
+    raise exception 'daily_limit_exceeded';
+  end if;
+
+  return new_count;
+end;
+$$;
+
+grant execute on function public.increment_tutor_usage(integer) to authenticated;

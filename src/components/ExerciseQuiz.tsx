@@ -31,6 +31,7 @@ export default function ExerciseQuiz({
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState("");
   const [checked, setChecked] = useState(false);
+  const [hintActive, setHintActive] = useState(false);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const [newBadges, setNewBadges] = useState<string[]>([]);
@@ -40,11 +41,24 @@ export default function ExerciseQuiz({
 
   function handleCheck() {
     if (!selected) return;
-    setChecked(true);
+
     if (normalize(selected) === normalize(exercise.answer)) {
+      setChecked(true);
       setScore((s) => s + 1);
       recordCorrectAnswer(difficulty);
+      return;
     }
+
+    // Wrong answer: give a nudge on the first miss (if this exercise has
+    // one) instead of revealing the answer outright — only lock in and
+    // reveal on a second miss.
+    if (exercise.commonMistakeHint && !hintActive) {
+      setHintActive(true);
+      setSelected("");
+      return;
+    }
+
+    setChecked(true);
   }
 
   function handleNext() {
@@ -61,12 +75,14 @@ export default function ExerciseQuiz({
     setIndex((i) => i + 1);
     setSelected("");
     setChecked(false);
+    setHintActive(false);
   }
 
   function handleRestart() {
     setIndex(0);
     setSelected("");
     setChecked(false);
+    setHintActive(false);
     setScore(0);
     setFinished(false);
     setNewBadges([]);
@@ -185,6 +201,13 @@ export default function ExerciseQuiz({
               : "border-border text-foreground focus:border-primary"
           }`}
         />
+      )}
+
+      {hintActive && !checked && (
+        <div className="mt-4 rounded-xl bg-warning-bg p-4 text-sm leading-relaxed text-warning">
+          <p className="font-semibold">Quase lá! Dica:</p>
+          <p className="mt-1 text-foreground/80">{exercise.commonMistakeHint}</p>
+        </div>
       )}
 
       {checked && (

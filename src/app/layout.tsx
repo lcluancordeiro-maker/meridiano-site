@@ -4,8 +4,11 @@ import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import CloudSyncInit from "@/components/CloudSyncInit";
 import InstallPwaPrompt from "@/components/InstallPwaPrompt";
+import TutorChat from "@/components/TutorChat";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import { getServerLocale } from "@/i18n/getServerLocale";
+import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -51,6 +54,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const locale = await getServerLocale();
+  const supabase = isSupabaseConfigured ? await createClient() : null;
+  const user = supabase ? (await supabase.auth.getUser()).data.user : null;
 
   return (
     <html lang={locale} className={`${inter.variable} ${sora.variable} h-full`} suppressHydrationWarning>
@@ -59,6 +64,7 @@ export default async function RootLayout({
         <LanguageProvider initialLocale={locale}>
           {children}
           <InstallPwaPrompt />
+          <TutorChat isSupabaseConfigured={isSupabaseConfigured} loggedIn={Boolean(user)} />
         </LanguageProvider>
         <ServiceWorkerRegister />
         <CloudSyncInit />
