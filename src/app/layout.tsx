@@ -8,6 +8,7 @@ import TutorChat from "@/components/TutorChat";
 import Analytics from "@/components/Analytics";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import { getServerLocale } from "@/i18n/getServerLocale";
+import { isRtl } from "@/i18n/config";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { SITE_URL } from "@/lib/siteUrl";
@@ -79,7 +80,12 @@ export default async function RootLayout({
   const user = supabase ? (await supabase.auth.getUser()).data.user : null;
 
   return (
-    <html lang={locale} className={`${inter.variable} ${sora.variable} h-full`} suppressHydrationWarning>
+    <html
+      lang={locale}
+      dir={isRtl(locale) ? "rtl" : "ltr"}
+      className={`${inter.variable} ${sora.variable} h-full`}
+      suppressHydrationWarning
+    >
       <body className="min-h-full flex flex-col font-sans antialiased">
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <LanguageProvider initialLocale={locale}>

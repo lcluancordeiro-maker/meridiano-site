@@ -154,11 +154,20 @@ de aplicativos.
   preferência do sistema e persistência em `localStorage`. Sem "flash"
   de tema errado ao carregar a página (script inline aplicado antes da
   primeira renderização).
-- **Idioma** (Português/English/Español): seletor no menu troca o
-  texto de toda a navegação, páginas e mensagens de erro (`src/i18n/`).
-  A escolha fica salva em cookie, então funciona em Server Components
-  também (Navbar, cabeçalhos de página etc.) — veja "Sobre o idioma"
-  abaixo para o que ainda **não** é traduzido.
+- **Idioma** (11 opções: Português, English, Español, 中文, Italiano,
+  한국어, Deutsch, Français, 日本語, العربية e Русский): seletor no menu
+  troca o texto de toda a navegação, páginas e mensagens de erro
+  (`src/i18n/`). A escolha fica salva em cookie, então funciona em
+  Server Components também (Navbar, cabeçalhos de página etc.). O
+  árabe usa `dir="rtl"` no `<html>`, aplicado automaticamente
+  (`src/i18n/config.ts` → `isRtl()`, lido em `src/app/layout.tsx`) — o
+  texto e a maior parte do layout (nav, formulários, cabeçalhos) se
+  espelham sozinhos por herdarem a direção do `<html>`. Duas exceções
+  conhecidas: o botão do tutor de IA e o banner de instalação do PWA
+  ficam fixos nos cantos inferiores esquerdo/direito da tela por
+  design (pra não se sobrepor um ao outro) e não se invertem em RTL —
+  isso é intencional, não um bug. Veja "Sobre o idioma" abaixo para o
+  que ainda **não** é traduzido.
 - **Assinatura Premium** (opcional, via Stripe): Estatística
   Intermediário/Avançado exigem assinatura ativa (Fundamental II,
   Ensino Médio e Estatística Iniciante continuam grátis, pra sempre
@@ -522,10 +531,18 @@ específica antes de retornar qualquer linha): `join_turma_by_code`,
 
 O seletor de idioma (`src/i18n/`) traduz toda a navegação e as páginas
 de nível superior: menu, home, login/cadastro, resolver por foto e
-quadro de rascunho, em Português/English/Español. A arquitetura é
-simples de propósito — dicionários (`src/i18n/dictionaries.ts`) mais um
-cookie (lido por Server e Client Components), sem reescrever rotas com
-prefixo de idioma (`/en/...`).
+quadro de rascunho, em 11 idiomas — Português, English, Español, 中文
+(chinês), Italiano, 한국어 (coreano), Deutsch, Français, 日本語
+(japonês), العربية (árabe) e Русский (russo). A arquitetura é simples
+de propósito — dicionários (`src/i18n/dictionaries.ts`) mais um cookie
+(lido por Server e Client Components), sem reescrever rotas com
+prefixo de idioma (`/en/...`). Adicionar um novo idioma é só: (1)
+adicionar o código à união `Locale` e ao array `LOCALES` em
+`src/i18n/config.ts` (mais `RTL_LOCALES` se for um idioma da direita
+pra esquerda), e (2) adicionar um objeto completo ao `dictionaries` em
+`dictionaries.ts` — o TypeScript aponta na hora qualquer chave faltando,
+porque `Record<Locale, Dictionary>` exige as ~190 chaves do tipo
+`Dictionary` para todo idioma.
 
 **O que ainda não é traduzido** (fica em português por enquanto):
 
@@ -540,9 +557,9 @@ prefixo de idioma (`/en/...`).
 - Mensagens de erro de autenticação (vêm prontas do Supabase via
   `src/app/actions/auth.ts`).
 
-Isso significa: hoje dá para navegar o app inteiro em inglês/espanhol,
-mas ao entrar numa trilha e resolver exercícios, o conteúdo continua em
-português.
+Isso significa: hoje dá para navegar o app inteiro em qualquer um dos
+10 outros idiomas, mas ao entrar numa trilha e resolver exercícios, o
+conteúdo continua em português.
 
 ## Testes
 
