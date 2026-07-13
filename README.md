@@ -25,28 +25,35 @@ de aplicativos.
   — todos em 4 níveis de dificuldade, com gráfico interativo embutido
   onde faz sentido (parábola, `sin(x)`, reta).
 - **Estatística** — trilha independente com 3 níveis (Iniciante:
-  medidas de tendência central; Intermediário: probabilidade básica e
-  regras de probabilidade; Avançado: distribuição normal, escore-z e
-  intervalos de confiança). Os níveis Intermediário e Avançado agora
-  têm 2 tópicos cada, em vez de 1 — mais volume de conteúdo pago.
+  medidas de tendência central e, agora, medidas de dispersão
+  (amplitude, variância, desvio padrão); Intermediário: probabilidade
+  básica e regras de probabilidade; Avançado: distribuição normal,
+  escore-z e intervalos de confiança). Os três níveis já têm 2 tópicos
+  cada.
 - **Programação & Machine Learning** — trilha independente com 4
   níveis disponíveis: "Lógica de Programação" (Iniciante: variáveis,
-  comparações, condicionais), "Estruturas de Repetição" (Intermediário:
-  laços 'para'/'enquanto', repetições aninhadas), "Orientação a
-  Objetos" (Avançado, Premium: classes, atributos, métodos,
-  encapsulamento) e "Fundamentos de Aprendizado Supervisionado"
-  (Machine Learning — Introdução, Premium: treino/teste, overfitting,
-  acurácia e matriz de confusão) — todos ensinados com pseudocódigo
-  (independente de linguagem) já que o app não executa código de
-  verdade; os exercícios pedem pra prever o valor final de variáveis
-  (ou calcular métricas) a partir de um enunciado, não pra escrever
-  código.
+  comparações, condicionais, e agora também "Vetores e Listas" —
+  percorrer um vetor com laços, somar/buscar elementos), "Estruturas
+  de Repetição" (Intermediário: laços 'para'/'enquanto', repetições
+  aninhadas), "Orientação a Objetos" (Avançado, Premium: classes,
+  atributos, métodos, encapsulamento) e "Fundamentos de Aprendizado
+  Supervisionado" (Machine Learning — Introdução, Premium: treino/teste,
+  overfitting, acurácia e matriz de confusão) — todos ensinados com
+  pseudocódigo (independente de linguagem) já que o app não executa
+  código de verdade; os exercícios pedem pra prever o valor final de
+  variáveis (ou calcular métricas) a partir de um enunciado, não pra
+  escrever código.
 - **Ensino Superior** (Premium): "Limites e Derivadas" — a porta de
   entrada do Cálculo, com forma indeterminada, regra da potência e o
-  limite fundamental de sin(x)/x.
+  limite fundamental de sin(x)/x — e agora também "Integrais":
+  antiderivada, integral definida como área sob a curva e o Teorema
+  Fundamental do Cálculo.
 - **Econometria** (Premium): "Regressão Linear Simples" — estimar
   β0/β1 a partir de covariância e variância, prever valores e
-  interpretar o coeficiente de determinação (R²).
+  interpretar o coeficiente de determinação (R²) — e agora também
+  "Regressão Múltipla e Multicolinearidade": modelos com várias
+  variáveis explicativas, R² ajustado e os cuidados com variáveis
+  correlacionadas entre si.
 - Fundamental I ainda aparece como "em breve" — a estrutura de dados
   (`src/data/curriculum.ts`) já suporta adicionar novos níveis e
   tópicos sem mudar a arquitetura.
@@ -90,13 +97,17 @@ de aplicativos.
   UERJ (Premium: estilo discursivo/interdisciplinar), UNESP (Premium:
   múltipla escolha direta), OBMEP (Premium: raciocínio lógico estilo
   1ª fase) e OIM (Premium: teoria dos números, combinatória e geometria
-  de olimpíada internacional). Cada prova tem sua própria trilha com
-  teoria (formato da prova + dicas de preparo) e 20 exercícios
-  genuinamente no estilo daquele exame, não um simulado genérico
-  reaproveitado. Fase 1 do preparatório — SAT Math e GMAT Quantitative
-  ficam para uma Fase 2; Gaokao (multidisciplinar, em chinês) e PISA
-  (avaliação de letramento da OCDE, não uma prova que se "treina" com
-  simulados) ficaram de fora por não se encaixarem no formato do app.
+  de olimpíada internacional). Cada prova já tem 2 tópicos — o
+  simulado geral (20 exercícios) mais um segundo tópico com um recorte
+  temático específico (16 exercícios): "Geometria e Escalas" no ENEM,
+  "Funções e Geometria Analítica" na UERJ, "Trigonometria e Geometria
+  Espacial" na UNESP, "2ª Fase: Desafios Avançados" na OBMEP e
+  "Geometria e Desigualdades" na OIM — todos genuinamente no estilo
+  daquele exame, não um simulado genérico reaproveitado. Fase 1 do
+  preparatório — SAT Math e GMAT Quantitative ficam para uma Fase 2;
+  Gaokao (multidisciplinar, em chinês) e PISA (avaliação de letramento
+  da OCDE, não uma prova que se "treina" com simulados) ficaram de
+  fora por não se encaixarem no formato do app.
 - **Gamificação**: XP por resposta certa (escalado por dificuldade),
   níveis, sequência (streak) diária e conquistas.
 - **Dashboard de progresso** (`/progresso`) com gráficos de desempenho
