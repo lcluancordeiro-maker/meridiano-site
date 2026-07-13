@@ -3,6 +3,8 @@ import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import CloudSyncInit from "@/components/CloudSyncInit";
+import { LanguageProvider } from "@/i18n/LanguageContext";
+import { getServerLocale } from "@/i18n/getServerLocale";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -40,15 +42,20 @@ export const viewport: Viewport = {
   themeColor: "#5b4fe9",
 };
 
-export default function RootLayout({
+const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();`;
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getServerLocale();
+
   return (
-    <html lang="pt-BR" className={`${inter.variable} ${sora.variable} h-full`}>
+    <html lang={locale} className={`${inter.variable} ${sora.variable} h-full`} suppressHydrationWarning>
       <body className="min-h-full flex flex-col font-sans antialiased">
-        {children}
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <LanguageProvider initialLocale={locale}>{children}</LanguageProvider>
         <ServiceWorkerRegister />
         <CloudSyncInit />
       </body>

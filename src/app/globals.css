@@ -15,6 +15,21 @@
   --border: #e4e2f1;
 }
 
+:root[data-theme="dark"] {
+  --background: #131120;
+  --surface: #1c1930;
+  --foreground: #f1f0f8;
+  --muted: #a29dc2;
+  --primary: #8b7ff5;
+  --primary-dark: #a79dfa;
+  --accent: #ff9166;
+  --success: #4ade80;
+  --success-bg: #0f2e1d;
+  --error: #f87171;
+  --error-bg: #3a1414;
+  --border: #33304d;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);

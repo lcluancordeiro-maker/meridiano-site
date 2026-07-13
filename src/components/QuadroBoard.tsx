@@ -6,21 +6,25 @@ import DrawingCanvas, { type DrawingCanvasHandle, type Tool } from "@/components
 import SolutionDisplay from "@/components/SolutionDisplay";
 import type { PhotoSolution } from "@/lib/photoSolve";
 import { errorMessageFor } from "@/lib/photoSolveErrors";
-
-const COLORS = [
-  { label: "Preto", value: "#1a1a1a" },
-  { label: "Azul", value: "#2a78d6" },
-  { label: "Vermelho", value: "#d63b3b" },
-  { label: "Verde", value: "#1baf7a" },
-];
-
-const LINE_WIDTHS = [
-  { label: "Fina", value: 4 },
-  { label: "Média", value: 9 },
-  { label: "Grossa", value: 16 },
-];
+import { useTranslation } from "@/i18n/LanguageContext";
 
 export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
+  const { dict } = useTranslation();
+  const { quadro } = dict;
+
+  const COLORS = [
+    { label: quadro.corPreto, value: "#1a1a1a" },
+    { label: quadro.corAzul, value: "#2a78d6" },
+    { label: quadro.corVermelho, value: "#d63b3b" },
+    { label: quadro.corVerde, value: "#1baf7a" },
+  ];
+
+  const LINE_WIDTHS = [
+    { label: quadro.fina, value: 4 },
+    { label: quadro.media, value: 9 },
+    { label: quadro.grossa, value: 16 },
+  ];
+
   const canvasRef = useRef<DrawingCanvasHandle>(null);
   const [color, setColor] = useState(COLORS[0].value);
   const [lineWidth, setLineWidth] = useState(LINE_WIDTHS[1].value);
@@ -54,7 +58,7 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
     try {
       const blob = await canvasRef.current?.toBlob();
       if (!blob) {
-        setErrorText(errorMessageFor("missing_image"));
+        setErrorText(errorMessageFor(dict, "missing_image"));
         setStatus("error");
         return;
       }
@@ -66,7 +70,7 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
       const data = await res.json();
 
       if (!res.ok) {
-        setErrorText(errorMessageFor(data?.error));
+        setErrorText(errorMessageFor(dict, data?.error));
         setStatus("error");
         return;
       }
@@ -74,7 +78,7 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
       setSolution(data.solution);
       setStatus("idle");
     } catch {
-      setErrorText(errorMessageFor(undefined));
+      setErrorText(errorMessageFor(dict, undefined));
       setStatus("error");
     }
   }
@@ -87,7 +91,7 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
             <button
               key={c.value}
               type="button"
-              aria-label={`Cor ${c.label}`}
+              aria-label={c.label}
               onClick={() => selectColor(c.value)}
               className="h-7 w-7 rounded-full border-2 transition-transform"
               style={{
@@ -121,7 +125,7 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
             tool === "eraser" ? "border-primary text-primary" : "border-border text-muted hover:border-primary"
           }`}
         >
-          Borracha
+          {quadro.borracha}
         </button>
         <div className="ml-auto flex items-center gap-2">
           <button
@@ -129,19 +133,19 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
             onClick={() => canvasRef.current?.undo()}
             className="rounded-lg border border-border px-2.5 py-1 text-xs font-medium text-muted transition-colors hover:border-primary hover:text-foreground"
           >
-            Desfazer
+            {quadro.desfazer}
           </button>
           <button
             type="button"
             onClick={() => canvasRef.current?.clear()}
             className="rounded-lg border border-border px-2.5 py-1 text-xs font-medium text-muted transition-colors hover:border-primary hover:text-foreground"
           >
-            Limpar
+            {quadro.limpar}
           </button>
         </div>
       </div>
 
-      <DrawingCanvas ref={canvasRef} color={color} lineWidth={lineWidth} tool={tool} />
+      <DrawingCanvas ref={canvasRef} color={color} lineWidth={lineWidth} tool={tool} ariaLabel={quadro.title} />
 
       <div className="flex flex-wrap items-center gap-3">
         <button
@@ -149,7 +153,7 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
           onClick={handleDownload}
           className="rounded-lg border border-border px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary"
         >
-          Baixar PNG
+          {quadro.baixarPng}
         </button>
 
         {canResolve ? (
@@ -159,14 +163,14 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
             disabled={status === "loading"}
             className="rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {status === "loading" ? "Analisando..." : "Resolver com IA"}
+            {status === "loading" ? quadro.analisando : quadro.resolverIA}
           </button>
         ) : (
           <p className="text-sm text-muted">
             <Link href="/entrar" className="font-semibold text-primary hover:underline">
-              Faça login
+              {quadro.facaLogin}
             </Link>{" "}
-            para pedir a solução do que você desenhou.
+            {quadro.paraResolver}
           </p>
         )}
       </div>

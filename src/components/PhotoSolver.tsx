@@ -4,8 +4,11 @@ import { useRef, useState } from "react";
 import type { PhotoSolution } from "@/lib/photoSolve";
 import { errorMessageFor } from "@/lib/photoSolveErrors";
 import SolutionDisplay from "@/components/SolutionDisplay";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 export default function PhotoSolver() {
+  const { dict } = useTranslation();
+  const { foto } = dict;
   const [preview, setPreview] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
@@ -36,7 +39,7 @@ export default function PhotoSolver() {
       const data = await res.json();
 
       if (!res.ok) {
-        setErrorText(errorMessageFor(data?.error));
+        setErrorText(errorMessageFor(dict, data?.error));
         setStatus("error");
         return;
       }
@@ -44,7 +47,7 @@ export default function PhotoSolver() {
       setSolution(data.solution);
       setStatus("idle");
     } catch {
-      setErrorText(errorMessageFor(undefined));
+      setErrorText(errorMessageFor(dict, undefined));
       setStatus("error");
     }
   }
@@ -62,8 +65,8 @@ export default function PhotoSolver() {
     <div className="flex flex-col gap-4">
       {!preview ? (
         <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border bg-surface px-6 py-12 text-center transition-colors hover:border-primary">
-          <span className="text-sm font-medium text-foreground">Tirar foto ou escolher da galeria</span>
-          <span className="text-xs text-muted">JPEG, PNG, GIF ou WEBP — até 8MB</span>
+          <span className="text-sm font-medium text-foreground">{foto.tirarFoto}</span>
+          <span className="text-xs text-muted">{foto.formatoInfo}</span>
           <input
             ref={inputRef}
             type="file"
@@ -88,7 +91,7 @@ export default function PhotoSolver() {
             disabled={status === "loading"}
             className="rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {status === "loading" ? "Analisando..." : "Resolver"}
+            {status === "loading" ? foto.analisando : foto.resolver}
           </button>
           <button
             type="button"
@@ -96,7 +99,7 @@ export default function PhotoSolver() {
             disabled={status === "loading"}
             className="rounded-lg border border-border px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Trocar foto
+            {foto.trocarFoto}
           </button>
         </div>
       )}

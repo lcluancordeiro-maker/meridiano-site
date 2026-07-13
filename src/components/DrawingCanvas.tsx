@@ -15,8 +15,10 @@ const RESOLUTION_WIDTH = 1200;
 const RESOLUTION_HEIGHT = 800;
 const MAX_UNDO_STEPS = 30;
 
-const DrawingCanvas = forwardRef<DrawingCanvasHandle, { color: string; lineWidth: number; tool: Tool }>(
-  function DrawingCanvas({ color, lineWidth, tool }, ref) {
+const DrawingCanvas = forwardRef<
+  DrawingCanvasHandle,
+  { color: string; lineWidth: number; tool: Tool; ariaLabel: string }
+>(function DrawingCanvas({ color, lineWidth, tool, ariaLabel }, ref) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const undoStack = useRef<ImageData[]>([]);
     const isDrawing = useRef(false);
@@ -121,7 +123,7 @@ const DrawingCanvas = forwardRef<DrawingCanvasHandle, { color: string; lineWidth
         onPointerLeave={endStroke}
         onPointerCancel={endStroke}
         role="img"
-        aria-label="Quadro de rascunho"
+        aria-label={ariaLabel}
         className="w-full touch-none rounded-xl border border-border bg-white"
         style={{ aspectRatio: `${RESOLUTION_WIDTH} / ${RESOLUTION_HEIGHT}` }}
       />

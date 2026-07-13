@@ -2,8 +2,14 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import LevelCard from "@/components/LevelCard";
 import { levels } from "@/data/curriculum";
+import { getServerLocale } from "@/i18n/getServerLocale";
+import { getDictionary } from "@/i18n/dictionaries";
 
-export default function Home() {
+export default async function Home() {
+  const locale = await getServerLocale();
+  const dict = getDictionary(locale);
+  const { home } = dict;
+
   return (
     <div className="flex flex-1 flex-col">
       <Navbar />
@@ -11,29 +17,24 @@ export default function Home() {
       <section className="border-b border-border bg-surface">
         <div className="mx-auto flex max-w-5xl flex-col items-start gap-6 px-6 py-20 sm:py-28">
           <span className="rounded-full bg-primary/10 px-3 py-1 font-display text-xs font-semibold uppercase tracking-wide text-primary">
-            Do fundamental ao superior
+            {home.heroTag}
           </span>
           <h1 className="max-w-2xl font-display text-4xl font-semibold leading-tight text-foreground sm:text-5xl">
-            Aprenda matemática no seu ritmo, com teoria clara e exercícios
-            que dão feedback na hora.
+            {home.heroTitle}
           </h1>
-          <p className="max-w-xl text-lg leading-relaxed text-muted">
-            Trilhas organizadas por nível de ensino, explicações objetivas e
-            prática guiada — tudo direto no navegador, sem precisar instalar
-            nada.
-          </p>
+          <p className="max-w-xl text-lg leading-relaxed text-muted">{home.heroSubtitle}</p>
           <div className="flex flex-wrap gap-4">
             <Link
               href="#niveis"
               className="rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
             >
-              Ver trilhas disponíveis
+              {home.verTrilhas}
             </Link>
             <Link
               href="/trilha/fundamental-2"
               className="rounded-lg border border-border px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
             >
-              Começar Fundamental II
+              {home.comecarFundamental2}
             </Link>
           </div>
         </div>
@@ -42,18 +43,15 @@ export default function Home() {
       <section id="niveis" className="mx-auto w-full max-w-5xl px-6 py-16 sm:py-20">
         <div className="mb-10">
           <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-            Escolha seu nível de ensino
+            {home.escolhaNivel}
           </h2>
-          <p className="mt-2 text-muted">
-            Já disponíveis: Ensino Fundamental II e Ensino Médio — os demais
-            níveis chegam em breve.
-          </p>
+          <p className="mt-2 text-muted">{home.niveisDisponiveis}</p>
         </div>
         <div className="grid gap-5 sm:grid-cols-2">
           {levels
             .filter((level) => level.group === "serie")
             .map((level) => (
-              <LevelCard key={level.id} level={level} />
+              <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} />
             ))}
         </div>
       </section>
@@ -62,18 +60,15 @@ export default function Home() {
         <div className="mx-auto w-full max-w-5xl px-6 py-16 sm:py-20">
           <div className="mb-10">
             <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-              Estatística
+              {home.estatisticaHeading}
             </h2>
-            <p className="mt-2 text-muted">
-              Uma trilha independente, organizada em três níveis — do
-              descritivo ao inferencial.
-            </p>
+            <p className="mt-2 text-muted">{home.estatisticaSubtitle}</p>
           </div>
           <div className="grid gap-5 sm:grid-cols-3">
             {levels
               .filter((level) => level.group === "estatistica")
               .map((level) => (
-                <LevelCard key={level.id} level={level} />
+                <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} />
               ))}
           </div>
         </div>
@@ -82,18 +77,15 @@ export default function Home() {
       <section className="mx-auto w-full max-w-5xl px-6 py-16 sm:py-20">
         <div className="mb-10">
           <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-            Econometria
+            {home.econometriaHeading}
           </h2>
-          <p className="mt-2 text-muted">
-            Regressão e modelos preditivos, com pré-requisito de Estatística
-            e Cálculo.
-          </p>
+          <p className="mt-2 text-muted">{home.econometriaSubtitle}</p>
         </div>
         <div className="grid gap-5 sm:grid-cols-3">
           {levels
             .filter((level) => level.group === "econometria")
             .map((level) => (
-              <LevelCard key={level.id} level={level} />
+              <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} />
             ))}
         </div>
       </section>
@@ -101,21 +93,15 @@ export default function Home() {
       <section id="sobre" className="border-t border-border bg-surface">
         <div className="mx-auto max-w-5xl px-6 py-16 sm:py-20">
           <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-            Sobre o Meridiano Matemática
+            {home.sobreHeading}
           </h2>
-          <p className="mt-4 max-w-2xl leading-relaxed text-muted">
-            Um app web instalável (PWA) que funciona em qualquer dispositivo
-            — computador, celular ou tablet — e pode ser adicionado à tela
-            inicial no iOS e Android como um app nativo. Cada trilha combina
-            teoria objetiva com exercícios corrigidos na hora para consolidar
-            o aprendizado.
-          </p>
+          <p className="mt-4 max-w-2xl leading-relaxed text-muted">{home.sobreBody}</p>
         </div>
       </section>
 
       <footer className="mt-auto border-t border-border py-8">
         <div className="mx-auto max-w-5xl px-6 text-sm text-muted">
-          © {new Date().getFullYear()} Meridiano Matemática.
+          © {new Date().getFullYear()} {home.footer}
         </div>
       </footer>
     </div>

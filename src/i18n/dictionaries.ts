@@ -1,0 +1,421 @@
+import type { Locale } from "./config";
+
+export type Dictionary = {
+  nav: {
+    trilhas: string;
+    calculadora: string;
+    resolverFoto: string;
+    quadro: string;
+    progresso: string;
+    entrar: string;
+    sair: string;
+  };
+  home: {
+    heroTag: string;
+    heroTitle: string;
+    heroSubtitle: string;
+    verTrilhas: string;
+    comecarFundamental2: string;
+    escolhaNivel: string;
+    niveisDisponiveis: string;
+    estatisticaHeading: string;
+    estatisticaSubtitle: string;
+    econometriaHeading: string;
+    econometriaSubtitle: string;
+    emBreve: string;
+    comecarTrilha: string;
+    sobreHeading: string;
+    sobreBody: string;
+    footer: string;
+  };
+  auth: {
+    entrarTitle: string;
+    entrarSubtitle: string;
+    cadastroTitle: string;
+    cadastroSubtitle: string;
+    contasIndisponiveis: string;
+    naoTemConta: string;
+    jaTemConta: string;
+    criarConta: string;
+    entrarLink: string;
+    nome: string;
+    email: string;
+    senha: string;
+    entrarButton: string;
+    criarContaButton: string;
+    enviando: string;
+  };
+  foto: {
+    title: string;
+    subtitle: string;
+    exclusivo: string;
+    fazerLogin: string;
+    ou: string;
+    criarUmaConta: string;
+    tirarFoto: string;
+    formatoInfo: string;
+    resolver: string;
+    analisando: string;
+    trocarFoto: string;
+  };
+  quadro: {
+    title: string;
+    subtitle: string;
+    desfazer: string;
+    limpar: string;
+    baixarPng: string;
+    resolverIA: string;
+    analisando: string;
+    facaLogin: string;
+    paraResolver: string;
+    borracha: string;
+    fina: string;
+    media: string;
+    grossa: string;
+    corPreto: string;
+    corAzul: string;
+    corVermelho: string;
+    corVerde: string;
+  };
+  solution: {
+    enunciado: string;
+    passoAPasso: string;
+    resposta: string;
+  };
+  errors: {
+    unsupportedType: string;
+    imageTooLarge: string;
+    missingImage: string;
+    dailyLimitExceeded: string;
+    unauthorized: string;
+    anthropicNotConfigured: string;
+    aiError: string;
+    generic: string;
+  };
+  theme: {
+    ativarClaro: string;
+    ativarEscuro: string;
+  };
+  language: {
+    label: string;
+  };
+};
+
+export const dictionaries: Record<Locale, Dictionary> = {
+  "pt-BR": {
+    nav: {
+      trilhas: "Trilhas",
+      calculadora: "Calculadora",
+      resolverFoto: "Resolver por foto",
+      quadro: "Quadro",
+      progresso: "Progresso",
+      entrar: "Entrar",
+      sair: "Sair",
+    },
+    home: {
+      heroTag: "Do fundamental ao superior",
+      heroTitle:
+        "Aprenda matemática no seu ritmo, com teoria clara e exercícios que dão feedback na hora.",
+      heroSubtitle:
+        "Trilhas organizadas por nível de ensino, explicações objetivas e prática guiada — tudo direto no navegador, sem precisar instalar nada.",
+      verTrilhas: "Ver trilhas disponíveis",
+      comecarFundamental2: "Começar Fundamental II",
+      escolhaNivel: "Escolha seu nível de ensino",
+      niveisDisponiveis: "Já disponíveis: Ensino Fundamental II e Ensino Médio — os demais níveis chegam em breve.",
+      estatisticaHeading: "Estatística",
+      estatisticaSubtitle: "Uma trilha independente, organizada em três níveis — do descritivo ao inferencial.",
+      econometriaHeading: "Econometria",
+      econometriaSubtitle: "Regressão e modelos preditivos, com pré-requisito de Estatística e Cálculo.",
+      emBreve: "Em breve",
+      comecarTrilha: "Começar trilha",
+      sobreHeading: "Sobre o Meridiano Matemática",
+      sobreBody:
+        "Um app web instalável (PWA) que funciona em qualquer dispositivo — computador, celular ou tablet — e pode ser adicionado à tela inicial no iOS e Android como um app nativo. Cada trilha combina teoria objetiva com exercícios corrigidos na hora para consolidar o aprendizado.",
+      footer: "Meridiano Matemática.",
+    },
+    auth: {
+      entrarTitle: "Entrar",
+      entrarSubtitle: "Acesse sua conta para sincronizar seu progresso entre dispositivos.",
+      cadastroTitle: "Criar conta",
+      cadastroSubtitle: "Seu progresso, XP e conquistas passam a ficar salvos na nuvem.",
+      contasIndisponiveis: "Contas ainda não estão disponíveis neste app — volte em breve.",
+      naoTemConta: "Não tem conta?",
+      jaTemConta: "Já tem conta?",
+      criarConta: "Criar conta",
+      entrarLink: "Entrar",
+      nome: "Nome",
+      email: "E-mail",
+      senha: "Senha",
+      entrarButton: "Entrar",
+      criarContaButton: "Criar conta",
+      enviando: "Enviando...",
+    },
+    foto: {
+      title: "Resolver por foto",
+      subtitle: "Tire uma foto de um problema de matemática e receba a solução passo a passo.",
+      exclusivo: "Essa funcionalidade é exclusiva para quem tem conta.",
+      fazerLogin: "Fazer login",
+      ou: "ou",
+      criarUmaConta: "criar uma conta",
+      tirarFoto: "Tirar foto ou escolher da galeria",
+      formatoInfo: "JPEG, PNG, GIF ou WEBP — até 8MB",
+      resolver: "Resolver",
+      analisando: "Analisando...",
+      trocarFoto: "Trocar foto",
+    },
+    quadro: {
+      title: "Quadro de rascunho",
+      subtitle:
+        "Um espaço para escrever e fazer contas, como um quadro negro digital. Desenhe com o mouse, dedo ou caneta — e peça a solução por IA quando quiser.",
+      desfazer: "Desfazer",
+      limpar: "Limpar",
+      baixarPng: "Baixar PNG",
+      resolverIA: "Resolver com IA",
+      analisando: "Analisando...",
+      facaLogin: "Faça login",
+      paraResolver: "para pedir a solução do que você desenhou.",
+      borracha: "Borracha",
+      fina: "Fina",
+      media: "Média",
+      grossa: "Grossa",
+      corPreto: "Cor Preto",
+      corAzul: "Cor Azul",
+      corVermelho: "Cor Vermelho",
+      corVerde: "Cor Verde",
+    },
+    solution: {
+      enunciado: "Enunciado",
+      passoAPasso: "Passo a passo",
+      resposta: "Resposta",
+    },
+    errors: {
+      unsupportedType: "Formato de imagem não suportado. Use JPEG, PNG, GIF ou WEBP.",
+      imageTooLarge: "A imagem é muito grande (máximo 8MB).",
+      missingImage: "Selecione ou desenhe algo antes de enviar.",
+      dailyLimitExceeded: "Você atingiu o limite diário de fotos resolvidas. Tente novamente amanhã.",
+      unauthorized: "Sua sessão expirou. Entre novamente para continuar.",
+      anthropicNotConfigured: "Essa funcionalidade ainda não está disponível.",
+      aiError: "Não foi possível analisar a imagem agora. Tente novamente em instantes.",
+      generic: "Algo deu errado ao processar a imagem. Tente novamente.",
+    },
+    theme: {
+      ativarClaro: "Ativar tema claro",
+      ativarEscuro: "Ativar tema escuro",
+    },
+    language: {
+      label: "Idioma",
+    },
+  },
+  en: {
+    nav: {
+      trilhas: "Tracks",
+      calculadora: "Calculator",
+      resolverFoto: "Photo solver",
+      quadro: "Whiteboard",
+      progresso: "Progress",
+      entrar: "Log in",
+      sair: "Log out",
+    },
+    home: {
+      heroTag: "From elementary to college",
+      heroTitle:
+        "Learn math at your own pace, with clear theory and exercises that give instant feedback.",
+      heroSubtitle:
+        "Tracks organized by grade level, clear explanations and guided practice — all in your browser, nothing to install.",
+      verTrilhas: "See available tracks",
+      comecarFundamental2: "Start Middle School",
+      escolhaNivel: "Choose your grade level",
+      niveisDisponiveis: "Already available: Middle School and High School — other levels are coming soon.",
+      estatisticaHeading: "Statistics",
+      estatisticaSubtitle: "An independent track with three levels — from descriptive to inferential.",
+      econometriaHeading: "Econometrics",
+      econometriaSubtitle: "Regression and predictive models, with a Statistics and Calculus prerequisite.",
+      emBreve: "Coming soon",
+      comecarTrilha: "Start track",
+      sobreHeading: "About Meridiano Matemática",
+      sobreBody:
+        "An installable web app (PWA) that works on any device — computer, phone or tablet — and can be added to the home screen on iOS and Android like a native app. Each track combines clear theory with exercises graded instantly to reinforce learning.",
+      footer: "Meridiano Matemática.",
+    },
+    auth: {
+      entrarTitle: "Log in",
+      entrarSubtitle: "Access your account to sync your progress across devices.",
+      cadastroTitle: "Create account",
+      cadastroSubtitle: "Your progress, XP and achievements will be saved to the cloud.",
+      contasIndisponiveis: "Accounts aren't available in this app yet — check back soon.",
+      naoTemConta: "Don't have an account?",
+      jaTemConta: "Already have an account?",
+      criarConta: "Create account",
+      entrarLink: "Log in",
+      nome: "Name",
+      email: "Email",
+      senha: "Password",
+      entrarButton: "Log in",
+      criarContaButton: "Create account",
+      enviando: "Submitting...",
+    },
+    foto: {
+      title: "Photo solver",
+      subtitle: "Take a photo of a math problem and get a step-by-step solution.",
+      exclusivo: "This feature is exclusive to account holders.",
+      fazerLogin: "Log in",
+      ou: "or",
+      criarUmaConta: "create an account",
+      tirarFoto: "Take a photo or choose from gallery",
+      formatoInfo: "JPEG, PNG, GIF or WEBP — up to 8MB",
+      resolver: "Solve",
+      analisando: "Analyzing...",
+      trocarFoto: "Change photo",
+    },
+    quadro: {
+      title: "Scratch whiteboard",
+      subtitle:
+        "A space to write and work out math, like a digital chalkboard. Draw with your mouse, finger or pen — and ask the AI to solve it whenever you want.",
+      desfazer: "Undo",
+      limpar: "Clear",
+      baixarPng: "Download PNG",
+      resolverIA: "Solve with AI",
+      analisando: "Analyzing...",
+      facaLogin: "Log in",
+      paraResolver: "to ask for the solution to what you drew.",
+      borracha: "Eraser",
+      fina: "Thin",
+      media: "Medium",
+      grossa: "Thick",
+      corPreto: "Black color",
+      corAzul: "Blue color",
+      corVermelho: "Red color",
+      corVerde: "Green color",
+    },
+    solution: {
+      enunciado: "Problem",
+      passoAPasso: "Step by step",
+      resposta: "Answer",
+    },
+    errors: {
+      unsupportedType: "Unsupported image format. Use JPEG, PNG, GIF or WEBP.",
+      imageTooLarge: "The image is too large (8MB max).",
+      missingImage: "Select or draw something before submitting.",
+      dailyLimitExceeded: "You've reached today's photo-solve limit. Try again tomorrow.",
+      unauthorized: "Your session expired. Log in again to continue.",
+      anthropicNotConfigured: "This feature isn't available yet.",
+      aiError: "Couldn't analyze the image right now. Try again in a moment.",
+      generic: "Something went wrong processing the image. Try again.",
+    },
+    theme: {
+      ativarClaro: "Switch to light theme",
+      ativarEscuro: "Switch to dark theme",
+    },
+    language: {
+      label: "Language",
+    },
+  },
+  es: {
+    nav: {
+      trilhas: "Rutas",
+      calculadora: "Calculadora",
+      resolverFoto: "Resolver por foto",
+      quadro: "Pizarra",
+      progresso: "Progreso",
+      entrar: "Iniciar sesión",
+      sair: "Cerrar sesión",
+    },
+    home: {
+      heroTag: "De primaria a la universidad",
+      heroTitle:
+        "Aprende matemáticas a tu ritmo, con teoría clara y ejercicios que dan retroalimentación al instante.",
+      heroSubtitle:
+        "Rutas organizadas por nivel educativo, explicaciones claras y práctica guiada — todo desde el navegador, sin instalar nada.",
+      verTrilhas: "Ver rutas disponibles",
+      comecarFundamental2: "Empezar Secundaria",
+      escolhaNivel: "Elige tu nivel educativo",
+      niveisDisponiveis: "Ya disponibles: Secundaria y Bachillerato — los demás niveles llegan pronto.",
+      estatisticaHeading: "Estadística",
+      estatisticaSubtitle: "Una ruta independiente, organizada en tres niveles — de lo descriptivo a lo inferencial.",
+      econometriaHeading: "Econometría",
+      econometriaSubtitle: "Regresión y modelos predictivos, con requisito previo de Estadística y Cálculo.",
+      emBreve: "Próximamente",
+      comecarTrilha: "Empezar ruta",
+      sobreHeading: "Sobre Meridiano Matemática",
+      sobreBody:
+        "Una app web instalable (PWA) que funciona en cualquier dispositivo — computadora, celular o tableta — y se puede agregar a la pantalla de inicio en iOS y Android como una app nativa. Cada ruta combina teoría clara con ejercicios corregidos al instante para consolidar el aprendizaje.",
+      footer: "Meridiano Matemática.",
+    },
+    auth: {
+      entrarTitle: "Iniciar sesión",
+      entrarSubtitle: "Accede a tu cuenta para sincronizar tu progreso entre dispositivos.",
+      cadastroTitle: "Crear cuenta",
+      cadastroSubtitle: "Tu progreso, XP y logros se guardarán en la nube.",
+      contasIndisponiveis: "Las cuentas todavía no están disponibles en esta app — vuelve pronto.",
+      naoTemConta: "¿No tienes cuenta?",
+      jaTemConta: "¿Ya tienes cuenta?",
+      criarConta: "Crear cuenta",
+      entrarLink: "Iniciar sesión",
+      nome: "Nombre",
+      email: "Correo electrónico",
+      senha: "Contraseña",
+      entrarButton: "Iniciar sesión",
+      criarContaButton: "Crear cuenta",
+      enviando: "Enviando...",
+    },
+    foto: {
+      title: "Resolver por foto",
+      subtitle: "Toma una foto de un problema de matemáticas y recibe la solución paso a paso.",
+      exclusivo: "Esta función es exclusiva para quienes tienen cuenta.",
+      fazerLogin: "Iniciar sesión",
+      ou: "o",
+      criarUmaConta: "crear una cuenta",
+      tirarFoto: "Tomar foto o elegir de la galería",
+      formatoInfo: "JPEG, PNG, GIF o WEBP — hasta 8MB",
+      resolver: "Resolver",
+      analisando: "Analizando...",
+      trocarFoto: "Cambiar foto",
+    },
+    quadro: {
+      title: "Pizarra de borrador",
+      subtitle:
+        "Un espacio para escribir y hacer cuentas, como una pizarra digital. Dibuja con el mouse, el dedo o un lápiz — y pide la solución por IA cuando quieras.",
+      desfazer: "Deshacer",
+      limpar: "Limpiar",
+      baixarPng: "Descargar PNG",
+      resolverIA: "Resolver con IA",
+      analisando: "Analizando...",
+      facaLogin: "Inicia sesión",
+      paraResolver: "para pedir la solución de lo que dibujaste.",
+      borracha: "Borrador",
+      fina: "Fina",
+      media: "Media",
+      grossa: "Gruesa",
+      corPreto: "Color negro",
+      corAzul: "Color azul",
+      corVermelho: "Color rojo",
+      corVerde: "Color verde",
+    },
+    solution: {
+      enunciado: "Enunciado",
+      passoAPasso: "Paso a paso",
+      resposta: "Respuesta",
+    },
+    errors: {
+      unsupportedType: "Formato de imagen no compatible. Usa JPEG, PNG, GIF o WEBP.",
+      imageTooLarge: "La imagen es demasiado grande (máximo 8MB).",
+      missingImage: "Selecciona o dibuja algo antes de enviar.",
+      dailyLimitExceeded: "Alcanzaste el límite diario de fotos resueltas. Intenta de nuevo mañana.",
+      unauthorized: "Tu sesión expiró. Inicia sesión de nuevo para continuar.",
+      anthropicNotConfigured: "Esta función todavía no está disponible.",
+      aiError: "No se pudo analizar la imagen ahora. Intenta de nuevo en un momento.",
+      generic: "Algo salió mal al procesar la imagen. Intenta de nuevo.",
+    },
+    theme: {
+      ativarClaro: "Activar tema claro",
+      ativarEscuro: "Activar tema oscuro",
+    },
+    language: {
+      label: "Idioma",
+    },
+  },
+};
+
+export function getDictionary(locale: Locale): Dictionary {
+  return dictionaries[locale];
+}

@@ -1,11 +1,17 @@
 import Link from "next/link";
 import NavbarXpBadge from "./NavbarXpBadge";
+import ThemeToggle from "./ThemeToggle";
+import LanguageSwitcher from "./LanguageSwitcher";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/actions/auth";
+import { getServerLocale } from "@/i18n/getServerLocale";
+import { getDictionary } from "@/i18n/dictionaries";
 
 export default async function Navbar() {
   const supabase = await createClient();
   const user = supabase ? (await supabase.auth.getUser()).data.user : null;
+  const locale = await getServerLocale();
+  const dict = getDictionary(locale);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-surface/90 backdrop-blur">
@@ -22,21 +28,23 @@ export default async function Navbar() {
         </Link>
         <nav className="flex items-center gap-4 text-sm font-medium text-muted sm:gap-6">
           <Link href="/#niveis" className="hover:text-foreground transition-colors">
-            Trilhas
+            {dict.nav.trilhas}
           </Link>
           <Link href="/calculadora" className="hover:text-foreground transition-colors">
-            Calculadora
+            {dict.nav.calculadora}
           </Link>
           <Link href="/foto" className="hover:text-foreground transition-colors">
-            Resolver por foto
+            {dict.nav.resolverFoto}
           </Link>
           <Link href="/quadro" className="hover:text-foreground transition-colors">
-            Quadro
+            {dict.nav.quadro}
           </Link>
           <Link href="/progresso" className="hover:text-foreground transition-colors">
-            Progresso
+            {dict.nav.progresso}
           </Link>
           <NavbarXpBadge />
+          <LanguageSwitcher />
+          <ThemeToggle />
           {user ? (
             <form action={logout} className="flex items-center gap-3">
               <span className="hidden text-xs text-muted sm:inline" title={user.email ?? undefined}>
@@ -46,7 +54,7 @@ export default async function Navbar() {
                 type="submit"
                 className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-foreground transition-colors hover:border-primary"
               >
-                Sair
+                {dict.nav.sair}
               </button>
             </form>
           ) : (
@@ -54,7 +62,7 @@ export default async function Navbar() {
               href="/entrar"
               className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-foreground transition-colors hover:border-primary"
             >
-              Entrar
+              {dict.nav.entrar}
             </Link>
           )}
         </nav>

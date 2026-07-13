@@ -48,6 +48,15 @@ de aplicativos.
   traços em equação enquanto o aluno escreve) é um item futuro — hoje
   a IA analisa uma imagem estática do quadro, não os traços em tempo
   real.
+- **Modo escuro**: alternância clara/escura no menu, com detecção da
+  preferência do sistema e persistência em `localStorage`. Sem "flash"
+  de tema errado ao carregar a página (script inline aplicado antes da
+  primeira renderização).
+- **Idioma** (Português/English/Español): seletor no menu troca o
+  texto de toda a navegação, páginas e mensagens de erro (`src/i18n/`).
+  A escolha fica salva em cookie, então funciona em Server Components
+  também (Navbar, cabeçalhos de página etc.) — veja "Sobre o idioma"
+  abaixo para o que ainda **não** é traduzido.
 
 ## Rodando localmente
 
@@ -107,6 +116,32 @@ tem custo real de API. O mesmo limite vale para o botão "Resolver com
 IA" do quadro de rascunho, já que os dois usam a mesma rota
 (`/api/resolver-foto`).
 
+## Sobre o idioma
+
+O seletor de idioma (`src/i18n/`) traduz toda a navegação e as páginas
+de nível superior: menu, home, login/cadastro, resolver por foto e
+quadro de rascunho, em Português/English/Español. A arquitetura é
+simples de propósito — dicionários (`src/i18n/dictionaries.ts`) mais um
+cookie (lido por Server e Client Components), sem reescrever rotas com
+prefixo de idioma (`/en/...`).
+
+**O que ainda não é traduzido** (fica em português por enquanto):
+
+- O conteúdo do currículo em si (teoria e enunciados de exercícios em
+  `src/data/curriculum.ts`) — traduzir isso com qualidade pedagógica é
+  um projeto de conteúdo à parte, do mesmo porte de adicionar um nível
+  novo, não algo que dá para fazer bem em lote.
+- O motor de exercícios (`ExerciseQuiz`, `DifficultyPicker`) e o
+  dashboard de progresso — mexer neles quebraria dezenas de testes e2e
+  que hoje verificam texto exato em português; fica como próximo passo
+  se decidirmos ir além da navegação.
+- Mensagens de erro de autenticação (vêm prontas do Supabase via
+  `src/app/actions/auth.ts`).
+
+Isso significa: hoje dá para navegar o app inteiro em inglês/espanhol,
+mas ao entrar numa trilha e resolver exercícios, o conteúdo continua em
+português.
+
 ## Testes
 
 ```bash
@@ -152,6 +187,11 @@ todo push e pull request.
   rascunho (canvas livre) e o botão "Resolver com IA", que reaproveita
   `/api/resolver-foto` exportando o desenho como PNG.
 - `supabase/schema.sql` — esquema do banco (tabelas + RLS).
+- `src/i18n/` — seletor de idioma: dicionários, cookie de locale
+  (`getServerLocale.ts` para Server Components, `LanguageContext.tsx`
+  para Client Components) e `src/components/LanguageSwitcher.tsx`.
+- `src/components/ThemeToggle.tsx` — alternância de modo escuro,
+  variáveis de cor em `src/app/globals.css` (`:root[data-theme="dark"]`).
 - `e2e/` — testes end-to-end (Playwright).
 
 ## Adicionando conteúdo

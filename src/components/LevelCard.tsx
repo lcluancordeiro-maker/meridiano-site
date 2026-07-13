@@ -1,7 +1,15 @@
 import Link from "next/link";
 import type { Level } from "@/data/curriculum";
 
-export default function LevelCard({ level }: { level: Level }) {
+export default function LevelCard({
+  level,
+  emBreve,
+  comecarTrilha,
+}: {
+  level: Level;
+  emBreve: string;
+  comecarTrilha: string;
+}) {
   const content = (
     <div
       className={`group flex h-full flex-col justify-between rounded-2xl border border-border bg-surface p-6 transition-all ${
@@ -17,7 +25,7 @@ export default function LevelCard({ level }: { level: Level }) {
           </span>
           {!level.available && (
             <span className="rounded-full bg-border px-2.5 py-1 text-xs font-medium text-muted">
-              Em breve
+              {emBreve}
             </span>
           )}
         </div>
@@ -30,7 +38,7 @@ export default function LevelCard({ level }: { level: Level }) {
       </div>
       {level.available && (
         <span className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-primary">
-          Começar trilha
+          {comecarTrilha}
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="transition-transform group-hover:translate-x-1">
             <path d="M5 12h14M13 6l6 6-6 6" />
           </svg>

@@ -1,14 +1,17 @@
-const ERROR_MESSAGES: Record<string, string> = {
-  unsupported_type: "Formato de imagem não suportado. Use JPEG, PNG, GIF ou WEBP.",
-  image_too_large: "A imagem é muito grande (máximo 8MB).",
-  missing_image: "Selecione ou desenhe algo antes de enviar.",
-  daily_limit_exceeded: "Você atingiu o limite diário de fotos resolvidas. Tente novamente amanhã.",
-  unauthorized: "Sua sessão expirou. Entre novamente para continuar.",
-  anthropic_not_configured: "Essa funcionalidade ainda não está disponível.",
-  ai_error: "Não foi possível analisar a imagem agora. Tente novamente em instantes.",
-  empty_response: "Não foi possível analisar a imagem agora. Tente novamente em instantes.",
+import type { Dictionary } from "@/i18n/dictionaries";
+
+const CODE_TO_KEY: Record<string, keyof Dictionary["errors"]> = {
+  unsupported_type: "unsupportedType",
+  image_too_large: "imageTooLarge",
+  missing_image: "missingImage",
+  daily_limit_exceeded: "dailyLimitExceeded",
+  unauthorized: "unauthorized",
+  anthropic_not_configured: "anthropicNotConfigured",
+  ai_error: "aiError",
+  empty_response: "aiError",
 };
 
-export function errorMessageFor(code: string | undefined): string {
-  return (code && ERROR_MESSAGES[code]) || "Algo deu errado ao processar a imagem. Tente novamente.";
+export function errorMessageFor(dict: Dictionary, code: string | undefined): string {
+  const key = code ? CODE_TO_KEY[code] : undefined;
+  return key ? dict.errors[key] : dict.errors.generic;
 }

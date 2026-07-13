@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import type { AuthFormState } from "@/app/actions/auth";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 export default function AuthForm({
   action,
@@ -11,13 +12,15 @@ export default function AuthForm({
   mode: "login" | "signup";
 }) {
   const [state, formAction, pending] = useActionState(action, undefined);
+  const { dict } = useTranslation();
+  const { auth } = dict;
 
   return (
     <form action={formAction} className="flex flex-col gap-4">
       {mode === "signup" && (
         <div>
           <label htmlFor="displayName" className="mb-1.5 block text-sm font-medium text-foreground">
-            Nome
+            {auth.nome}
           </label>
           <input
             id="displayName"
@@ -30,7 +33,7 @@ export default function AuthForm({
       )}
       <div>
         <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-foreground">
-          E-mail
+          {auth.email}
         </label>
         <input
           id="email"
@@ -43,7 +46,7 @@ export default function AuthForm({
       </div>
       <div>
         <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-foreground">
-          Senha
+          {auth.senha}
         </label>
         <input
           id="password"
@@ -61,7 +64,7 @@ export default function AuthForm({
         disabled={pending}
         className="rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
       >
-        {pending ? "Enviando..." : mode === "login" ? "Entrar" : "Criar conta"}
+        {pending ? auth.enviando : mode === "login" ? auth.entrarButton : auth.criarContaButton}
       </button>
     </form>
   );
