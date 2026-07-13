@@ -27,6 +27,7 @@ export type Dictionary = {
     sobreHeading: string;
     sobreBody: string;
     footer: string;
+    privacyLink: string;
   };
   auth: {
     entrarTitle: string;
@@ -149,6 +150,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       sobreBody:
         "Um app web instalável (PWA) que funciona em qualquer dispositivo — computador, celular ou tablet — e pode ser adicionado à tela inicial no iOS e Android como um app nativo. Cada trilha combina teoria objetiva com exercícios corrigidos na hora para consolidar o aprendizado.",
       footer: "Meridiano Matemática.",
+      privacyLink: "Política de Privacidade",
     },
     auth: {
       entrarTitle: "Entrar",
@@ -270,6 +272,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       sobreBody:
         "An installable web app (PWA) that works on any device — computer, phone or tablet — and can be added to the home screen on iOS and Android like a native app. Each track combines clear theory with exercises graded instantly to reinforce learning.",
       footer: "Meridiano Matemática.",
+      privacyLink: "Privacy Policy",
     },
     auth: {
       entrarTitle: "Log in",
@@ -391,6 +394,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       sobreBody:
         "Una app web instalable (PWA) que funciona en cualquier dispositivo — computadora, celular o tableta — y se puede agregar a la pantalla de inicio en iOS y Android como una app nativa. Cada ruta combina teoría clara con ejercicios corregidos al instante para consolidar el aprendizaje.",
       footer: "Meridiano Matemática.",
+      privacyLink: "Política de Privacidad",
     },
     auth: {
       entrarTitle: "Iniciar sesión",

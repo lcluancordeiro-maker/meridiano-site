@@ -65,6 +65,11 @@ de aplicativos.
   conteúdo Premium fica bloqueado para todo mundo mas o resto do app
   funciona normalmente. Veja "Configurando assinaturas (Stripe)"
   abaixo.
+- **Política de Privacidade** (`/privacidade`, link no rodapé): o que
+  coletamos, com quem compartilhamos (Supabase, Stripe, Anthropic) e os
+  direitos do titular pela LGPD. Gerada como ponto de partida — ainda
+  precisa do e-mail de contato real preenchido e de revisão por um
+  advogado antes de valer como documento oficial.
 
 ## Rodando localmente
 
@@ -273,6 +278,7 @@ todo push e pull request.
   mostra o conteúdo ou o paywall; `src/app/api/stripe/` — checkout,
   portal de gerenciamento e webhook; `src/app/assinatura/page.tsx` —
   página de assinatura.
+- `src/app/privacidade/page.tsx` — política de privacidade (LGPD).
 - `e2e/` — testes end-to-end (Playwright).
 
 ## Adicionando conteúdo

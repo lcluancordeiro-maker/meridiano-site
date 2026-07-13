@@ -100,8 +100,13 @@ export default async function Home() {
       </section>
 
       <footer className="mt-auto border-t border-border py-8">
-        <div className="mx-auto max-w-5xl px-6 text-sm text-muted">
-          © {new Date().getFullYear()} {home.footer}
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-6 text-sm text-muted">
+          <span>
+            © {new Date().getFullYear()} {home.footer}
+          </span>
+          <Link href="/privacidade" className="hover:text-foreground hover:underline">
+            {home.privacyLink}
+          </Link>
         </div>
       </footer>
     </div>
