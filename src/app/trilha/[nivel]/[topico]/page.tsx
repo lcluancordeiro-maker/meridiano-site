@@ -3,13 +3,17 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import PracticeSection from "@/components/PracticeSection";
 import FunctionGrapher from "@/components/FunctionGrapher";
-import { fundamental2Topics, getLevel, getTopic } from "@/data/curriculum";
+import { getLevel, getTopic, getTopicsForLevel, levels } from "@/data/curriculum";
 
 export function generateStaticParams() {
-  return fundamental2Topics.map((topic) => ({
-    nivel: "fundamental-2",
-    topico: topic.id,
-  }));
+  return levels
+    .filter((level) => level.available)
+    .flatMap((level) =>
+      getTopicsForLevel(level.id).map((topic) => ({
+        nivel: level.id,
+        topico: topic.id,
+      }))
+    );
 }
 
 export default async function TopicPage({

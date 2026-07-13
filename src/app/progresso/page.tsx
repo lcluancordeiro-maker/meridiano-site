@@ -8,7 +8,14 @@ import XpTrendChart from "@/components/charts/XpTrendChart";
 import { useGamification } from "@/lib/useGamification";
 import { useAllProgress } from "@/lib/useAllProgress";
 import { levelFromXp, getXpLast } from "@/lib/gamification";
-import { DIFFICULTY_ORDER, fundamental2Topics } from "@/data/curriculum";
+import {
+  DIFFICULTY_ORDER,
+  estatisticaAvancadoTopics,
+  estatisticaInicianteTopics,
+  estatisticaIntermediarioTopics,
+  fundamental2Topics,
+} from "@/data/curriculum";
+import type { ProgressStore } from "@/lib/progress";
 
 const TOPIC_SHORT_LABELS: Record<string, string> = {
   "numeros-inteiros": "Inteiros",
@@ -18,10 +25,15 @@ const TOPIC_SHORT_LABELS: Record<string, string> = {
   "proporcionalidade-porcentagem": "Proporção",
   "equacoes-segundo-grau": "Eq. 2º grau",
   "geometria-plana": "Geometria",
+  "medidas-tendencia-central": "Tend. Central",
+  "probabilidade-basica": "Probabilidade",
+  "distribuicao-normal": "Dist. Normal",
 };
 
 // Fixed categorical order (validated for CVD-safety) — never reassigned per render.
-const TOPIC_COLORS = [
+// Each independent chart below starts back at slot 1 since they're never compared
+// side by side in a shared legend.
+const CATEGORICAL_COLORS = [
   "#2a78d6", // blue
   "#1baf7a", // aqua
   "#eda100", // yellow
@@ -31,28 +43,55 @@ const TOPIC_COLORS = [
   "#e87ba4", // magenta
 ];
 
-export default function ProgressoPage() {
-  const gamification = useGamification();
-  const allProgress = useAllProgress();
-  const { level, xpIntoLevel, xpForNextLevel } = levelFromXp(gamification.xp);
-  const xpTrend = getXpLast(7);
-
-  const accuracyData = fundamental2Topics.map((topic, i) => {
+function buildAccuracyData(
+  entries: { levelId: string; topicId: string; label: string }[],
+  allProgress: ProgressStore
+) {
+  return entries.map(({ levelId, topicId, label }, i) => {
     let score = 0;
     let total = 0;
     for (const d of DIFFICULTY_ORDER) {
-      const p = allProgress[`fundamental-2/${topic.id}/${d}`];
+      const p = allProgress[`${levelId}/${topicId}/${d}`];
       if (p) {
         score += p.score;
         total += p.total;
       }
     }
     return {
-      label: TOPIC_SHORT_LABELS[topic.id] ?? topic.title,
+      label,
       value: total > 0 ? Math.round((score / total) * 100) : null,
-      color: TOPIC_COLORS[i % TOPIC_COLORS.length],
+      color: CATEGORICAL_COLORS[i % CATEGORICAL_COLORS.length],
     };
   });
+}
+
+export default function ProgressoPage() {
+  const gamification = useGamification();
+  const allProgress = useAllProgress();
+  const { level, xpIntoLevel, xpForNextLevel } = levelFromXp(gamification.xp);
+  const xpTrend = getXpLast(7);
+
+  const fund2AccuracyData = buildAccuracyData(
+    fundamental2Topics.map((topic) => ({
+      levelId: "fundamental-2",
+      topicId: topic.id,
+      label: TOPIC_SHORT_LABELS[topic.id] ?? topic.title,
+    })),
+    allProgress
+  );
+
+  const estatisticaAccuracyData = buildAccuracyData(
+    [
+      { levelId: "estatistica-iniciante", topic: estatisticaInicianteTopics[0] },
+      { levelId: "estatistica-intermediario", topic: estatisticaIntermediarioTopics[0] },
+      { levelId: "estatistica-avancado", topic: estatisticaAvancadoTopics[0] },
+    ].map(({ levelId, topic }) => ({
+      levelId,
+      topicId: topic.id,
+      label: TOPIC_SHORT_LABELS[topic.id] ?? topic.title,
+    })),
+    allProgress
+  );
 
   const hasAnyActivity = gamification.xp > 0;
 
@@ -96,10 +135,19 @@ export default function ProgressoPage() {
               </h2>
               <p className="mt-1 text-xs text-muted">Ensino Fundamental II</p>
               <div className="mt-4">
-                <AccuracyChart data={accuracyData} />
+                <AccuracyChart data={fund2AccuracyData} />
               </div>
             </div>
             <div className="rounded-2xl border border-border bg-surface p-5">
+              <h2 className="font-display text-lg font-semibold text-foreground">
+                Desempenho por tópico
+              </h2>
+              <p className="mt-1 text-xs text-muted">Estatística</p>
+              <div className="mt-4">
+                <AccuracyChart data={estatisticaAccuracyData} />
+              </div>
+            </div>
+            <div className="rounded-2xl border border-border bg-surface p-5 sm:col-span-2">
               <h2 className="font-display text-lg font-semibold text-foreground">
                 XP na última semana
               </h2>

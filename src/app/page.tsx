@@ -50,9 +50,51 @@ export default function Home() {
           </p>
         </div>
         <div className="grid gap-5 sm:grid-cols-2">
-          {levels.map((level) => (
-            <LevelCard key={level.id} level={level} />
-          ))}
+          {levels
+            .filter((level) => level.group === "serie")
+            .map((level) => (
+              <LevelCard key={level.id} level={level} />
+            ))}
+        </div>
+      </section>
+
+      <section className="border-t border-border bg-surface">
+        <div className="mx-auto w-full max-w-5xl px-6 py-16 sm:py-20">
+          <div className="mb-10">
+            <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
+              Estatística
+            </h2>
+            <p className="mt-2 text-muted">
+              Uma trilha independente, organizada em três níveis — do
+              descritivo ao inferencial.
+            </p>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-3">
+            {levels
+              .filter((level) => level.group === "estatistica")
+              .map((level) => (
+                <LevelCard key={level.id} level={level} />
+              ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-5xl px-6 py-16 sm:py-20">
+        <div className="mb-10">
+          <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
+            Econometria
+          </h2>
+          <p className="mt-2 text-muted">
+            Regressão e modelos preditivos, com pré-requisito de Estatística
+            e Cálculo.
+          </p>
+        </div>
+        <div className="grid gap-5 sm:grid-cols-3">
+          {levels
+            .filter((level) => level.group === "econometria")
+            .map((level) => (
+              <LevelCard key={level.id} level={level} />
+            ))}
         </div>
       </section>
 

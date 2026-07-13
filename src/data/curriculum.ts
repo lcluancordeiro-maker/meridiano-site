@@ -43,12 +43,15 @@ export type Topic = {
   graphExpressions?: string[];
 };
 
+export type LevelGroup = "serie" | "estatistica" | "econometria";
+
 export type Level = {
   id: string;
   name: string;
   shortName: string;
   description: string;
   available: boolean;
+  group: LevelGroup;
 };
 
 export const levels: Level[] = [
@@ -58,6 +61,7 @@ export const levels: Level[] = [
     shortName: "Fund. I",
     description: "Números, contagem e as quatro operações básicas.",
     available: false,
+    group: "serie",
   },
   {
     id: "fundamental-2",
@@ -66,6 +70,7 @@ export const levels: Level[] = [
     description:
       "Números inteiros, frações, potências, proporcionalidade, equações e geometria plana.",
     available: true,
+    group: "serie",
   },
   {
     id: "medio",
@@ -73,6 +78,7 @@ export const levels: Level[] = [
     shortName: "Médio",
     description: "Funções, geometria analítica, trigonometria e estatística.",
     available: false,
+    group: "serie",
   },
   {
     id: "superior",
@@ -80,6 +86,39 @@ export const levels: Level[] = [
     shortName: "Superior",
     description: "Cálculo, álgebra linear e equações diferenciais.",
     available: false,
+    group: "serie",
+  },
+  {
+    id: "estatistica-iniciante",
+    name: "Estatística — Iniciante",
+    shortName: "Estatística I",
+    description: "Média, moda, mediana e leitura de dados.",
+    available: true,
+    group: "estatistica",
+  },
+  {
+    id: "estatistica-intermediario",
+    name: "Estatística — Intermediário",
+    shortName: "Estatística II",
+    description: "Probabilidade básica e espaço amostral.",
+    available: true,
+    group: "estatistica",
+  },
+  {
+    id: "estatistica-avancado",
+    name: "Estatística — Avançado",
+    shortName: "Estatística III",
+    description: "Distribuição normal e escore-z.",
+    available: true,
+    group: "estatistica",
+  },
+  {
+    id: "econometria-iniciante",
+    name: "Econometria",
+    shortName: "Econometria",
+    description: "Regressão linear e modelos preditivos — em breve.",
+    available: false,
+    group: "econometria",
   },
 ];
 
@@ -1771,13 +1810,290 @@ export const fundamental2Topics: Topic[] = [
   },
 ];
 
+export const estatisticaInicianteTopics: Topic[] = [
+  {
+    id: "medidas-tendencia-central",
+    title: "Medidas de Tendência Central",
+    summary: "Aprenda a calcular e interpretar média, moda e mediana de um conjunto de dados.",
+    minutes: 15,
+    theory: [
+      {
+        heading: "O que é estatística descritiva?",
+        body: [
+          "A estatística descritiva organiza e resume dados para facilitar sua interpretação. As medidas de tendência central indicam um valor 'típico' que representa o conjunto de dados.",
+        ],
+      },
+      {
+        heading: "Média aritmética",
+        body: [
+          "A média é a soma de todos os valores dividida pela quantidade de valores.",
+        ],
+        example: {
+          problem: "Dados: 2, 4, 6, 8",
+          solution: "Média = (2+4+6+8) ÷ 4 = 20 ÷ 4 = 5.",
+        },
+      },
+      {
+        heading: "Moda",
+        body: ["A moda é o valor que mais aparece no conjunto de dados."],
+        example: {
+          problem: "Dados: 3, 5, 5, 7, 9",
+          solution: "5 aparece duas vezes, mais que qualquer outro valor. A moda é 5.",
+        },
+      },
+      {
+        heading: "Mediana",
+        body: [
+          "A mediana é o valor central quando os dados estão ordenados. Se a quantidade de valores for par, a mediana é a média dos dois valores centrais.",
+        ],
+        example: {
+          problem: "Dados ordenados: 2, 4, 6, 8, 10",
+          solution: "Com 5 valores (ímpar), a mediana é o valor central: 6.",
+        },
+      },
+    ],
+    exercises: [
+      {
+        id: "q1",
+        prompt: "Qual a média de 2, 4, 6 e 8?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "5",
+        explanation: "(2+4+6+8) ÷ 4 = 20 ÷ 4 = 5.",
+      },
+      {
+        id: "q2",
+        prompt: "Qual a moda do conjunto {3, 5, 5, 7, 9}?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "5",
+        explanation: "5 aparece duas vezes, mais que qualquer outro valor do conjunto.",
+      },
+      {
+        id: "q3",
+        prompt: "Qual a mediana do conjunto ordenado {2, 4, 6, 8, 10}?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "6",
+        explanation: "Com 5 valores, a mediana é o valor central: 6.",
+      },
+      {
+        id: "q4",
+        prompt: "Qual a mediana do conjunto ordenado {1, 3, 5, 7}?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "4",
+        explanation: "Com 4 valores (par), a mediana é a média dos dois centrais: (3+5)/2 = 4.",
+      },
+      {
+        id: "q5",
+        prompt: "Qual a média de 10, 20 e 30?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "20",
+        explanation: "(10+20+30) ÷ 3 = 60 ÷ 3 = 20.",
+      },
+      {
+        id: "q6",
+        prompt: "Num conjunto de dados, qual medida representa o valor que mais se repete?",
+        type: "multiple-choice",
+        difficulty: "medio",
+        options: ["Moda", "Média", "Mediana", "Amplitude"],
+        answer: "Moda",
+        explanation: "A moda é, por definição, o valor de maior frequência no conjunto.",
+      },
+    ],
+  },
+];
+
+export const estatisticaIntermediarioTopics: Topic[] = [
+  {
+    id: "probabilidade-basica",
+    title: "Probabilidade Básica",
+    summary: "Entenda espaço amostral, eventos e como calcular probabilidades simples.",
+    minutes: 18,
+    theory: [
+      {
+        heading: "Espaço amostral e eventos",
+        body: [
+          "O espaço amostral é o conjunto de todos os resultados possíveis de um experimento. Um evento é qualquer subconjunto desse espaço amostral.",
+        ],
+        example: {
+          problem: "Lançamento de um dado de 6 faces",
+          solution: "Espaço amostral = {1, 2, 3, 4, 5, 6}.",
+        },
+      },
+      {
+        heading: "Probabilidade de um evento",
+        body: [
+          "Quando todos os resultados são igualmente prováveis, a probabilidade de um evento A é: P(A) = (casos favoráveis) ÷ (casos possíveis).",
+        ],
+        example: {
+          problem: "Probabilidade de sair um número par ao lançar um dado",
+          solution: "Casos favoráveis: {2,4,6} = 3. Casos possíveis: 6. P = 3/6 = 1/2.",
+        },
+      },
+      {
+        heading: "Probabilidade complementar",
+        body: [
+          "A probabilidade do evento complementar (o evento 'não acontecer') é: P(não A) = 1 - P(A).",
+        ],
+      },
+    ],
+    exercises: [
+      {
+        id: "q1",
+        prompt: "Ao lançar um dado de 6 faces, qual a probabilidade de sair o número 4? (formato a/b)",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "1/6",
+        explanation: "1 caso favorável em 6 casos possíveis: 1/6.",
+      },
+      {
+        id: "q2",
+        prompt: "Ao lançar um dado de 6 faces, qual a probabilidade de sair um número par? (formato a/b, simplificado)",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "1/2",
+        explanation: "3 casos favoráveis ({2,4,6}) em 6 possíveis: 3/6 = 1/2.",
+      },
+      {
+        id: "q3",
+        prompt:
+          "Numa urna há 4 bolas vermelhas e 6 bolas azuis. Qual a probabilidade de tirar uma bola vermelha? (formato a/b, simplificado)",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "2/5",
+        explanation: "4 favoráveis em 10 possíveis: 4/10 = 2/5.",
+      },
+      {
+        id: "q4",
+        prompt: "Se a probabilidade de chover amanhã é 30%, qual a probabilidade de não chover, em %?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "70",
+        explanation: "P(não chover) = 100% - 30% = 70%.",
+      },
+      {
+        id: "q5",
+        prompt: "Ao lançar uma moeda duas vezes, quantos resultados possíveis existem no espaço amostral?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "4",
+        explanation: "Cada lançamento tem 2 resultados (cara/coroa): 2×2 = 4 combinações (CC, CK, KC, KK).",
+      },
+      {
+        id: "q6",
+        prompt: "Qual é a probabilidade de um evento impossível?",
+        type: "multiple-choice",
+        difficulty: "medio",
+        options: ["0", "1", "0,5", "Depende do evento"],
+        answer: "0",
+        explanation: "Um evento que nunca pode ocorrer tem probabilidade 0.",
+      },
+    ],
+  },
+];
+
+export const estatisticaAvancadoTopics: Topic[] = [
+  {
+    id: "distribuicao-normal",
+    title: "Distribuição Normal e Escore-Z",
+    summary: "Compreenda a curva normal, a regra empírica e como calcular o escore-z.",
+    minutes: 22,
+    theory: [
+      {
+        heading: "A distribuição normal",
+        body: [
+          "A distribuição normal é uma distribuição de probabilidade simétrica, em forma de sino, descrita por sua média (μ) e desvio padrão (σ). É a distribuição mais comum em fenômenos naturais e sociais.",
+        ],
+      },
+      {
+        heading: "Regra empírica (68-95-99,7)",
+        body: [
+          "Numa distribuição normal, aproximadamente 68% dos dados estão a 1 desvio padrão da média, 95% a 2 desvios padrão, e 99,7% a 3 desvios padrão.",
+        ],
+      },
+      {
+        heading: "Escore-z",
+        body: [
+          "O escore-z mede quantos desvios padrão um valor está distante da média: z = (x - μ) / σ.",
+          "Para encontrar x a partir de z, use: x = μ + z × σ.",
+        ],
+        example: {
+          problem: "Média 100, desvio padrão 15. Qual o escore-z de x=130?",
+          solution: "z = (130 - 100) / 15 = 30 / 15 = 2.",
+        },
+      },
+    ],
+    exercises: [
+      {
+        id: "q1",
+        prompt: "Numa distribuição normal com média 100 e desvio padrão 15, qual o escore-z de x=130?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "2",
+        explanation: "z = (130-100)/15 = 30/15 = 2.",
+      },
+      {
+        id: "q2",
+        prompt: "Numa distribuição normal com média 50 e desvio padrão 10, qual o escore-z de x=40?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "-1",
+        explanation: "z = (40-50)/10 = -10/10 = -1.",
+      },
+      {
+        id: "q3",
+        prompt: "Numa distribuição normal com média 200 e desvio padrão 20, qual o valor de x correspondente a um escore-z de 1?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "220",
+        explanation: "x = μ + z×σ = 200 + 1×20 = 220.",
+      },
+      {
+        id: "q4",
+        prompt:
+          "Segundo a regra empírica, aproximadamente que porcentagem dos dados está a 1 desvio padrão da média, numa distribuição normal? (responda o número, sem o %)",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "68",
+        explanation: "A regra empírica (68-95-99,7) estabelece 68% dos dados a 1 desvio padrão da média.",
+      },
+      {
+        id: "q5",
+        prompt: "Numa distribuição normal com média 70 e desvio padrão 5, qual o escore-z de x=75?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "1",
+        explanation: "z = (75-70)/5 = 5/5 = 1.",
+      },
+      {
+        id: "q6",
+        prompt: "Qual é o formato característico de uma distribuição normal?",
+        type: "multiple-choice",
+        difficulty: "medio",
+        options: ["Sino (simétrico)", "Uniforme (retangular)", "Assimétrico à direita", "Bimodal"],
+        answer: "Sino (simétrico)",
+        explanation: "A distribuição normal tem a característica curva em forma de sino, simétrica em torno da média.",
+      },
+    ],
+  },
+];
+
+const TOPICS_BY_LEVEL: Record<string, Topic[]> = {
+  "fundamental-2": fundamental2Topics,
+  "estatistica-iniciante": estatisticaInicianteTopics,
+  "estatistica-intermediario": estatisticaIntermediarioTopics,
+  "estatistica-avancado": estatisticaAvancadoTopics,
+};
+
 export function getLevel(levelId: string): Level | undefined {
   return levels.find((l) => l.id === levelId);
 }
 
 export function getTopicsForLevel(levelId: string): Topic[] {
-  if (levelId === "fundamental-2") return fundamental2Topics;
-  return [];
+  return TOPICS_BY_LEVEL[levelId] ?? [];
 }
 
 export function getTopic(levelId: string, topicId: string): Topic | undefined {
