@@ -1,22 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-
-const SIZE = 320;
-const RANGE = 8;
-const TICKS = [-8, -6, -4, -2, 2, 4, 6, 8];
-
-function toPx(x: number): number {
-  return ((x + RANGE) / (2 * RANGE)) * SIZE;
-}
-
-function toPy(y: number): number {
-  return SIZE - ((y + RANGE) / (2 * RANGE)) * SIZE;
-}
-
-function formatCoefficient(value: number): string {
-  return Number.isInteger(value) ? value.toString() : value.toFixed(1);
-}
+import { RANGE, SIZE, TICKS, toPx, toPy, formatNumber as formatCoefficient } from "./svgUtils";
 
 export default function SlopeExplorer() {
   const [a, setA] = useState(2);

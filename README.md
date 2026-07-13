@@ -71,19 +71,24 @@ de aplicativos.
 - **Widgets interativos na teoria** (também inspirado no Brilliant.org):
   algumas seções de teoria têm uma seção extra "Explore ao vivo" com um
   mini-app SVG em vez de só texto — sliders ou pontos arrastáveis que
-  recalculam algo na hora. Hoje são dois, pilotos: em "Função do 1º Grau"
-  (Ensino Médio), sliders para os coeficientes a/b mostram a reta mudando
-  ao vivo; em "Geometria Analítica" (Ensino Médio), dois pontos
-  arrastáveis recalculam distância, ponto médio e coeficiente angular
-  em tempo real. Ver `src/components/widgets/`.
+  recalculam algo na hora. Hoje são três: em "Função do 1º Grau" (Ensino
+  Médio), sliders para os coeficientes a/b mostram a reta mudando ao
+  vivo; em "Geometria Analítica" (Ensino Médio), dois pontos arrastáveis
+  recalculam distância, ponto médio e coeficiente angular em tempo real;
+  em "Função Quadrática" (Ensino Médio), sliders para a/b/c desenham a
+  parábola e recalculam a concavidade e o vértice na hora. Os três
+  widgets compartilham as constantes e funções de conversão de
+  coordenadas SVG em `src/components/widgets/svgUtils.ts`. Ver
+  `src/components/widgets/`.
 - **Feedback de erro mais inteligente**: alguns exercícios têm um campo
   `commonMistakeHint` — na primeira resposta errada, em vez de revelar a
   resposta certa na hora, o app mostra uma dica apontando o erro de
   raciocínio mais provável e deixa o aluno tentar de novo; só revela a
   resposta certa numa segunda tentativa errada. Exercícios sem essa dica
   (a maioria, por enquanto) mantêm o comportamento original de revelar na
-  hora. Hoje as dicas cobrem "Função do 1º Grau" e "Geometria Analítica"
-  (Ensino Médio) — dá pra adicionar aos poucos em outros tópicos.
+  hora. Hoje as dicas cobrem "Função do 1º Grau", "Geometria Analítica",
+  "Função Quadrática" e "Trigonometria no Triângulo Retângulo" (todos do
+  Ensino Médio) — dá pra adicionar aos poucos em outros tópicos.
 - **Tutor de IA (Gauss)**: um chat flutuante (canto inferior esquerdo,
   disponível em qualquer página), inspirado no "Koji" do Brilliant.org.
   Gauss usa o método socrático — faz perguntas e dá pistas em vez de

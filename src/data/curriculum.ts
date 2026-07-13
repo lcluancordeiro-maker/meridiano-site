@@ -35,7 +35,7 @@ export type TheoryExample = {
 /** Interactive widgets embedded in a theory section — sliders/draggable
  * points that give instant visual feedback, in the spirit of Brilliant.org.
  * See src/components/widgets/. */
-export type InteractiveWidget = "slope-explorer" | "two-point-explorer";
+export type InteractiveWidget = "slope-explorer" | "two-point-explorer" | "quadratic-explorer";
 
 export type TheorySection = {
   heading: string;
@@ -2845,6 +2845,13 @@ export const medioTopics: Topic[] = [
           "O gráfico de uma função quadrática é sempre uma parábola, simétrica em torno da reta vertical que passa pelo vértice.",
         ],
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa nos sliders abaixo e observe: o sinal de a decide a concavidade (abre pra cima ou pra baixo); mudar b e c desloca o vértice da parábola.",
+        ],
+        interactiveWidget: "quadratic-explorer",
+      },
     ],
     exercises: [
       {
@@ -2854,6 +2861,7 @@ export const medioTopics: Topic[] = [
         difficulty: "facil",
         answer: "2",
         explanation: "Em f(x) = ax² + bx + c, o coeficiente a é o número que multiplica x²: a = 2.",
+        commonMistakeHint: "O coeficiente a é o número que multiplica x² — inclua o sinal, se houver.",
       },
       {
         id: "f2",
@@ -2862,6 +2870,7 @@ export const medioTopics: Topic[] = [
         difficulty: "facil",
         answer: "-1",
         explanation: "-x² equivale a -1x², então a = -1.",
+        commonMistakeHint: "-x² é o mesmo que -1x² — não esqueça o -1 mesmo que ele não apareça escrito explicitamente.",
       },
       {
         id: "f3",
@@ -2871,6 +2880,7 @@ export const medioTopics: Topic[] = [
         options: ["Para cima", "Para baixo"],
         answer: "Para cima",
         explanation: "Como a = 3 > 0, a parábola abre para cima.",
+        commonMistakeHint: "O sinal de a decide a concavidade: se a for positivo, a parábola abre para cima.",
       },
       {
         id: "f4",
@@ -2880,6 +2890,7 @@ export const medioTopics: Topic[] = [
         options: ["Para cima", "Para baixo"],
         answer: "Para baixo",
         explanation: "Como a = -4 < 0, a parábola abre para baixo.",
+        commonMistakeHint: "O sinal de a decide a concavidade: se a for negativo, a parábola abre para baixo.",
       },
       {
         id: "f5",
@@ -2888,6 +2899,7 @@ export const medioTopics: Topic[] = [
         difficulty: "facil",
         answer: "5",
         explanation: "f(0) = 2×0² - 3×0 + 5 = 5 — o termo c é sempre o valor de f(0).",
+        commonMistakeHint: "f(0) significa substituir x por 0 — todos os termos com x somem, sobra só a constante c.",
       },
       {
         id: "q1",
@@ -2896,6 +2908,7 @@ export const medioTopics: Topic[] = [
         difficulty: "medio",
         answer: "2",
         explanation: "xv = -b/(2a) = -(-4)/(2×1) = 4/2 = 2.",
+        commonMistakeHint: "Use xv = -b/(2a) — preste atenção ao sinal de b antes de dividir por 2a.",
       },
       {
         id: "q2",
@@ -2904,6 +2917,7 @@ export const medioTopics: Topic[] = [
         difficulty: "medio",
         answer: "-1",
         explanation: "xv = 2 (veja o exercício anterior). yv = f(2) = 4 - 8 + 3 = -1.",
+        commonMistakeHint: "Primeiro encontre xv, depois substitua esse valor de volta na função para achar yv = f(xv).",
       },
       {
         id: "q3",
@@ -2912,6 +2926,7 @@ export const medioTopics: Topic[] = [
         difficulty: "medio",
         answer: "3",
         explanation: "xv = -b/(2a) = -(-6)/(2×1) = 6/2 = 3.",
+        commonMistakeHint: "Use xv = -b/(2a) — preste atenção ao sinal de b antes de dividir por 2a.",
       },
       {
         id: "q4",
@@ -2921,6 +2936,7 @@ export const medioTopics: Topic[] = [
         options: ["Máximo", "Mínimo"],
         answer: "Mínimo",
         explanation: "Como a = 1 > 0, a parábola abre para cima e tem um ponto de mínimo.",
+        commonMistakeHint: "O sinal de a decide se é máximo ou mínimo: a positivo dá parábola voltada pra cima, ou seja, um ponto de mínimo.",
       },
       {
         id: "q5",
@@ -2930,6 +2946,7 @@ export const medioTopics: Topic[] = [
         options: ["Máximo", "Mínimo"],
         answer: "Máximo",
         explanation: "Como a = -3 < 0, a parábola abre para baixo e tem um ponto de máximo.",
+        commonMistakeHint: "O sinal de a decide se é máximo ou mínimo: a negativo dá parábola voltada pra baixo, ou seja, um ponto de máximo.",
       },
       {
         id: "d1",
@@ -2938,6 +2955,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "3",
         explanation: "xv = -4/(2×-1) = 2. yv = f(2) = -4 + 8 - 1 = 3.",
+        commonMistakeHint: "Primeiro calcule xv = -b/(2a), depois substitua esse valor na função para achar yv.",
       },
       {
         id: "d2",
@@ -2946,6 +2964,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "2",
         explanation: "xv = -(-8)/(2×2) = 8/4 = 2.",
+        commonMistakeHint: "Use xv = -b/(2a) — cuidado com o sinal de b (aqui b é negativo).",
       },
       {
         id: "d3",
@@ -2954,6 +2973,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "-5",
         explanation: "xv = 2 (veja o exercício anterior). yv = f(2) = 2×4 - 16 + 3 = 8 - 16 + 3 = -5.",
+        commonMistakeHint: "Reaproveite o xv do exercício anterior e substitua na função para achar yv.",
       },
       {
         id: "d4",
@@ -2962,6 +2982,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "5",
         explanation: "f(4) = 16 - 8 - 3 = 5.",
+        commonMistakeHint: "Substitua x=4 na expressão e resolva na ordem certa: potência, depois multiplicação, depois soma/subtração.",
       },
       {
         id: "d5",
@@ -2970,6 +2991,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "-4",
         explanation: "f(-1) = -2×(-1)² + 3×(-1) + 1 = -2 - 3 + 1 = -4.",
+        commonMistakeHint: "Substitua x=-1 com cuidado: (-1)² = 1, e não esqueça de aplicar o sinal de cada termo separadamente.",
       },
       {
         id: "o1",
@@ -2979,6 +3001,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "2",
         explanation: "f(5) = 1×(5-3)² + (-2) = 1×4 - 2 = 2.",
+        commonMistakeHint: "Substitua x=5 na forma f(x) = a(x-xv)² + yv — resolva a potência antes de multiplicar por a.",
       },
       {
         id: "o2",
@@ -2988,6 +3011,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "0",
         explanation: "f(0) = -1×(0-2)² + 4 = -1×4 + 4 = 0.",
+        commonMistakeHint: "Substitua x=0 na forma f(x) = a(x-xv)² + yv — cuidado com o sinal de a negativo.",
       },
       {
         id: "o3",
@@ -2997,6 +3021,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "-6",
         explanation: "Soma das raízes = 1 + 5 = 6 = -b/1, então b = -6.",
+        commonMistakeHint: "A soma das raízes é -b/a — iguale essa expressão à soma que você já conhece e isole b.",
       },
       {
         id: "o4",
@@ -3006,6 +3031,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "0",
         explanation: "f(0) = 2×(0-4)² + yv = 2×16 + yv = 32 + yv. Como f(0)=32, temos 32 + yv = 32, logo yv = 0.",
+        commonMistakeHint: "Substitua x=0 na forma f(x) = a(x-xv)² + yv, iguale a f(0) dado, e isole yv.",
       },
       {
         id: "o5",
@@ -3014,6 +3040,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "3",
         explanation: "(x-3)² = 0 apenas quando x = 3 — uma raiz dupla (discriminante zero).",
+        commonMistakeHint: "Uma raiz dupla significa que a expressão fatorada tem a forma (x-r)² — o valor de r é a única raiz.",
       },
     ],
   },
@@ -3066,6 +3093,7 @@ export const medioTopics: Topic[] = [
         options: ["Hipotenusa", "Cateto oposto", "Cateto adjacente"],
         answer: "Hipotenusa",
         explanation: "A hipotenusa é sempre o lado oposto ao ângulo reto, e o maior dos três lados.",
+        commonMistakeHint: "A hipotenusa é sempre o lado oposto ao ângulo reto — e é sempre o maior dos três lados.",
       },
       {
         id: "f2",
@@ -3074,6 +3102,7 @@ export const medioTopics: Topic[] = [
         difficulty: "facil",
         answer: "5",
         explanation: "hipotenusa² = 3² + 4² = 9 + 16 = 25, então hipotenusa = 5.",
+        commonMistakeHint: "Use o Teorema de Pitágoras: hipotenusa² = cateto1² + cateto2² — some os quadrados antes de tirar a raiz.",
       },
       {
         id: "f3",
@@ -3082,6 +3111,7 @@ export const medioTopics: Topic[] = [
         difficulty: "facil",
         answer: "10",
         explanation: "hipotenusa² = 6² + 8² = 36 + 64 = 100, então hipotenusa = 10.",
+        commonMistakeHint: "Use o Teorema de Pitágoras: hipotenusa² = cateto1² + cateto2² — some os quadrados antes de tirar a raiz.",
       },
       {
         id: "f4",
@@ -3090,6 +3120,7 @@ export const medioTopics: Topic[] = [
         difficulty: "facil",
         answer: "1",
         explanation: "sen(45°) = cos(45°) = √2/2, então tan(45°) = sen/cos = 1.",
+        commonMistakeHint: "tan(45°) = sen(45°)/cos(45°) — como sen(45°) e cos(45°) são iguais, a divisão dá exatamente 1.",
       },
       {
         id: "f5",
@@ -3099,6 +3130,7 @@ export const medioTopics: Topic[] = [
         options: ["oposto/hipotenusa", "oposto/adjacente", "adjacente/hipotenusa"],
         answer: "oposto/adjacente",
         explanation: "tan(θ) = cateto oposto / cateto adjacente.",
+        commonMistakeHint: "Lembre-se: seno usa a hipotenusa, cosseno usa a hipotenusa, mas a tangente é a única razão que não usa a hipotenusa.",
       },
       {
         id: "q1",
@@ -3107,6 +3139,7 @@ export const medioTopics: Topic[] = [
         difficulty: "medio",
         answer: "12",
         explanation: "13² - 5² = 169 - 25 = 144. √144 = 12.",
+        commonMistakeHint: "Para achar um cateto a partir da hipotenusa e do outro cateto, isole o cateto desconhecido: cateto² = hipotenusa² - outroCateto².",
       },
       {
         id: "q2",
@@ -3115,6 +3148,7 @@ export const medioTopics: Topic[] = [
         difficulty: "medio",
         answer: "8",
         explanation: "10² - 6² = 100 - 36 = 64. √64 = 8.",
+        commonMistakeHint: "Para achar um cateto a partir da hipotenusa e do outro cateto, isole o cateto desconhecido: cateto² = hipotenusa² - outroCateto².",
       },
       {
         id: "q3",
@@ -3124,6 +3158,7 @@ export const medioTopics: Topic[] = [
         options: ["1/2", "√2/2", "√3/2", "1"],
         answer: "1/2",
         explanation: "sen(30°) = 1/2 é um dos ângulos notáveis.",
+        commonMistakeHint: "sen(30°) é um dos ângulos notáveis — não confunda com cos(30°), que vale √3/2.",
       },
       {
         id: "q4",
@@ -3133,6 +3168,7 @@ export const medioTopics: Topic[] = [
         options: ["1/2", "√2/2", "√3/2", "1"],
         answer: "1/2",
         explanation: "cos(60°) = 1/2 (sen e cos de 30° e 60° se invertem).",
+        commonMistakeHint: "cos(60°) é um dos ângulos notáveis — repare que sen(30°) e cos(60°) têm o mesmo valor (1/2).",
       },
       {
         id: "q5",
@@ -3142,6 +3178,7 @@ export const medioTopics: Topic[] = [
         options: ["1/2", "√2/2", "√3/2", "1"],
         answer: "√2/2",
         explanation: "sen(45°) = √2/2 é um dos ângulos notáveis.",
+        commonMistakeHint: "sen(45°) é um dos ângulos notáveis — não confunda o valor √2/2 com √3/2 (que é de 60°).",
       },
       {
         id: "d1",
@@ -3150,6 +3187,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "15",
         explanation: "9² + 12² = 81 + 144 = 225. √225 = 15.",
+        commonMistakeHint: "Aqui você tem os dois catetos e quer a hipotenusa: hipotenusa² = cateto1² + cateto2² (some, não subtraia).",
       },
       {
         id: "d2",
@@ -3158,6 +3196,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "24",
         explanation: "25² - 7² = 625 - 49 = 576. √576 = 24.",
+        commonMistakeHint: "Aqui você tem a hipotenusa e um cateto: cateto² = hipotenusa² - outroCateto² (subtraia, não some).",
       },
       {
         id: "d3",
@@ -3166,6 +3205,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "1",
         explanation: "tan(30°) = 1/√3 e tan(60°) = √3. O produto (1/√3) × √3 = 1.",
+        commonMistakeHint: "tan(30°) e tan(60°) são valores recíprocos um do outro (1/√3 e √3) — o produto de dois recíprocos é sempre 1.",
       },
       {
         id: "d4",
@@ -3174,6 +3214,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "6",
         explanation: "sen(θ) = oposto/hipotenusa, então oposto = sen(θ) × hipotenusa = (3/5) × 10 = 6.",
+        commonMistakeHint: "sen(θ) = cateto oposto / hipotenusa — isole o cateto oposto multiplicando sen(θ) pela hipotenusa.",
       },
       {
         id: "d5",
@@ -3182,6 +3223,7 @@ export const medioTopics: Topic[] = [
         difficulty: "dificil",
         answer: "12",
         explanation: "cos(θ) = adjacente/hipotenusa, então adjacente = cos(θ) × hipotenusa = (4/5) × 15 = 12.",
+        commonMistakeHint: "cos(θ) = cateto adjacente / hipotenusa — isole o cateto adjacente multiplicando cos(θ) pela hipotenusa.",
       },
       {
         id: "o1",
@@ -3190,6 +3232,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "10",
         explanation: "hipotenusa² = 8² + 6² = 64 + 36 = 100. hipotenusa = 10.",
+        commonMistakeHint: "Você já tem os dois catetos (oposto e adjacente) — use o Teorema de Pitágoras normalmente para achar a hipotenusa.",
       },
       {
         id: "o2",
@@ -3199,6 +3242,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "4/5",
         explanation: "sen(θ) = oposto/hipotenusa = 8/10 = 4/5.",
+        commonMistakeHint: "sen(θ) = cateto oposto / hipotenusa — identifique qual dos dois catetos é o oposto ao ângulo θ.",
       },
       {
         id: "o3",
@@ -3208,6 +3252,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "3/5",
         explanation: "cos(θ) = adjacente/hipotenusa = 6/10 = 3/5.",
+        commonMistakeHint: "cos(θ) = cateto adjacente / hipotenusa — identifique qual dos dois catetos é o adjacente ao ângulo θ.",
       },
       {
         id: "o4",
@@ -3217,6 +3262,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "16/25",
         explanation: "cos²(θ) = 1 - sen²(θ) = 1 - 9/25 = 16/25.",
+        commonMistakeHint: "Use a identidade fundamental cos²(θ) = 1 - sen²(θ) — eleve sen(θ) ao quadrado antes de subtrair de 1.",
       },
       {
         id: "o5",
@@ -3226,6 +3272,7 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "15",
         explanation: "17² - 8² = 289 - 64 = 225. √225 = 15.",
+        commonMistakeHint: "Use o Teorema de Pitágoras isolando o cateto desconhecido: cateto² = hipotenusa² - outroCateto².",
       },
     ],
   },

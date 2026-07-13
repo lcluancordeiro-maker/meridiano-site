@@ -55,4 +55,20 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
     await expect(page.getByText("5.66")).toBeVisible();
     await expect(page.getByText("(2, 1)")).toBeVisible();
   });
+
+  test("quadratic explorer updates the parabola equation and vertex as you move the sliders", async ({ page }) => {
+    await page.goto("/trilha/medio/funcao-quadratica");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("f(x) = 1x² − 2x − 3")).toBeVisible();
+    await expect(page.getByText("Concavidade para cima (mínimo) — vértice em (1, -4).")).toBeVisible();
+
+    const aSlider = page.getByRole("slider", { name: /Coeficiente a:/ });
+    await aSlider.fill("2");
+    await expect(page.getByText("f(x) = 2x² − 2x − 3")).toBeVisible();
+    await expect(page.getByText("Concavidade para cima (mínimo) — vértice em (0.5, -3.5).")).toBeVisible();
+
+    const cSlider = page.getByRole("slider", { name: /Coeficiente c:/ });
+    await cSlider.fill("5");
+    await expect(page.getByText("f(x) = 2x² − 2x + 5")).toBeVisible();
+  });
 });

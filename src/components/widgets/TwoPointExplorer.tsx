@@ -1,29 +1,10 @@
 "use client";
 
 import { useRef, useState } from "react";
-
-const SIZE = 320;
-const RANGE = 8;
-const TICKS = [-8, -6, -4, -2, 2, 4, 6, 8];
+import { RANGE, SIZE, TICKS, clamp, formatNumber, toPx, toPy } from "./svgUtils";
 
 type Point = { x: number; y: number };
 type DragTarget = "a" | "b" | null;
-
-function toPx(x: number): number {
-  return ((x + RANGE) / (2 * RANGE)) * SIZE;
-}
-
-function toPy(y: number): number {
-  return SIZE - ((y + RANGE) / (2 * RANGE)) * SIZE;
-}
-
-function clamp(value: number, min: number, max: number): number {
-  return Math.min(max, Math.max(min, value));
-}
-
-function formatNumber(value: number): string {
-  return Number.isInteger(value) ? value.toString() : value.toFixed(1);
-}
 
 export default function TwoPointExplorer() {
   const [pointA, setPointA] = useState<Point>({ x: -3, y: -2 });
