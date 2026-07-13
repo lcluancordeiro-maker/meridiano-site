@@ -30,6 +30,9 @@ export default async function Navbar() {
           <Link href="/foto" className="hover:text-foreground transition-colors">
             Resolver por foto
           </Link>
+          <Link href="/quadro" className="hover:text-foreground transition-colors">
+            Quadro
+          </Link>
           <Link href="/progresso" className="hover:text-foreground transition-colors">
             Progresso
           </Link>

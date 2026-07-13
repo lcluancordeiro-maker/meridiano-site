@@ -37,6 +37,14 @@ de aplicativos.
   aluno fotografa um problema de matemática e recebe a solução passo a
   passo, gerada pela Claude API (visão). Veja "Configurando resolver
   por foto" abaixo.
+- **Quadro de rascunho** (`/quadro`): quadro negro digital — desenhar
+  com mouse, dedo ou caneta (cores, espessura, borracha, desfazer,
+  baixar como PNG). Aberto a todos, sem conta; o botão "Resolver com
+  IA" (que reaproveita o mesmo pipeline do "resolver por foto") exige
+  login. Reconhecimento de escrita à mão ao vivo (convertendo os
+  traços em equação enquanto o aluno escreve) é um item futuro — hoje
+  a IA analisa uma imagem estática do quadro, não os traços em tempo
+  real.
 
 ## Rodando localmente
 
@@ -92,7 +100,9 @@ do app não é afetado.
 Cada usuário logado tem um limite de 15 fotos resolvidas por dia
 (`increment_photo_usage` em `supabase/schema.sql`, aplicado de forma
 atômica no banco) — proteção simples contra abuso, já que cada chamada
-tem custo real de API.
+tem custo real de API. O mesmo limite vale para o botão "Resolver com
+IA" do quadro de rascunho, já que os dois usam a mesma rota
+(`/api/resolver-foto`).
 
 ## Testes
 
@@ -135,6 +145,9 @@ todo push e pull request.
   nuvem quando logado.
 - `src/app/api/resolver-foto/route.ts` + `src/components/PhotoSolver.tsx`
   — rota e UI de "resolver por foto" (Claude API com visão).
+- `src/components/DrawingCanvas.tsx` + `QuadroBoard.tsx` — quadro de
+  rascunho (canvas livre) e o botão "Resolver com IA", que reaproveita
+  `/api/resolver-foto` exportando o desenho como PNG.
 - `supabase/schema.sql` — esquema do banco (tabelas + RLS).
 - `e2e/` — testes end-to-end (Playwright).
 
