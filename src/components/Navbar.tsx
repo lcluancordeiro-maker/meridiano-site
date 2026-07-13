@@ -1,7 +1,12 @@
 import Link from "next/link";
 import NavbarXpBadge from "./NavbarXpBadge";
+import { createClient } from "@/lib/supabase/server";
+import { logout } from "@/app/actions/auth";
 
-export default function Navbar() {
+export default async function Navbar() {
+  const supabase = await createClient();
+  const user = supabase ? (await supabase.auth.getUser()).data.user : null;
+
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-surface/90 backdrop-blur">
       <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3 sm:px-6 sm:py-4">
@@ -26,6 +31,26 @@ export default function Navbar() {
             Progresso
           </Link>
           <NavbarXpBadge />
+          {user ? (
+            <form action={logout} className="flex items-center gap-3">
+              <span className="hidden text-xs text-muted sm:inline" title={user.email ?? undefined}>
+                {user.email}
+              </span>
+              <button
+                type="submit"
+                className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-foreground transition-colors hover:border-primary"
+              >
+                Sair
+              </button>
+            </form>
+          ) : (
+            <Link
+              href="/entrar"
+              className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-foreground transition-colors hover:border-primary"
+            >
+              Entrar
+            </Link>
+          )}
         </nav>
       </div>
     </header>

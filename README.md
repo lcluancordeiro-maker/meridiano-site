@@ -28,7 +28,11 @@ de aplicativos.
 - **Dashboard de progresso** (`/progresso`) com gráficos de desempenho
   por tópico e XP ao longo do tempo.
 - Progresso e gamificação salvos localmente no navegador
-  (`localStorage`), sem necessidade de conta.
+  (`localStorage`) — funciona sem conta (modo convidado).
+- **Contas (opcional)**: login/cadastro (`/entrar`, `/cadastro`) via
+  Supabase Auth sincronizam XP, progresso e conquistas na nuvem entre
+  dispositivos. Sem configurar o Supabase, o app roda 100% em modo
+  local — nada quebra. Veja "Configurando contas (Supabase)" abaixo.
 
 ## Rodando localmente
 
@@ -38,6 +42,34 @@ npm run dev
 ```
 
 Abra [http://localhost:3000](http://localhost:3000).
+
+## Configurando contas (Supabase)
+
+Contas são opcionais — o app funciona normalmente sem elas. Para
+habilitar login e sincronização de progresso:
+
+1. Crie um projeto gratuito em [supabase.com](https://supabase.com).
+2. Em **Settings → API**, copie a **Project URL** e a **anon/public key**.
+3. Copie `.env.local.example` para `.env.local` e preencha as duas
+   variáveis (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`).
+4. No **SQL Editor** do painel do Supabase, rode o conteúdo de
+   `supabase/schema.sql` (cria as tabelas `profiles`, `topic_progress` e
+   `gamification_state`, todas com Row Level Security — cada usuário só
+   acessa os próprios dados).
+5. Reinicie o servidor (`npm run dev`). O link "Entrar" no topo passa a
+   funcionar.
+
+Como funciona: o progresso continua sendo salvo primeiro no
+`localStorage` (rápido, funciona offline). Se o usuário está logado,
+cada mudança também é replicada em segundo plano para o Supabase
+(`src/lib/cloudSync.ts`). No login, se a conta já tiver dados na nuvem,
+eles substituem os locais (sincronização entre dispositivos); se for o
+primeiro login, o progresso local (de convidado) é enviado para a
+nuvem, sem perda.
+
+> Nesta versão do Next.js, "Middleware" foi renomeado para "Proxy"
+> (arquivo `proxy.ts`, função `proxy`) — é isso que mantém a sessão do
+> Supabase atualizada a cada requisição.
 
 ## Testes
 
@@ -75,6 +107,10 @@ todo push e pull request.
   `ExerciseQuiz.tsx` — seleção de dificuldade e motor de exercícios.
 - `public/manifest.json`, `public/sw.js` — configuração PWA (instalável,
   cache de app shell).
+- `src/lib/supabase/` — clientes Supabase (browser/server) e refresh de
+  sessão; `src/lib/cloudSync.ts` — sincronização de progresso/XP com a
+  nuvem quando logado.
+- `supabase/schema.sql` — esquema do banco (tabelas + RLS).
 - `e2e/` — testes end-to-end (Playwright).
 
 ## Adicionando conteúdo
@@ -89,5 +125,5 @@ gabaritos continuam corretos.
 
 ## Stack
 
-Next.js (App Router) + TypeScript + Tailwind CSS. Testes: Vitest
-(unitário) + Playwright (e2e).
+Next.js (App Router) + TypeScript + Tailwind CSS. Contas/banco de dados:
+Supabase (opcional). Testes: Vitest (unitário) + Playwright (e2e).

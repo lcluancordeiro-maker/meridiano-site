@@ -229,6 +229,12 @@ export function recordTopicCompletion(
   commit(state);
 }
 
+/** Overwrites local state with a snapshot pulled from the cloud (used only
+ * by the cloud-sync layer on login — not a normal gameplay mutation). */
+export function hydrateFromCloud(state: GamificationState): void {
+  commit(state);
+}
+
 /** Last `days` days of XP earned, oldest first, for charting. */
 export function getXpLast(days: number): { date: string; xp: number }[] {
   const state = ensureCache();

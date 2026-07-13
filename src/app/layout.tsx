@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+import CloudSyncInit from "@/components/CloudSyncInit";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -49,6 +50,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col font-sans antialiased">
         {children}
         <ServiceWorkerRegister />
+        <CloudSyncInit />
       </body>
     </html>
   );
