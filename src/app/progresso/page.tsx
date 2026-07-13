@@ -14,9 +14,22 @@ const TOPIC_SHORT_LABELS: Record<string, string> = {
   "numeros-inteiros": "Inteiros",
   fracoes: "Frações",
   "introducao-algebra": "Álgebra",
+  "potenciacao-radiciacao": "Potências",
+  "proporcionalidade-porcentagem": "Proporção",
+  "equacoes-segundo-grau": "Eq. 2º grau",
+  "geometria-plana": "Geometria",
 };
 
-const TOPIC_COLORS = ["#2a78d6", "#1baf7a", "#eda100"];
+// Fixed categorical order (validated for CVD-safety) — never reassigned per render.
+const TOPIC_COLORS = [
+  "#2a78d6", // blue
+  "#1baf7a", // aqua
+  "#eda100", // yellow
+  "#008300", // green
+  "#4a3aa7", // violet
+  "#e34948", // red
+  "#e87ba4", // magenta
+];
 
 export default function ProgressoPage() {
   const gamification = useGamification();

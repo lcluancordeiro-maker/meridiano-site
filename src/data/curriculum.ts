@@ -51,7 +51,8 @@ export const levels: Level[] = [
     id: "fundamental-2",
     name: "Ensino Fundamental II",
     shortName: "Fund. II",
-    description: "Números inteiros, frações e os primeiros passos na álgebra.",
+    description:
+      "Números inteiros, frações, potências, proporcionalidade, equações e geometria plana.",
     available: true,
   },
   {
@@ -334,6 +335,338 @@ export const fundamental2Topics: Topic[] = [
         type: "numeric",
         answer: "5",
         explanation: "Divida por 5: x - 1 = 4. Some 1: x = 5.",
+      },
+    ],
+  },
+  {
+    id: "potenciacao-radiciacao",
+    title: "Potenciação e Radiciação",
+    summary:
+      "Aprenda as propriedades das potências e como calcular raízes quadradas e cúbicas.",
+    minutes: 18,
+    theory: [
+      {
+        heading: "O que é potenciação?",
+        body: [
+          "Potenciação é uma multiplicação de fatores iguais: aⁿ = a × a × ... × a (n vezes). Na expressão aⁿ, 'a' é a base e 'n' é o expoente.",
+          "Todo número elevado a 0 é igual a 1 (exceto 0⁰, que não é definido). Todo número elevado a 1 é ele mesmo.",
+        ],
+        example: {
+          problem: "2⁴",
+          solution: "2 × 2 × 2 × 2 = 16.",
+        },
+      },
+      {
+        heading: "Propriedades das potências",
+        body: [
+          "Multiplicação de potências de mesma base: some os expoentes (aᵐ × aⁿ = aᵐ⁺ⁿ).",
+          "Divisão de potências de mesma base: subtraia os expoentes (aᵐ ÷ aⁿ = aᵐ⁻ⁿ).",
+          "Potência de potência: multiplique os expoentes ((aᵐ)ⁿ = aᵐˣⁿ).",
+          "Expoente negativo: inverte a base (a⁻ⁿ = 1/aⁿ).",
+          "Base negativa com expoente par dá resultado positivo; com expoente ímpar, mantém o sinal negativo.",
+        ],
+        example: {
+          problem: "2³ × 2²",
+          solution: "Mesma base, soma os expoentes: 2³⁺² = 2⁵ = 32.",
+        },
+      },
+      {
+        heading: "Radiciação",
+        body: [
+          "Radiciação é a operação inversa da potenciação. A raiz quadrada de um número a (√a) é o número que, elevado ao quadrado, resulta em a.",
+          "A raiz cúbica de a (∛a) é o número que, elevado ao cubo, resulta em a.",
+        ],
+        example: {
+          problem: "√81",
+          solution: "9 × 9 = 81, então √81 = 9.",
+        },
+      },
+    ],
+    exercises: [
+      {
+        id: "q1",
+        prompt: "Quanto é 2³ × 2²?",
+        type: "numeric",
+        answer: "32",
+        explanation: "Mesma base: soma os expoentes. 2³⁺² = 2⁵ = 32.",
+      },
+      {
+        id: "q2",
+        prompt: "Quanto é (-3)²?",
+        type: "numeric",
+        answer: "9",
+        explanation: "Expoente par com base negativa dá resultado positivo: (-3) × (-3) = 9.",
+      },
+      {
+        id: "q3",
+        prompt: "Quanto é (-2)³?",
+        type: "numeric",
+        answer: "-8",
+        explanation: "Expoente ímpar mantém o sinal negativo: (-2) × (-2) × (-2) = -8.",
+      },
+      {
+        id: "q4",
+        prompt: "Quanto é √81?",
+        type: "numeric",
+        answer: "9",
+        explanation: "9 × 9 = 81, então √81 = 9.",
+      },
+      {
+        id: "q5",
+        prompt: "Quanto é ∛27 (raiz cúbica de 27)?",
+        type: "numeric",
+        answer: "3",
+        explanation: "3 × 3 × 3 = 27, então ∛27 = 3.",
+      },
+      {
+        id: "q6",
+        prompt: "Qual o valor de 2⁻²?",
+        type: "multiple-choice",
+        options: ["1/4", "-4", "4", "-1/4"],
+        answer: "1/4",
+        explanation: "Expoente negativo inverte a base: 2⁻² = 1/2² = 1/4.",
+      },
+    ],
+  },
+  {
+    id: "proporcionalidade-porcentagem",
+    title: "Proporcionalidade e Porcentagem",
+    summary:
+      "Domine razão, proporção, regra de três simples e cálculo de porcentagem.",
+    minutes: 20,
+    theory: [
+      {
+        heading: "Razão e proporção",
+        body: [
+          "Razão é a comparação entre duas grandezas, escrita como a/b. Por exemplo, numa turma com 18 meninas e 12 meninos, a razão meninas:meninos é 18/12 = 3/2.",
+          "Proporção é a igualdade entre duas razões: a/b = c/d. Nela vale a propriedade fundamental: o produto dos extremos é igual ao produto dos meios (a × d = b × c).",
+        ],
+      },
+      {
+        heading: "Regra de três simples",
+        body: [
+          "A regra de três resolve problemas com duas grandezas diretamente proporcionais: monte a proporção e use a propriedade fundamental para encontrar o valor desconhecido.",
+        ],
+        example: {
+          problem: "Se 4 lápis custam R$ 8, quanto custam 10 lápis?",
+          solution:
+            "Monte a proporção 4/8 = 10/x. Produto dos extremos = produto dos meios: 4x = 80, então x = 20.",
+        },
+      },
+      {
+        heading: "Porcentagem",
+        body: [
+          "Porcentagem é uma fração de denominador 100: x% = x/100. Para calcular x% de um valor, multiplique o valor por x/100.",
+          "Para aplicar um desconto de x%, subtraia x% do valor original. Para um aumento de x%, some x% ao valor original.",
+        ],
+        example: {
+          problem: "Calcule 15% de 200.",
+          solution: "15% = 15/100 = 0,15. 0,15 × 200 = 30.",
+        },
+      },
+    ],
+    exercises: [
+      {
+        id: "q1",
+        prompt: "Se 3 canetas custam R$ 12, quanto custam 7 canetas, na mesma proporção (em reais)?",
+        type: "numeric",
+        answer: "28",
+        explanation: "Cada caneta custa 12 ÷ 3 = 4 reais. 7 canetas custam 7 × 4 = 28 reais.",
+      },
+      {
+        id: "q2",
+        prompt: "Calcule 20% de 150.",
+        type: "numeric",
+        answer: "30",
+        explanation: "20% = 0,20. 0,20 × 150 = 30.",
+      },
+      {
+        id: "q3",
+        prompt: "Calcule 8% de 50.",
+        type: "numeric",
+        answer: "4",
+        explanation: "8% = 0,08. 0,08 × 50 = 4.",
+      },
+      {
+        id: "q4",
+        prompt: "Um produto de R$ 80 tem desconto de 25%. Qual o novo preço, em reais?",
+        type: "numeric",
+        answer: "60",
+        explanation: "25% de 80 é 20. O novo preço é 80 - 20 = 60 reais.",
+      },
+      {
+        id: "q5",
+        prompt: "Qual fração, já simplificada, representa 40%?",
+        type: "multiple-choice",
+        options: ["2/5", "4/5", "1/4", "5/2"],
+        answer: "2/5",
+        explanation: "40% = 40/100. Dividindo numerador e denominador por 20: 2/5.",
+      },
+      {
+        id: "q6",
+        prompt: "Na proporção a/4 = 6/8, qual o valor de a?",
+        type: "numeric",
+        answer: "3",
+        explanation: "Produto dos extremos = produto dos meios: a × 8 = 4 × 6 = 24, então a = 3.",
+      },
+    ],
+  },
+  {
+    id: "equacoes-segundo-grau",
+    title: "Equações do 2º Grau",
+    summary: "Aprenda a fórmula de Bhaskara e resolva equações do segundo grau.",
+    minutes: 22,
+    graphExpressions: ["x^2 - 5x + 6"],
+    theory: [
+      {
+        heading: "O que é uma equação do 2º grau?",
+        body: [
+          "Uma equação do 2º grau tem a forma ax² + bx + c = 0, com a ≠ 0. Os valores de x que satisfazem a equação são chamados de raízes.",
+        ],
+      },
+      {
+        heading: "Fórmula de Bhaskara",
+        body: [
+          "Calcule o discriminante: Δ = b² - 4ac.",
+          "As raízes são dadas por x = (-b ± √Δ) / (2a).",
+          "Se Δ > 0, há duas raízes reais diferentes. Se Δ = 0, há uma raiz real (dupla). Se Δ < 0, não há raízes reais.",
+        ],
+        example: {
+          problem: "x² - 5x + 6 = 0",
+          solution:
+            "a=1, b=-5, c=6. Δ = (-5)² - 4×1×6 = 25 - 24 = 1. x = (5 ± 1)/2, então x = 3 ou x = 2.",
+        },
+      },
+      {
+        heading: "Equações incompletas",
+        body: [
+          "Quando b = 0 (ax² + c = 0), isole x² e depois tire a raiz quadrada.",
+          "Quando c = 0 (ax² + bx = 0), coloque x em evidência: x(ax + b) = 0, o que dá x = 0 ou ax + b = 0.",
+        ],
+        example: {
+          problem: "x² - 9 = 0",
+          solution: "x² = 9, então x = 3 ou x = -3.",
+        },
+      },
+    ],
+    exercises: [
+      {
+        id: "q1",
+        prompt: "Na equação x² - 5x + 6 = 0, qual o valor do discriminante (Δ)?",
+        type: "numeric",
+        answer: "1",
+        explanation: "Δ = b² - 4ac = (-5)² - 4×1×6 = 25 - 24 = 1.",
+      },
+      {
+        id: "q2",
+        prompt: "Resolva x² - 5x + 6 = 0. Informe a menor raiz.",
+        type: "numeric",
+        answer: "2",
+        explanation: "Com Δ=1, x = (5 ± 1)/2, o que dá x=3 ou x=2. A menor raiz é 2.",
+      },
+      {
+        id: "q3",
+        prompt: "Resolva x² - 5x + 6 = 0. Informe a maior raiz.",
+        type: "numeric",
+        answer: "3",
+        explanation: "Com Δ=1, x = (5 ± 1)/2, o que dá x=3 ou x=2. A maior raiz é 3.",
+      },
+      {
+        id: "q4",
+        prompt: "Resolva a equação incompleta x² - 9 = 0. Informe a raiz positiva.",
+        type: "numeric",
+        answer: "3",
+        explanation: "x² = 9, então x = 3 ou x = -3. A raiz positiva é 3.",
+      },
+      {
+        id: "q5",
+        prompt: "Resolva a equação incompleta x² - 4x = 0. Informe a raiz diferente de zero.",
+        type: "numeric",
+        answer: "4",
+        explanation: "Coloque x em evidência: x(x - 4) = 0, então x = 0 ou x = 4.",
+      },
+      {
+        id: "q6",
+        prompt: "Qual o discriminante de x² + 2x + 1 = 0?",
+        type: "multiple-choice",
+        options: ["0", "1", "4", "-4"],
+        answer: "0",
+        explanation: "Δ = 2² - 4×1×1 = 4 - 4 = 0 (raiz dupla, x = -1).",
+      },
+    ],
+  },
+  {
+    id: "geometria-plana",
+    title: "Geometria Plana",
+    summary:
+      "Calcule perímetros, áreas de figuras planas e aplique o Teorema de Pitágoras.",
+    minutes: 20,
+    theory: [
+      {
+        heading: "Perímetro e área",
+        body: [
+          "Perímetro é a soma de todos os lados de uma figura.",
+          "Área do retângulo: base × altura. Área do quadrado: lado × lado. Área do triângulo: (base × altura) / 2. Área do círculo: π × r².",
+        ],
+        example: {
+          problem: "Retângulo de base 6 cm e altura 4 cm",
+          solution: "Área = 6 × 4 = 24 cm². Perímetro = 2×(6+4) = 20 cm.",
+        },
+      },
+      {
+        heading: "Teorema de Pitágoras",
+        body: [
+          "Em todo triângulo retângulo, o quadrado da hipotenusa é igual à soma dos quadrados dos catetos: a² = b² + c², onde 'a' é a hipotenusa (lado oposto ao ângulo reto) e 'b', 'c' são os catetos.",
+        ],
+        example: {
+          problem: "Catetos de 3 cm e 4 cm",
+          solution: "a² = 3² + 4² = 9 + 16 = 25, então a = √25 = 5 cm.",
+        },
+      },
+    ],
+    exercises: [
+      {
+        id: "q1",
+        prompt: "Qual a área de um retângulo de base 6 cm e altura 4 cm, em cm²?",
+        type: "numeric",
+        answer: "24",
+        explanation: "Área do retângulo = base × altura = 6 × 4 = 24 cm².",
+      },
+      {
+        id: "q2",
+        prompt: "Qual o perímetro de um quadrado de lado 7 cm, em cm?",
+        type: "numeric",
+        answer: "28",
+        explanation: "Perímetro do quadrado = 4 × lado = 4 × 7 = 28 cm.",
+      },
+      {
+        id: "q3",
+        prompt: "Qual a área de um triângulo de base 10 cm e altura 6 cm, em cm²?",
+        type: "numeric",
+        answer: "30",
+        explanation: "Área do triângulo = (base × altura) / 2 = (10 × 6) / 2 = 30 cm².",
+      },
+      {
+        id: "q4",
+        prompt: "Um triângulo retângulo tem catetos de 6 cm e 8 cm. Qual a medida da hipotenusa, em cm?",
+        type: "numeric",
+        answer: "10",
+        explanation: "Pitágoras: a² = 6² + 8² = 36 + 64 = 100, então a = √100 = 10 cm.",
+      },
+      {
+        id: "q5",
+        prompt: "Um triângulo retângulo tem hipotenusa de 13 cm e um cateto de 5 cm. Qual a medida do outro cateto, em cm?",
+        type: "numeric",
+        answer: "12",
+        explanation: "Pitágoras: 13² - 5² = 169 - 25 = 144, então o cateto = √144 = 12 cm.",
+      },
+      {
+        id: "q6",
+        prompt: "Qual a fórmula da área de um círculo de raio r?",
+        type: "multiple-choice",
+        options: ["πr²", "2πr", "πr", "4πr²"],
+        answer: "πr²",
+        explanation: "A área do círculo é π multiplicado pelo raio ao quadrado.",
       },
     ],
   },

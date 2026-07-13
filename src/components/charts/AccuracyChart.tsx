@@ -10,16 +10,17 @@ export type AccuracyDatum = {
 
 const W = 480;
 const H = 220;
-const PAD_BOTTOM = 34;
 const PAD_TOP = 24;
 const BAR_MAX_WIDTH = 24;
 
 export default function AccuracyChart({ data }: { data: AccuracyDatum[] }) {
   const [hovered, setHovered] = useState<number | null>(null);
   const gid = useId();
-  const plotHeight = H - PAD_BOTTOM - PAD_TOP;
+  const manyBars = data.length > 5;
+  const padBottom = manyBars ? 46 : 34;
+  const plotHeight = H - padBottom - PAD_TOP;
   const bandWidth = W / data.length;
-  const barWidth = Math.min(BAR_MAX_WIDTH, bandWidth * 0.45);
+  const barWidth = Math.min(BAR_MAX_WIDTH, bandWidth * 0.55);
 
   const gridLines = [0, 25, 50, 75, 100];
 
@@ -119,9 +120,10 @@ export default function AccuracyChart({ data }: { data: AccuracyDatum[] }) {
                 )}
                 <text
                   x={cx}
-                  y={H - PAD_BOTTOM + 20}
-                  textAnchor="middle"
-                  fontSize={11}
+                  y={H - padBottom + (manyBars ? 14 : 20)}
+                  textAnchor={manyBars ? "end" : "middle"}
+                  transform={manyBars ? `rotate(-30 ${cx} ${H - padBottom + 14})` : undefined}
+                  fontSize={manyBars ? 10 : 11}
                   fill="#635f78"
                 >
                   {d.label}

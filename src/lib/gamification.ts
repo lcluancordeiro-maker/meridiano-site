@@ -1,3 +1,5 @@
+import { fundamental2Topics } from "@/data/curriculum";
+
 export type Badge = {
   id: string;
   name: string;
@@ -155,7 +157,7 @@ export function recordCorrectAnswer(): void {
   commit(state);
 }
 
-const FUNDAMENTAL_2_TOPIC_IDS = ["numeros-inteiros", "fracoes", "introducao-algebra"];
+const FUNDAMENTAL_2_TOPIC_IDS = fundamental2Topics.map((t) => t.id);
 
 /** Call once when a topic's exercise set is finished (any attempt). */
 export function recordTopicCompletion(
