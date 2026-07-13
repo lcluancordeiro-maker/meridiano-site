@@ -1,0 +1,91 @@
+"use client";
+
+import { useMemo, useState } from "react";
+
+const SIZE = 320;
+const RANGE = 8;
+const TICKS = [-8, -6, -4, -2, 2, 4, 6, 8];
+
+function toPx(x: number): number {
+  return ((x + RANGE) / (2 * RANGE)) * SIZE;
+}
+
+function toPy(y: number): number {
+  return SIZE - ((y + RANGE) / (2 * RANGE)) * SIZE;
+}
+
+function formatCoefficient(value: number): string {
+  return Number.isInteger(value) ? value.toString() : value.toFixed(1);
+}
+
+export default function SlopeExplorer() {
+  const [a, setA] = useState(2);
+  const [b, setB] = useState(1);
+
+  const linePath = useMemo(() => {
+    const y1 = a * -RANGE + b;
+    const y2 = a * RANGE + b;
+    return `M${toPx(-RANGE)},${toPy(y1)} L${toPx(RANGE)},${toPy(y2)}`;
+  }, [a, b]);
+
+  const aLabel = formatCoefficient(a);
+  const bLabel = formatCoefficient(Math.abs(b));
+
+  return (
+    <div className="rounded-2xl border border-border bg-surface p-4 sm:p-6">
+      <p className="font-display text-base font-semibold text-foreground">
+        f(x) = {aLabel}x {b >= 0 ? "+" : "−"} {bLabel}
+      </p>
+      <p className="mt-1 text-sm text-muted">
+        {a > 0 ? "Crescente" : a < 0 ? "Decrescente" : "Constante"} — corta o eixo y em (0, {formatCoefficient(b)}).
+      </p>
+
+      <div className="mt-4 flex flex-col gap-3">
+        <label className="flex items-center gap-3 text-sm text-foreground">
+          <span className="w-40 shrink-0 font-medium">Coeficiente angular (a): {aLabel}</span>
+          <input
+            type="range"
+            min={-5}
+            max={5}
+            step={0.5}
+            value={a}
+            onChange={(e) => setA(Number(e.target.value))}
+            className="flex-1 accent-[var(--color-primary)]"
+          />
+        </label>
+        <label className="flex items-center gap-3 text-sm text-foreground">
+          <span className="w-40 shrink-0 font-medium">Coeficiente linear (b): {formatCoefficient(b)}</span>
+          <input
+            type="range"
+            min={-5}
+            max={5}
+            step={0.5}
+            value={b}
+            onChange={(e) => setB(Number(e.target.value))}
+            className="flex-1 accent-[var(--color-primary)]"
+          />
+        </label>
+      </div>
+
+      <div className="mt-4 overflow-hidden rounded-xl border border-border" style={{ aspectRatio: "1 / 1" }}>
+        <svg
+          viewBox={`0 0 ${SIZE} ${SIZE}`}
+          className="h-full w-full bg-white"
+          role="img"
+          aria-label={`Gráfico da reta f(x) = ${aLabel}x ${b >= 0 ? "+" : "−"} ${bLabel}`}
+        >
+          {TICKS.map((v) => (
+            <line key={`gx${v}`} x1={toPx(v)} x2={toPx(v)} y1={0} y2={SIZE} stroke="#e4e2f1" strokeWidth={1} />
+          ))}
+          {TICKS.map((v) => (
+            <line key={`gy${v}`} x1={0} x2={SIZE} y1={toPy(v)} y2={toPy(v)} stroke="#e4e2f1" strokeWidth={1} />
+          ))}
+          <line x1={0} x2={SIZE} y1={toPy(0)} y2={toPy(0)} stroke="#898781" strokeWidth={1.5} />
+          <line x1={toPx(0)} x2={toPx(0)} y1={0} y2={SIZE} stroke="#898781" strokeWidth={1.5} />
+          <path d={linePath} fill="none" stroke="#2a78d6" strokeWidth={2.5} />
+          <circle cx={toPx(0)} cy={toPy(b)} r={4} fill="#2a78d6" />
+        </svg>
+      </div>
+    </div>
+  );
+}

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import PracticeSection from "@/components/PracticeSection";
 import FunctionGrapher from "@/components/FunctionGrapher";
+import InteractiveWidgetRenderer from "@/components/widgets/InteractiveWidgetRenderer";
 import { getLevel, getTopic, getTopicsForLevel, levels } from "@/data/curriculum";
 import { isPremiumUser } from "@/lib/entitlements";
 import { getServerLocale } from "@/i18n/getServerLocale";
@@ -88,6 +89,11 @@ export default async function TopicPage({
                       <p className="mt-1 text-sm leading-relaxed text-muted">
                         {section.example.solution}
                       </p>
+                    </div>
+                  )}
+                  {section.interactiveWidget && (
+                    <div className="mt-4">
+                      <InteractiveWidgetRenderer widget={section.interactiveWidget} />
                     </div>
                   )}
                 </div>

@@ -61,6 +61,14 @@ de aplicativos.
   salvo no `localStorage`) — a sequência do Desafio do Dia ainda não é
   sincronizada na nuvem quando logado, diferente da sequência geral (é um
   possível próximo passo).
+- **Widgets interativos na teoria** (também inspirado no Brilliant.org):
+  algumas seções de teoria têm uma seção extra "Explore ao vivo" com um
+  mini-app SVG em vez de só texto — sliders ou pontos arrastáveis que
+  recalculam algo na hora. Hoje são dois, pilotos: em "Função do 1º Grau"
+  (Ensino Médio), sliders para os coeficientes a/b mostram a reta mudando
+  ao vivo; em "Geometria Analítica" (Ensino Médio), dois pontos
+  arrastáveis recalculam distância, ponto médio e coeficiente angular
+  em tempo real. Ver `src/components/widgets/`.
 - **Gamificação**: XP por resposta certa (escalado por dificuldade),
   níveis, sequência (streak) diária e conquistas.
 - **Dashboard de progresso** (`/progresso`) com gráficos de desempenho
@@ -422,6 +430,11 @@ unitários e e2e em todo push e pull request.
 - `src/lib/dailyChallenge.ts` + `src/components/DailyChallenge.tsx` —
   Desafio do Dia: seleção determinística do problema por data, sequência
   e histórico próprios em `localStorage`.
+- `src/components/widgets/` — widgets interativos embutidos na teoria
+  (`SlopeExplorer.tsx`, `TwoPointExplorer.tsx`); `InteractiveWidgetRenderer.tsx`
+  mapeia o campo `interactiveWidget` de uma `TheorySection` (em
+  `src/data/curriculum.ts`) pro componente certo, renderizado pelo
+  `TopicPage`.
 - `src/lib/mathExpr.ts` — parser/avaliador de expressões matemáticas
   para a calculadora gráfica.
 - `src/components/PracticeSection.tsx` + `DifficultyPicker.tsx` +
@@ -482,6 +495,12 @@ habilitar um novo nível de ensino, marque `available: true` em `levels`,
 crie o array de tópicos dele e registre-o em `TOPICS_BY_LEVEL`. Depois
 de editar conteúdo, rode `npm run test:e2e` para confirmar que os
 gabaritos continuam corretos.
+
+Para adicionar um widget interativo numa seção de teoria, defina
+`interactiveWidget: "slope-explorer" | "two-point-explorer"` nela; para
+criar um widget novo, adicione o componente em `src/components/widgets/`,
+registre-o em `InteractiveWidgetRenderer.tsx` e inclua o nome no tipo
+`InteractiveWidget` (`src/data/curriculum.ts`).
 
 ## Stack
 

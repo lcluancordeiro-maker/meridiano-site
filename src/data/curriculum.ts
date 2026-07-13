@@ -26,10 +26,16 @@ export type TheoryExample = {
   solution: string;
 };
 
+/** Interactive widgets embedded in a theory section — sliders/draggable
+ * points that give instant visual feedback, in the spirit of Brilliant.org.
+ * See src/components/widgets/. */
+export type InteractiveWidget = "slope-explorer" | "two-point-explorer";
+
 export type TheorySection = {
   heading: string;
   body: string[];
   example?: TheoryExample;
+  interactiveWidget?: InteractiveWidget;
 };
 
 export type Topic = {
@@ -2370,6 +2376,13 @@ export const medioTopics: Topic[] = [
           "O gráfico de uma função do 1º grau é sempre uma reta — por isso o nome 'afim', que preserva a estrutura linear.",
         ],
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa nos sliders abaixo e observe: mudar a inclina ou espelha a reta; mudar b desliza a reta pra cima ou pra baixo, sem mudar sua inclinação.",
+        ],
+        interactiveWidget: "slope-explorer",
+      },
     ],
     exercises: [
       {
@@ -3011,6 +3024,13 @@ export const medioTopics: Topic[] = [
         body: [
           "Conhecendo um ponto (x1, y1) da reta e seu coeficiente angular m, a equação da reta é y - y1 = m(x - x1).",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Arraste os pontos A e B no gráfico abaixo e veja a distância, o ponto médio e o coeficiente angular recalculados na hora.",
+        ],
+        interactiveWidget: "two-point-explorer",
       },
     ],
     exercises: [
