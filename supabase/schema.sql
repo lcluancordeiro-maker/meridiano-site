@@ -162,3 +162,223 @@ drop policy if exists "subscriptions_select_own" on public.subscriptions;
 create policy "subscriptions_select_own"
   on public.subscriptions for select
   using (auth.uid() = user_id);
+
+-- ---------------------------------------------------------------------
+-- turmas: ferramenta para professores. Qualquer usuário pode criar uma
+-- turma (vira professor dela) e continua podendo praticar normalmente
+-- como aluno em paralelo — não há um "papel" separado de professor.
+--
+-- As três tabelas são criadas primeiro (sem policies) porque as policies
+-- de cada uma fazem referência cruzada às outras duas.
+-- ---------------------------------------------------------------------
+create table if not exists public.turmas (
+  id uuid primary key default gen_random_uuid(),
+  teacher_user_id uuid not null references auth.users (id) on delete cascade,
+  name text not null,
+  join_code text not null unique,
+  created_at timestamptz not null default now()
+);
+
+-- turma_members: matrícula de alunos numa turma. Só é gravada através da
+-- função join_turma_by_code abaixo — não há policy de insert direta pra
+-- aluno comum, então um aluno nunca consegue se matricular sem o código.
+create table if not exists public.turma_members (
+  turma_id uuid not null references public.turmas (id) on delete cascade,
+  student_user_id uuid not null references auth.users (id) on delete cascade,
+  joined_at timestamptz not null default now(),
+  primary key (turma_id, student_user_id)
+);
+
+-- turma_assignments: tópicos/dificuldades que o professor atribui à
+-- turma. Não referencia uma tabela de currículo (o currículo vive em
+-- src/data/curriculum.ts, não no banco) — level_id/topic_id/difficulty
+-- são só os mesmos ids de string usados lá.
+create table if not exists public.turma_assignments (
+  id uuid primary key default gen_random_uuid(),
+  turma_id uuid not null references public.turmas (id) on delete cascade,
+  level_id text not null,
+  topic_id text not null,
+  difficulty text not null,
+  created_at timestamptz not null default now()
+);
+
+alter table public.turmas enable row level security;
+alter table public.turma_members enable row level security;
+alter table public.turma_assignments enable row level security;
+
+-- O professor vê as próprias turmas; um aluno só vê turmas em que já é
+-- membro (nunca a lista inteira de turmas de outros professores).
+drop policy if exists "turmas_select" on public.turmas;
+create policy "turmas_select"
+  on public.turmas for select
+  using (
+    auth.uid() = teacher_user_id
+    or exists (
+      select 1 from public.turma_members tm
+      where tm.turma_id = turmas.id and tm.student_user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "turmas_insert" on public.turmas;
+create policy "turmas_insert"
+  on public.turmas for insert
+  with check (auth.uid() = teacher_user_id);
+
+drop policy if exists "turmas_delete" on public.turmas;
+create policy "turmas_delete"
+  on public.turmas for delete
+  using (auth.uid() = teacher_user_id);
+
+drop policy if exists "turma_members_select" on public.turma_members;
+create policy "turma_members_select"
+  on public.turma_members for select
+  using (
+    auth.uid() = student_user_id
+    or exists (
+      select 1 from public.turmas t
+      where t.id = turma_members.turma_id and t.teacher_user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "turma_assignments_select" on public.turma_assignments;
+create policy "turma_assignments_select"
+  on public.turma_assignments for select
+  using (
+    exists (
+      select 1 from public.turmas t
+      where t.id = turma_assignments.turma_id
+        and (
+          t.teacher_user_id = auth.uid()
+          or exists (
+            select 1 from public.turma_members tm
+            where tm.turma_id = t.id and tm.student_user_id = auth.uid()
+          )
+        )
+    )
+  );
+
+drop policy if exists "turma_assignments_insert" on public.turma_assignments;
+create policy "turma_assignments_insert"
+  on public.turma_assignments for insert
+  with check (
+    exists (
+      select 1 from public.turmas t
+      where t.id = turma_assignments.turma_id and t.teacher_user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "turma_assignments_delete" on public.turma_assignments;
+create policy "turma_assignments_delete"
+  on public.turma_assignments for delete
+  using (
+    exists (
+      select 1 from public.turmas t
+      where t.id = turma_assignments.turma_id and t.teacher_user_id = auth.uid()
+    )
+  );
+
+-- Matricula o usuário atual na turma dona do código informado. "security
+-- definer" porque não existe (de propósito) uma policy de select em
+-- turmas por join_code — só assim dá pra achar a turma sem antes já ser
+-- membro dela.
+create or replace function public.join_turma_by_code(p_join_code text)
+returns uuid
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  v_turma_id uuid;
+begin
+  if auth.uid() is null then
+    raise exception 'not_authenticated';
+  end if;
+
+  select id into v_turma_id from public.turmas where join_code = p_join_code;
+
+  if v_turma_id is null then
+    raise exception 'turma_not_found';
+  end if;
+
+  insert into public.turma_members (turma_id, student_user_id)
+  values (v_turma_id, auth.uid())
+  on conflict (turma_id, student_user_id) do nothing;
+
+  return v_turma_id;
+end;
+$$;
+
+grant execute on function public.join_turma_by_code(text) to authenticated;
+
+-- Lista de alunos de uma turma com XP e streak, só pro professor dono
+-- dela — junta dados de profiles/gamification_state que o professor não
+-- teria como ler diretamente (RLS dessas tabelas é "só a própria linha").
+create or replace function public.get_turma_roster(p_turma_id uuid)
+returns table (
+  student_user_id uuid,
+  display_name text,
+  xp integer,
+  streak_current integer,
+  joined_at timestamptz
+)
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if not exists (
+    select 1 from public.turmas where id = p_turma_id and teacher_user_id = auth.uid()
+  ) then
+    raise exception 'not_authorized';
+  end if;
+
+  return query
+    select tm.student_user_id, pr.display_name, coalesce(gs.xp, 0), coalesce(gs.streak_current, 0), tm.joined_at
+    from public.turma_members tm
+    left join public.profiles pr on pr.id = tm.student_user_id
+    left join public.gamification_state gs on gs.user_id = tm.student_user_id
+    where tm.turma_id = p_turma_id
+    order by tm.joined_at asc;
+end;
+$$;
+
+grant execute on function public.get_turma_roster(uuid) to authenticated;
+
+-- Progresso dos alunos numa tarefa específica (nível/tópico/dificuldade),
+-- só pro professor dono da turma.
+create or replace function public.get_turma_assignment_progress(
+  p_turma_id uuid,
+  p_level_id text,
+  p_topic_id text,
+  p_difficulty text
+)
+returns table (
+  student_user_id uuid,
+  display_name text,
+  score integer,
+  total integer,
+  completed boolean
+)
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if not exists (
+    select 1 from public.turmas where id = p_turma_id and teacher_user_id = auth.uid()
+  ) then
+    raise exception 'not_authorized';
+  end if;
+
+  return query
+    select tm.student_user_id, pr.display_name, tp.score, tp.total, tp.completed
+    from public.turma_members tm
+    left join public.profiles pr on pr.id = tm.student_user_id
+    left join public.topic_progress tp
+      on tp.user_id = tm.student_user_id
+      and tp.level_id = p_level_id
+      and tp.topic_id = p_topic_id
+      and tp.difficulty = p_difficulty
+    where tm.turma_id = p_turma_id
+    order by tm.joined_at asc;
+end;
+$$;
+
+grant execute on function public.get_turma_assignment_progress(uuid, text, text, text) to authenticated;

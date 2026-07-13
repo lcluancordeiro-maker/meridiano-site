@@ -70,6 +70,13 @@ de aplicativos.
   direitos do titular pela LGPD. Gerada como ponto de partida — ainda
   precisa do e-mail de contato real preenchido e de revisão por um
   advogado antes de valer como documento oficial.
+- **Turmas** (`/turmas`, exige conta): qualquer usuário pode criar uma
+  turma (vira "professor" dela) e continuar praticando normalmente como
+  aluno em paralelo — não existe um papel de professor separado. O
+  professor recebe um código de acesso pra compartilhar com os alunos,
+  vê o XP/sequência de cada um e atribui tarefas (nível + tópico +
+  dificuldade); os alunos veem as tarefas atribuídas com um link direto
+  pra praticar. Veja "Sobre as turmas" abaixo para os detalhes de RLS.
 
 ## Rodando localmente
 
@@ -197,6 +204,26 @@ Nenhuma dessas duas formas foi testada com uma cobrança real nesta
 sessão (sem chaves da Stripe configuradas aqui) — teste no modo de
 teste da Stripe antes de ativar em produção.
 
+## Sobre as turmas
+
+Não existe uma tabela/flag de "papel" (professor vs. aluno) — qualquer
+conta pode criar uma turma em `/turmas` e vira dona dela; nada impede a
+mesma pessoa de também ser aluna em outra turma. Isso mantém o modelo
+de dados simples e evita uma etapa de "solicitar acesso de professor".
+
+O código de acesso (6 caracteres, sem `0/O/1/I` pra evitar confusão ao
+digitar) é a única forma de entrar numa turma — não existe listagem
+pública de turmas. Ver o progresso dos alunos (XP, sequência, resultado
+de uma tarefa) exigiria que o professor lesse linhas de
+`topic_progress`/`gamification_state` de outros usuários, o que a RLS
+dessas tabelas bloqueia por padrão (cada usuário só lê a própria
+linha). Em vez de afrouxar a RLS dessas tabelas — o que abriria uma
+brecha maior do que o necessário — três funções `security definer` em
+`supabase/schema.sql` fazem exatamente essa checagem pontual
+(confirmam que quem está chamando é o professor daquela turma
+específica antes de retornar qualquer linha): `join_turma_by_code`,
+`get_turma_roster` e `get_turma_assignment_progress`.
+
 ## Sobre o idioma
 
 O seletor de idioma (`src/i18n/`) traduz toda a navegação e as páginas
@@ -279,6 +306,10 @@ todo push e pull request.
   portal de gerenciamento e webhook; `src/app/assinatura/page.tsx` —
   página de assinatura.
 - `src/app/privacidade/page.tsx` — política de privacidade (LGPD).
+- `src/app/turmas/` — lista de turmas e detalhe (roster do professor +
+  tarefas atribuídas); `src/app/actions/turmas.ts` — criar turma, entrar
+  por código, atribuir tarefa; `src/lib/turmaCode.ts` — gerador do
+  código de acesso.
 - `e2e/` — testes end-to-end (Playwright).
 
 ## Adicionando conteúdo

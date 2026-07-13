@@ -41,6 +41,9 @@ export default async function Navbar() {
           <Link href="/quadro" className="hover:text-foreground transition-colors">
             {dict.nav.quadro}
           </Link>
+          <Link href="/turmas" className="hover:text-foreground transition-colors">
+            {dict.nav.turmas}
+          </Link>
           <Link href="/progresso" className="hover:text-foreground transition-colors">
             {dict.nav.progresso}
           </Link>

@@ -6,6 +6,7 @@ export type Dictionary = {
     calculadora: string;
     resolverFoto: string;
     quadro: string;
+    turmas: string;
     progresso: string;
     entrar: string;
     sair: string;
@@ -117,6 +118,39 @@ export type Dictionary = {
     paywallBody: string;
     actionError: string;
   };
+  turmas: {
+    title: string;
+    notConfigured: string;
+    requiresLogin: string;
+    teachingHeading: string;
+    memberHeading: string;
+    noTurmasTeaching: string;
+    noTurmasMember: string;
+    createHeading: string;
+    nameLabel: string;
+    createButton: string;
+    joinHeading: string;
+    codeLabel: string;
+    joinButton: string;
+    joinCodePrefix: string;
+    viewButton: string;
+    notFoundOrNoAccess: string;
+    backToTurmas: string;
+    rosterHeading: string;
+    noStudents: string;
+    xpLabel: string;
+    streakLabel: string;
+    assignmentsHeading: string;
+    noAssignments: string;
+    createAssignmentHeading: string;
+    levelLabel: string;
+    topicLabel: string;
+    difficultyLabel: string;
+    assignButton: string;
+    studentAssignmentsHeading: string;
+    practiceLink: string;
+    shareCodeHint: string;
+  };
 };
 
 export const dictionaries: Record<Locale, Dictionary> = {
@@ -126,6 +160,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       calculadora: "Calculadora",
       resolverFoto: "Resolver por foto",
       quadro: "Quadro",
+      turmas: "Turmas",
       progresso: "Progresso",
       entrar: "Entrar",
       sair: "Sair",
@@ -241,6 +276,39 @@ export const dictionaries: Record<Locale, Dictionary> = {
       paywallBody: "Esse tópico faz parte do plano Premium.",
       actionError: "Não foi possível continuar. Tente novamente.",
     },
+    turmas: {
+      title: "Turmas",
+      notConfigured: "Turmas ainda não estão disponíveis neste app — volte em breve.",
+      requiresLogin: "Faça login para criar ou entrar em uma turma.",
+      teachingHeading: "Turmas que você leciona",
+      memberHeading: "Turmas em que você está matriculado",
+      noTurmasTeaching: "Você ainda não criou nenhuma turma.",
+      noTurmasMember: "Você ainda não entrou em nenhuma turma.",
+      createHeading: "Criar turma",
+      nameLabel: "Nome da turma",
+      createButton: "Criar turma",
+      joinHeading: "Entrar com código",
+      codeLabel: "Código da turma",
+      joinButton: "Entrar",
+      joinCodePrefix: "Código",
+      viewButton: "Ver turma",
+      notFoundOrNoAccess: "Turma não encontrada ou você não tem acesso a ela.",
+      backToTurmas: "← Voltar para turmas",
+      rosterHeading: "Alunos",
+      noStudents: "Ainda não há alunos nesta turma. Compartilhe o código de acesso.",
+      xpLabel: "XP",
+      streakLabel: "Sequência",
+      assignmentsHeading: "Tarefas atribuídas",
+      noAssignments: "Nenhuma tarefa atribuída ainda.",
+      createAssignmentHeading: "Atribuir tarefa",
+      levelLabel: "Nível",
+      topicLabel: "Tópico",
+      difficultyLabel: "Dificuldade",
+      assignButton: "Atribuir",
+      studentAssignmentsHeading: "Tarefas da turma",
+      practiceLink: "Praticar",
+      shareCodeHint: "Compartilhe este código com seus alunos para que eles entrem na turma.",
+    },
   },
   en: {
     nav: {
@@ -248,6 +316,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       calculadora: "Calculator",
       resolverFoto: "Photo solver",
       quadro: "Whiteboard",
+      turmas: "Classes",
       progresso: "Progress",
       entrar: "Log in",
       sair: "Log out",
@@ -363,6 +432,39 @@ export const dictionaries: Record<Locale, Dictionary> = {
       paywallBody: "This topic is part of the Premium plan.",
       actionError: "Couldn't continue right now. Try again.",
     },
+    turmas: {
+      title: "Classes",
+      notConfigured: "Classes aren't available in this app yet — check back soon.",
+      requiresLogin: "Log in to create or join a class.",
+      teachingHeading: "Classes you teach",
+      memberHeading: "Classes you're enrolled in",
+      noTurmasTeaching: "You haven't created any classes yet.",
+      noTurmasMember: "You haven't joined any classes yet.",
+      createHeading: "Create a class",
+      nameLabel: "Class name",
+      createButton: "Create class",
+      joinHeading: "Join with a code",
+      codeLabel: "Class code",
+      joinButton: "Join",
+      joinCodePrefix: "Code",
+      viewButton: "View class",
+      notFoundOrNoAccess: "Class not found, or you don't have access to it.",
+      backToTurmas: "← Back to classes",
+      rosterHeading: "Students",
+      noStudents: "No students in this class yet. Share the join code.",
+      xpLabel: "XP",
+      streakLabel: "Streak",
+      assignmentsHeading: "Assigned tasks",
+      noAssignments: "No tasks assigned yet.",
+      createAssignmentHeading: "Assign a task",
+      levelLabel: "Level",
+      topicLabel: "Topic",
+      difficultyLabel: "Difficulty",
+      assignButton: "Assign",
+      studentAssignmentsHeading: "Class tasks",
+      practiceLink: "Practice",
+      shareCodeHint: "Share this code with your students so they can join the class.",
+    },
   },
   es: {
     nav: {
@@ -370,6 +472,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       calculadora: "Calculadora",
       resolverFoto: "Resolver por foto",
       quadro: "Pizarra",
+      turmas: "Clases",
       progresso: "Progreso",
       entrar: "Iniciar sesión",
       sair: "Cerrar sesión",
@@ -484,6 +587,39 @@ export const dictionaries: Record<Locale, Dictionary> = {
       paywallHeading: "Contenido Premium",
       paywallBody: "Este tema es parte del plan Premium.",
       actionError: "No se pudo continuar. Intenta de nuevo.",
+    },
+    turmas: {
+      title: "Clases",
+      notConfigured: "Las clases todavía no están disponibles en esta app — vuelve pronto.",
+      requiresLogin: "Inicia sesión para crear o unirte a una clase.",
+      teachingHeading: "Clases que enseñas",
+      memberHeading: "Clases en las que estás inscrito",
+      noTurmasTeaching: "Todavía no has creado ninguna clase.",
+      noTurmasMember: "Todavía no te has unido a ninguna clase.",
+      createHeading: "Crear clase",
+      nameLabel: "Nombre de la clase",
+      createButton: "Crear clase",
+      joinHeading: "Unirse con un código",
+      codeLabel: "Código de la clase",
+      joinButton: "Unirse",
+      joinCodePrefix: "Código",
+      viewButton: "Ver clase",
+      notFoundOrNoAccess: "Clase no encontrada, o no tienes acceso a ella.",
+      backToTurmas: "← Volver a clases",
+      rosterHeading: "Estudiantes",
+      noStudents: "Todavía no hay estudiantes en esta clase. Comparte el código de acceso.",
+      xpLabel: "XP",
+      streakLabel: "Racha",
+      assignmentsHeading: "Tareas asignadas",
+      noAssignments: "Ninguna tarea asignada todavía.",
+      createAssignmentHeading: "Asignar tarea",
+      levelLabel: "Nivel",
+      topicLabel: "Tema",
+      difficultyLabel: "Dificultad",
+      assignButton: "Asignar",
+      studentAssignmentsHeading: "Tareas de la clase",
+      practiceLink: "Practicar",
+      shareCodeHint: "Comparte este código con tus estudiantes para que se unan a la clase.",
     },
   },
 };
