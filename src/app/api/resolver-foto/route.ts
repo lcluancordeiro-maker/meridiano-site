@@ -3,10 +3,12 @@ import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { parsePhotoSolution } from "@/lib/photoSolve";
+import { isPremiumUser } from "@/lib/entitlements";
 
 export const runtime = "nodejs";
 
-const DAILY_LIMIT = 15;
+const FREE_DAILY_LIMIT = 5;
+const PREMIUM_DAILY_LIMIT = 30;
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/gif", "image/webp"]);
 type AllowedMediaType = "image/jpeg" | "image/png" | "image/gif" | "image/webp";
@@ -61,8 +63,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "image_too_large" }, { status: 400 });
   }
 
+  const dailyLimit = (await isPremiumUser()) ? PREMIUM_DAILY_LIMIT : FREE_DAILY_LIMIT;
   const { error: usageError } = await supabase.rpc("increment_photo_usage", {
-    p_limit: DAILY_LIMIT,
+    p_limit: dailyLimit,
   });
   if (usageError) {
     return NextResponse.json({ error: "daily_limit_exceeded" }, { status: 429 });

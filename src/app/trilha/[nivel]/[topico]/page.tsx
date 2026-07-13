@@ -4,6 +4,9 @@ import Navbar from "@/components/Navbar";
 import PracticeSection from "@/components/PracticeSection";
 import FunctionGrapher from "@/components/FunctionGrapher";
 import { getLevel, getTopic, getTopicsForLevel, levels } from "@/data/curriculum";
+import { isPremiumUser } from "@/lib/entitlements";
+import { getServerLocale } from "@/i18n/getServerLocale";
+import { getDictionary } from "@/i18n/dictionaries";
 
 export function generateStaticParams() {
   return levels
@@ -29,6 +32,10 @@ export default async function TopicPage({
     notFound();
   }
 
+  const hasPremiumAccess = level.premium ? await isPremiumUser() : true;
+  const locale = await getServerLocale();
+  const { premium } = getDictionary(locale);
+
   return (
     <div className="flex flex-1 flex-col">
       <Navbar />
@@ -45,55 +52,72 @@ export default async function TopicPage({
         </h1>
         <p className="mt-2 text-muted">{topic.summary}</p>
 
-        <div className="mt-10 flex flex-col gap-8">
-          {topic.theory.map((section) => (
-            <div key={section.heading}>
-              <h2 className="font-display text-xl font-semibold text-foreground">
-                {section.heading}
-              </h2>
-              <div className="mt-3 flex flex-col gap-3">
-                {section.body.map((paragraph, i) => (
-                  <p key={i} className="leading-relaxed text-muted">
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
-              {section.example && (
-                <div className="mt-4 rounded-xl border border-border bg-surface p-4">
-                  <p className="text-sm font-semibold text-foreground">
-                    Exemplo: {section.example.problem}
-                  </p>
-                  <p className="mt-1 text-sm leading-relaxed text-muted">
-                    {section.example.solution}
-                  </p>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {topic.graphExpressions && (
-          <div className="mt-10">
-            <h2 className="mb-1 font-display text-xl font-semibold text-foreground">
-              Explore no gráfico
+        {!hasPremiumAccess ? (
+          <div className="mt-10 rounded-2xl border border-primary/30 bg-primary/10 p-8 text-center">
+            <h2 className="font-display text-xl font-semibold text-foreground">
+              {premium.paywallHeading}
             </h2>
-            <p className="mb-4 text-sm text-muted">
-              Mude a expressão abaixo e veja como o gráfico se transforma.
-            </p>
-            <FunctionGrapher initialExpressions={topic.graphExpressions} />
+            <p className="mt-2 text-sm text-muted">{premium.paywallBody}</p>
+            <Link
+              href="/assinatura"
+              className="mt-6 inline-block rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
+            >
+              {premium.subscribeButton}
+            </Link>
           </div>
-        )}
+        ) : (
+          <>
+            <div className="mt-10 flex flex-col gap-8">
+              {topic.theory.map((section) => (
+                <div key={section.heading}>
+                  <h2 className="font-display text-xl font-semibold text-foreground">
+                    {section.heading}
+                  </h2>
+                  <div className="mt-3 flex flex-col gap-3">
+                    {section.body.map((paragraph, i) => (
+                      <p key={i} className="leading-relaxed text-muted">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                  {section.example && (
+                    <div className="mt-4 rounded-xl border border-border bg-surface p-4">
+                      <p className="text-sm font-semibold text-foreground">
+                        Exemplo: {section.example.problem}
+                      </p>
+                      <p className="mt-1 text-sm leading-relaxed text-muted">
+                        {section.example.solution}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
 
-        <div className="mt-12">
-          <h2 className="mb-4 font-display text-xl font-semibold text-foreground">
-            Praticar
-          </h2>
-          <PracticeSection
-            levelId={level.id}
-            topicId={topic.id}
-            exercises={topic.exercises}
-          />
-        </div>
+            {topic.graphExpressions && (
+              <div className="mt-10">
+                <h2 className="mb-1 font-display text-xl font-semibold text-foreground">
+                  Explore no gráfico
+                </h2>
+                <p className="mb-4 text-sm text-muted">
+                  Mude a expressão abaixo e veja como o gráfico se transforma.
+                </p>
+                <FunctionGrapher initialExpressions={topic.graphExpressions} />
+              </div>
+            )}
+
+            <div className="mt-12">
+              <h2 className="mb-4 font-display text-xl font-semibold text-foreground">
+                Praticar
+              </h2>
+              <PracticeSection
+                levelId={level.id}
+                topicId={topic.id}
+                exercises={topic.exercises}
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

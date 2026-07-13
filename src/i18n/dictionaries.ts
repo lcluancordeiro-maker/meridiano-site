@@ -99,6 +99,22 @@ export type Dictionary = {
   language: {
     label: string;
   };
+  premium: {
+    navBadge: string;
+    pageTitle: string;
+    pageSubtitle: string;
+    benefit1: string;
+    benefit2: string;
+    benefit3: string;
+    subscribeButton: string;
+    manageButton: string;
+    activeStatus: string;
+    notConfigured: string;
+    requiresLogin: string;
+    paywallHeading: string;
+    paywallBody: string;
+    actionError: string;
+  };
 };
 
 export const dictionaries: Record<Locale, Dictionary> = {
@@ -205,6 +221,22 @@ export const dictionaries: Record<Locale, Dictionary> = {
     language: {
       label: "Idioma",
     },
+    premium: {
+      navBadge: "Premium",
+      pageTitle: "Assinatura Premium",
+      pageSubtitle: "Desbloqueie todas as trilhas e uma cota bem maior de resolução por IA.",
+      benefit1: "Todas as trilhas, incluindo Estatística Intermediário/Avançado e futuras trilhas avançadas",
+      benefit2: "Cota bem maior de resolução por foto e pelo quadro de rascunho",
+      benefit3: "Apoie diretamente o desenvolvimento de novos conteúdos",
+      subscribeButton: "Assinar Premium",
+      manageButton: "Gerenciar assinatura",
+      activeStatus: "Você já é Premium — obrigado pelo apoio!",
+      notConfigured: "Assinaturas ainda não estão disponíveis neste app — volte em breve.",
+      requiresLogin: "Faça login para assinar o Premium.",
+      paywallHeading: "Conteúdo Premium",
+      paywallBody: "Esse tópico faz parte do plano Premium.",
+      actionError: "Não foi possível continuar. Tente novamente.",
+    },
   },
   en: {
     nav: {
@@ -309,6 +341,22 @@ export const dictionaries: Record<Locale, Dictionary> = {
     language: {
       label: "Language",
     },
+    premium: {
+      navBadge: "Premium",
+      pageTitle: "Premium Subscription",
+      pageSubtitle: "Unlock every track and a much higher AI-solve quota.",
+      benefit1: "Every track, including Statistics Intermediate/Advanced and future advanced tracks",
+      benefit2: "A much higher quota for photo and whiteboard solving",
+      benefit3: "Directly support the development of new content",
+      subscribeButton: "Subscribe to Premium",
+      manageButton: "Manage subscription",
+      activeStatus: "You're already Premium — thanks for the support!",
+      notConfigured: "Subscriptions aren't available in this app yet — check back soon.",
+      requiresLogin: "Log in to subscribe to Premium.",
+      paywallHeading: "Premium content",
+      paywallBody: "This topic is part of the Premium plan.",
+      actionError: "Couldn't continue right now. Try again.",
+    },
   },
   es: {
     nav: {
@@ -412,6 +460,22 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     language: {
       label: "Idioma",
+    },
+    premium: {
+      navBadge: "Premium",
+      pageTitle: "Suscripción Premium",
+      pageSubtitle: "Desbloquea todas las rutas y una cuota mucho mayor de resolución por IA.",
+      benefit1: "Todas las rutas, incluyendo Estadística Intermedio/Avanzado y futuras rutas avanzadas",
+      benefit2: "Una cuota mucho mayor para resolver por foto y por la pizarra",
+      benefit3: "Apoya directamente el desarrollo de nuevo contenido",
+      subscribeButton: "Suscribirse a Premium",
+      manageButton: "Administrar suscripción",
+      activeStatus: "Ya eres Premium — ¡gracias por el apoyo!",
+      notConfigured: "Las suscripciones todavía no están disponibles en esta app — vuelve pronto.",
+      requiresLogin: "Inicia sesión para suscribirte a Premium.",
+      paywallHeading: "Contenido Premium",
+      paywallBody: "Este tema es parte del plan Premium.",
+      actionError: "No se pudo continuar. Intenta de nuevo.",
     },
   },
 };

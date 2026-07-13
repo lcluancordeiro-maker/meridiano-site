@@ -39,6 +39,17 @@ describe("levels", () => {
     expect(getLevel("fundamental-2")?.name).toBe("Ensino Fundamental II");
     expect(getLevel("nao-existe")).toBeUndefined();
   });
+
+  it("keeps the intro tier of every track free (fundamental-2, medio, estatistica-iniciante)", () => {
+    expect(getLevel("fundamental-2")?.premium).toBe(false);
+    expect(getLevel("medio")?.premium).toBe(false);
+    expect(getLevel("estatistica-iniciante")?.premium).toBe(false);
+  });
+
+  it("gates the advanced statistics tiers behind Premium", () => {
+    expect(getLevel("estatistica-intermediario")?.premium).toBe(true);
+    expect(getLevel("estatistica-avancado")?.premium).toBe(true);
+  });
 });
 
 describe.each(ALL_TRACKS)("topics for $levelId", ({ levelId, topics }) => {

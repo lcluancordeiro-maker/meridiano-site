@@ -57,6 +57,14 @@ de aplicativos.
   A escolha fica salva em cookie, então funciona em Server Components
   também (Navbar, cabeçalhos de página etc.) — veja "Sobre o idioma"
   abaixo para o que ainda **não** é traduzido.
+- **Assinatura Premium** (opcional, via Stripe): Estatística
+  Intermediário/Avançado exigem assinatura ativa (Fundamental II,
+  Ensino Médio e Estatística Iniciante continuam grátis, pra sempre
+  servirem de porta de entrada). Assinantes também têm uma cota diária
+  de "resolver por foto" bem maior. Sem configurar o Stripe, o
+  conteúdo Premium fica bloqueado para todo mundo mas o resto do app
+  funciona normalmente. Veja "Configurando assinaturas (Stripe)"
+  abaixo.
 
 ## Rodando localmente
 
@@ -109,12 +117,50 @@ Sem `ANTHROPIC_API_KEY` configurada, a página `/foto` continua
 acessível mas a rota `/api/resolver-foto` responde com erro — o resto
 do app não é afetado.
 
-Cada usuário logado tem um limite de 15 fotos resolvidas por dia
-(`increment_photo_usage` em `supabase/schema.sql`, aplicado de forma
-atômica no banco) — proteção simples contra abuso, já que cada chamada
-tem custo real de API. O mesmo limite vale para o botão "Resolver com
-IA" do quadro de rascunho, já que os dois usam a mesma rota
-(`/api/resolver-foto`).
+Cada usuário logado tem um limite diário de fotos resolvidas —
+5/dia no plano grátis, 30/dia no Premium (`increment_photo_usage` em
+`supabase/schema.sql`, aplicado de forma atômica no banco) — proteção
+simples contra abuso, já que cada chamada tem custo real de API. O
+mesmo limite vale para o botão "Resolver com IA" do quadro de
+rascunho, já que os dois usam a mesma rota (`/api/resolver-foto`).
+
+## Configurando assinaturas (Stripe)
+
+Exige contas (Supabase) já configuradas. Assinaturas são opcionais —
+sem configurar, o conteúdo Premium fica bloqueado para todo mundo, mas
+o resto do app funciona normalmente:
+
+1. Crie uma conta em [dashboard.stripe.com](https://dashboard.stripe.com)
+   (comece com as chaves de **teste**, no modo "Test mode").
+2. Em **Product catalog**, crie um produto "Premium" com um **Preço**
+   recorrente (mensal ou anual) e copie o ID do preço (`price_...`).
+3. Em **Developers → API keys**, copie a **Secret key**.
+4. Em **Developers → Webhooks**, adicione um endpoint apontando para
+   `https://SEU_DOMINIO/api/stripe/webhook`, com os eventos
+   `checkout.session.completed`, `customer.subscription.updated` e
+   `customer.subscription.deleted` — copie o **Signing secret**.
+5. Em **Settings → API** do Supabase, copie a chave **service_role**
+   (nunca a exponha no cliente).
+6. Preencha `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`,
+   `STRIPE_PREMIUM_PRICE_ID` e `SUPABASE_SERVICE_ROLE_KEY` no
+   `.env.local`.
+7. No **SQL Editor** do Supabase, rode `supabase/schema.sql` de novo
+   (cria a tabela `subscriptions`, seguro de rodar mais de uma vez).
+8. Reinicie o servidor. O link "Premium" no topo passa a permitir
+   assinar.
+
+Como funciona: o checkout usa a página hospedada da Stripe (sem
+formulário de cartão no seu próprio site). O webhook recebe os
+eventos e grava o status da assinatura na tabela `subscriptions` via
+`service_role` (que ignora Row Level Security de propósito — é o
+único jeito de gravar sem depender da sessão do navegador do
+usuário). `src/lib/entitlements.ts` lê essa tabela para decidir se um
+usuário tem acesso Premium.
+
+**Quais trilhas são Premium**: veja o campo `premium` de cada nível em
+`src/data/curriculum.ts`. Hoje são Estatística Intermediário e
+Avançado; Ensino Superior e Econometria (ainda "em breve") já nascem
+marcados como Premium para quando forem lançados.
 
 ## Sobre o idioma
 
@@ -192,6 +238,11 @@ todo push e pull request.
   para Client Components) e `src/components/LanguageSwitcher.tsx`.
 - `src/components/ThemeToggle.tsx` — alternância de modo escuro,
   variáveis de cor em `src/app/globals.css` (`:root[data-theme="dark"]`).
+- `src/lib/stripe/` — cliente Stripe e config; `src/lib/entitlements.ts`
+  — `isPremiumUser()`, lido pelas páginas de trilha para decidir se
+  mostra o conteúdo ou o paywall; `src/app/api/stripe/` — checkout,
+  portal de gerenciamento e webhook; `src/app/assinatura/page.tsx` —
+  página de assinatura.
 - `e2e/` — testes end-to-end (Playwright).
 
 ## Adicionando conteúdo

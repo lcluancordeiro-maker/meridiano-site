@@ -2,9 +2,7 @@ import { test, expect, type Page } from "@playwright/test";
 import {
   DIFFICULTY_LABELS,
   DIFFICULTY_ORDER,
-  estatisticaAvancadoTopics,
   estatisticaInicianteTopics,
-  estatisticaIntermediarioTopics,
   fundamental2Topics,
   medioTopics,
   type Difficulty,
@@ -18,22 +16,19 @@ import {
  * authoring content — a future edit that breaks grading (normalization, the
  * difficulty filter, option matching, etc.) fails here, even though it can't
  * catch a wrong `answer` value baked into the content itself.
+ *
+ * estatistica-intermediario and estatistica-avancado are deliberately absent:
+ * both are Premium-gated (see src/lib/entitlements.ts), and there's no way to
+ * get an authenticated + subscribed session in this test environment (same
+ * limitation as Supabase auth — see e2e/auth.spec.ts). Their content was
+ * verified against this same suite before the paywall existed; paywall.spec.ts
+ * covers the behavior that *is* testable here (the paywall itself renders).
  */
 const TRACKS: { levelId: string; topicId: string; exercises: Exercise[] }[] = [
   ...fundamental2Topics.map((t) => ({ levelId: "fundamental-2", topicId: t.id, exercises: t.exercises })),
   ...medioTopics.map((t) => ({ levelId: "medio", topicId: t.id, exercises: t.exercises })),
   ...estatisticaInicianteTopics.map((t) => ({
     levelId: "estatistica-iniciante",
-    topicId: t.id,
-    exercises: t.exercises,
-  })),
-  ...estatisticaIntermediarioTopics.map((t) => ({
-    levelId: "estatistica-intermediario",
-    topicId: t.id,
-    exercises: t.exercises,
-  })),
-  ...estatisticaAvancadoTopics.map((t) => ({
-    levelId: "estatistica-avancado",
     topicId: t.id,
     exercises: t.exercises,
   })),

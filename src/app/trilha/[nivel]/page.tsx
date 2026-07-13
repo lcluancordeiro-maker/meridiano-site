@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import TopicCard from "@/components/TopicCard";
 import { getLevel, getTopicsForLevel, levels } from "@/data/curriculum";
+import { isPremiumUser } from "@/lib/entitlements";
+import { getServerLocale } from "@/i18n/getServerLocale";
+import { getDictionary } from "@/i18n/dictionaries";
 
 export function generateStaticParams() {
   return levels.map((level) => ({ nivel: level.id }));
@@ -21,6 +24,9 @@ export default async function LevelPage({
   }
 
   const topics = getTopicsForLevel(nivel);
+  const hasPremiumAccess = level.premium ? await isPremiumUser() : true;
+  const locale = await getServerLocale();
+  const { premium } = getDictionary(locale);
 
   return (
     <div className="flex flex-1 flex-col">
@@ -33,6 +39,15 @@ export default async function LevelPage({
           {level.name}
         </h1>
         <p className="mt-2 max-w-xl text-muted">{level.description}</p>
+
+        {level.premium && !hasPremiumAccess && (
+          <p className="mt-6 rounded-xl border border-primary/30 bg-primary/10 p-4 text-sm text-foreground">
+            {premium.paywallBody}{" "}
+            <Link href="/assinatura" className="font-semibold text-primary hover:underline">
+              {premium.subscribeButton}
+            </Link>
+          </p>
+        )}
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
           {topics.map((topic) => (

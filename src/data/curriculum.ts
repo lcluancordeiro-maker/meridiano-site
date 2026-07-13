@@ -51,6 +51,9 @@ export type Level = {
   shortName: string;
   description: string;
   available: boolean;
+  /** Requires an active Premium subscription once `available` — see
+   * src/lib/entitlements.ts. Irrelevant while `available` is false. */
+  premium: boolean;
   group: LevelGroup;
 };
 
@@ -61,6 +64,7 @@ export const levels: Level[] = [
     shortName: "Fund. I",
     description: "Números, contagem e as quatro operações básicas.",
     available: false,
+    premium: false,
     group: "serie",
   },
   {
@@ -70,6 +74,7 @@ export const levels: Level[] = [
     description:
       "Números inteiros, frações, potências, proporcionalidade, equações e geometria plana.",
     available: true,
+    premium: false,
     group: "serie",
   },
   {
@@ -78,6 +83,7 @@ export const levels: Level[] = [
     shortName: "Médio",
     description: "Funções, geometria analítica, trigonometria e estatística.",
     available: true,
+    premium: false,
     group: "serie",
   },
   {
@@ -86,6 +92,7 @@ export const levels: Level[] = [
     shortName: "Superior",
     description: "Cálculo, álgebra linear e equações diferenciais.",
     available: false,
+    premium: true,
     group: "serie",
   },
   {
@@ -94,6 +101,7 @@ export const levels: Level[] = [
     shortName: "Estatística I",
     description: "Média, moda, mediana e leitura de dados.",
     available: true,
+    premium: false,
     group: "estatistica",
   },
   {
@@ -102,6 +110,7 @@ export const levels: Level[] = [
     shortName: "Estatística II",
     description: "Probabilidade básica e espaço amostral.",
     available: true,
+    premium: true,
     group: "estatistica",
   },
   {
@@ -110,6 +119,7 @@ export const levels: Level[] = [
     shortName: "Estatística III",
     description: "Distribuição normal e escore-z.",
     available: true,
+    premium: true,
     group: "estatistica",
   },
   {
@@ -118,6 +128,7 @@ export const levels: Level[] = [
     shortName: "Econometria",
     description: "Regressão linear e modelos preditivos — em breve.",
     available: false,
+    premium: true,
     group: "econometria",
   },
 ];

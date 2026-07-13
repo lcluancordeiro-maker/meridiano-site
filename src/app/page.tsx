@@ -8,7 +8,7 @@ import { getDictionary } from "@/i18n/dictionaries";
 export default async function Home() {
   const locale = await getServerLocale();
   const dict = getDictionary(locale);
-  const { home } = dict;
+  const { home, premium } = dict;
 
   return (
     <div className="flex flex-1 flex-col">
@@ -51,7 +51,7 @@ export default async function Home() {
           {levels
             .filter((level) => level.group === "serie")
             .map((level) => (
-              <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} />
+              <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} />
             ))}
         </div>
       </section>
@@ -68,7 +68,7 @@ export default async function Home() {
             {levels
               .filter((level) => level.group === "estatistica")
               .map((level) => (
-                <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} />
+                <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} />
               ))}
           </div>
         </div>
@@ -85,7 +85,7 @@ export default async function Home() {
           {levels
             .filter((level) => level.group === "econometria")
             .map((level) => (
-              <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} />
+              <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} />
             ))}
         </div>
       </section>

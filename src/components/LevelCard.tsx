@@ -5,10 +5,12 @@ export default function LevelCard({
   level,
   emBreve,
   comecarTrilha,
+  premiumBadge,
 }: {
   level: Level;
   emBreve: string;
   comecarTrilha: string;
+  premiumBadge: string;
 }) {
   const content = (
     <div
@@ -23,10 +25,16 @@ export default function LevelCard({
           <span className="font-display text-xs font-semibold uppercase tracking-wide text-primary">
             {level.shortName}
           </span>
-          {!level.available && (
+          {!level.available ? (
             <span className="rounded-full bg-border px-2.5 py-1 text-xs font-medium text-muted">
               {emBreve}
             </span>
+          ) : (
+            level.premium && (
+              <span className="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
+                {premiumBadge}
+              </span>
+            )
           )}
         </div>
         <h3 className="mt-3 font-display text-xl font-semibold text-foreground">

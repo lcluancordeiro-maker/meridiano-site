@@ -6,10 +6,12 @@ import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/actions/auth";
 import { getServerLocale } from "@/i18n/getServerLocale";
 import { getDictionary } from "@/i18n/dictionaries";
+import { isPremiumUser } from "@/lib/entitlements";
 
 export default async function Navbar() {
   const supabase = await createClient();
   const user = supabase ? (await supabase.auth.getUser()).data.user : null;
+  const isPremium = user ? await isPremiumUser() : false;
   const locale = await getServerLocale();
   const dict = getDictionary(locale);
 
@@ -41,6 +43,16 @@ export default async function Navbar() {
           </Link>
           <Link href="/progresso" className="hover:text-foreground transition-colors">
             {dict.nav.progresso}
+          </Link>
+          <Link
+            href="/assinatura"
+            className={
+              isPremium
+                ? "rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary"
+                : "hover:text-foreground transition-colors"
+            }
+          >
+            {dict.premium.navBadge}
           </Link>
           <NavbarXpBadge />
           <LanguageSwitcher />
