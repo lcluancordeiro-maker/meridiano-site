@@ -86,3 +86,9 @@ export function saveTopicProgress(
 export function getAllProgress(): ProgressStore {
   return readStore();
 }
+
+/** Test-only: clears the in-memory cache so the next call re-reads localStorage. */
+export function __resetProgressForTests(): void {
+  cache = null;
+  listeners.clear();
+}

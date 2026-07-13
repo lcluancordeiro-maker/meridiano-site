@@ -241,3 +241,9 @@ export function getXpLast(days: number): { date: string; xp: number }[] {
   }
   return result;
 }
+
+/** Test-only: clears the in-memory cache so the next call re-reads localStorage. */
+export function __resetGamificationForTests(): void {
+  cache = null;
+  listeners.clear();
+}
