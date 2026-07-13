@@ -15,12 +15,14 @@ de aplicativos.
   equações do 2º grau, geometria plana), cada um com 24 exercícios
   divididos em 4 níveis de dificuldade (Fácil/Médio/Difícil/Olimpíada),
   escolhidos livremente pelo aluno.
-- **Ensino Médio** — 3 tópicos: "Função do 1º Grau" (coeficientes,
+- **Ensino Médio** — 5 tópicos: "Função do 1º Grau" (coeficientes,
   raiz, gráfico), "Função Quadrática" (vértice, concavidade, gráfico em
-  parábola) e "Trigonometria no Triângulo Retângulo" (seno, cosseno,
-  tangente, Teorema de Pitágoras), todos em 4 níveis de dificuldade e
-  com gráfico interativo embutido (parábola e `sin(x)`). Geometria
-  analítica entra em próximos ciclos.
+  parábola), "Trigonometria no Triângulo Retângulo" (seno, cosseno,
+  tangente, Teorema de Pitágoras), "Geometria Analítica" (distância
+  entre pontos, ponto médio, coeficiente angular, equação da reta) e
+  "Progressões Aritméticas e Geométricas" (termo geral, soma de PA/PG)
+  — todos em 4 níveis de dificuldade, com gráfico interativo embutido
+  onde faz sentido (parábola, `sin(x)`, reta).
 - **Estatística** — trilha independente com 3 níveis (Iniciante:
   medidas de tendência central; Intermediário: probabilidade básica e
   regras de probabilidade; Avançado: distribuição normal, escore-z e
