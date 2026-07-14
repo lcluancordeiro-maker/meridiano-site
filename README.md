@@ -59,10 +59,12 @@ de aplicativos.
   retângulo, volume máximo de uma caixa).
 - **Econometria** (Premium): "Regressão Linear Simples" — estimar
   β0/β1 a partir de covariância e variância, prever valores e
-  interpretar o coeficiente de determinação (R²) — e agora também
-  "Regressão Múltipla e Multicolinearidade": modelos com várias
-  variáveis explicativas, R² ajustado e os cuidados com variáveis
-  correlacionadas entre si.
+  interpretar o coeficiente de determinação (R²) —, "Regressão
+  Múltipla e Multicolinearidade": modelos com várias variáveis
+  explicativas, R² ajustado e os cuidados com variáveis correlacionadas
+  entre si — e agora também "Significância dos Coeficientes (Teste
+  t)": a estatística t = β̂/erro-padrão, o valor crítico ≈2 e por que
+  um coeficiente "não significante" não prova ausência de relação.
 - Fundamental I ainda aparece como "em breve" — a estrutura de dados
   (`src/data/curriculum.ts`) já suporta adicionar novos níveis e
   tópicos sem mudar a arquitetura.
@@ -1048,6 +1050,30 @@ qualquer trilha — repetição espaçada no estilo SM-2, mas simplificada
 recalculada ao carregar a página (não em tempo real), um exercício que
 passa a vencer enquanto a aba já está aberta só aparece na próxima
 visita a `/revisao`.
+
+## Sobre a dificuldade adaptativa
+
+O seletor de dificuldade (`DifficultyPicker.tsx`) destaca com um selo
+"Recomendado" o nível mais indicado pra praticar em seguida, sem tirar
+a escolha manual do usuário — os quatro níveis continuam clicáveis
+como sempre.
+
+A recomendação (`src/lib/adaptiveDifficulty.ts`, função pura e
+testada) usa a mesma régua de 70% de acerto do resultado do quiz
+("Muito bem!" vs. "Bom começo"): percorre Fácil → Médio → Difícil →
+Olimpíada e recomenda o primeiro nível que o aluno ainda não tentou, ou
+tentou e ficou abaixo de 70% — nesse caso, o selo fica no nível atual
+em vez de empurrar pra frente, sugerindo reforçar antes de avançar. Se
+todos os quatro níveis já foram dominados, a recomendação fica em
+Olimpíada, o mais difícil.
+
+Como o `DifficultyPicker` faz parte do motor de exercícios (junto com
+o `ExerciseQuiz`), o selo "Recomendado" fica hardcoded em português,
+pela mesma razão dos outros textos dessa seção — ver "O que ainda não
+é traduzido" acima. Para não quebrar seletores de teste como
+`getByRole("button", { name: /^Fácil/ })`, o card recomendado recebe um
+`aria-label` explícito ("Fácil (recomendado)") em vez de deixar o texto
+do selo entrar na ordem natural do nome acessível do botão.
 
 ## Sobre o idioma
 
