@@ -1325,3 +1325,60 @@ end;
 $$;
 
 grant execute on function public.get_blocked_users() to authenticated;
+
+-- ---------------------------------------------------------------------
+-- Grafo de conhecimento, Fase 2: embeddings de cada tópico do currículo
+-- (gerados por scripts/generate-topic-embeddings.ts, via a API da Voyage
+-- AI) para achar tópicos relacionados por similaridade semântica, em vez
+-- de depender só da curadoria manual (`relatedTopics` em curriculum.ts —
+-- ver "Sobre a integração de conhecimento" no README). Conteúdo público
+-- do currículo, sem dado de usuário nenhum — RLS libera leitura geral,
+-- só o script (via service_role) escreve.
+-- ---------------------------------------------------------------------
+create extension if not exists vector;
+
+create table if not exists public.topic_embeddings (
+  level_id text not null,
+  topic_id text not null,
+  content_hash text not null,
+  embedding vector(1024) not null,
+  updated_at timestamptz not null default now(),
+  primary key (level_id, topic_id)
+);
+
+alter table public.topic_embeddings enable row level security;
+
+drop policy if exists "topic_embeddings_select_all" on public.topic_embeddings;
+create policy "topic_embeddings_select_all"
+  on public.topic_embeddings for select
+  using (true);
+
+-- Acha os tópicos semanticamente mais parecidos com um tópico dado, por
+-- distância de cosseno (<=>, operador do pgvector). Retorna vazio se esse
+-- tópico ainda não tem embedding gerado (ex: script nunca rodou).
+create or replace function public.match_related_topics(p_level_id text, p_topic_id text, p_match_count int default 5)
+returns table (level_id text, topic_id text, similarity float)
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  v_embedding vector(1024);
+begin
+  select embedding into v_embedding
+  from public.topic_embeddings
+  where level_id = p_level_id and topic_id = p_topic_id;
+
+  if v_embedding is null then
+    return;
+  end if;
+
+  return query
+    select te.level_id, te.topic_id, 1 - (te.embedding <=> v_embedding) as similarity
+    from public.topic_embeddings te
+    where not (te.level_id = p_level_id and te.topic_id = p_topic_id)
+    order by te.embedding <=> v_embedding asc
+    limit p_match_count;
+end;
+$$;
+
+grant execute on function public.match_related_topics(text, text, int) to authenticated, anon;

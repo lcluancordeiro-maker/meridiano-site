@@ -1,41 +1,73 @@
 import Link from "next/link";
 import AskGaussButton from "./AskGaussButton";
-import { getRelatedTopics, type Topic } from "@/data/curriculum";
+import { getLevel, getRelatedTopics, getTopic, type Level, type Topic } from "@/data/curriculum";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { isEmbeddingsConfigured } from "@/lib/embeddings/voyage";
 import { getSocialAccessStatus } from "@/lib/entitlements";
 import type { Dictionary } from "@/i18n/dictionaries";
 
 type CommunityHit = { id: string; community_id: string };
 type ChatHit = { id: string; conversation_id: string };
+type SemanticMatch = { level_id: string; topic_id: string; similarity: number };
 
-export default async function KnowledgeGraph({ topic, dict }: { topic: Topic; dict: Dictionary["knowledgeGraph"] }) {
-  const relatedTopics = getRelatedTopics(topic);
+export default async function KnowledgeGraph({
+  levelId,
+  topic,
+  dict,
+}: {
+  levelId: string;
+  topic: Topic;
+  dict: Dictionary["knowledgeGraph"];
+}) {
+  const curatedTopics = getRelatedTopics(topic);
+  const seen = new Set(curatedTopics.map(({ level, topic: t }) => `${level.id}/${t.id}`));
+  seen.add(`${levelId}/${topic.id}`);
 
   let communityHits: CommunityHit[] = [];
   let chatHits: ChatHit[] = [];
+  const semanticTopics: { level: Level; topic: Topic }[] = [];
 
-  if (isSupabaseConfigured && (await getSocialAccessStatus()) === "granted") {
-    const supabase = await createClient();
-    if (supabase) {
-      const [{ data: communityData }, { data: chatData }] = await Promise.all([
-        supabase
-          .from("community_messages")
-          .select("id, community_id")
-          .ilike("body", `%${topic.title}%`)
-          .order("created_at", { ascending: false })
-          .limit(3),
-        supabase
-          .from("dm_messages")
-          .select("id, conversation_id")
-          .ilike("body", `%${topic.title}%`)
-          .order("created_at", { ascending: false })
-          .limit(3),
-      ]);
-      communityHits = (communityData as CommunityHit[] | null) ?? [];
-      chatHits = (chatData as ChatHit[] | null) ?? [];
+  const supabase = isSupabaseConfigured ? await createClient() : null;
+
+  if (supabase && isEmbeddingsConfigured) {
+    const { data } = await supabase.rpc("match_related_topics", {
+      p_level_id: levelId,
+      p_topic_id: topic.id,
+      p_match_count: 5,
+    });
+    for (const match of (data as SemanticMatch[] | null) ?? []) {
+      const key = `${match.level_id}/${match.topic_id}`;
+      if (seen.has(key)) continue;
+      const matchedLevel = getLevel(match.level_id);
+      const matchedTopic = getTopic(match.level_id, match.topic_id);
+      if (matchedLevel && matchedTopic) {
+        seen.add(key);
+        semanticTopics.push({ level: matchedLevel, topic: matchedTopic });
+      }
     }
   }
+
+  if (supabase && (await getSocialAccessStatus()) === "granted") {
+    const [{ data: communityData }, { data: chatData }] = await Promise.all([
+      supabase
+        .from("community_messages")
+        .select("id, community_id")
+        .ilike("body", `%${topic.title}%`)
+        .order("created_at", { ascending: false })
+        .limit(3),
+      supabase
+        .from("dm_messages")
+        .select("id, conversation_id")
+        .ilike("body", `%${topic.title}%`)
+        .order("created_at", { ascending: false })
+        .limit(3),
+    ]);
+    communityHits = (communityData as CommunityHit[] | null) ?? [];
+    chatHits = (chatData as ChatHit[] | null) ?? [];
+  }
+
+  const relatedTopics = [...curatedTopics, ...semanticTopics];
 
   return (
     <div className="mt-10 flex flex-col gap-6">

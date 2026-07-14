@@ -805,16 +805,29 @@ Tudo isso é renderizado por `KnowledgeGraph.tsx`, incluído no fim de
 `/trilha/[nivel]/[topico]`. Quando um tópico não tem `relatedTopics`,
 só o botão do Gauss aparece — o resto da seção fica invisível.
 
-**Fase 2 (não implementada)**: a curadoria manual de `relatedTopics`
-não escala para milhares de exercícios. O caminho natural é gerar
-embeddings do conteúdo de cada tópico (ex: com a API da OpenAI/Voyage
-ou um modelo local) e guardá-los numa coluna `vector` do Supabase via
-a extensão [pgvector](https://github.com/pgvector/pgvector), então
-trocar a busca `ilike` por uma busca por similaridade de cosseno
-(`<=>` no pgvector) — tanto para sugerir tópicos relacionados
-automaticamente quanto para encontrar discussões semanticamente
-parecidas no chat/comunidades (não só que contenham a palavra exata do
-título).
+**Fase 2 (implementada, opcional)**: a curadoria manual de
+`relatedTopics` não escala para milhares de exercícios, então também
+existe um caminho por embeddings — opcional, precisa de
+`VOYAGE_API_KEY` configurada (veja "Configurando o grafo de
+conhecimento (Fase 2)" abaixo). `npm run generate-embeddings`
+(`scripts/generate-topic-embeddings.ts`) gera um embedding do
+título+resumo+teoria de cada tópico via a [Voyage
+AI](https://www.voyageai.com/) (modelo `voyage-4`, 1024 dimensões;
+exercícios ficam de fora do texto embeddado de propósito, para não
+diluir o embedding com variações repetitivas de uma mesma ideia) e
+grava numa tabela `topic_embeddings` (extensão
+[pgvector](https://github.com/pgvector/pgvector) do Postgres),
+pulando tópicos cujo conteúdo não mudou (comparando um hash). A RPC
+`match_related_topics` busca os tópicos mais parecidos por
+similaridade de cosseno (`<=>` no pgvector). `KnowledgeGraph.tsx`
+mescla esses resultados semânticos com os `relatedTopics` curados à
+mão (sem duplicar), então mesmo sem rodar o script nada quebra — o
+grafo só usa a curadoria manual, exatamente como antes. A busca de
+discussões no chat/comunidades continua usando `ilike` por enquanto
+(buscar por embedding ali também é possível, mas não foi feito nesta
+versão). Como não temos uma conta real da Voyage AI configurada neste
+ambiente de desenvolvimento, esse caminho não foi testado contra o
+serviço de verdade.
 
 ## Sobre o idioma
 

@@ -124,7 +124,7 @@ export default async function TopicPage({
               />
             </div>
 
-            <KnowledgeGraph topic={topic} dict={knowledgeGraph} />
+            <KnowledgeGraph levelId={level.id} topic={topic} dict={knowledgeGraph} />
           </>
         )}
       </div>
