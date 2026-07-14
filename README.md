@@ -142,6 +142,18 @@ de aplicativos.
   antes do commit — mesma técnica descrita em "Sobre o idioma"/testes)
   já que o ambiente de teste não tem Supabase/Stripe configurado pra
   simular uma assinatura ativa. Ver `src/components/widgets/`.
+- **"Verifique se entendeu" — teoria e prática intercaladas** (também
+  inspirado no Brilliant.org): em vez de ler toda a teoria e só depois
+  praticar, algumas seções de teoria terminam com uma pergunta rápida de
+  múltipla escolha embutida ali mesmo — um toque na opção já corrige na
+  hora (sem botão "Verificar") e mostra a explicação reforçando o que
+  acabou de ser lido. É um check de compreensão, não um exercício
+  valendo nota: não dá XP nem entra no progresso. O campo
+  `checkQuestion` é opcional em qualquer `TheorySection`
+  (`src/data/curriculum.ts`), renderizado por
+  `TheoryCheckQuestion.tsx`. Piloto atual: 10 perguntas em 4 tópicos
+  gratuitos — Função do 1º Grau, Frações, Medidas de Tendência Central
+  e Descontos e Acréscimos Percentuais.
 - **Feedback de erro mais inteligente**: alguns exercícios têm um campo
   `commonMistakeHint` — na primeira resposta errada, em vez de revelar a
   resposta certa na hora, o app mostra uma dica apontando o erro de

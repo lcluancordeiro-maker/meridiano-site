@@ -146,6 +146,20 @@ describe.each(ALL_TRACKS)("topics for $levelId", ({ levelId, topics }) => {
     }
   });
 
+  it("every theory check question is non-empty and includes its answer among at least two options", () => {
+    for (const topic of topics) {
+      for (const section of topic.theory) {
+        const check = section.checkQuestion;
+        if (!check) continue;
+        const label = `${topic.id} / ${section.heading}`;
+        expect(check.prompt.trim(), `${label} prompt`).not.toBe("");
+        expect(check.explanation.trim(), `${label} explanation`).not.toBe("");
+        expect(check.options.length, `${label} options`).toBeGreaterThanOrEqual(2);
+        expect(check.options, `${label} answer among options`).toContain(check.answer);
+      }
+    }
+  });
+
   describe.each(topics.map((t) => [t.id, t] as const))("topic %s", (_id, topic) => {
     it("has unique exercise ids", () => {
       const ids = topic.exercises.map((e) => e.id);

@@ -52,11 +52,26 @@ export type InteractiveWidget =
   | "percentage-change-explorer"
   | "confusion-matrix-explorer";
 
+/** A quick one-tap multiple-choice check rendered inline right after a
+ * theory section — Brilliant.org-style "learn by doing": instead of reading
+ * all the theory and only then practicing, the student answers a small
+ * question right after (almost) every concept, with immediate feedback and
+ * an explanation reinforcing what was just read. Unlike Exercise, there's
+ * no difficulty tier, XP or progress tracking — it's a comprehension check,
+ * not a graded exercise. */
+export type CheckQuestion = {
+  prompt: string;
+  options: string[];
+  answer: string;
+  explanation: string;
+};
+
 export type TheorySection = {
   heading: string;
   body: string[];
   example?: TheoryExample;
   interactiveWidget?: InteractiveWidget;
+  checkQuestion?: CheckQuestion;
 };
 
 /** A link to another topic that shares an underlying idea — e.g. "slope"
@@ -544,6 +559,17 @@ export const fundamental2Topics: Topic[] = [
         body: [
           "Uma fração representa uma parte de um todo. Ela é escrita como a/b, onde 'a' é o numerador (quantas partes você tem) e 'b' é o denominador (em quantas partes o todo foi dividido).",
         ],
+        checkQuestion: {
+          prompt: "Na fração 3/8, o que o número 8 representa?",
+          options: [
+            "Em quantas partes o todo foi dividido",
+            "Quantas partes você tem",
+            "O valor total da fração",
+          ],
+          answer: "Em quantas partes o todo foi dividido",
+          explanation:
+            "O denominador (embaixo) diz em quantas partes o todo foi dividido; o numerador (em cima) diz quantas dessas partes você tem.",
+        },
       },
       {
         heading: "Frações equivalentes e simplificação",
@@ -566,6 +592,17 @@ export const fundamental2Topics: Topic[] = [
           problem: "1/4 + 1/6",
           solution: "MMC(4,6) = 12. 1/4 = 3/12 e 1/6 = 2/12. Somando: 3/12 + 2/12 = 5/12.",
         },
+        checkQuestion: {
+          prompt: "Para calcular 1/3 + 1/5, o que você precisa fazer antes de somar?",
+          options: [
+            "Encontrar um denominador comum (o MMC de 3 e 5)",
+            "Somar os numeradores: 1 + 1 = 2",
+            "Somar os denominadores: 3 + 5 = 8",
+          ],
+          answer: "Encontrar um denominador comum (o MMC de 3 e 5)",
+          explanation:
+            "Com denominadores diferentes, primeiro reescreva as frações com o MMC (15): 5/15 + 3/15 = 8/15. Somar numeradores direto só vale quando os denominadores já são iguais.",
+        },
       },
       {
         heading: "Multiplicar e dividir frações",
@@ -576,6 +613,17 @@ export const fundamental2Topics: Topic[] = [
         example: {
           problem: "2/3 ÷ 1/2",
           solution: "Multiplique pelo inverso: 2/3 × 2/1 = 4/3.",
+        },
+        checkQuestion: {
+          prompt: "Como se calcula 3/4 ÷ 2/5?",
+          options: [
+            "Multiplicando pelo inverso: 3/4 × 5/2",
+            "Multiplicando direto: 3/4 × 2/5",
+            "Dividindo em cruz: (3÷2)/(4÷5)",
+          ],
+          answer: "Multiplicando pelo inverso: 3/4 × 5/2",
+          explanation:
+            "Dividir por uma fração é multiplicar pelo seu inverso: 3/4 ÷ 2/5 = 3/4 × 5/2 = 15/8.",
         },
       },
       {
@@ -2010,6 +2058,16 @@ export const estatisticaInicianteTopics: Topic[] = [
           problem: "Dados: 2, 4, 6, 8",
           solution: "Média = (2+4+6+8) ÷ 4 = 20 ÷ 4 = 5.",
         },
+        checkQuestion: {
+          prompt: "Qual é a média de 3, 7 e 11?",
+          options: [
+            "7 — a soma 21 dividida pelos 3 valores",
+            "11 — o maior valor do conjunto",
+            "21 — a soma de todos os valores",
+          ],
+          answer: "7 — a soma 21 dividida pelos 3 valores",
+          explanation: "Média = (3+7+11) ÷ 3 = 21 ÷ 3 = 7. Somar é só o primeiro passo — falta dividir pela quantidade de valores.",
+        },
       },
       {
         heading: "Moda",
@@ -2027,6 +2085,17 @@ export const estatisticaInicianteTopics: Topic[] = [
         example: {
           problem: "Dados ordenados: 2, 4, 6, 8, 10",
           solution: "Com 5 valores (ímpar), a mediana é o valor central: 6.",
+        },
+        checkQuestion: {
+          prompt: "Qual é a mediana do conjunto ordenado {1, 3, 5, 7}?",
+          options: [
+            "4 — a média dos dois valores centrais (3 e 5)",
+            "3 — o segundo valor da lista",
+            "5 — o terceiro valor da lista",
+          ],
+          answer: "4 — a média dos dois valores centrais (3 e 5)",
+          explanation:
+            "Com quantidade par de valores não há um único valor central: a mediana é a média dos dois centrais, (3+5) ÷ 2 = 4.",
         },
       },
       {
@@ -3297,6 +3366,17 @@ export const medioTopics: Topic[] = [
           problem: "f(x) = 3x - 2",
           solution: "Como a = 3 > 0, a função é crescente.",
         },
+        checkQuestion: {
+          prompt: "A função f(x) = -5x + 1 é crescente ou decrescente?",
+          options: [
+            "Crescente, porque b = 1 é positivo",
+            "Decrescente, porque a = -5 é negativo",
+            "Crescente, porque -5x cresce com x",
+          ],
+          answer: "Decrescente, porque a = -5 é negativo",
+          explanation:
+            "Quem decide o crescimento é o coeficiente angular a, não o b. Como a = -5 < 0, f(x) diminui quando x aumenta.",
+        },
       },
       {
         heading: "Coeficiente linear",
@@ -3306,6 +3386,13 @@ export const medioTopics: Topic[] = [
         example: {
           problem: "f(x) = -2x + 5",
           solution: "f(0) = -2×0 + 5 = 5. A reta corta o eixo y no ponto (0, 5).",
+        },
+        checkQuestion: {
+          prompt: "Onde o gráfico de f(x) = 3x - 4 corta o eixo y?",
+          options: ["No ponto (0, -4)", "No ponto (0, 3)", "No ponto (-4, 0)"],
+          answer: "No ponto (0, -4)",
+          explanation:
+            "O gráfico corta o eixo y em f(0) = b = -4, ou seja, no ponto (0, -4). O valor 3 é o coeficiente angular — ele dá a inclinação, não o corte.",
         },
       },
       {
@@ -3317,6 +3404,17 @@ export const medioTopics: Topic[] = [
         example: {
           problem: "f(x) = 2x - 6",
           solution: "2x - 6 = 0 → 2x = 6 → x = 3. A raiz é 3.",
+        },
+        checkQuestion: {
+          prompt: "Qual é a raiz de f(x) = 4x - 8?",
+          options: [
+            "x = 2, porque 4×2 - 8 = 0",
+            "x = -2, porque a raiz é -b/a",
+            "x = 8, porque é o valor que aparece na função",
+          ],
+          answer: "x = 2, porque 4×2 - 8 = 0",
+          explanation:
+            "Raiz: 4x - 8 = 0 → x = 8/4 = 2. Cuidado com o sinal em x = -b/a: aqui b = -8, então x = -(-8)/4 = 2.",
         },
       },
       {
@@ -6150,6 +6248,17 @@ export const matematicaFinanceiraInicianteTopics: Topic[] = [
           problem: "Preço de R$200 com desconto de 10%",
           solution: "200 × (1 - 0,10) = 200 × 0,90 = R$180.",
         },
+        checkQuestion: {
+          prompt: "Qual fator multiplicativo corresponde a um desconto de 30%?",
+          options: [
+            "0,70 — porque sobra 70% do valor",
+            "0,30 — o próprio percentual do desconto",
+            "1,30 — soma-se o percentual a 1",
+          ],
+          answer: "0,70 — porque sobra 70% do valor",
+          explanation:
+            "Desconto de i%: fator = 1 - i. Com 30%: 1 - 0,30 = 0,70. O fator 1,30 seria um aumento de 30%, não um desconto.",
+        },
       },
       {
         heading: "Aumentos e descontos sucessivos",
@@ -6159,6 +6268,17 @@ export const matematicaFinanceiraInicianteTopics: Topic[] = [
         example: {
           problem: "Um valor de R$100 sofre um aumento de 10% seguido de um desconto de 10%",
           solution: "100 × 1,10 × 0,90 = 99 — não volta a R$100, porque o desconto de 10% incide sobre o valor já aumentado.",
+        },
+        checkQuestion: {
+          prompt: "Um valor sofre um aumento de 20% e depois um desconto de 20%. O resultado final é…",
+          options: [
+            "Menor que o valor original",
+            "Igual ao valor original",
+            "Maior que o valor original",
+          ],
+          answer: "Menor que o valor original",
+          explanation:
+            "1,20 × 0,80 = 0,96 — o valor final é 96% do original. O desconto incide sobre o valor já aumentado, por isso os percentuais não se cancelam.",
         },
       },
       {

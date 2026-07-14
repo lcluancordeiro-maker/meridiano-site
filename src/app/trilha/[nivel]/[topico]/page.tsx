@@ -5,6 +5,7 @@ import PracticeSection from "@/components/PracticeSection";
 import FunctionGrapher from "@/components/FunctionGrapher";
 import InteractiveWidgetRenderer from "@/components/widgets/InteractiveWidgetRenderer";
 import KnowledgeGraph from "@/components/KnowledgeGraph";
+import TheoryCheckQuestion from "@/components/TheoryCheckQuestion";
 import { getLevel, getTopic, getTopicsForLevel, levels } from "@/data/curriculum";
 import { isPremiumUser } from "@/lib/entitlements";
 import { getServerLocale } from "@/i18n/getServerLocale";
@@ -96,6 +97,9 @@ export default async function TopicPage({
                     <div className="mt-4">
                       <InteractiveWidgetRenderer widget={section.interactiveWidget} />
                     </div>
+                  )}
+                  {section.checkQuestion && (
+                    <TheoryCheckQuestion question={section.checkQuestion} />
                   )}
                 </div>
               ))}
