@@ -16,21 +16,25 @@ de aplicativos.
   equações do 2º grau, geometria plana), cada um com 24 exercícios
   divididos em 4 níveis de dificuldade (Fácil/Médio/Difícil/Olimpíada),
   escolhidos livremente pelo aluno.
-- **Ensino Médio** — 5 tópicos: "Função do 1º Grau" (coeficientes,
+- **Ensino Médio** — 6 tópicos: "Função do 1º Grau" (coeficientes,
   raiz, gráfico), "Função Quadrática" (vértice, concavidade, gráfico em
   parábola), "Trigonometria no Triângulo Retângulo" (seno, cosseno,
   tangente, Teorema de Pitágoras), "Geometria Analítica" (distância
-  entre pontos, ponto médio, coeficiente angular, equação da reta) e
+  entre pontos, ponto médio, coeficiente angular, equação da reta),
   "Progressões Aritméticas e Geométricas" (termo geral, soma de PA/PG)
-  — todos em 4 níveis de dificuldade, com gráfico interativo embutido
-  onde faz sentido (parábola, `sin(x)`, reta).
+  e agora também "Números Complexos" (a unidade imaginária i, soma,
+  multiplicação, módulo e o conjugado) — todos em 4 níveis de
+  dificuldade, com gráfico interativo embutido onde faz sentido
+  (parábola, `sin(x)`, reta).
 - **Estatística** — trilha independente com 3 níveis (Iniciante:
   medidas de tendência central e, agora, medidas de dispersão
   (amplitude, variância, desvio padrão); Intermediário: probabilidade
-  básica e regras de probabilidade; Avançado: distribuição normal e
-  escore-z, intervalos de confiança e agora também "Testes de
-  Hipótese" — H0/H1, estatística de teste z, valor crítico e a regra
-  de decisão de rejeitar ou não a hipótese nula).
+  básica, regras de probabilidade e agora também "Distribuição
+  Binomial" — combinações C(n,k), a fórmula P(X=k) e o valor esperado
+  n×p; Avançado: distribuição normal e escore-z, intervalos de
+  confiança e "Testes de Hipótese" — H0/H1, estatística de teste z,
+  valor crítico e a regra de decisão de rejeitar ou não a hipótese
+  nula).
 - **Programação & Machine Learning** — trilha independente com 4
   níveis disponíveis: "Lógica de Programação" (Iniciante: variáveis,
   comparações, condicionais, e agora também "Vetores e Listas" —
@@ -52,11 +56,13 @@ de aplicativos.
 - **Ensino Superior** (Premium): "Limites e Derivadas" — a porta de
   entrada do Cálculo, com forma indeterminada, regra da potência e o
   limite fundamental de sin(x)/x —, "Integrais": antiderivada, integral
-  definida como área sob a curva e o Teorema Fundamental do Cálculo — e
-  agora também "Aplicações de Derivadas": pontos críticos, crescimento
-  e decrescimento, o teste da derivada segunda para achar máximos e
+  definida como área sob a curva e o Teorema Fundamental do Cálculo —,
+  "Aplicações de Derivadas": pontos críticos, crescimento e
+  decrescimento, o teste da derivada segunda para achar máximos e
   mínimos locais, e problemas de otimização (área máxima de um
-  retângulo, volume máximo de uma caixa).
+  retângulo, volume máximo de uma caixa) — e agora também "Equações
+  Diferenciais": achar a função original a partir de dy/dx=f(x) e usar
+  uma condição inicial para fixar a constante C.
 - **Econometria** (Premium): "Regressão Linear Simples" — estimar
   β0/β1 a partir de covariância e variância, prever valores e
   interpretar o coeficiente de determinação (R²) —, "Regressão
