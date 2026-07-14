@@ -202,6 +202,12 @@ de aplicativos.
   ficaram de fora por não se encaixarem no formato do app.
 - **Gamificação**: XP por resposta certa (escalado por dificuldade),
   níveis, sequência (streak) diária e conquistas.
+- **Micro-animações**: o feedback de resposta (quiz, revisão, Desafio do
+  Dia e checks de teoria) entra com um slide-in curto, os chips de XP e a
+  tela de resultado ganham um "pop" celebratório, e os botões de opção
+  respondem ao toque com uma leve compressão. Tudo definido em
+  `globals.css` (keyframes `rise-in`/`pop-in`/`xp-pop`) e desligado por
+  completo para quem usa `prefers-reduced-motion`.
 - **Dashboard de progresso** (`/progresso`) com gráficos de desempenho
   por tópico e XP ao longo do tempo. Quem está logado vê ali um botão
   para ativar **lembretes de sequência por notificação push** — avisa

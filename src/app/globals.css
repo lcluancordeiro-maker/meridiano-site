@@ -58,6 +58,65 @@ body {
   color: var(--foreground);
 }
 
+/* Micro-animações: entradas curtas e discretas para feedback de quiz,
+   chips de XP e tela de resultado. Desligadas por completo quando o
+   usuário prefere menos movimento. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes xp-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-rise-in {
+  animation: rise-in 0.25s ease-out both;
+}
+
+.animate-pop-in {
+  animation: pop-in 0.3s ease-out both;
+}
+
+.animate-xp-pop {
+  animation: xp-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise-in,
+  .animate-pop-in,
+  .animate-xp-pop {
+    animation: none;
+  }
+}
+
 ::selection {
   background: var(--primary);
   color: white;

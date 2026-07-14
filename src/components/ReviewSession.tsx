@@ -135,7 +135,7 @@ export default function ReviewSession() {
                 key={option}
                 disabled={checked}
                 onClick={() => setSelected(option)}
-                className={`rounded-xl border px-4 py-3 text-left text-sm font-medium transition-colors ${
+                className={`rounded-xl border px-4 py-3 text-left text-sm font-medium transition-all enabled:active:scale-[0.98] ${
                   showCorrect
                     ? "border-success bg-success-bg text-success"
                     : showWrong
@@ -172,14 +172,14 @@ export default function ReviewSession() {
 
       {checked && (
         <div
-          className={`mt-4 rounded-xl p-4 text-sm leading-relaxed ${
+          className={`animate-rise-in mt-4 rounded-xl p-4 text-sm leading-relaxed ${
             isCorrect ? "bg-success-bg text-success" : "bg-error-bg text-error"
           }`}
         >
           <p className="flex items-center gap-2 font-semibold">
             {isCorrect ? "Certinho!" : `Resposta correta: ${exercise.answer}`}
             {isCorrect && (
-              <span className="rounded-full bg-white/60 px-2 py-0.5 text-xs font-bold text-success">
+              <span className="animate-xp-pop rounded-full bg-white/60 px-2 py-0.5 text-xs font-bold text-success">
                 +{xpPerCorrect} XP
               </span>
             )}

@@ -96,7 +96,7 @@ export default function ExerciseQuiz({
   if (finished) {
     const pct = Math.round((score / exercises.length) * 100);
     return (
-      <div className="rounded-2xl border border-border bg-surface p-8 text-center">
+      <div className="animate-pop-in rounded-2xl border border-border bg-surface p-8 text-center">
         <p className="font-display text-sm font-semibold uppercase tracking-wide text-primary">
           Resultado
         </p>
@@ -108,7 +108,7 @@ export default function ExerciseQuiz({
             ? "Muito bem! Você domina esse tópico."
             : "Bom começo — revise a teoria e tente de novo para fixar o conteúdo."}
         </p>
-        <p className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
+        <p className="animate-xp-pop mt-4 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
           +{score * xpPerCorrect} XP nesta tentativa
         </p>
         {newBadges.length > 0 && (
@@ -123,7 +123,7 @@ export default function ExerciseQuiz({
                 return (
                   <div
                     key={id}
-                    className="flex items-center gap-2 rounded-xl border border-border bg-background px-3 py-2 text-left"
+                    className="animate-rise-in flex items-center gap-2 rounded-xl border border-border bg-background px-3 py-2 text-left"
                   >
                     <span className="text-xl">{badge.icon}</span>
                     <span>
@@ -188,7 +188,7 @@ export default function ExerciseQuiz({
                 key={option}
                 disabled={checked}
                 onClick={() => setSelected(option)}
-                className={`rounded-xl border px-4 py-3 text-left text-sm font-medium transition-colors ${
+                className={`rounded-xl border px-4 py-3 text-left text-sm font-medium transition-all enabled:active:scale-[0.98] ${
                   showCorrect
                     ? "border-success bg-success-bg text-success"
                     : showWrong
@@ -233,7 +233,7 @@ export default function ExerciseQuiz({
       )}
 
       {hintActive && !checked && (
-        <div className="mt-4 rounded-xl bg-warning-bg p-4 text-sm leading-relaxed text-warning">
+        <div className="animate-rise-in mt-4 rounded-xl bg-warning-bg p-4 text-sm leading-relaxed text-warning">
           <p className="font-semibold">Quase lá! Dica:</p>
           <p className="mt-1 text-foreground/80">{exercise.commonMistakeHint}</p>
         </div>
@@ -241,14 +241,14 @@ export default function ExerciseQuiz({
 
       {checked && (
         <div
-          className={`mt-4 rounded-xl p-4 text-sm leading-relaxed ${
+          className={`animate-rise-in mt-4 rounded-xl p-4 text-sm leading-relaxed ${
             isCorrect ? "bg-success-bg text-success" : "bg-error-bg text-error"
           }`}
         >
           <p className="flex items-center gap-2 font-semibold">
             {isCorrect ? "Certinho!" : `Resposta correta: ${exercise.answer}`}
             {isCorrect && (
-              <span className="rounded-full bg-white/60 px-2 py-0.5 text-xs font-bold text-success">
+              <span className="animate-xp-pop rounded-full bg-white/60 px-2 py-0.5 text-xs font-bold text-success">
                 +{xpPerCorrect} XP
               </span>
             )}

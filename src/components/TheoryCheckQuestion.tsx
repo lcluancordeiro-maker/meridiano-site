@@ -29,7 +29,7 @@ export default function TheoryCheckQuestion({ question }: { question: CheckQuest
               key={option}
               disabled={answered}
               onClick={() => setPicked(option)}
-              className={`rounded-xl border px-4 py-2.5 text-left text-sm font-medium transition-colors ${
+              className={`rounded-xl border px-4 py-2.5 text-left text-sm font-medium transition-all enabled:active:scale-[0.98] ${
                 showCorrect
                   ? "border-success bg-success-bg text-success"
                   : showWrong
@@ -44,7 +44,7 @@ export default function TheoryCheckQuestion({ question }: { question: CheckQuest
       </div>
       {answered && (
         <div
-          className={`mt-3 rounded-xl p-3 text-sm leading-relaxed ${
+          className={`animate-rise-in mt-3 rounded-xl p-3 text-sm leading-relaxed ${
             isCorrect ? "bg-success-bg text-success" : "bg-error-bg text-error"
           }`}
         >

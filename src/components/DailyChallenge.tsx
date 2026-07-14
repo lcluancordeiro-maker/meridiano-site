@@ -106,14 +106,14 @@ export default function DailyChallenge() {
 
           {showResolved && (
             <div
-              className={`mt-5 rounded-xl p-4 text-sm leading-relaxed ${
+              className={`animate-rise-in mt-5 rounded-xl p-4 text-sm leading-relaxed ${
                 resolvedCorrect ? "bg-success-bg text-success" : "bg-error-bg text-error"
               }`}
             >
               <p className="flex items-center gap-2 font-semibold">
                 {resolvedCorrect ? "Certinho!" : `Resposta correta: ${exercise.answer}`}
                 {checked && resolvedCorrect && (
-                  <span className="rounded-full bg-white/60 px-2 py-0.5 text-xs font-bold text-success">
+                  <span className="animate-xp-pop rounded-full bg-white/60 px-2 py-0.5 text-xs font-bold text-success">
                     +{DAILY_CHALLENGE_BONUS_XP} XP
                   </span>
                 )}
