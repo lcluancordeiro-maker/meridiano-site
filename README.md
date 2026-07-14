@@ -27,10 +27,13 @@ de aplicativos.
   dificuldade, com gráfico interativo embutido onde faz sentido
   (parábola, `sin(x)`, reta).
 - **Estatística** — trilha independente com 3 níveis (Iniciante:
-  medidas de tendência central e, agora, medidas de dispersão
-  (amplitude, variância, desvio padrão); Intermediário: probabilidade
-  básica, regras de probabilidade e agora também "Distribuição
-  Binomial" — combinações C(n,k), a fórmula P(X=k) e o valor esperado
+  medidas de tendência central, medidas de dispersão (amplitude,
+  variância, desvio padrão) e agora também "Gráficos e Distribuição de
+  Frequências" — tabelas de frequência absoluta/relativa/acumulada e
+  leitura de gráficos de barras e de setores; Intermediário:
+  probabilidade básica, regras de probabilidade e agora também
+  "Distribuição Binomial" — combinações C(n,k), a fórmula P(X=k) e o
+  valor esperado
   n×p; Avançado: distribuição normal e escore-z, intervalos de
   confiança e "Testes de Hipótese" — H0/H1, estatística de teste z,
   valor crítico e a regra de decisão de rejeitar ou não a hipótese
@@ -127,10 +130,14 @@ de aplicativos.
   e "Geometria e Desigualdades" na OIM — todos genuinamente no estilo
   daquele exame, não um simulado genérico reaproveitado.
   **Fase 2** adiciona **SAT Math** (Premium: álgebra e funções, estilo
-  múltipla escolha com 4 alternativas — uma a menos que o ENEM) e
-  **GMAT Quant** (Premium: raciocínio lógico-quantitativo rápido, com
-  problemas de razão, taxas e contextos de negócio). Como o resto do
-  conteúdo do app, os enunciados do SAT/GMAT ficam em português por
+  múltipla escolha com 4 alternativas — uma a menos que o ENEM — e
+  agora também "Estatística e Geometria": média, mediana, moda,
+  probabilidade simples e as fórmulas de círculos e sólidos) e **GMAT
+  Quant** (Premium: raciocínio lógico-quantitativo rápido, com
+  problemas de razão, taxas e contextos de negócio, e agora também
+  "Combinatória e Probabilidade": permutações, combinações C(n,k) e
+  probabilidade de eventos independentes). Como o resto do conteúdo do
+  app, os enunciados do SAT/GMAT ficam em português por
   consistência com a base de exercícios — as provas reais são em
   inglês, então vale complementar o preparo com material em inglês
   também. Gaokao (multidisciplinar, em chinês) e PISA (avaliação de
