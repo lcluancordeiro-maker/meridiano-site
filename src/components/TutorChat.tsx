@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { errorMessageFor } from "@/lib/photoSolveErrors";
 import { ASK_GAUSS_EVENT } from "@/lib/gaussPrompt";
+import VoiceInputButton from "./VoiceInputButton";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -15,7 +16,7 @@ export default function TutorChat({
   isSupabaseConfigured: boolean;
   loggedIn: boolean;
 }) {
-  const { dict } = useTranslation();
+  const { dict, locale } = useTranslation();
   const { tutor } = dict;
 
   const [open, setOpen] = useState(false);
@@ -157,6 +158,12 @@ export default function TutorChat({
               placeholder={tutor.placeholder}
               rows={1}
               className="max-h-24 flex-1 resize-none rounded-xl border border-border px-3 py-2 text-sm outline-none focus:border-primary"
+            />
+            <VoiceInputButton
+              locale={locale}
+              label={tutor.voiceInputLabel}
+              listeningLabel={tutor.voiceListeningLabel}
+              onResult={(transcript) => setInput((prev) => (prev ? `${prev} ${transcript}` : transcript))}
             />
             <button
               type="button"

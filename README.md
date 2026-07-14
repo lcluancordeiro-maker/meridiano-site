@@ -850,6 +850,54 @@ versão). Como não temos uma conta real da Voyage AI configurada neste
 ambiente de desenvolvimento, esse caminho não foi testado contra o
 serviço de verdade.
 
+## Sobre os comandos de voz
+
+Usa a [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API) do próprio navegador (`SpeechRecognition`/
+`webkitSpeechRecognition`) — sem chave de API, sem custo, sem servidor
+envolvido. Funciona no Chrome/Edge e no Safari; **não funciona no
+Firefox**, que ainda não implementa essa API — nesse caso o botão de
+voz simplesmente não aparece (detecção de suporte em
+`src/lib/useSpeechRecognition.ts`), sem quebrar nada.
+
+Dois lugares usam voz hoje:
+
+1. **Responder exercícios** (`ExerciseQuiz.tsx`): um botão "🎤 Falar
+   resposta" aparece acima das alternativas (múltipla escolha) ou ao
+   lado do campo de resposta (numérico). Para múltipla escolha, o
+   texto reconhecido é comparado com as opções (`matchSpokenOption`
+   em `src/lib/voiceMatching.ts` — primeiro tenta igualdade exata,
+   depois substring, depois a opção com mais palavras em comum) e a
+   mais parecida é selecionada automaticamente. Para resposta
+   numérica, `extractSpokenNumber` tenta achar um número (ou fração
+   tipo "2/3", testado antes do padrão decimal simples para não
+   truncar a fração) na fala, e cai no texto bruto se não achar
+   nenhum.
+2. **Perguntar ao Gauss por voz**: o mesmo botão de voz aparece ao
+   lado do campo de mensagem do tutor de IA, adicionando a fala
+   reconhecida ao texto já digitado (não substitui, então dá pra
+   compor uma pergunta por voz e texto juntos).
+
+O reconhecimento usa o idioma da interface (`src/i18n/`) para
+configurar `recognition.lang` (ex: `pt-BR`, `en-US`, `es-ES`) — exceto
+nos exercícios, que são conteúdo só em português e por isso sempre
+usam `pt-BR`, independente do idioma da interface.
+
+Como testar sem microfone: a API real não roda em Chromium headless
+(sem permissão de microfone), então os testes (`e2e/voice-input.spec.ts`)
+injetam uma classe `SpeechRecognition` de mentira via
+`page.addInitScript` antes da página carregar — `start()` dispara
+`onresult` com uma transcrição fixa, exercitando o fluxo completo
+"clicar no microfone → preencher resposta → corrigir" de ponta a
+ponta, sem precisar de áudio de verdade.
+
+**Limitações desta primeira versão**: sem suporte a comandos de voz
+para navegação (ex: "próxima pergunta", "abrir turma") — só
+preenchimento de resposta/pergunta. A correspondência de opções de
+múltipla escolha funciona bem para alternativas com palavras (ex:
+"Verdadeiro"/"Falso"), mas é menos confiável quando as opções são só
+notação numérica (ex: frações como "6/10") — falar "seis décimos" não
+bate com "6/10" através de correspondência de texto simples.
+
 ## Sobre o idioma
 
 O seletor de idioma (`src/i18n/`) traduz toda a navegação e as páginas

@@ -10,7 +10,9 @@ import {
   recordCorrectAnswer,
   recordTopicCompletion,
 } from "@/lib/gamification";
+import { extractSpokenNumber, matchSpokenOption } from "@/lib/voiceMatching";
 import ProgressBar from "./ProgressBar";
+import VoiceInputButton from "./VoiceInputButton";
 
 function normalize(value: string): string {
   return value.trim().toLowerCase().replace(/\s+/g, "");
@@ -160,7 +162,20 @@ export default function ExerciseQuiz({
       </p>
 
       {exercise.type === "multiple-choice" ? (
-        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        <div className="mt-5 flex flex-col gap-3">
+          {!checked && (
+            <VoiceInputButton
+              locale="pt-BR"
+              label="Falar resposta"
+              listeningLabel="Ouvindo..."
+              className="self-start rounded-lg border border-border px-3 py-2 text-xs font-medium text-muted transition-colors hover:border-primary hover:text-foreground"
+              onResult={(transcript) => {
+                const match = matchSpokenOption(transcript, exercise.options ?? []);
+                if (match) setSelected(match);
+              }}
+            />
+          )}
+          <div className="grid gap-3 sm:grid-cols-2">
           {exercise.options?.map((option) => {
             const isSelected = selected === option;
             const showCorrect = checked && normalize(option) === normalize(exercise.answer);
@@ -184,8 +199,10 @@ export default function ExerciseQuiz({
               </button>
             );
           })}
+          </div>
         </div>
       ) : (
+        <div className="mt-5 flex gap-2">
         <input
           type="text"
           inputMode="text"
@@ -193,7 +210,7 @@ export default function ExerciseQuiz({
           value={selected}
           onChange={(e) => setSelected(e.target.value)}
           placeholder="Digite sua resposta"
-          className={`mt-5 w-full rounded-xl border px-4 py-3 text-sm font-medium outline-none transition-colors ${
+          className={`w-full rounded-xl border px-4 py-3 text-sm font-medium outline-none transition-colors ${
             checked
               ? isCorrect
                 ? "border-success bg-success-bg text-success"
@@ -201,6 +218,15 @@ export default function ExerciseQuiz({
               : "border-border text-foreground focus:border-primary"
           }`}
         />
+        {!checked && (
+          <VoiceInputButton
+            locale="pt-BR"
+            label="Falar resposta"
+            listeningLabel="Ouvindo..."
+            onResult={(transcript) => setSelected(extractSpokenNumber(transcript))}
+          />
+        )}
+        </div>
       )}
 
       {hintActive && !checked && (

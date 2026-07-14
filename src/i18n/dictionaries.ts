@@ -195,6 +195,8 @@ export type Dictionary = {
     thinking: string;
     requiresLogin: string;
     notConfigured: string;
+    voiceInputLabel: string;
+    voiceListeningLabel: string;
   };
   identity: {
     pageTitle: string;
@@ -627,6 +629,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       thinking: "Gauss está pensando...",
       requiresLogin: "Faça login para conversar com o Gauss.",
       notConfigured: "O tutor de IA ainda não está disponível neste app.",
+      voiceInputLabel: "Falar",
+      voiceListeningLabel: "Ouvindo...",
     },
     identity: {
       pageTitle: "Verificação de identidade",
@@ -939,6 +943,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       thinking: "Gauss is thinking...",
       requiresLogin: "Log in to chat with Gauss.",
       notConfigured: "The AI tutor isn't available in this app yet.",
+      voiceInputLabel: "Speak",
+      voiceListeningLabel: "Listening...",
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
@@ -1145,6 +1151,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       thinking: "Gauss está pensando...",
       requiresLogin: "Inicia sesión para chatear con Gauss.",
       notConfigured: "El tutor de IA todavía no está disponible en esta app.",
+      voiceInputLabel: "Hablar",
+      voiceListeningLabel: "Escuchando...",
     },
     identity: {
       pageTitle: "Verificación de identidad",
@@ -1454,6 +1462,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       thinking: "高斯正在思考...",
       requiresLogin: "请登录以与高斯对话。",
       notConfigured: "此应用暂不支持 AI 辅导功能。",
+      voiceInputLabel: "说话",
+      voiceListeningLabel: "聆听中...",
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
@@ -1661,6 +1671,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       thinking: "Gauss sta pensando...",
       requiresLogin: "Accedi per chattare con Gauss.",
       notConfigured: "Il tutor IA non è ancora disponibile in questa app.",
+      voiceInputLabel: "Parla",
+      voiceListeningLabel: "Ascolto...",
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
@@ -1866,6 +1878,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       thinking: "가우스가 생각 중입니다...",
       requiresLogin: "가우스와 대화하려면 로그인하세요.",
       notConfigured: "이 앱에서는 아직 AI 튜터를 사용할 수 없습니다.",
+      voiceInputLabel: "말하기",
+      voiceListeningLabel: "듣는 중...",
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
@@ -2073,6 +2087,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       thinking: "Gauß denkt nach...",
       requiresLogin: "Melde dich an, um mit Gauß zu chatten.",
       notConfigured: "Der KI-Tutor ist in dieser App noch nicht verfügbar.",
+      voiceInputLabel: "Sprechen",
+      voiceListeningLabel: "Höre zu...",
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
@@ -2280,6 +2296,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       thinking: "Gauss réfléchit...",
       requiresLogin: "Connectez-vous pour discuter avec Gauss.",
       notConfigured: "Le tuteur IA n'est pas encore disponible dans cette application.",
+      voiceInputLabel: "Parler",
+      voiceListeningLabel: "Écoute...",
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
@@ -2484,6 +2502,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       thinking: "ガウスが考えています...",
       requiresLogin: "ガウスとチャットするにはログインしてください。",
       notConfigured: "このアプリではまだAIチューターはご利用いただけません。",
+      voiceInputLabel: "話す",
+      voiceListeningLabel: "聞き取り中...",
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
@@ -2690,6 +2710,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       thinking: "غاوس يفكر...",
       requiresLogin: "سجّل الدخول للدردشة مع غاوس.",
       notConfigured: "المعلّم الذكي غير متاح بعد في هذا التطبيق.",
+      voiceInputLabel: "تحدث",
+      voiceListeningLabel: "جارٍ الاستماع...",
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
@@ -2897,6 +2919,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       thinking: "Гаусс думает...",
       requiresLogin: "Войдите, чтобы пообщаться с Гауссом.",
       notConfigured: "ИИ-репетитор пока недоступен в этом приложении.",
+      voiceInputLabel: "Говорить",
+      voiceListeningLabel: "Слушаю...",
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
