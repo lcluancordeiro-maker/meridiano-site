@@ -1017,6 +1017,38 @@ múltipla escolha funciona bem para alternativas com palavras (ex:
 notação numérica (ex: frações como "6/10") — falar "seis décimos" não
 bate com "6/10" através de correspondência de texto simples.
 
+## Sobre a revisão espaçada
+
+A página `/revisao` (`src/components/ReviewSession.tsx`) traz de volta,
+depois de um tempo, exercícios específicos que o aluno errou em
+qualquer trilha — repetição espaçada no estilo SM-2, mas simplificada
+(`src/lib/reviewSchedule.ts`):
+
+- Toda vez que `ExerciseQuiz.tsx` verifica uma resposta, ele chama
+  `recordReviewResult(levelId, topicId, difficulty, exerciseId,
+  correto)`, que agenda a próxima revisão daquele exercício específico
+  (não do tópico inteiro): acerto dobra o intervalo desde a última vez
+  (começando em 1 dia, com teto de 60 dias); erro volta o intervalo pra
+  1 dia.
+- O estado fica no `localStorage` (`meridiano-math-review-schedule`),
+  local-first como progresso e gamificação, e sincroniza com a nuvem do
+  mesmo jeito (tabela `review_schedule`, RLS dono-só, wireup em
+  `src/lib/cloudSync.ts`) quando o usuário está logado com Supabase
+  configurado.
+- Ao abrir `/revisao`, a lista de exercícios vencidos (`dueAt` no
+  passado) é capturada uma única vez no início da sessão
+  (`buildDueItems()`) — revisar um exercício não o remove da lista
+  atual, mesmo que ele já não esteja mais "vencido" no armazenamento;
+  isso evita que a lista mude de tamanho no meio da sessão.
+- Quando não há nada vencido, a página mostra um estado vazio
+  convidando a praticar mais trilhas — é assim que a maioria dos
+  acessos deve começar, já que o intervalo mínimo é de 1 dia.
+
+**Limitação desta primeira versão**: como a lista de "vencidos" só é
+recalculada ao carregar a página (não em tempo real), um exercício que
+passa a vencer enquanto a aba já está aberta só aparece na próxima
+visita a `/revisao`.
+
 ## Sobre o idioma
 
 O seletor de idioma (`src/i18n/`) traduz toda a navegação e as páginas
@@ -1040,10 +1072,13 @@ porque `Record<Locale, Dictionary>` exige as ~190 chaves do tipo
   `src/data/curriculum.ts`) — traduzir isso com qualidade pedagógica é
   um projeto de conteúdo à parte, do mesmo porte de adicionar um nível
   novo, não algo que dá para fazer bem em lote.
-- O motor de exercícios (`ExerciseQuiz`, `DifficultyPicker`) e o
-  dashboard de progresso — mexer neles quebraria dezenas de testes e2e
-  que hoje verificam texto exato em português; fica como próximo passo
-  se decidirmos ir além da navegação.
+- O motor de exercícios (`ExerciseQuiz`, `DifficultyPicker`), o
+  dashboard de progresso e a página de revisão espaçada
+  (`ReviewSession`, que reaproveita o mesmo motor) — mexer neles
+  quebraria dezenas de testes e2e que hoje verificam texto exato em
+  português; fica como próximo passo se decidirmos ir além da
+  navegação. O link do menu (`nav.revisao`) já está traduzido nos 11
+  idiomas, como qualquer outro item de navegação.
 - Mensagens de erro de autenticação (vêm prontas do Supabase via
   `src/app/actions/auth.ts`).
 

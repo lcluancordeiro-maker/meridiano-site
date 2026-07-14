@@ -10,6 +10,7 @@ import {
   recordCorrectAnswer,
   recordTopicCompletion,
 } from "@/lib/gamification";
+import { recordReviewResult } from "@/lib/reviewSchedule";
 import { extractSpokenNumber, matchSpokenOption } from "@/lib/voiceMatching";
 import ProgressBar from "./ProgressBar";
 import VoiceInputButton from "./VoiceInputButton";
@@ -48,6 +49,7 @@ export default function ExerciseQuiz({
       setChecked(true);
       setScore((s) => s + 1);
       recordCorrectAnswer(difficulty);
+      recordReviewResult(levelId, topicId, difficulty, exercise.id, true);
       return;
     }
 
@@ -61,6 +63,7 @@ export default function ExerciseQuiz({
     }
 
     setChecked(true);
+    recordReviewResult(levelId, topicId, difficulty, exercise.id, false);
   }
 
   function handleNext() {

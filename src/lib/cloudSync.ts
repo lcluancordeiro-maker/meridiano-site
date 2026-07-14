@@ -13,6 +13,12 @@ import {
   subscribeGamification,
   type GamificationState,
 } from "./gamification";
+import {
+  getReviewSnapshot,
+  hydrateReviewScheduleFromCloud,
+  subscribeReviewSchedule,
+  type ReviewEntry,
+} from "./reviewSchedule";
 import { DIFFICULTY_ORDER, type Difficulty } from "@/data/curriculum";
 
 type TopicProgressRow = {
@@ -31,6 +37,16 @@ type GamificationRow = {
   unlocked_badges: string[];
   completed_topics: string[];
   xp_log: Record<string, number>;
+};
+
+type ReviewScheduleRow = {
+  level_id: string;
+  topic_id: string;
+  exercise_id: string;
+  difficulty: Difficulty;
+  interval_days: number;
+  due_at: string;
+  last_result: "correct" | "incorrect";
 };
 
 const supabase = createClient();
@@ -90,6 +106,26 @@ async function pushGamification(userId: string) {
   });
 }
 
+async function pushReviewSchedule(userId: string) {
+  if (!supabase) return;
+  const snapshot = getReviewSnapshot();
+  const rows = Object.values(snapshot);
+  if (rows.length === 0) return;
+
+  await supabase.from("review_schedule").upsert(
+    rows.map((r) => ({
+      user_id: userId,
+      level_id: r.levelId,
+      topic_id: r.topicId,
+      exercise_id: r.exerciseId,
+      difficulty: r.difficulty,
+      interval_days: r.intervalDays,
+      due_at: new Date(r.dueAt).toISOString(),
+      last_result: r.lastResult,
+    }))
+  );
+}
+
 /** Pulls cloud state on login. If the account has no cloud data yet (first
  * login on any device), the current local/guest progress is pushed up
  * instead, so nothing earned before signing in is lost. Otherwise the cloud
@@ -98,15 +134,17 @@ async function syncOnLogin(userId: string) {
   if (!supabase) return;
   syncing = true;
   try {
-    const [{ data: progressRows }, { data: gamificationRow }] = await Promise.all([
+    const [{ data: progressRows }, { data: gamificationRow }, { data: reviewRows }] = await Promise.all([
       supabase.from("topic_progress").select("*").eq("user_id", userId),
       supabase.from("gamification_state").select("*").eq("user_id", userId).maybeSingle(),
+      supabase.from("review_schedule").select("*").eq("user_id", userId),
     ]);
 
-    const hasCloudData = (progressRows && progressRows.length > 0) || !!gamificationRow;
+    const hasCloudData =
+      (progressRows && progressRows.length > 0) || !!gamificationRow || (reviewRows && reviewRows.length > 0);
 
     if (!hasCloudData) {
-      await Promise.all([pushAllProgress(userId), pushGamification(userId)]);
+      await Promise.all([pushAllProgress(userId), pushGamification(userId), pushReviewSchedule(userId)]);
       return;
     }
 
@@ -129,6 +167,22 @@ async function syncOnLogin(userId: string) {
         xpLog: row.xp_log ?? {},
       };
       hydrateFromCloud(hydrated);
+    }
+
+    if (reviewRows) {
+      const entries: ReviewEntry[] = (reviewRows as ReviewScheduleRow[])
+        .filter((row) => DIFFICULTY_ORDER.includes(row.difficulty))
+        .map((row) => ({
+          levelId: row.level_id,
+          topicId: row.topic_id,
+          exerciseId: row.exercise_id,
+          difficulty: row.difficulty,
+          intervalDays: row.interval_days,
+          dueAt: new Date(row.due_at).getTime(),
+          lastResult: row.last_result,
+          updatedAt: Date.now(),
+        }));
+      hydrateReviewScheduleFromCloud(entries);
     }
   } finally {
     syncing = false;
@@ -169,6 +223,11 @@ export function initCloudSync(): void {
   subscribeGamification(() => {
     if (syncing || !currentUserId) return;
     void pushGamification(currentUserId);
+  });
+
+  subscribeReviewSchedule(() => {
+    if (syncing || !currentUserId) return;
+    void pushReviewSchedule(currentUserId);
   });
 }
 

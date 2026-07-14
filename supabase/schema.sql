@@ -68,6 +68,34 @@ create policy "topic_progress_own"
   with check (auth.uid() = user_id);
 
 -- ---------------------------------------------------------------------
+-- review_schedule: espelha src/lib/reviewSchedule.ts (uma linha por
+-- usuário/nível/tópico/exercício). Guarda a repetição espaçada — quando
+-- um exercício específico deve ser revisado de novo, com um algoritmo
+-- estilo SM-2 simplificado (o intervalo dobra a cada acerto, volta a 1
+-- dia a cada erro).
+-- ---------------------------------------------------------------------
+create table if not exists public.review_schedule (
+  user_id uuid not null references auth.users (id) on delete cascade,
+  level_id text not null,
+  topic_id text not null,
+  exercise_id text not null,
+  difficulty text not null,
+  interval_days integer not null default 1,
+  due_at timestamptz not null default now(),
+  last_result text not null check (last_result in ('correct', 'incorrect')),
+  updated_at timestamptz not null default now(),
+  primary key (user_id, level_id, topic_id, exercise_id)
+);
+
+alter table public.review_schedule enable row level security;
+
+drop policy if exists "review_schedule_own" on public.review_schedule;
+create policy "review_schedule_own"
+  on public.review_schedule for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+-- ---------------------------------------------------------------------
 -- gamification_state: espelha src/lib/gamification.ts (uma linha por
 -- usuário).
 -- ---------------------------------------------------------------------

@@ -8,6 +8,7 @@ export type Dictionary = {
     quadro: string;
     turmas: string;
     progresso: string;
+    revisao: string;
     entrar: string;
     sair: string;
     abrirMenu: string;
@@ -480,6 +481,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       quadro: "Quadro",
       turmas: "Turmas",
       progresso: "Progresso",
+      revisao: "Revisão",
       entrar: "Entrar",
       sair: "Sair",
       abrirMenu: "Abrir menu",
@@ -818,6 +820,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       quadro: "Whiteboard",
       turmas: "Classes",
       progresso: "Progress",
+      revisao: "Review",
       entrar: "Log in",
       sair: "Log out",
       abrirMenu: "Open menu",
@@ -1030,6 +1033,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       quadro: "Pizarra",
       turmas: "Clases",
       progresso: "Progreso",
+      revisao: "Repaso",
       entrar: "Iniciar sesión",
       sair: "Cerrar sesión",
       abrirMenu: "Abrir menú",
@@ -1367,6 +1371,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       quadro: "白板",
       turmas: "班级",
       progresso: "进度",
+      revisao: "复习",
       entrar: "登录",
       sair: "退出登录",
       abrirMenu: "打开菜单",
@@ -1576,6 +1581,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       quadro: "Lavagna",
       turmas: "Classi",
       progresso: "Progressi",
+      revisao: "Ripasso",
       entrar: "Accedi",
       sair: "Esci",
       abrirMenu: "Apri menu",
@@ -1789,6 +1795,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       quadro: "화이트보드",
       turmas: "학급",
       progresso: "학습 진도",
+      revisao: "복습",
       entrar: "로그인",
       sair: "로그아웃",
       abrirMenu: "메뉴 열기",
@@ -2000,6 +2007,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       quadro: "Tafel",
       turmas: "Klassen",
       progresso: "Fortschritt",
+      revisao: "Wiederholung",
       entrar: "Anmelden",
       sair: "Abmelden",
       abrirMenu: "Menü öffnen",
@@ -2213,6 +2221,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       quadro: "Tableau",
       turmas: "Classes",
       progresso: "Progrès",
+      revisao: "Révision",
       entrar: "Se connecter",
       sair: "Se déconnecter",
       abrirMenu: "Ouvrir le menu",
@@ -2454,6 +2463,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       quadro: "ホワイトボード",
       turmas: "クラス",
       progresso: "進捗",
+      revisao: "復習",
       entrar: "ログイン",
       sair: "ログアウト",
       abrirMenu: "メニューを開く",
@@ -2664,6 +2674,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       quadro: "اللوحة",
       turmas: "الصفوف",
       progresso: "التقدم",
+      revisao: "المراجعة",
       entrar: "تسجيل الدخول",
       sair: "تسجيل الخروج",
       abrirMenu: "فتح القائمة",
@@ -2876,6 +2887,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       quadro: "Доска",
       turmas: "Классы",
       progresso: "Прогресс",
+      revisao: "Повторение",
       entrar: "Войти",
       sair: "Выйти",
       abrirMenu: "Открыть меню",

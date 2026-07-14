@@ -27,6 +27,7 @@ export default async function Navbar() {
     { href: "/comunidades", label: dict.communities.title },
     { href: "/lives", label: dict.lives.title },
     { href: "/progresso", label: dict.nav.progresso },
+    { href: "/revisao", label: dict.nav.revisao },
     ...(isModerator ? [{ href: "/admin/moderacao", label: "Moderação" }] : []),
   ];
 
