@@ -170,7 +170,10 @@ de aplicativos.
   no ENEM, "Funções e Geometria Analítica" na UERJ, "Trigonometria e
   Geometria Espacial" na UNESP, "2ª Fase: Desafios Avançados" na OBMEP
   e "Geometria e Desigualdades" na OIM — todos genuinamente no estilo
-  daquele exame, não um simulado genérico reaproveitado.
+  daquele exame, não um simulado genérico reaproveitado. O ENEM ganhou
+  um 3º tópico, "Estatística e Probabilidade" (20 exercícios): leitura
+  de gráficos/tabelas, médias, mediana, moda e probabilidade simples e
+  de eventos sucessivos.
   **Fase 2** adiciona **SAT Math** (Premium: álgebra e funções, estilo
   múltipla escolha com 4 alternativas — uma a menos que o ENEM — e
   agora também "Estatística e Geometria": média, mediana, moda,
