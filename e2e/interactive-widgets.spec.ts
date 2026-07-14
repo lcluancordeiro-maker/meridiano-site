@@ -168,6 +168,44 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
     // 200 × 1.20 × 1.10 = 264.
     await expect(page.getByText("R$ 200 → R$ 264,00")).toBeVisible();
   });
+
+  test("slope explorer challenge grades the live state on demand", async ({ page }) => {
+    await page.goto("/trilha/medio/funcao-primeiro-grau");
+    const challenge = page.getByTestId("widget-challenge");
+    await challenge.scrollIntoViewIfNeeded();
+    await expect(challenge.getByText("Monte a reta f(x) = -2x + 3 usando os sliders.")).toBeVisible();
+
+    // Default state (a=2, b=1) doesn't meet the goal.
+    await challenge.getByRole("button", { name: "Conferir desafio" }).click();
+    await expect(challenge.getByText("Ainda não — continue ajustando.")).toBeVisible();
+
+    await page.getByRole("slider", { name: /Coeficiente angular/ }).fill("-2");
+    await page.getByRole("slider", { name: /Coeficiente linear/ }).fill("3");
+    await challenge.getByRole("button", { name: "Conferir desafio" }).click();
+    await expect(challenge.getByText("Desafio concluído! 🎉")).toBeVisible();
+  });
+
+  test("pythagorean explorer challenge accepts a 6-8-10 triangle", async ({ page }) => {
+    await page.goto("/trilha/fundamental-2/geometria-plana");
+    const challenge = page.getByTestId("widget-challenge");
+    await challenge.scrollIntoViewIfNeeded();
+
+    await page.getByRole("slider", { name: /Cateto 1/ }).fill("6");
+    await page.getByRole("slider", { name: /Cateto 2/ }).fill("8");
+    await challenge.getByRole("button", { name: "Conferir desafio" }).click();
+    await expect(challenge.getByText("Desafio concluído! 🎉")).toBeVisible();
+  });
+
+  test("fraction visualizer challenge accepts 4/8 as the 1/2 equivalent", async ({ page }) => {
+    await page.goto("/trilha/fundamental-2/fracoes");
+    const challenge = page.getByTestId("widget-challenge");
+    await challenge.scrollIntoViewIfNeeded();
+
+    await page.getByRole("slider", { name: /Denominador/ }).fill("8");
+    await page.getByRole("slider", { name: /Numerador/ }).fill("4");
+    await challenge.getByRole("button", { name: "Conferir desafio" }).click();
+    await expect(challenge.getByText("Desafio concluído! 🎉")).toBeVisible();
+  });
 });
 
 // The normal-distribution explorer lives on a Premium topic

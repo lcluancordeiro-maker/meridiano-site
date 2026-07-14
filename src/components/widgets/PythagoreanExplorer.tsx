@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { formatNumber } from "./svgUtils";
+import WidgetChallenge from "./WidgetChallenge";
 
 const SIZE = 280;
 const MARGIN = 30;
@@ -81,6 +82,11 @@ export default function PythagoreanExplorer() {
           </text>
         </svg>
       </div>
+
+      <WidgetChallenge
+        goal="Monte um triângulo cuja hipotenusa seja exatamente 10."
+        isMet={a * a + b * b === 100}
+      />
     </div>
   );
 }

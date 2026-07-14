@@ -142,6 +142,14 @@ de aplicativos.
   antes do commit — mesma técnica descrita em "Sobre o idioma"/testes)
   já que o ambiente de teste não tem Supabase/Stripe configurado pra
   simular uma assinatura ativa. Ver `src/components/widgets/`.
+- **Desafios nos widgets**: três widgets gratuitos (reta, Pitágoras e
+  frações) trazem um card "Desafio" que transforma a exploração em
+  pergunta — um alvo é proposto ("monte a reta f(x) = -2x + 3", "monte
+  um triângulo com hipotenusa exatamente 10", "mostre 1/2 com
+  denominador 8") e o botão "Conferir desafio" avalia o estado ao vivo
+  dos sliders, no espírito do Brilliant.org em que a interação É a
+  pergunta. Componente compartilhado `WidgetChallenge.tsx`, sem
+  XP/progresso (como os checks de teoria).
 - **"Verifique se entendeu" — teoria e prática intercaladas** (também
   inspirado no Brilliant.org): em vez de ler toda a teoria e só depois
   praticar, algumas seções de teoria terminam com uma pergunta rápida de

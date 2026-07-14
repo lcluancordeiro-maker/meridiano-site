@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { RANGE, SIZE, TICKS, toPx, toPy, formatNumber as formatCoefficient } from "./svgUtils";
+import WidgetChallenge from "./WidgetChallenge";
 
 export default function SlopeExplorer() {
   const [a, setA] = useState(2);
@@ -71,6 +72,11 @@ export default function SlopeExplorer() {
           <circle cx={toPx(0)} cy={toPy(b)} r={4} fill="#2a78d6" />
         </svg>
       </div>
+
+      <WidgetChallenge
+        goal="Monte a reta f(x) = -2x + 3 usando os sliders."
+        isMet={a === -2 && b === 3}
+      />
     </div>
   );
 }

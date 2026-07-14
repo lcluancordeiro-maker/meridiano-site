@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import WidgetChallenge from "./WidgetChallenge";
 
 function gcd(a: number, b: number): number {
   return b === 0 ? a : gcd(b, a % b);
@@ -68,6 +69,11 @@ export default function FractionVisualizer() {
           />
         ))}
       </div>
+
+      <WidgetChallenge
+        goal="Mostre uma fração equivalente a 1/2 usando denominador 8."
+        isMet={denominator === 8 && clampedNumerator === 4}
+      />
     </div>
   );
 }
