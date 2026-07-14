@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import ProgressoContent from "@/components/ProgressoContent";
 import NotificationOptIn from "@/components/NotificationOptIn";
@@ -13,6 +14,13 @@ export default async function ProgressoPage() {
       <Navbar />
       <div className="mx-auto w-full max-w-4xl px-6 pt-8">
         <NotificationOptIn loggedIn={Boolean(isSupabaseConfigured && user)} />
+        <Link
+          href="/liga"
+          className="mt-4 flex items-center justify-between rounded-xl border border-border bg-surface px-4 py-3 text-sm font-medium text-foreground transition-colors hover:border-primary"
+        >
+          <span>🏆 Liga semanal — compare seu XP da semana com outros estudantes</span>
+          <span aria-hidden className="text-primary">→</span>
+        </Link>
       </div>
       <ProgressoContent />
     </div>

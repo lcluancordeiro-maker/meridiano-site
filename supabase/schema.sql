@@ -1598,3 +1598,41 @@ end;
 $$;
 
 grant execute on function public.get_banned_user_ids(uuid[]) to authenticated;
+
+-- ---------------------------------------------------------------------
+-- Liga semanal: ranking opt-in de XP ganho na semana corrente.
+--
+-- Não há tabela nova de pontuação: o XP semanal é derivado do xp_log
+-- (mapa data -> XP) que gamification_state já sincroniza. Só participa
+-- (e aparece) quem ligou leaderboard_opt_in no próprio profile, e a
+-- função devolve apenas display_name/XP/posição — nunca user ids.
+-- ---------------------------------------------------------------------
+alter table public.profiles
+  add column if not exists leaderboard_opt_in boolean not null default false;
+
+create or replace function public.get_weekly_leaderboard()
+returns table (display_name text, weekly_xp integer, rank bigint)
+language sql
+security definer set search_path = public
+stable
+as $$
+  with weekly as (
+    select
+      coalesce(nullif(trim(p.display_name), ''), 'Estudante') as display_name,
+      coalesce((
+        select sum((entry.value)::integer)
+        from jsonb_each_text(g.xp_log) as entry(key, value)
+        where entry.key::date >= date_trunc('week', now())::date
+      ), 0)::integer as weekly_xp
+    from public.gamification_state g
+    join public.profiles p on p.id = g.user_id
+    where p.leaderboard_opt_in
+  )
+  select w.display_name, w.weekly_xp, rank() over (order by w.weekly_xp desc) as rank
+  from weekly w
+  where w.weekly_xp > 0
+  order by w.weekly_xp desc, w.display_name
+  limit 20;
+$$;
+
+grant execute on function public.get_weekly_leaderboard() to authenticated;

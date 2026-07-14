@@ -142,6 +142,15 @@ de aplicativos.
   antes do commit — mesma técnica descrita em "Sobre o idioma"/testes)
   já que o ambiente de teste não tem Supabase/Stripe configurado pra
   simular uma assinatura ativa. Ver `src/components/widgets/`.
+- **Liga semanal** (`/liga`, requer conta): ranking amistoso e opt-in do
+  XP ganho na semana corrente, no espírito das ligas do Brilliant.org.
+  Só participa (e vê o placar) quem clica "Entrar na liga"; apenas o
+  nome de exibição aparece, nunca ids. Não há tabela nova de pontuação:
+  a função `get_weekly_leaderboard()` (em `supabase/schema.sql`) agrega
+  o `xp_log` diário que `gamification_state` já sincroniza, contando a
+  semana a partir de segunda-feira, e a flag `leaderboard_opt_in` vive
+  no `profiles`. Sem Supabase configurado, a página degrada para o
+  aviso padrão de recurso indisponível. Link de entrada em /progresso.
 - **Problemas guiados em etapas**: exercícios mais difíceis podem trazer
   um painel recolhível "Resolver em etapas" que decompõe o problema em
   sub-perguntas de um toque, reveladas uma por vez com feedback imediato
