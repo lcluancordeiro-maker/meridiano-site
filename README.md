@@ -686,6 +686,47 @@ denúncia atinge um certo número de ocorrências, e o painel de
 moderação não notifica ninguém — um admin precisa entrar em
 `/admin/moderacao` periodicamente para ver o que chegou.
 
+## Sobre exportação e exclusão de conta (LGPD)
+
+A [página de privacidade](/privacidade) promete os direitos de acesso,
+portabilidade e exclusão previstos na LGPD — `/conta` (link no e-mail
+do usuário, no canto superior direito) é onde a pessoa exerce esses
+direitos sozinha, sem precisar pedir para alguém da equipe:
+
+- **Exportar meus dados**: `GET /api/account/export` devolve um JSON
+  para download com tudo que o app guarda sobre a conta — perfil, XP,
+  sequência, progresso por tópico, assinatura, status de verificação
+  de identidade, turmas criadas/matriculadas, comunidades
+  criadas/participadas, mensagens enviadas (chat e comunidade), lives
+  hospedadas, contatos bloqueados e denúncias feitas. Cada consulta
+  passa pelo client do próprio usuário (RLS), nunca pela
+  `service_role` — só pode devolver o que a pessoa já teria acesso de
+  qualquer forma.
+- **Excluir minha conta**: exige digitar o próprio e-mail como
+  confirmação antes de habilitar o botão (`DeleteAccountForm.tsx`).
+  `deleteMyAccount` (em `src/app/actions/account.ts`) chama
+  `supabase.auth.admin.deleteUser(user.id)` — como toda tabela no
+  schema referencia `auth.users` com `on delete cascade`, apagar essa
+  linha já apaga perfil, progresso, assinatura, mensagens, turmas e
+  comunidades criadas, tudo em cascata, sem precisar apagar tabela por
+  tabela manualmente. Ação irreversível.
+
+**Limitações desta primeira versão**: a exportação não inclui as
+contagens de uso diário (`photo_solve_usage`/`tutor_usage` — só
+contadores de limite, não conteúdo pessoal em si) nem mensagens que a
+pessoa *recebeu* de outros (só as que ela mesma enviou, já que
+mensagens recebidas também são dado de quem enviou). **Cuidado ao
+excluir a conta de quem criou uma turma, comunidade ou conversa**: como
+`communities.creator_id`, `turmas.teacher_user_id` e
+`conversations.created_by` também têm `on delete cascade` até
+`auth.users`, excluir a conta do criador apaga a turma/comunidade/
+conversa **inteira em cascata para todo mundo**, não só a participação
+de quem foi excluído — os alunos perdem a turma, os outros membros
+perdem a comunidade, o outro lado de uma conversa perde o histórico
+todo. Um passo futuro seria transferir a titularidade para outro
+membro (ou bloquear a autoexclusão enquanto a pessoa for a única
+dona) antes de permitir a exclusão da conta.
+
 ## Sobre o painel de moderação
 
 `/admin/moderacao` lista as denúncias feitas via "Denunciar" (chat e

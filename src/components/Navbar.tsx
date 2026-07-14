@@ -59,9 +59,13 @@ export default async function Navbar() {
           <ThemeToggle />
           {user ? (
             <form action={logout} className="flex items-center gap-3">
-              <span className="hidden text-xs text-muted sm:inline" title={user.email ?? undefined}>
+              <Link
+                href="/conta"
+                className="hidden text-xs text-muted hover:text-foreground sm:inline"
+                title={user.email ?? undefined}
+              >
                 {user.email}
-              </span>
+              </Link>
               <button
                 type="submit"
                 className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-foreground transition-colors hover:border-primary"
