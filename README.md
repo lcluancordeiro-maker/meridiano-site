@@ -44,11 +44,15 @@ de aplicativos.
   com laços, somar/buscar elementos — e agora também "Strings e
   Manipulação de Texto" — tamanho, concatenação e subcadeia/substring),
   "Estruturas de Repetição" (Intermediário: laços 'para'/'enquanto',
-  repetições aninhadas, e "Funções e Modularização" — parâmetros,
-  retorno, escopo de variáveis e composição de funções), "Orientação a
-  Objetos" (Avançado, Premium: classes, atributos, métodos,
-  encapsulamento, e "Estruturas de Dados: Pilhas e Filas" — LIFO/FIFO,
-  quando usar cada uma) e "Fundamentos de Aprendizado Supervisionado"
+  repetições aninhadas, "Funções e Modularização" — parâmetros,
+  retorno, escopo de variáveis e composição de funções — e agora
+  também "Busca e Ordenação Básica" — busca linear e o bubble sort,
+  contando comparações e passagens), "Orientação a Objetos" (Avançado,
+  Premium: classes, atributos, métodos, encapsulamento, "Estruturas de
+  Dados: Pilhas e Filas" — LIFO/FIFO, quando usar cada uma — e agora
+  também "Recursão" — o caso base, como as chamadas desempilham, e
+  fatorial/fibonacci como exemplos clássicos) e "Fundamentos de
+  Aprendizado Supervisionado"
   (Machine Learning — Introdução, Premium: treino/teste, overfitting,
   acurácia e matriz de confusão, "Classificação: Matriz de Confusão,
   Precisão e Revocação" — por que acurácia sozinha engana em classes
