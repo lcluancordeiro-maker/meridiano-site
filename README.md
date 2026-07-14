@@ -686,6 +686,30 @@ denúncia atinge um certo número de ocorrências, e o painel de
 moderação não notifica ninguém — um admin precisa entrar em
 `/admin/moderacao` periodicamente para ver o que chegou.
 
+## Sobre o tour de boas-vindas
+
+`OnboardingTour.tsx` (montado globalmente em `layout.tsx`, junto com o
+prompt de instalação do PWA e a bolha do tutor) mostra um modal de 6
+passos na primeira visita — Trilhas/gamificação, ferramentas de
+estudo (calculadora, foto, quadro), o tutor Gauss, os recursos
+sociais (chat/comunidades/lives) e um passo final. "Pular" ou chegar
+ao último passo grava `onboarding-tour-dismissed` no `localStorage` e
+o tour nunca mais aparece nesse navegador — sem conta, sem backend,
+mesmo padrão do prompt de instalação do PWA
+(`InstallPwaPrompt.tsx`).
+
+**Nota para quem for mexer nos testes e2e**: como cada teste do
+Playwright começa com um contexto de navegador limpo (sem
+`localStorage`), o tour apareceria na primeira visita de *todo* teste
+e bloquearia cliques nos elementos por baixo do modal. Para não
+precisar tocar em ~30 arquivos de spec existentes, `playwright.config.ts`
+seta `use.storageState` para um arquivo (`e2e/onboarding-dismissed-storage-state.json`)
+que já marca o tour como dispensado, globalmente, por padrão.
+`e2e/onboarding.spec.ts` é o único arquivo que precisa ver o tour de
+verdade — ele sobrescreve isso com
+`test.use({ storageState: { cookies: [], origins: [] } })` para
+simular um visitante realmente novo.
+
 ## Sobre exportação e exclusão de conta (LGPD)
 
 A [página de privacidade](/privacidade) promete os direitos de acesso,

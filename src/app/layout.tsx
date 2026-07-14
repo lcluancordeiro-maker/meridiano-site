@@ -4,6 +4,7 @@ import "./globals.css";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import CloudSyncInit from "@/components/CloudSyncInit";
 import InstallPwaPrompt from "@/components/InstallPwaPrompt";
+import OnboardingTour from "@/components/OnboardingTour";
 import TutorChat from "@/components/TutorChat";
 import Analytics from "@/components/Analytics";
 import { LanguageProvider } from "@/i18n/LanguageContext";
@@ -91,6 +92,7 @@ export default async function RootLayout({
         <LanguageProvider initialLocale={locale}>
           {children}
           <InstallPwaPrompt />
+          <OnboardingTour />
           <TutorChat isSupabaseConfigured={isSupabaseConfigured} loggedIn={Boolean(user)} />
         </LanguageProvider>
         <ServiceWorkerRegister />

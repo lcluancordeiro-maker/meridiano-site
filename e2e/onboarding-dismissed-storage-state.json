@@ -1,0 +1,9 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "http://localhost:3200",
+      "localStorage": [{ "name": "onboarding-tour-dismissed", "value": "1" }]
+    }
+  ]
+}

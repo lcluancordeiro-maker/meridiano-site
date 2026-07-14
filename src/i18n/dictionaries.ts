@@ -184,6 +184,25 @@ export type Dictionary = {
     notificationsDenied: string;
     notificationsError: string;
   };
+  onboarding: {
+    step1Title: string;
+    step1Body: string;
+    step2Title: string;
+    step2Body: string;
+    step3Title: string;
+    step3Body: string;
+    step4Title: string;
+    step4Body: string;
+    step5Title: string;
+    step5Body: string;
+    step6Title: string;
+    step6Body: string;
+    stepIndicator: string;
+    nextButton: string;
+    backButton: string;
+    skipButton: string;
+    finishButton: string;
+  };
   tutor: {
     openButtonLabel: string;
     closeButtonLabel: string;
@@ -427,6 +446,25 @@ const socialFeaturesEn = {
     discussionsHeading: "Related conversations",
     openCommunityLink: "Open in community",
     openChatLink: "Open in chat",
+  },
+  onboarding: {
+    step1Title: "Welcome to Meridiano Matemática!",
+    step1Body: "A quick tour of what you can do here — takes 30 seconds, and you can skip anytime.",
+    step2Title: "Tracks and gamification",
+    step2Body: "Math, statistics, programming/ML, econometrics, finance and exam prep, from Fundamental to Superior. Earn XP, keep a daily streak, and unlock badges as you go.",
+    step3Title: "Study tools",
+    step3Body: "A graphing calculator, a photo solver (snap a picture of a problem), and a scratch board that reads your handwritten math and explains the steps.",
+    step4Title: "Gauss, your AI tutor",
+    step4Body: "Stuck on something? Ask Gauss — it helps you think through a problem instead of just handing you the answer. You can even ask by voice.",
+    step5Title: "Study with others",
+    step5Body: "Chat, communities and live sessions let you study together — identity verification (and parental consent for minors) keeps this safe for younger students.",
+    step6Title: "You're all set!",
+    step6Body: "Pick a track below to get started, or open Gauss anytime you need a hand.",
+    stepIndicator: "Step {current} of {total}",
+    nextButton: "Next",
+    backButton: "Back",
+    skipButton: "Skip",
+    finishButton: "Get started",
   },
 };
 
@@ -746,6 +784,25 @@ export const dictionaries: Record<Locale, Dictionary> = {
       openCommunityLink: "Abrir na comunidade",
       openChatLink: "Abrir na conversa",
     },
+    onboarding: {
+      step1Title: "Bem-vindo ao Meridiano Matemática!",
+      step1Body: "Um tour rápido do que dá pra fazer aqui — leva 30 segundos, e você pode pular quando quiser.",
+      step2Title: "Trilhas e gamificação",
+      step2Body: "Matemática, estatística, programação/ML, econometria, finanças e preparação para vestibulares, do Fundamental ao Superior. Ganhe XP, mantenha uma sequência diária e desbloqueie conquistas.",
+      step3Title: "Ferramentas de estudo",
+      step3Body: "Uma calculadora gráfica, resolver por foto (tire uma foto de um problema) e um quadro de rascunho que lê sua matemática escrita à mão e explica os passos.",
+      step4Title: "Gauss, seu tutor de IA",
+      step4Body: "Travou em algo? Pergunte ao Gauss — ele te ajuda a pensar no problema em vez de só entregar a resposta. Dá até pra perguntar por voz.",
+      step5Title: "Estude com outras pessoas",
+      step5Body: "Chat, comunidades e lives deixam você estudar em grupo — verificação de identidade (e consentimento dos responsáveis para menores) mantém isso seguro para alunos mais novos.",
+      step6Title: "Tudo pronto!",
+      step6Body: "Escolha uma trilha abaixo para começar, ou abra o Gauss sempre que precisar de uma ajuda.",
+      stepIndicator: "Passo {current} de {total}",
+      nextButton: "Próximo",
+      backButton: "Voltar",
+      skipButton: "Pular",
+      finishButton: "Começar",
+    },
   },
   en: {
     nav: {
@@ -954,6 +1011,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
+    onboarding: socialFeaturesEn.onboarding,
   },
   es: {
     nav: {
@@ -1269,6 +1327,25 @@ export const dictionaries: Record<Locale, Dictionary> = {
       openCommunityLink: "Abrir en la comunidad",
       openChatLink: "Abrir en el chat",
     },
+    onboarding: {
+      step1Title: "¡Bienvenido a Meridiano Matemática!",
+      step1Body: "Un recorrido rápido de lo que puedes hacer aquí — toma 30 segundos, y puedes saltarlo cuando quieras.",
+      step2Title: "Rutas y gamificación",
+      step2Body: "Matemáticas, estadística, programación/ML, econometría, finanzas y preparación para exámenes, desde Fundamental hasta Superior. Gana XP, mantén una racha diaria y desbloquea insignias.",
+      step3Title: "Herramientas de estudio",
+      step3Body: "Una calculadora gráfica, resolver por foto (toma una foto de un problema) y una pizarra que lee tus matemáticas escritas a mano y explica los pasos.",
+      step4Title: "Gauss, tu tutor de IA",
+      step4Body: "¿Atascado en algo? Pregúntale a Gauss — te ayuda a pensar el problema en vez de solo darte la respuesta. Incluso puedes preguntar por voz.",
+      step5Title: "Estudia con otras personas",
+      step5Body: "Chat, comunidades y transmisiones en vivo te dejan estudiar en grupo — la verificación de identidad (y el consentimiento de los padres para menores) mantiene esto seguro para estudiantes más jóvenes.",
+      step6Title: "¡Todo listo!",
+      step6Body: "Elige una ruta abajo para empezar, o abre a Gauss cuando necesites ayuda.",
+      stepIndicator: "Paso {current} de {total}",
+      nextButton: "Siguiente",
+      backButton: "Atrás",
+      skipButton: "Saltar",
+      finishButton: "Empezar",
+    },
   },
   zh: {
     nav: {
@@ -1474,6 +1551,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
+    onboarding: socialFeaturesEn.onboarding,
   },
   it: {
     nav: {
@@ -1683,6 +1761,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
+    onboarding: socialFeaturesEn.onboarding,
   },
   ko: {
     nav: {
@@ -1890,6 +1969,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
+    onboarding: socialFeaturesEn.onboarding,
   },
   de: {
     nav: {
@@ -2099,6 +2179,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
+    onboarding: socialFeaturesEn.onboarding,
   },
   fr: {
     nav: {
@@ -2308,6 +2389,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
+    onboarding: socialFeaturesEn.onboarding,
   },
   ja: {
     nav: {
@@ -2514,6 +2596,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
+    onboarding: socialFeaturesEn.onboarding,
   },
   ar: {
     nav: {
@@ -2722,6 +2805,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
+    onboarding: socialFeaturesEn.onboarding,
   },
   ru: {
     nav: {
@@ -2931,6 +3015,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
+    onboarding: socialFeaturesEn.onboarding,
   },
 };
 

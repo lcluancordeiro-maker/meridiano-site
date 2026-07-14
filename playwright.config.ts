@@ -13,6 +13,14 @@ export default defineConfig({
   use: {
     baseURL: `http://localhost:${PORT}`,
     trace: "on-first-retry",
+    // Every spec gets a fresh browser context (empty storage) by default,
+    // which would otherwise show the first-visit OnboardingTour modal on
+    // every test's first page load and block clicks underneath it. Seed
+    // its "already dismissed" localStorage flag globally so existing specs
+    // don't need to know about it; e2e/onboarding.spec.ts overrides this
+    // per-file (test.use({ storageState: { cookies: [], origins: [] } }))
+    // to exercise the tour itself against a truly fresh visitor.
+    storageState: "e2e/onboarding-dismissed-storage-state.json",
   },
   projects: [
     {
