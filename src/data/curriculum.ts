@@ -35,7 +35,13 @@ export type TheoryExample = {
 /** Interactive widgets embedded in a theory section — sliders/draggable
  * points that give instant visual feedback, in the spirit of Brilliant.org.
  * See src/components/widgets/. */
-export type InteractiveWidget = "slope-explorer" | "two-point-explorer" | "quadratic-explorer";
+export type InteractiveWidget =
+  | "slope-explorer"
+  | "two-point-explorer"
+  | "quadratic-explorer"
+  | "unit-circle-explorer"
+  | "fraction-visualizer"
+  | "probability-spinner";
 
 export type TheorySection = {
   heading: string;
@@ -562,6 +568,13 @@ export const fundamental2Topics: Topic[] = [
           problem: "2/3 ÷ 1/2",
           solution: "Multiplique pelo inverso: 2/3 × 2/1 = 4/3.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no numerador e no denominador abaixo e observe: as partes preenchidas mostram visualmente a fração, e o app mostra a versão simplificada sempre que ela existir.",
+        ],
+        interactiveWidget: "fraction-visualizer",
       },
     ],
     exercises: [
@@ -2265,6 +2278,13 @@ export const estatisticaInicianteTopics: Topic[] = [
           "A frequência acumulada até uma categoria é a soma das frequências dela e de todas as categorias anteriores — útil para responder perguntas como 'quantos alunos tiraram nota até 7'.",
         ],
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa nos casos possíveis e nos casos favoráveis abaixo e observe: a fatia azul da roda cresce ou encolhe junto com a frequência relativa, mostrando visualmente a proporção entre uma categoria e o total.",
+        ],
+        interactiveWidget: "probability-spinner",
+      },
     ],
     exercises: [
       {
@@ -3757,6 +3777,13 @@ export const medioTopics: Topic[] = [
           problem: "Triângulo retângulo com catetos 3 e 4",
           solution: "hipotenusa² = 3² + 4² = 9 + 16 = 25, então hipotenusa = 5.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no ângulo θ abaixo e observe: cos(θ) é a projeção horizontal do ponto no círculo, sen(θ) é a projeção vertical — e tan(θ) fica indefinida exatamente quando cos(θ) passa por zero (θ = 90° ou 270°).",
+        ],
+        interactiveWidget: "unit-circle-explorer",
       },
     ],
     exercises: [

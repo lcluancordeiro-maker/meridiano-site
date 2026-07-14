@@ -98,14 +98,22 @@ de aplicativos.
 - **Widgets interativos na teoria** (também inspirado no Brilliant.org):
   algumas seções de teoria têm uma seção extra "Explore ao vivo" com um
   mini-app SVG em vez de só texto — sliders ou pontos arrastáveis que
-  recalculam algo na hora. Hoje são três: em "Função do 1º Grau" (Ensino
+  recalculam algo na hora. Hoje são seis: em "Função do 1º Grau" (Ensino
   Médio), sliders para os coeficientes a/b mostram a reta mudando ao
   vivo; em "Geometria Analítica" (Ensino Médio), dois pontos arrastáveis
   recalculam distância, ponto médio e coeficiente angular em tempo real;
   em "Função Quadrática" (Ensino Médio), sliders para a/b/c desenham a
-  parábola e recalculam a concavidade e o vértice na hora. Os três
-  widgets compartilham as constantes e funções de conversão de
-  coordenadas SVG em `src/components/widgets/svgUtils.ts`. Ver
+  parábola e recalculam a concavidade e o vértice na hora; em
+  "Trigonometria no Triângulo Retângulo" (Ensino Médio), um slider de
+  ângulo move um ponto no círculo trigonométrico e recalcula sen/cos/tan
+  ao vivo; em "Frações" (Fundamental II), sliders de numerador e
+  denominador preenchem uma barra dividida em partes e mostram a forma
+  simplificada quando ela existir; em "Gráficos e Distribuição de
+  Frequências" (Estatística — Iniciante), sliders de casos possíveis e
+  favoráveis giram a fatia de uma roda mostrando a frequência relativa.
+  Os seis widgets compartilham as constantes e funções de conversão de
+  coordenadas SVG em `src/components/widgets/svgUtils.ts` (os três novos
+  usam sua própria escala, calibrada pra cada visualização). Ver
   `src/components/widgets/`.
 - **Feedback de erro mais inteligente**: alguns exercícios têm um campo
   `commonMistakeHint` — na primeira resposta errada, em vez de revelar a
@@ -1191,7 +1199,9 @@ unitários e e2e em todo push e pull request.
   Desafio do Dia: seleção determinística do problema por data, sequência
   e histórico próprios em `localStorage`.
 - `src/components/widgets/` — widgets interativos embutidos na teoria
-  (`SlopeExplorer.tsx`, `TwoPointExplorer.tsx`); `InteractiveWidgetRenderer.tsx`
+  (`SlopeExplorer.tsx`, `TwoPointExplorer.tsx`, `QuadraticExplorer.tsx`,
+  `UnitCircleExplorer.tsx`, `FractionVisualizer.tsx`,
+  `ProbabilitySpinner.tsx`); `InteractiveWidgetRenderer.tsx`
   mapeia o campo `interactiveWidget` de uma `TheorySection` (em
   `src/data/curriculum.ts`) pro componente certo, renderizado pelo
   `TopicPage`.

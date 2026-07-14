@@ -71,4 +71,45 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
     await cSlider.fill("5");
     await expect(page.getByText("f(x) = 2x² − 2x + 5")).toBeVisible();
   });
+
+  test("unit circle explorer updates sen/cos/tan as you move the angle slider", async ({ page }) => {
+    await page.goto("/trilha/medio/trigonometria-triangulo-retangulo");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("θ = 30°")).toBeVisible();
+    await expect(page.getByText("sen(θ) = 0.5 · cos(θ) = 0.9 · tan(θ) = 0.6")).toBeVisible();
+
+    const angleSlider = page.getByRole("slider", { name: /Ângulo θ/ });
+    await angleSlider.fill("90");
+    // The theory blurb itself mentions "θ = 90°" as an example, so this needs
+    // an exact match to hit only the widget's live readout, not that prose.
+    await expect(page.getByText("θ = 90°", { exact: true })).toBeVisible();
+    await expect(page.getByText("sen(θ) = 1 · cos(θ) = 0.0 · tan(θ) indefinida")).toBeVisible();
+  });
+
+  test("fraction visualizer shows the simplified form as you move the sliders", async ({ page }) => {
+    await page.goto("/trilha/fundamental-2/fracoes");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+
+    const numeratorSlider = page.getByRole("slider", { name: /Numerador/ });
+    await numeratorSlider.fill("2");
+    await expect(page.getByText("1/2 simplificada")).toBeVisible();
+
+    const denominatorSlider = page.getByRole("slider", { name: /Denominador/ });
+    await denominatorSlider.fill("6");
+    await expect(page.getByText("1/3 simplificada")).toBeVisible();
+  });
+
+  test("probability spinner updates P(A) as you move the sliders", async ({ page }) => {
+    await page.goto("/trilha/estatistica-iniciante/graficos-e-frequencias");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("P(A) = 3/8 = 38%")).toBeVisible();
+
+    const totalSlider = page.getByRole("slider", { name: /Casos possíveis/ });
+    await totalSlider.fill("4");
+    await expect(page.getByText("P(A) = 3/4 = 75%")).toBeVisible();
+
+    const favorableSlider = page.getByRole("slider", { name: /Casos favoráveis/ });
+    await favorableSlider.fill("4");
+    await expect(page.getByText("P(A) = 4/4 = 100%")).toBeVisible();
+  });
 });
