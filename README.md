@@ -27,9 +27,10 @@ de aplicativos.
 - **Estatística** — trilha independente com 3 níveis (Iniciante:
   medidas de tendência central e, agora, medidas de dispersão
   (amplitude, variância, desvio padrão); Intermediário: probabilidade
-  básica e regras de probabilidade; Avançado: distribuição normal,
-  escore-z e intervalos de confiança). Os três níveis já têm 2 tópicos
-  cada.
+  básica e regras de probabilidade; Avançado: distribuição normal e
+  escore-z, intervalos de confiança e agora também "Testes de
+  Hipótese" — H0/H1, estatística de teste z, valor crítico e a regra
+  de decisão de rejeitar ou não a hipótese nula).
 - **Programação & Machine Learning** — trilha independente com 4
   níveis disponíveis: "Lógica de Programação" (Iniciante: variáveis,
   comparações, condicionais, e agora também "Vetores e Listas" —
