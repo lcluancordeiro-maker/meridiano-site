@@ -112,4 +112,23 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
     await favorableSlider.fill("4");
     await expect(page.getByText("P(A) = 4/4 = 100%")).toBeVisible();
   });
+
+  test("mean/median explorer recalculates as you move a data point slider", async ({ page }) => {
+    await page.goto("/trilha/estatistica-iniciante/medidas-tendencia-central");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    // Defaults: 4, 7, 9, 12, 15 → mean 9.4, median 9.
+    await expect(page.getByText("Média = 9.4 · Mediana = 9")).toBeVisible();
+
+    const firstValueSlider = page.getByRole("slider", { name: /Valor 1/ });
+    await firstValueSlider.fill("20");
+    // Values become 20, 7, 9, 12, 15 → mean 12.6, median 12.
+    await expect(page.getByText("Média = 12.6 · Mediana = 12")).toBeVisible();
+  });
 });
+
+// The compound-interest and tangent-line explorers live on Premium topics
+// (Matemática Financeira — Avançado / Ensino Superior), which show a
+// paywall instead of theory in this test environment (no Supabase/Stripe
+// configured) — same limitation documented in exercises-correctness.spec.ts.
+// Both were manually verified by temporarily flipping `premium: false` on
+// their levels, confirming the live math, then reverting before commit.

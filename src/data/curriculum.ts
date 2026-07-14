@@ -41,7 +41,10 @@ export type InteractiveWidget =
   | "quadratic-explorer"
   | "unit-circle-explorer"
   | "fraction-visualizer"
-  | "probability-spinner";
+  | "probability-spinner"
+  | "mean-median-explorer"
+  | "compound-interest-explorer"
+  | "tangent-line-explorer";
 
 export type TheorySection = {
   heading: string;
@@ -2012,6 +2015,13 @@ export const estatisticaInicianteTopics: Topic[] = [
           problem: "Dados ordenados: 2, 4, 6, 8, 10",
           solution: "Com 5 valores (ímpar), a mediana é o valor central: 6.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa nos 5 valores abaixo e observe: a linha vermelha tracejada (média) se move mais com valores extremos, enquanto a linha verde (mediana) só depende da posição central dos dados ordenados.",
+        ],
+        interactiveWidget: "mean-median-explorer",
       },
     ],
     exercises: [
@@ -6557,6 +6567,13 @@ export const matematicaFinanceiraAvancadoTopics: Topic[] = [
           "Para o mesmo capital, taxa e prazo, os juros compostos superam os juros simples a partir do segundo período — a diferença cresce quanto maior o prazo.",
         ],
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no capital, na taxa e no tempo abaixo e observe: a curva fica mais íngreme conforme a taxa aumenta — esse é o crescimento exponencial dos juros compostos em ação.",
+        ],
+        interactiveWidget: "compound-interest-explorer",
+      },
     ],
     exercises: [
       {
@@ -7179,6 +7196,13 @@ export const superiorTopics: Topic[] = [
           problem: "f(x) = x³ - 6x² + 9x",
           solution: "f'(x) = 3x² - 12x + 9 (derivando cada termo com a regra da potência).",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no ponto x abaixo e observe: a reta tangente (tracejada) sempre toca o gráfico de f(x) = x² exatamente naquele ponto, e sua inclinação é sempre f'(x) = 2x — quanto mais longe de x=0, mais inclinada a tangente fica.",
+        ],
+        interactiveWidget: "tangent-line-explorer",
       },
     ],
     exercises: [
