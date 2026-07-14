@@ -454,3 +454,391 @@ end;
 $$;
 
 grant execute on function public.increment_tutor_usage(integer) to authenticated;
+
+-- ---------------------------------------------------------------------
+-- identity_verifications: status da verificação de identidade (Stripe
+-- Identity) por usuário — exigida antes de liberar chat/comunidades/lives
+-- (recursos sociais), tanto para segurança quanto para saber se o usuário
+-- é menor de idade (e, nesse caso, exigir consentimento dos responsáveis
+-- antes de liberar os mesmos recursos — ver parent_consents abaixo).
+--
+-- Só a service_role grava esta tabela (tanto o "pending" inicial, criado
+-- por /api/identity/create-session, quanto o status final gravado pelo
+-- webhook) — mesmo padrão de "subscriptions": o usuário nunca consegue
+-- se autodeclarar verificado, só ler a própria linha.
+-- ---------------------------------------------------------------------
+create table if not exists public.identity_verifications (
+  user_id uuid primary key references auth.users (id) on delete cascade,
+  stripe_verification_session_id text,
+  status text not null default 'pending',
+  date_of_birth date,
+  verified_at timestamptz,
+  updated_at timestamptz not null default now()
+);
+
+alter table public.identity_verifications enable row level security;
+
+drop policy if exists "identity_verifications_select_own" on public.identity_verifications;
+create policy "identity_verifications_select_own"
+  on public.identity_verifications for select
+  using (auth.uid() = user_id);
+
+-- ---------------------------------------------------------------------
+-- parent_consents: consentimento de um responsável legal para um usuário
+-- verificado como menor de idade liberar recursos sociais (chat,
+-- comunidades, lives) — estilo "verifiable parental consent" (COPPA).
+--
+-- Criada pelo webhook do Stripe Identity (service_role) quando a data de
+-- nascimento verificada indica menor de idade. A confirmação em si
+-- acontece por um link enviado ao e-mail do responsável, sem exigir que
+-- ele tenha conta no app — por isso confirm_parental_consent abaixo é
+-- "security definer" e não exige auth.uid().
+-- ---------------------------------------------------------------------
+create table if not exists public.parent_consents (
+  user_id uuid primary key references auth.users (id) on delete cascade,
+  parent_email text not null,
+  token text not null unique,
+  confirmed_at timestamptz,
+  created_at timestamptz not null default now()
+);
+
+alter table public.parent_consents enable row level security;
+
+drop policy if exists "parent_consents_select_own" on public.parent_consents;
+create policy "parent_consents_select_own"
+  on public.parent_consents for select
+  using (auth.uid() = user_id);
+
+create or replace function public.confirm_parental_consent(p_token text)
+returns boolean
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  v_updated integer;
+begin
+  update public.parent_consents
+  set confirmed_at = now()
+  where token = p_token and confirmed_at is null;
+
+  get diagnostics v_updated = row_count;
+  return v_updated > 0;
+end;
+$$;
+
+grant execute on function public.confirm_parental_consent(text) to anon, authenticated;
+
+-- ---------------------------------------------------------------------
+-- Chat (1:1 e em grupo, estilo WhatsApp). Exige verificação de identidade
+-- (e, se menor de idade, consentimento dos responsáveis) — aplicado na
+-- camada de aplicação (src/lib/entitlements.ts), não repetido aqui via
+-- RLS, para manter as policies simples.
+-- ---------------------------------------------------------------------
+create table if not exists public.conversations (
+  id uuid primary key default gen_random_uuid(),
+  is_group boolean not null default false,
+  title text,
+  created_by uuid not null references auth.users (id) on delete cascade,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.conversation_participants (
+  conversation_id uuid not null references public.conversations (id) on delete cascade,
+  user_id uuid not null references auth.users (id) on delete cascade,
+  joined_at timestamptz not null default now(),
+  primary key (conversation_id, user_id)
+);
+
+create table if not exists public.dm_messages (
+  id uuid primary key default gen_random_uuid(),
+  conversation_id uuid not null references public.conversations (id) on delete cascade,
+  sender_id uuid not null references auth.users (id) on delete cascade,
+  body text not null,
+  created_at timestamptz not null default now()
+);
+
+alter table public.conversations enable row level security;
+alter table public.conversation_participants enable row level security;
+alter table public.dm_messages enable row level security;
+
+drop policy if exists "conversations_select" on public.conversations;
+create policy "conversations_select"
+  on public.conversations for select
+  using (
+    exists (
+      select 1 from public.conversation_participants cp
+      where cp.conversation_id = conversations.id and cp.user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "conversations_insert" on public.conversations;
+create policy "conversations_insert"
+  on public.conversations for insert
+  with check (auth.uid() = created_by);
+
+-- Só quem criou a conversa pode adicionar participantes (o fluxo de
+-- "iniciar uma conversa" insere a si mesmo + o(s) outro(s) de uma vez) —
+-- não existe aprovação prévia da outra parte, igual DM de WhatsApp/iMessage.
+drop policy if exists "conversation_participants_select" on public.conversation_participants;
+create policy "conversation_participants_select"
+  on public.conversation_participants for select
+  using (
+    auth.uid() = user_id
+    or exists (
+      select 1 from public.conversation_participants cp2
+      where cp2.conversation_id = conversation_participants.conversation_id and cp2.user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "conversation_participants_insert" on public.conversation_participants;
+create policy "conversation_participants_insert"
+  on public.conversation_participants for insert
+  with check (
+    exists (
+      select 1 from public.conversations c
+      where c.id = conversation_participants.conversation_id and c.created_by = auth.uid()
+    )
+  );
+
+drop policy if exists "dm_messages_select" on public.dm_messages;
+create policy "dm_messages_select"
+  on public.dm_messages for select
+  using (
+    exists (
+      select 1 from public.conversation_participants cp
+      where cp.conversation_id = dm_messages.conversation_id and cp.user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "dm_messages_insert" on public.dm_messages;
+create policy "dm_messages_insert"
+  on public.dm_messages for insert
+  with check (
+    auth.uid() = sender_id
+    and exists (
+      select 1 from public.conversation_participants cp
+      where cp.conversation_id = dm_messages.conversation_id and cp.user_id = auth.uid()
+    )
+  );
+
+-- ---------------------------------------------------------------------
+-- Comunidades (grupos de estudo abertos, diferentes de turmas — turmas
+-- são professor/aluno; comunidades são entre pares, com ou sem um dono).
+-- Limite de membros e de quantas comunidades um usuário grátis pode criar
+-- é decidido em src/app/actions/communities.ts (mesmo espírito do que já
+-- é feito para turmas/cota de IA — regra de produto, não de segurança).
+-- ---------------------------------------------------------------------
+create table if not exists public.communities (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  description text,
+  is_public boolean not null default true,
+  join_code text not null unique,
+  creator_id uuid not null references auth.users (id) on delete cascade,
+  member_cap integer,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.community_members (
+  community_id uuid not null references public.communities (id) on delete cascade,
+  user_id uuid not null references auth.users (id) on delete cascade,
+  role text not null default 'member',
+  joined_at timestamptz not null default now(),
+  primary key (community_id, user_id)
+);
+
+create table if not exists public.community_messages (
+  id uuid primary key default gen_random_uuid(),
+  community_id uuid not null references public.communities (id) on delete cascade,
+  sender_id uuid not null references auth.users (id) on delete cascade,
+  body text not null,
+  created_at timestamptz not null default now()
+);
+
+alter table public.communities enable row level security;
+alter table public.community_members enable row level security;
+alter table public.community_messages enable row level security;
+
+drop policy if exists "communities_select" on public.communities;
+create policy "communities_select"
+  on public.communities for select
+  using (
+    is_public
+    or auth.uid() = creator_id
+    or exists (
+      select 1 from public.community_members cm
+      where cm.community_id = communities.id and cm.user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "communities_insert" on public.communities;
+create policy "communities_insert"
+  on public.communities for insert
+  with check (auth.uid() = creator_id);
+
+drop policy if exists "communities_delete" on public.communities;
+create policy "communities_delete"
+  on public.communities for delete
+  using (auth.uid() = creator_id);
+
+drop policy if exists "community_members_select" on public.community_members;
+create policy "community_members_select"
+  on public.community_members for select
+  using (
+    auth.uid() = user_id
+    or exists (
+      select 1 from public.community_members cm2
+      where cm2.community_id = community_members.community_id and cm2.user_id = auth.uid()
+    )
+  );
+
+-- Não existe policy de insert direta em community_members — entrar numa
+-- comunidade (pública ou por código) sempre passa por join_community
+-- abaixo, que também aplica o limite de membros (member_cap).
+drop policy if exists "community_messages_select" on public.community_messages;
+create policy "community_messages_select"
+  on public.community_messages for select
+  using (
+    exists (
+      select 1 from public.community_members cm
+      where cm.community_id = community_messages.community_id and cm.user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "community_messages_insert" on public.community_messages;
+create policy "community_messages_insert"
+  on public.community_messages for insert
+  with check (
+    auth.uid() = sender_id
+    and exists (
+      select 1 from public.community_members cm
+      where cm.community_id = community_messages.community_id and cm.user_id = auth.uid()
+    )
+  );
+
+-- Junta o usuário atual à comunidade dona do código informado (ou a
+-- qualquer comunidade pública, se p_join_code corresponder). "security
+-- definer" pelo mesmo motivo de join_turma_by_code: não há policy de
+-- select em communities por join_code sem já ser membro. Também é o
+-- único lugar que aplica member_cap.
+create or replace function public.join_community(p_join_code text)
+returns uuid
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  v_community_id uuid;
+  v_member_cap integer;
+  v_member_count integer;
+begin
+  if auth.uid() is null then
+    raise exception 'not_authenticated';
+  end if;
+
+  select id, member_cap into v_community_id, v_member_cap
+  from public.communities where join_code = p_join_code;
+
+  if v_community_id is null then
+    raise exception 'community_not_found';
+  end if;
+
+  if v_member_cap is not null then
+    select count(*) into v_member_count from public.community_members where community_id = v_community_id;
+    if v_member_count >= v_member_cap then
+      raise exception 'community_full';
+    end if;
+  end if;
+
+  insert into public.community_members (community_id, user_id, role)
+  values (v_community_id, auth.uid(), 'member')
+  on conflict (community_id, user_id) do nothing;
+
+  return v_community_id;
+end;
+$$;
+
+grant execute on function public.join_community(text) to authenticated;
+
+-- Cria a comunidade e já matricula o criador como 'owner' — evitando uma
+-- segunda viagem ao banco (e o risco de a policy de insert de
+-- community_members barrar o auto-cadastro do criador, já que não há
+-- policy de insert direta nessa tabela).
+create or replace function public.create_community(
+  p_name text,
+  p_description text,
+  p_is_public boolean,
+  p_join_code text,
+  p_member_cap integer
+)
+returns uuid
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  v_community_id uuid;
+begin
+  if auth.uid() is null then
+    raise exception 'not_authenticated';
+  end if;
+
+  insert into public.communities (name, description, is_public, join_code, creator_id, member_cap)
+  values (p_name, p_description, p_is_public, p_join_code, auth.uid(), p_member_cap)
+  returning id into v_community_id;
+
+  insert into public.community_members (community_id, user_id, role)
+  values (v_community_id, auth.uid(), 'owner');
+
+  return v_community_id;
+end;
+$$;
+
+grant execute on function public.create_community(text, text, boolean, text, integer) to authenticated;
+
+-- ---------------------------------------------------------------------
+-- live_sessions: metadados de salas de vídeo ao vivo (LiveKit Cloud faz a
+-- transmissão em si — aqui só guardamos quem/quando/onde). Hospedar uma
+-- live é Premium (aplicado em src/app/actions/lives.ts); assistir é livre
+-- para quem já tem acesso à comunidade/conversa associada.
+-- ---------------------------------------------------------------------
+create table if not exists public.live_sessions (
+  id uuid primary key default gen_random_uuid(),
+  room_name text not null unique,
+  host_id uuid not null references auth.users (id) on delete cascade,
+  community_id uuid references public.communities (id) on delete cascade,
+  title text not null,
+  started_at timestamptz not null default now(),
+  ended_at timestamptz
+);
+
+alter table public.live_sessions enable row level security;
+
+drop policy if exists "live_sessions_select" on public.live_sessions;
+create policy "live_sessions_select"
+  on public.live_sessions for select
+  using (
+    auth.uid() = host_id
+    or community_id is null
+    or exists (
+      select 1 from public.community_members cm
+      where cm.community_id = live_sessions.community_id and cm.user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "live_sessions_insert" on public.live_sessions;
+create policy "live_sessions_insert"
+  on public.live_sessions for insert
+  with check (
+    auth.uid() = host_id
+    and (
+      community_id is null
+      or exists (
+        select 1 from public.community_members cm
+        where cm.community_id = live_sessions.community_id and cm.user_id = auth.uid()
+      )
+    )
+  );
+
+drop policy if exists "live_sessions_update_own" on public.live_sessions;
+create policy "live_sessions_update_own"
+  on public.live_sessions for update
+  using (auth.uid() = host_id);

@@ -441,6 +441,56 @@ Não testado com um envio real nesta sessão (sem chaves VAPID
 configuradas aqui) — teste com uma inscrição de verdade antes de
 agendar o cron em produção.
 
+## Configurando verificação de identidade e consentimento dos responsáveis
+
+Chat, comunidades e lives (ver seções abaixo) são recursos sociais que
+exigem verificação de identidade antes de liberar — tanto por segurança
+quanto para proteger menores de idade. Em vez de tentar construir um
+scanner de documento/rosto por conta própria (o que seria só teatro de
+segurança, ou uma tentativa inadequada de KYC biométrico caseiro), essa
+verificação é feita pelo [Stripe Identity](https://stripe.com/identity)
+— documento oficial + selfie com prova de vida, processado pela Stripe.
+Sem configurar, a verificação (e tudo que depende dela) fica
+indisponível, mas o resto do app funciona normalmente.
+
+1. No dashboard da Stripe, ative o produto "Identity".
+2. Em **Developers → Webhooks**, adicione um **segundo** endpoint
+   (separado do de assinaturas) para
+   `https://SEU_DOMINIO/api/identity/webhook`, com os eventos
+   `identity.verification_session.verified`,
+   `identity.verification_session.requires_input` e
+   `identity.verification_session.canceled` — copie o "Signing secret"
+   em `STRIPE_IDENTITY_WEBHOOK_SECRET`. Reaproveita `STRIPE_SECRET_KEY`
+   (o mesmo das assinaturas).
+3. Rode `supabase/schema.sql` de novo (cria `identity_verifications` e
+   `parent_consents`).
+4. (Opcional, mas recomendado) crie uma conta em
+   [resend.com](https://resend.com), verifique um domínio remetente e
+   preencha `RESEND_API_KEY`/`RESEND_FROM_EMAIL` — sem isso, o link de
+   consentimento dos responsáveis é gerado e salvo, mas nenhum e-mail é
+   enviado de verdade (você teria que buscar o link manualmente no
+   banco para testar).
+
+Como funciona: em `/verificar-identidade`, o usuário inicia uma
+`VerificationSession` da Stripe Identity (documento oficial + selfie).
+O webhook recebe o resultado e extrai a data de nascimento verificada
+(`verified_outputs.dob`) — não confiamos em nenhuma data autodeclarada
+pelo usuário. Se a idade calculada (`src/lib/identity/age.ts`) for
+menor que 18 anos, o status vira `verified_minor` em vez de `verified`,
+e a liberação de chat/comunidades/lives fica bloqueada até um
+responsável confirmar consentimento: o menor informa o e-mail do
+responsável, o app gera um token aleatório e envia um link de
+confirmação (`/consentimento/[token]`) — esse fluxo é inspirado no
+"verifiable parental consent" da COPPA americana, embora este app não
+seja necessariamente sujeito a essa lei especificamente (verifique com
+um advogado quais leis de proteção a menores se aplicam à sua
+jurisdição antes de operar isso com usuários reais). Nenhum documento
+de identidade ou imagem de selfie é armazenado neste banco — tudo isso
+fica só do lado da Stripe; guardamos apenas o status e a data de
+nascimento extraída. Não testado com uma conta Stripe Identity real
+nesta sessão — teste uma verificação de ponta a ponta antes de contar
+com isso em produção.
+
 ## Preparando para produção
 
 Quatro peças de "prontidão para produção" — domínio próprio, SEO,

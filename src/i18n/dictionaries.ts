@@ -196,6 +196,54 @@ export type Dictionary = {
     requiresLogin: string;
     notConfigured: string;
   };
+  identity: {
+    pageTitle: string;
+    pageSubtitle: string;
+    notConfigured: string;
+    requiresLogin: string;
+    startButton: string;
+    pendingMessage: string;
+    failedMessage: string;
+    retryButton: string;
+    grantedMessage: string;
+    minorHeading: string;
+    minorBody: string;
+    parentEmailLabel: string;
+    sendConsentButton: string;
+    consentSentMessage: string;
+    consentPendingMessage: string;
+    consentConfirmedTitle: string;
+    consentConfirmedBody: string;
+    consentInvalidTitle: string;
+    consentInvalidBody: string;
+  };
+};
+
+// Strings for the social features (identity verification, chat, communities,
+// lives) are only translated to pt-BR/en/es so far — the other 8 locales
+// fall back to this English copy. See "Sobre o idioma" in the README.
+const socialFeaturesEn = {
+  identity: {
+    pageTitle: "Identity verification",
+    pageSubtitle: "Chat, communities and live sessions require a quick identity check — this keeps the community safer for everyone, especially younger students.",
+    notConfigured: "Identity verification isn't available in this app yet — check back soon.",
+    requiresLogin: "Log in to verify your identity.",
+    startButton: "Start verification",
+    pendingMessage: "Your verification is being processed — this can take a minute.",
+    failedMessage: "We couldn't complete your verification. You can try again.",
+    retryButton: "Try again",
+    grantedMessage: "You're verified! Chat, communities and lives are now unlocked.",
+    minorHeading: "Parental consent required",
+    minorBody: "Your verified age is under 18. A parent or guardian needs to confirm consent before chat, communities and lives unlock for you.",
+    parentEmailLabel: "Parent/guardian email",
+    sendConsentButton: "Send consent request",
+    consentSentMessage: "Consent request sent! Ask your parent/guardian to check their inbox.",
+    consentPendingMessage: "Waiting for parent/guardian confirmation.",
+    consentConfirmedTitle: "Consent confirmed",
+    consentConfirmedBody: "Thank you! Social features are now unlocked for your child's account.",
+    consentInvalidTitle: "Link not found",
+    consentInvalidBody: "This confirmation link is invalid or has already been used.",
+  },
 };
 
 export const dictionaries: Record<Locale, Dictionary> = {
@@ -400,6 +448,27 @@ export const dictionaries: Record<Locale, Dictionary> = {
       requiresLogin: "Faça login para conversar com o Gauss.",
       notConfigured: "O tutor de IA ainda não está disponível neste app.",
     },
+    identity: {
+      pageTitle: "Verificação de identidade",
+      pageSubtitle: "Chat, comunidades e aulas ao vivo exigem uma verificação rápida de identidade — isso deixa a comunidade mais segura pra todo mundo, principalmente para alunos mais jovens.",
+      notConfigured: "A verificação de identidade ainda não está disponível neste app — volte em breve.",
+      requiresLogin: "Faça login para verificar sua identidade.",
+      startButton: "Iniciar verificação",
+      pendingMessage: "Sua verificação está sendo processada — isso pode levar um minuto.",
+      failedMessage: "Não conseguimos concluir sua verificação. Você pode tentar de novo.",
+      retryButton: "Tentar novamente",
+      grantedMessage: "Você está verificado! Chat, comunidades e lives já estão liberados.",
+      minorHeading: "Consentimento dos responsáveis necessário",
+      minorBody: "Sua idade verificada é menor de 18 anos. Um responsável precisa confirmar o consentimento antes que chat, comunidades e lives sejam liberados para você.",
+      parentEmailLabel: "E-mail do responsável",
+      sendConsentButton: "Enviar pedido de consentimento",
+      consentSentMessage: "Pedido enviado! Peça para seu responsável verificar a caixa de entrada.",
+      consentPendingMessage: "Aguardando confirmação do responsável.",
+      consentConfirmedTitle: "Consentimento confirmado",
+      consentConfirmedBody: "Obrigado! Os recursos sociais já estão liberados para a conta do seu filho(a).",
+      consentInvalidTitle: "Link não encontrado",
+      consentInvalidBody: "Esse link de confirmação é inválido ou já foi usado.",
+    },
   },
   en: {
     nav: {
@@ -601,6 +670,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       requiresLogin: "Log in to chat with Gauss.",
       notConfigured: "The AI tutor isn't available in this app yet.",
     },
+    identity: socialFeaturesEn.identity,
   },
   es: {
     nav: {
@@ -802,6 +872,27 @@ export const dictionaries: Record<Locale, Dictionary> = {
       requiresLogin: "Inicia sesión para chatear con Gauss.",
       notConfigured: "El tutor de IA todavía no está disponible en esta app.",
     },
+    identity: {
+      pageTitle: "Verificación de identidad",
+      pageSubtitle: "El chat, las comunidades y las clases en vivo requieren una verificación rápida de identidad — esto hace la comunidad más segura para todos, especialmente para los estudiantes más jóvenes.",
+      notConfigured: "La verificación de identidad todavía no está disponible en esta app — vuelve pronto.",
+      requiresLogin: "Inicia sesión para verificar tu identidad.",
+      startButton: "Iniciar verificación",
+      pendingMessage: "Tu verificación se está procesando — esto puede tardar un minuto.",
+      failedMessage: "No pudimos completar tu verificación. Puedes intentarlo de nuevo.",
+      retryButton: "Intentar de nuevo",
+      grantedMessage: "¡Estás verificado! El chat, las comunidades y las lives ya están desbloqueados.",
+      minorHeading: "Se requiere consentimiento de los padres",
+      minorBody: "Tu edad verificada es menor de 18 años. Un padre o tutor debe confirmar el consentimiento antes de que el chat, las comunidades y las lives se desbloqueen para ti.",
+      parentEmailLabel: "Correo del padre/tutor",
+      sendConsentButton: "Enviar solicitud de consentimiento",
+      consentSentMessage: "¡Solicitud enviada! Pide a tu padre/tutor que revise su bandeja de entrada.",
+      consentPendingMessage: "Esperando confirmación del padre/tutor.",
+      consentConfirmedTitle: "Consentimiento confirmado",
+      consentConfirmedBody: "¡Gracias! Los recursos sociales ya están desbloqueados para la cuenta de tu hijo(a).",
+      consentInvalidTitle: "Enlace no encontrado",
+      consentInvalidBody: "Este enlace de confirmación no es válido o ya fue usado.",
+    },
   },
   zh: {
     nav: {
@@ -1000,6 +1091,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       requiresLogin: "请登录以与高斯对话。",
       notConfigured: "此应用暂不支持 AI 辅导功能。",
     },
+    identity: socialFeaturesEn.identity,
   },
   it: {
     nav: {
@@ -1202,6 +1294,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       requiresLogin: "Accedi per chattare con Gauss.",
       notConfigured: "Il tutor IA non è ancora disponibile in questa app.",
     },
+    identity: socialFeaturesEn.identity,
   },
   ko: {
     nav: {
@@ -1402,6 +1495,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       requiresLogin: "가우스와 대화하려면 로그인하세요.",
       notConfigured: "이 앱에서는 아직 AI 튜터를 사용할 수 없습니다.",
     },
+    identity: socialFeaturesEn.identity,
   },
   de: {
     nav: {
@@ -1604,6 +1698,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       requiresLogin: "Melde dich an, um mit Gauß zu chatten.",
       notConfigured: "Der KI-Tutor ist in dieser App noch nicht verfügbar.",
     },
+    identity: socialFeaturesEn.identity,
   },
   fr: {
     nav: {
@@ -1806,6 +1901,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       requiresLogin: "Connectez-vous pour discuter avec Gauss.",
       notConfigured: "Le tuteur IA n'est pas encore disponible dans cette application.",
     },
+    identity: socialFeaturesEn.identity,
   },
   ja: {
     nav: {
@@ -2005,6 +2101,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       requiresLogin: "ガウスとチャットするにはログインしてください。",
       notConfigured: "このアプリではまだAIチューターはご利用いただけません。",
     },
+    identity: socialFeaturesEn.identity,
   },
   ar: {
     nav: {
@@ -2206,6 +2303,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       requiresLogin: "سجّل الدخول للدردشة مع غاوس.",
       notConfigured: "المعلّم الذكي غير متاح بعد في هذا التطبيق.",
     },
+    identity: socialFeaturesEn.identity,
   },
   ru: {
     nav: {
@@ -2408,6 +2506,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       requiresLogin: "Войдите, чтобы пообщаться с Гауссом.",
       notConfigured: "ИИ-репетитор пока недоступен в этом приложении.",
     },
+    identity: socialFeaturesEn.identity,
   },
 };
 
