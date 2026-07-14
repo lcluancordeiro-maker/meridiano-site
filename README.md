@@ -624,6 +624,43 @@ configurada neste ambiente de desenvolvimento, este fluxo não foi
 testado contra o serviço de verdade — só o estado "não configurado" tem
 cobertura de testes automatizados (veja `e2e/lives.spec.ts`).
 
+## Sobre a moderação
+
+Chat, grupos e comunidades precisam de um jeito de lidar com abuso —
+principalmente considerando que parte dos usuários pode ser menor de
+idade. Esta primeira versão cobre:
+
+- **Denunciar mensagem**: um botão "Denunciar" em cada mensagem alheia
+  (chat e comunidade) chama a RPC `report_message`, que confirma que
+  quem denuncia realmente tinha acesso àquela mensagem antes de
+  aceitar, e grava em `message_reports`. **Não existe painel de
+  moderação nesta versão** — revisar denúncias hoje é manual, direto
+  no banco (via SQL ou o dashboard do Supabase com a `service_role`
+  key). Um painel de moderação é um passo natural para uma próxima
+  versão.
+- **Bloquear um contato**: no cabeçalho de uma conversa 1:1,
+  "Bloquear esta pessoa" insere uma linha em `blocked_users`. A partir
+  daí, a policy de RLS `dm_messages_insert` passa a recusar qualquer
+  mensagem nova dessa pessoa em **qualquer** conversa que
+  compartilhem — não é só uma cortina na tela, é aplicado no banco.
+  `find_or_create_direct_conversation` também recusa iniciar uma nova
+  conversa se a outra pessoa já bloqueou você. A lista de bloqueados
+  fica em `/chat/bloqueados`, com opção de desbloquear.
+- **Sair/remover de um grupo de chat**: qualquer participante sai por
+  conta própria (`leave_group_conversation`); quem criou o grupo pode
+  remover outros participantes (`remove_conversation_participant`) —
+  mas não pode remover a si mesmo (para isso, basta sair).
+- **Sair/remover de uma comunidade**: mesma lógica
+  (`leave_community`/`remove_community_member`), só que o dono da
+  comunidade não pode sair por essa via — sair deixaria a comunidade
+  sem dono, então a única opção do dono é excluir a comunidade.
+
+**Limitações desta primeira versão**: sem mute temporário (só
+remoção definitiva), sem banimento que impeça reentrar com um novo
+convite/link, sem aviso automático quando uma denúncia atinge um
+certo número de ocorrências, e denúncias não geram nenhuma notificação
+— alguém da equipe precisa ir olhar `message_reports` periodicamente.
+
 ## Preparando para produção
 
 Quatro peças de "prontidão para produção" — domínio próprio, SEO,

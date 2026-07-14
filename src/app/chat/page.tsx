@@ -34,7 +34,14 @@ export default async function ChatPage() {
     <div className="flex flex-1 flex-col">
       <Navbar />
       <div className="mx-auto w-full max-w-2xl px-6 py-16">
-        <h1 className="font-display text-3xl font-semibold text-foreground">{chat.title}</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="font-display text-3xl font-semibold text-foreground">{chat.title}</h1>
+          {!gated && user && (
+            <Link href="/chat/bloqueados" className="text-sm text-muted hover:text-foreground">
+              {chat.blockedUsersHeading}
+            </Link>
+          )}
+        </div>
 
         {status === "not_configured" && (
           <p className="mt-8 rounded-xl border border-border bg-surface p-4 text-sm text-muted">{chat.notConfigured}</p>

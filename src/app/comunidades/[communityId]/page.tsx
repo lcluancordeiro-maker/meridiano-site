@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import CommunityThread from "@/components/CommunityThread";
+import CommunityMembersList from "@/components/CommunityMembersList";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getSocialAccessStatus } from "@/lib/entitlements";
@@ -76,14 +77,12 @@ export default async function ComunidadeDetailPage({ params }: { params: Promise
             <h2 className="mb-2 font-display text-lg font-semibold text-foreground">
               {dict.membersHeading} ({memberRows.length})
             </h2>
-            <ul className="flex flex-col gap-2">
-              {memberRows.map((m) => (
-                <li key={m.user_id} className="rounded-lg border border-border bg-surface px-3 py-2 text-sm text-foreground">
-                  {m.display_name ?? "?"}
-                  {m.role === "owner" && <span className="ml-1 text-xs text-muted">★</span>}
-                </li>
-              ))}
-            </ul>
+            <CommunityMembersList
+              communityId={communityId}
+              currentUserId={user.id}
+              isOwner={community.creator_id === user.id}
+              initialMembers={memberRows.map((m) => ({ user_id: m.user_id, display_name: m.display_name ?? "?", role: m.role }))}
+            />
           </section>
         </div>
       </div>

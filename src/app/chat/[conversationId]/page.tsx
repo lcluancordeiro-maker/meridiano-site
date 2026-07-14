@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import ChatThread from "@/components/ChatThread";
+import ChatConversationActions from "@/components/ChatConversationActions";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getSocialAccessStatus } from "@/lib/entitlements";
@@ -22,15 +23,17 @@ export default async function ChatConversationPage({ params }: { params: Promise
   const status = await getSocialAccessStatus();
   if (status !== "granted") redirect("/verificar-identidade");
 
-  const [{ data: header, error: headerError }, { data: participants }, { data: messages }] = await Promise.all([
-    supabase.rpc("get_conversation_header", { p_conversation_id: conversationId }),
-    supabase.rpc("get_conversation_participants", { p_conversation_id: conversationId }),
-    supabase
-      .from("dm_messages")
-      .select("id, sender_id, body, created_at")
-      .eq("conversation_id", conversationId)
-      .order("created_at", { ascending: true }),
-  ]);
+  const [{ data: header, error: headerError }, { data: participants }, { data: messages }, { data: conversation }] =
+    await Promise.all([
+      supabase.rpc("get_conversation_header", { p_conversation_id: conversationId }),
+      supabase.rpc("get_conversation_participants", { p_conversation_id: conversationId }),
+      supabase
+        .from("dm_messages")
+        .select("id, sender_id, body, created_at")
+        .eq("conversation_id", conversationId)
+        .order("created_at", { ascending: true }),
+      supabase.from("conversations").select("created_by").eq("id", conversationId).maybeSingle(),
+    ]);
 
   if (headerError || !header || (Array.isArray(header) && header.length === 0)) notFound();
 
@@ -41,6 +44,9 @@ export default async function ChatConversationPage({ params }: { params: Promise
   for (const p of (participants as { user_id: string; display_name: string | null }[] | null) ?? []) {
     participantNames[p.user_id] = p.display_name ?? "?";
   }
+  const participantList = ((participants as { user_id: string; display_name: string | null }[] | null) ?? []).map(
+    (p) => ({ user_id: p.user_id, display_name: p.display_name ?? "?" })
+  );
 
   return (
     <div className="flex flex-1 flex-col">
@@ -50,6 +56,13 @@ export default async function ChatConversationPage({ params }: { params: Promise
           {chat.backToChat}
         </Link>
         <h1 className="mb-4 font-display text-2xl font-semibold text-foreground">{title}</h1>
+        <ChatConversationActions
+          conversationId={conversationId}
+          currentUserId={user.id}
+          isGroup={headerRow.is_group}
+          createdBy={conversation?.created_by ?? ""}
+          participants={participantList}
+        />
         <ChatThread
           conversationId={conversationId}
           currentUserId={user.id}

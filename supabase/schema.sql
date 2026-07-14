@@ -885,6 +885,12 @@ begin
     raise exception 'cannot_chat_with_self';
   end if;
 
+  if exists (
+    select 1 from public.blocked_users where blocker_id = p_other_user_id and blocked_id = auth.uid()
+  ) then
+    raise exception 'blocked';
+  end if;
+
   select cp1.conversation_id into v_conversation_id
   from public.conversation_participants cp1
   join public.conversation_participants cp2 on cp2.conversation_id = cp1.conversation_id
@@ -1088,3 +1094,234 @@ end;
 $$;
 
 grant execute on function public.get_community_members(uuid) to authenticated;
+
+-- ---------------------------------------------------------------------
+-- Moderação: bloquear usuários (chat), denunciar mensagens (chat e
+-- comunidades) e sair/remover membros de grupos e comunidades. Denúncias
+-- não têm policy de select para "authenticated" de propósito — não existe
+-- painel de moderação nesta versão, então revisar denúncias é um passo
+-- manual (via SQL/dashboard do Supabase, com a service_role key).
+-- ---------------------------------------------------------------------
+create table if not exists public.blocked_users (
+  blocker_id uuid not null references auth.users (id) on delete cascade,
+  blocked_id uuid not null references auth.users (id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (blocker_id, blocked_id)
+);
+
+create table if not exists public.message_reports (
+  id uuid primary key default gen_random_uuid(),
+  reporter_id uuid not null references auth.users (id) on delete cascade,
+  message_table text not null check (message_table in ('dm_messages', 'community_messages')),
+  message_id uuid not null,
+  reason text,
+  created_at timestamptz not null default now()
+);
+
+alter table public.blocked_users enable row level security;
+alter table public.message_reports enable row level security;
+
+drop policy if exists "blocked_users_select_own" on public.blocked_users;
+create policy "blocked_users_select_own"
+  on public.blocked_users for select
+  using (auth.uid() = blocker_id);
+
+drop policy if exists "blocked_users_insert_own" on public.blocked_users;
+create policy "blocked_users_insert_own"
+  on public.blocked_users for insert
+  with check (auth.uid() = blocker_id and blocker_id != blocked_id);
+
+drop policy if exists "blocked_users_delete_own" on public.blocked_users;
+create policy "blocked_users_delete_own"
+  on public.blocked_users for delete
+  using (auth.uid() = blocker_id);
+
+drop policy if exists "message_reports_insert_own" on public.message_reports;
+create policy "message_reports_insert_own"
+  on public.message_reports for insert
+  with check (auth.uid() = reporter_id);
+
+-- Passa a barrar o envio de mensagens diretas de quem já foi bloqueado por
+-- QUALQUER outro participante da conversa (não só numa 1:1) — bloquear
+-- alguém impede que essa pessoa fale com você em qualquer conversa
+-- compartilhada, não só esconde a mensagem na tela.
+drop policy if exists "dm_messages_insert" on public.dm_messages;
+create policy "dm_messages_insert"
+  on public.dm_messages for insert
+  with check (
+    auth.uid() = sender_id
+    and exists (
+      select 1 from public.conversation_participants cp
+      where cp.conversation_id = dm_messages.conversation_id and cp.user_id = auth.uid()
+    )
+    and not exists (
+      select 1 from public.blocked_users b
+      join public.conversation_participants cp2 on cp2.user_id = b.blocker_id
+      where cp2.conversation_id = dm_messages.conversation_id and b.blocked_id = auth.uid()
+    )
+  );
+
+-- Denuncia uma mensagem de chat ou de comunidade. Confirma que quem denuncia
+-- realmente tinha acesso a essa mensagem (é participante/membro) antes de
+-- aceitar a denúncia, para não virar um jeito de "adivinhar" ids de mensagem.
+create or replace function public.report_message(p_message_table text, p_message_id uuid, p_reason text)
+returns void
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  v_has_access boolean;
+begin
+  if auth.uid() is null then
+    raise exception 'not_authenticated';
+  end if;
+
+  if p_message_table = 'dm_messages' then
+    select exists (
+      select 1 from public.dm_messages m
+      join public.conversation_participants cp on cp.conversation_id = m.conversation_id
+      where m.id = p_message_id and cp.user_id = auth.uid()
+    ) into v_has_access;
+  elsif p_message_table = 'community_messages' then
+    select exists (
+      select 1 from public.community_messages m
+      join public.community_members cm on cm.community_id = m.community_id
+      where m.id = p_message_id and cm.user_id = auth.uid()
+    ) into v_has_access;
+  else
+    raise exception 'invalid_message_table';
+  end if;
+
+  if not v_has_access then
+    raise exception 'not_authorized';
+  end if;
+
+  insert into public.message_reports (reporter_id, message_table, message_id, reason)
+  values (auth.uid(), p_message_table, p_message_id, p_reason);
+end;
+$$;
+
+grant execute on function public.report_message(text, uuid, text) to authenticated;
+
+-- Dono da comunidade remove um membro (não pode remover a si mesmo — para
+-- isso, exclua a comunidade). Sem policy de delete direta em
+-- community_members de propósito, igual ao motivo de não ter policy de
+-- insert direta: toda remoção passa por aqui ou por leave_community.
+create or replace function public.remove_community_member(p_community_id uuid, p_user_id uuid)
+returns void
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if not exists (
+    select 1 from public.communities where id = p_community_id and creator_id = auth.uid()
+  ) then
+    raise exception 'not_authorized';
+  end if;
+
+  if p_user_id = auth.uid() then
+    raise exception 'cannot_remove_self';
+  end if;
+
+  delete from public.community_members where community_id = p_community_id and user_id = p_user_id;
+end;
+$$;
+
+grant execute on function public.remove_community_member(uuid, uuid) to authenticated;
+
+-- Qualquer membro sai de uma comunidade por conta própria (ex: se sentir
+-- desconfortável). O dono não pode sair por aqui — precisa excluir a
+-- comunidade (deixaria a comunidade sem dono).
+create or replace function public.leave_community(p_community_id uuid)
+returns void
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if auth.uid() is null then
+    raise exception 'not_authenticated';
+  end if;
+
+  if exists (select 1 from public.communities where id = p_community_id and creator_id = auth.uid()) then
+    raise exception 'owner_cannot_leave';
+  end if;
+
+  delete from public.community_members where community_id = p_community_id and user_id = auth.uid();
+end;
+$$;
+
+grant execute on function public.leave_community(uuid) to authenticated;
+
+-- Quem criou um grupo de chat remove um participante (não pode remover a si
+-- mesmo, e só vale para grupos — numa 1:1 a saída é bloquear a pessoa).
+create or replace function public.remove_conversation_participant(p_conversation_id uuid, p_user_id uuid)
+returns void
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if not exists (
+    select 1 from public.conversations
+    where id = p_conversation_id and created_by = auth.uid() and is_group = true
+  ) then
+    raise exception 'not_authorized';
+  end if;
+
+  if p_user_id = auth.uid() then
+    raise exception 'cannot_remove_self';
+  end if;
+
+  delete from public.conversation_participants where conversation_id = p_conversation_id and user_id = p_user_id;
+end;
+$$;
+
+grant execute on function public.remove_conversation_participant(uuid, uuid) to authenticated;
+
+-- Qualquer participante sai de um grupo por conta própria. Quem criou o
+-- grupo também pode sair (diferente de comunidades, um grupo de chat
+-- continua funcionando sem "dono" — ninguém mais depende desse papel).
+create or replace function public.leave_group_conversation(p_conversation_id uuid)
+returns void
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if auth.uid() is null then
+    raise exception 'not_authenticated';
+  end if;
+
+  if not exists (select 1 from public.conversations where id = p_conversation_id and is_group = true) then
+    raise exception 'not_a_group';
+  end if;
+
+  delete from public.conversation_participants where conversation_id = p_conversation_id and user_id = auth.uid();
+end;
+$$;
+
+grant execute on function public.leave_group_conversation(uuid) to authenticated;
+
+-- Lista de quem o usuário atual bloqueou, com nome de exibição — mesma
+-- justificativa de security definer das outras funções de roster acima.
+-- Bloquear/desbloquear em si não precisa de RPC: as policies
+-- blocked_users_insert_own/blocked_users_delete_own já permitem inserir e
+-- apagar a própria linha diretamente.
+create or replace function public.get_blocked_users()
+returns table (blocked_id uuid, display_name text, created_at timestamptz)
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if auth.uid() is null then
+    raise exception 'not_authenticated';
+  end if;
+
+  return query
+    select b.blocked_id, pr.display_name, b.created_at
+    from public.blocked_users b
+    left join public.profiles pr on pr.id = b.blocked_id
+    where b.blocker_id = auth.uid()
+    order by b.created_at desc;
+end;
+$$;
+
+grant execute on function public.get_blocked_users() to authenticated;

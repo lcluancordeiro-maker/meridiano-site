@@ -236,6 +236,15 @@ export type Dictionary = {
     sendButton: string;
     backToChat: string;
     noMessagesYet: string;
+    reportButton: string;
+    reportedConfirmation: string;
+    blockButton: string;
+    unblockButton: string;
+    blockedUsersHeading: string;
+    blockedUsersEmpty: string;
+    leaveGroupButton: string;
+    manageMembersHeading: string;
+    removeMemberButton: string;
   };
   communities: {
     title: string;
@@ -261,6 +270,8 @@ export type Dictionary = {
     membersHeading: string;
     memberCountSuffix: string;
     chatHeading: string;
+    removeMemberButton: string;
+    leaveCommunityButton: string;
   };
   lives: {
     title: string;
@@ -342,6 +353,15 @@ const socialFeaturesEn = {
     sendButton: "Send",
     backToChat: "← Back to chat",
     noMessagesYet: "No messages yet — say hi!",
+    reportButton: "Report",
+    reportedConfirmation: "Reported",
+    blockButton: "Block this person",
+    unblockButton: "Unblock",
+    blockedUsersHeading: "Blocked users",
+    blockedUsersEmpty: "You haven't blocked anyone.",
+    leaveGroupButton: "Leave group",
+    manageMembersHeading: "Manage members",
+    removeMemberButton: "Remove",
   },
   communities: {
     title: "Communities",
@@ -367,6 +387,8 @@ const socialFeaturesEn = {
     membersHeading: "Members",
     memberCountSuffix: "members",
     chatHeading: "Community chat",
+    removeMemberButton: "Remove",
+    leaveCommunityButton: "Leave community",
   },
   lives: {
     title: "Lives",
@@ -646,6 +668,15 @@ export const dictionaries: Record<Locale, Dictionary> = {
       sendButton: "Enviar",
       backToChat: "← Voltar para o chat",
       noMessagesYet: "Nenhuma mensagem ainda — diga oi!",
+      reportButton: "Denunciar",
+      reportedConfirmation: "Denunciado",
+      blockButton: "Bloquear esta pessoa",
+      unblockButton: "Desbloquear",
+      blockedUsersHeading: "Usuários bloqueados",
+      blockedUsersEmpty: "Você não bloqueou ninguém.",
+      leaveGroupButton: "Sair do grupo",
+      manageMembersHeading: "Gerenciar membros",
+      removeMemberButton: "Remover",
     },
     communities: {
       title: "Comunidades",
@@ -671,6 +702,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       membersHeading: "Membros",
       memberCountSuffix: "membros",
       chatHeading: "Chat da comunidade",
+      removeMemberButton: "Remover",
+      leaveCommunityButton: "Sair da comunidade",
     },
     lives: {
       title: "Lives",
@@ -1153,6 +1186,15 @@ export const dictionaries: Record<Locale, Dictionary> = {
       sendButton: "Enviar",
       backToChat: "← Volver al chat",
       noMessagesYet: "Todavía no hay mensajes — ¡saluda!",
+      reportButton: "Denunciar",
+      reportedConfirmation: "Denunciado",
+      blockButton: "Bloquear a esta persona",
+      unblockButton: "Desbloquear",
+      blockedUsersHeading: "Usuarios bloqueados",
+      blockedUsersEmpty: "No has bloqueado a nadie.",
+      leaveGroupButton: "Salir del grupo",
+      manageMembersHeading: "Gestionar miembros",
+      removeMemberButton: "Quitar",
     },
     communities: {
       title: "Comunidades",
@@ -1178,6 +1220,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       membersHeading: "Miembros",
       memberCountSuffix: "miembros",
       chatHeading: "Chat de la comunidad",
+      removeMemberButton: "Quitar",
+      leaveCommunityButton: "Salir de la comunidad",
     },
     lives: {
       title: "En vivo",

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { reportMessage } from "@/app/actions/moderation";
 import { useTranslation } from "@/i18n/LanguageContext";
 
 type Message = { id: string; sender_id: string; body: string; created_at: string };
@@ -21,7 +22,13 @@ export default function ChatThread({
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
+  const [reportedIds, setReportedIds] = useState<Set<string>>(new Set());
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  async function handleReport(messageId: string) {
+    setReportedIds((prev) => new Set(prev).add(messageId));
+    await reportMessage("dm_messages", messageId);
+  }
 
   useEffect(() => {
     const supabase = createClient();
@@ -89,6 +96,16 @@ export default function ChatThread({
                   >
                     {message.body}
                   </p>
+                  {!isOwn && (
+                    <button
+                      type="button"
+                      onClick={() => handleReport(message.id)}
+                      disabled={reportedIds.has(message.id)}
+                      className="mt-1 text-xs text-muted hover:text-error disabled:cursor-not-allowed"
+                    >
+                      {reportedIds.has(message.id) ? dict.chat.reportedConfirmation : dict.chat.reportButton}
+                    </button>
+                  )}
                 </li>
               );
             })}
