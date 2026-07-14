@@ -50,9 +50,12 @@ de aplicativos.
   enunciado, não pra escrever código.
 - **Ensino Superior** (Premium): "Limites e Derivadas" — a porta de
   entrada do Cálculo, com forma indeterminada, regra da potência e o
-  limite fundamental de sin(x)/x — e agora também "Integrais":
-  antiderivada, integral definida como área sob a curva e o Teorema
-  Fundamental do Cálculo.
+  limite fundamental de sin(x)/x —, "Integrais": antiderivada, integral
+  definida como área sob a curva e o Teorema Fundamental do Cálculo — e
+  agora também "Aplicações de Derivadas": pontos críticos, crescimento
+  e decrescimento, o teste da derivada segunda para achar máximos e
+  mínimos locais, e problemas de otimização (área máxima de um
+  retângulo, volume máximo de uma caixa).
 - **Econometria** (Premium): "Regressão Linear Simples" — estimar
   β0/β1 a partir de covariância e variância, prever valores e
   interpretar o coeficiente de determinação (R²) — e agora também
