@@ -213,8 +213,12 @@ de aplicativos.
   Iniciante, grátis ("Juros Simples" e "Descontos e Acréscimos
   Percentuais" — fator multiplicativo, aumentos/descontos sucessivos) e
   Avançado, Premium ("Juros Compostos", com gráfico interativo de
-  crescimento exponencial, e "Financiamentos: Price e SAC", comparando
-  amortização constante com parcelas fixas).
+  crescimento exponencial, "Financiamentos: Price e SAC", comparando
+  amortização constante com parcelas fixas, e agora também "Valor
+  Presente e Valor Futuro" — trazer uma quantia a valor de hoje ou
+  projetá-la no futuro, e o valor futuro/presente de uma série de
+  depósitos ou parcelas iguais, a base matemática por trás das
+  prestações da Tabela Price).
 - **App para desktop e smartphone**: além de já ser um PWA instalável
   (veja abaixo), a navegação agora é totalmente responsiva — em telas
   estreitas o menu do topo vira um botão de hambúrguer que abre um
