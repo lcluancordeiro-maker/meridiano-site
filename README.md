@@ -142,6 +142,15 @@ de aplicativos.
   antes do commit — mesma técnica descrita em "Sobre o idioma"/testes)
   já que o ambiente de teste não tem Supabase/Stripe configurado pra
   simular uma assinatura ativa. Ver `src/components/widgets/`.
+- **Problemas guiados em etapas**: exercícios mais difíceis podem trazer
+  um painel recolhível "Resolver em etapas" que decompõe o problema em
+  sub-perguntas de um toque, reveladas uma por vez com feedback imediato
+  ("primeiro, qual relação usamos?" → "quanto vale 9² + 12²?" → …). O
+  painel é um andaime opcional: nunca bloqueia o campo de resposta
+  final, que continua sendo a única parte que vale XP. Campo `steps`
+  opcional em `Exercise` (`src/data/curriculum.ts`), renderizado por
+  `GuidedSteps.tsx`. Piloto: 3 exercícios (2 em Geometria Plana, 1 em
+  Descontos e Acréscimos).
 - **Mapa de progressão (skill path)**: a página de cada trilha
   (`/trilha/[nivel]`) mostra os tópicos como uma jornada vertical —
   nós numerados conectados por uma linha, com o nó virando um ✓ verde

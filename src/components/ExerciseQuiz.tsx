@@ -12,6 +12,7 @@ import {
 } from "@/lib/gamification";
 import { recordReviewResult } from "@/lib/reviewSchedule";
 import { extractSpokenNumber, matchSpokenOption } from "@/lib/voiceMatching";
+import GuidedSteps from "./GuidedSteps";
 import ProgressBar from "./ProgressBar";
 import VoiceInputButton from "./VoiceInputButton";
 
@@ -163,6 +164,8 @@ export default function ExerciseQuiz({
       <p className="mt-6 whitespace-pre-line font-display text-lg font-medium text-foreground">
         {exercise.prompt}
       </p>
+
+      {exercise.steps && !checked && <GuidedSteps key={exercise.id} steps={exercise.steps} />}
 
       {exercise.type === "multiple-choice" ? (
         <div className="mt-5 flex flex-col gap-3">

@@ -189,6 +189,20 @@ describe.each(ALL_TRACKS)("topics for $levelId", ({ levelId, topics }) => {
         }
       }
     });
+
+    it("every guided step is non-empty and includes its answer among at least two options", () => {
+      for (const ex of topic.exercises) {
+        if (!ex.steps) continue;
+        expect(ex.steps.length, `${topic.id}/${ex.id} steps`).toBeGreaterThanOrEqual(2);
+        for (const [i, step] of ex.steps.entries()) {
+          const label = `${topic.id}/${ex.id} step ${i + 1}`;
+          expect(step.prompt.trim(), `${label} prompt`).not.toBe("");
+          expect(step.explanation.trim(), `${label} explanation`).not.toBe("");
+          expect(step.options.length, `${label} options`).toBeGreaterThanOrEqual(2);
+          expect(step.options, `${label} answer among options`).toContain(step.answer);
+        }
+      }
+    });
   });
 });
 

@@ -11,6 +11,18 @@ export const DIFFICULTY_LABELS: Record<Difficulty, string> = {
 
 export const DIFFICULTY_ORDER: Difficulty[] = ["facil", "medio", "dificil", "olimpiada"];
 
+/** One sub-step of a guided decomposition of a harder exercise —
+ * Brilliant-style scaffolding ("primeiro, qual relação usamos?…"). Steps
+ * are one-tap multiple choice and revealed one at a time by the optional
+ * "Resolver em etapas" panel in the quiz; they never gate or grade the
+ * final answer, which stays the only thing worth XP. */
+export type ExerciseStep = {
+  prompt: string;
+  options: string[];
+  answer: string;
+  explanation: string;
+};
+
 export type Exercise = {
   id: string;
   prompt: string;
@@ -19,6 +31,9 @@ export type Exercise = {
   options?: string[];
   answer: string;
   explanation: string;
+  /** Optional guided decomposition shown as a collapsible "Resolver em
+   * etapas" panel — see ExerciseStep. */
+  steps?: ExerciseStep[];
   /** Shown instead of the correct answer on the first wrong attempt — a
    * nudge pointing at the likely misconception, so the student gets a
    * chance to self-correct before the answer is revealed on a second miss.
@@ -1937,6 +1952,31 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "dificil",
         answer: "15",
         explanation: "Pitágoras: a² = 9² + 12² = 81 + 144 = 225, então a = √225 = 15 cm.",
+        steps: [
+          {
+            prompt: "Qual relação usamos para achar a hipotenusa?",
+            options: [
+              "a² = 9² + 12² (Teorema de Pitágoras)",
+              "a = 9 + 12 (soma dos catetos)",
+              "a = (9 × 12) ÷ 2 (metade do produto)",
+            ],
+            answer: "a² = 9² + 12² (Teorema de Pitágoras)",
+            explanation:
+              "Num triângulo retângulo, o quadrado da hipotenusa é a soma dos quadrados dos catetos.",
+          },
+          {
+            prompt: "Quanto vale 9² + 12²?",
+            options: ["225", "441", "108"],
+            answer: "225",
+            explanation: "81 + 144 = 225.",
+          },
+          {
+            prompt: "Se a² = 225, quanto vale a hipotenusa a?",
+            options: ["15", "25", "112,5"],
+            answer: "15",
+            explanation: "√225 = 15.",
+          },
+        ],
       },
       {
         id: "d2",
@@ -1977,6 +2017,26 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "dificil",
         answer: "5",
         explanation: "base=2h. Área = 2h×h = 2h² = 50, então h²=25, logo h=5 cm.",
+        steps: [
+          {
+            prompt: "Chamando a altura de h, como fica a área do retângulo?",
+            options: ["2h × h = 2h²", "h + 2h = 3h", "2h ÷ h = 2"],
+            answer: "2h × h = 2h²",
+            explanation: "A base é o dobro da altura (2h), e área = base × altura.",
+          },
+          {
+            prompt: "Sabendo que 2h² = 50, quanto vale h²?",
+            options: ["25", "100", "48"],
+            answer: "25",
+            explanation: "Divida os dois lados por 2: h² = 50 ÷ 2 = 25.",
+          },
+          {
+            prompt: "Se h² = 25, quanto vale a altura h?",
+            options: ["5", "12,5", "625"],
+            answer: "5",
+            explanation: "√25 = 5.",
+          },
+        ],
       },
       {
         id: "o1",
@@ -6347,6 +6407,26 @@ export const matematicaFinanceiraInicianteTopics: Topic[] = [
         difficulty: "medio",
         answer: "99",
         explanation: "100 × 1,10 × 0,90 = 99 (não volta a 100, pois o desconto incide sobre o valor já aumentado).",
+        steps: [
+          {
+            prompt: "Qual fator multiplicativo corresponde ao aumento de 10%?",
+            options: ["1,10", "0,10", "0,90"],
+            answer: "1,10",
+            explanation: "Aumento de i%: fator = 1 + i = 1,10.",
+          },
+          {
+            prompt: "Após o aumento, o preço vai a 100 × 1,10 = 110. Qual fator aplica o desconto de 10%?",
+            options: ["0,90", "1,10", "0,10"],
+            answer: "0,90",
+            explanation: "Desconto de i%: fator = 1 - i = 0,90.",
+          },
+          {
+            prompt: "Quanto é 110 × 0,90?",
+            options: ["99", "100", "101"],
+            answer: "99",
+            explanation: "O desconto incide sobre 110, não sobre 100 — por isso o preço não volta ao original.",
+          },
+        ],
       },
       {
         id: "m2",
