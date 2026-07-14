@@ -288,6 +288,14 @@ export type Dictionary = {
     endButton: string;
     hostBadge: string;
   };
+  knowledgeGraph: {
+    relatedHeading: string;
+    askGaussButton: string;
+    gaussPromptTemplate: string;
+    discussionsHeading: string;
+    openCommunityLink: string;
+    openChatLink: string;
+  };
 };
 
 // Strings for the social features (identity verification, chat, communities,
@@ -385,6 +393,14 @@ const socialFeaturesEn = {
     cameraOffLabel: "Turn camera on",
     endButton: "End live",
     hostBadge: "Host",
+  },
+  knowledgeGraph: {
+    relatedHeading: "Related topics",
+    askGaussButton: "Ask Gauss about this",
+    gaussPromptTemplate: "Can you explain \"{topic}\" again with a different example, and show me how it connects to other subjects I've studied?",
+    discussionsHeading: "Related conversations",
+    openCommunityLink: "Open in community",
+    openChatLink: "Open in chat",
   },
 };
 
@@ -682,6 +698,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       endButton: "Encerrar live",
       hostBadge: "Anfitrião",
     },
+    knowledgeGraph: {
+      relatedHeading: "Tópicos relacionados",
+      askGaussButton: "Perguntar ao Gauss sobre isso",
+      gaussPromptTemplate: "Pode me explicar de novo \"{topic}\" com outro exemplo, e mostrar como isso se conecta com outros assuntos que já estudei?",
+      discussionsHeading: "Conversas relacionadas",
+      openCommunityLink: "Abrir na comunidade",
+      openChatLink: "Abrir na conversa",
+    },
   },
   en: {
     nav: {
@@ -887,6 +911,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
+    knowledgeGraph: socialFeaturesEn.knowledgeGraph,
   },
   es: {
     nav: {
@@ -1180,6 +1205,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       endButton: "Terminar transmisión",
       hostBadge: "Anfitrión",
     },
+    knowledgeGraph: {
+      relatedHeading: "Temas relacionados",
+      askGaussButton: "Preguntarle a Gauss sobre esto",
+      gaussPromptTemplate: "¿Puedes explicarme de nuevo \"{topic}\" con otro ejemplo, y mostrarme cómo se conecta con otros temas que ya estudié?",
+      discussionsHeading: "Conversaciones relacionadas",
+      openCommunityLink: "Abrir en la comunidad",
+      openChatLink: "Abrir en el chat",
+    },
   },
   zh: {
     nav: {
@@ -1382,6 +1415,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
+    knowledgeGraph: socialFeaturesEn.knowledgeGraph,
   },
   it: {
     nav: {
@@ -1588,6 +1622,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
+    knowledgeGraph: socialFeaturesEn.knowledgeGraph,
   },
   ko: {
     nav: {
@@ -1792,6 +1827,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
+    knowledgeGraph: socialFeaturesEn.knowledgeGraph,
   },
   de: {
     nav: {
@@ -1998,6 +2034,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
+    knowledgeGraph: socialFeaturesEn.knowledgeGraph,
   },
   fr: {
     nav: {
@@ -2204,6 +2241,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
+    knowledgeGraph: socialFeaturesEn.knowledgeGraph,
   },
   ja: {
     nav: {
@@ -2407,6 +2445,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
+    knowledgeGraph: socialFeaturesEn.knowledgeGraph,
   },
   ar: {
     nav: {
@@ -2612,6 +2651,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
+    knowledgeGraph: socialFeaturesEn.knowledgeGraph,
   },
   ru: {
     nav: {
@@ -2818,6 +2858,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
     lives: socialFeaturesEn.lives,
+    knowledgeGraph: socialFeaturesEn.knowledgeGraph,
   },
 };
 

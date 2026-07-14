@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { errorMessageFor } from "@/lib/photoSolveErrors";
+import { ASK_GAUSS_EVENT } from "@/lib/gaussPrompt";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -27,6 +28,18 @@ export default function TutorChat({
   useEffect(() => {
     if (listRef.current) listRef.current.scrollTop = listRef.current.scrollHeight;
   }, [messages, loading]);
+
+  useEffect(() => {
+    function handleAskGauss(event: Event) {
+      const prompt = (event as CustomEvent<string>).detail;
+      if (prompt) {
+        setInput(prompt);
+        setOpen(true);
+      }
+    }
+    window.addEventListener(ASK_GAUSS_EVENT, handleAskGauss);
+    return () => window.removeEventListener(ASK_GAUSS_EVENT, handleAskGauss);
+  }, []);
 
   async function handleSend() {
     const text = input.trim();

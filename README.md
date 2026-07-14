@@ -722,6 +722,58 @@ brecha maior do que o necessário — três funções `security definer` em
 específica antes de retornar qualquer linha): `join_turma_by_code`,
 `get_turma_roster` e `get_turma_assignment_progress`.
 
+## Sobre a integração de conhecimento (o "neurônio")
+
+A ideia: o conhecimento no app não devia viver isolado em "gavetas"
+por trilha — uma ideia como "coeficiente angular" aparece na Geometria
+Analítica do Ensino Médio, reaparece como β1 na Regressão Linear
+Simples de Econometria, e é o próprio modelo que o Machine Learning
+"Introdução" ensina a treinar. Esta primeira versão (v1) conecta esses
+pontos de um jeito propositalmente simples — sem embeddings nem busca
+vetorial de verdade —, servindo como prova de conceito para uma versão
+2 mais sofisticada (ver "Fase 2" abaixo).
+
+Como funciona hoje:
+
+1. **Tópicos relacionados**: um campo opcional `relatedTopics` em
+   `Topic` (`src/data/curriculum.ts`) referencia outros tópicos por
+   `{ levelId, topicId }`. `getRelatedTopics(topic)` resolve essas
+   referências para os tópicos de verdade (ignorando qualquer id
+   digitado errado). Curada à mão por enquanto para um conjunto piloto
+   de 8 tópicos que atravessam trilhas diferentes — ex: "Função do 1º
+   Grau" ↔ "Geometria Analítica" ↔ "Regressão Linear Simples"
+   (Econometria) ↔ "Fundamentos de Aprendizado Supervisionado"
+   (Machine Learning), e "Progressões" ↔ "Juros Simples"/"Juros
+   Compostos" (Matemática Financeira, PA e PG na prática).
+2. **Perguntar ao Gauss sobre isso**: um botão que abre o tutor de IA
+   global (a bolha do Gauss) já com uma pergunta pré-preenchida
+   mencionando o tópico atual. Como o tutor é um componente separado
+   montado uma vez no layout raiz, a comunicação é feita com um evento
+   customizado do navegador (`window.dispatchEvent`/`addEventListener`,
+   ver `src/lib/gaussPrompt.ts`) — sem precisar de um Context ou
+   estado global só para isso.
+3. **Conversas relacionadas**: quando o usuário tem acesso social
+   liberado (`granted`), a página do tópico busca (com `ilike` no
+   título do tópico) mensagens de comunidades e conversas de chat das
+   quais ele já participa — respeitando a RLS normalmente, então só
+   aparecem resultados de comunidades/conversas que o usuário já é
+   membro.
+
+Tudo isso é renderizado por `KnowledgeGraph.tsx`, incluído no fim de
+`/trilha/[nivel]/[topico]`. Quando um tópico não tem `relatedTopics`,
+só o botão do Gauss aparece — o resto da seção fica invisível.
+
+**Fase 2 (não implementada)**: a curadoria manual de `relatedTopics`
+não escala para milhares de exercícios. O caminho natural é gerar
+embeddings do conteúdo de cada tópico (ex: com a API da OpenAI/Voyage
+ou um modelo local) e guardá-los numa coluna `vector` do Supabase via
+a extensão [pgvector](https://github.com/pgvector/pgvector), então
+trocar a busca `ilike` por uma busca por similaridade de cosseno
+(`<=>` no pgvector) — tanto para sugerir tópicos relacionados
+automaticamente quanto para encontrar discussões semanticamente
+parecidas no chat/comunidades (não só que contenham a palavra exata do
+título).
+
 ## Sobre o idioma
 
 O seletor de idioma (`src/i18n/`) traduz toda a navegação e as páginas

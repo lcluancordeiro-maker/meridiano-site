@@ -44,6 +44,14 @@ export type TheorySection = {
   interactiveWidget?: InteractiveWidget;
 };
 
+/** A link to another topic that shares an underlying idea — e.g. "slope"
+ * connects a Geometria Analítica topic to a Regressão Linear topic in
+ * Econometria. Powers the "Tópicos relacionados" section (see
+ * KnowledgeGraph.tsx) that surfaces these cross-subject connections. Only
+ * populated for a pilot set of topics for now — see "Sobre a integração de
+ * conhecimento" in the README. */
+export type RelatedTopicRef = { levelId: string; topicId: string };
+
 export type Topic = {
   id: string;
   title: string;
@@ -53,6 +61,7 @@ export type Topic = {
   exercises: Exercise[];
   /** Optional starting expressions for an embedded interactive graph. */
   graphExpressions?: string[];
+  relatedTopics?: RelatedTopicRef[];
 };
 
 export type LevelGroup = "serie" | "estatistica" | "econometria" | "programacao" | "financas" | "vestibulares";
@@ -2573,6 +2582,10 @@ export const medioTopics: Topic[] = [
       "Aprenda a representar, interpretar e resolver problemas com funções afins f(x) = ax + b.",
     minutes: 18,
     graphExpressions: ["2x - 3"],
+    relatedTopics: [
+      { levelId: "medio", topicId: "funcao-quadratica" },
+      { levelId: "medio", topicId: "geometria-analitica" },
+    ],
     theory: [
       {
         heading: "O que é uma função do 1º grau?",
@@ -2828,6 +2841,7 @@ export const medioTopics: Topic[] = [
     summary: "Explore a forma f(x) = ax² + bx + c: concavidade, vértice e o gráfico em parábola.",
     minutes: 20,
     graphExpressions: ["x^2 - 4x + 3"],
+    relatedTopics: [{ levelId: "medio", topicId: "funcao-primeiro-grau" }],
     theory: [
       {
         heading: "O que é uma função quadrática?",
@@ -3300,6 +3314,10 @@ export const medioTopics: Topic[] = [
     summary: "Distância entre pontos, ponto médio e a equação da reta no plano cartesiano.",
     minutes: 20,
     graphExpressions: ["2x + 1"],
+    relatedTopics: [
+      { levelId: "medio", topicId: "funcao-primeiro-grau" },
+      { levelId: "econometria-iniciante", topicId: "regressao-linear-simples" },
+    ],
     theory: [
       {
         heading: "Distância entre dois pontos",
@@ -3537,6 +3555,10 @@ export const medioTopics: Topic[] = [
     title: "Progressões Aritméticas e Geométricas",
     summary: "Sequências com razão constante (PA) ou proporção constante (PG), e suas fórmulas do termo geral.",
     minutes: 22,
+    relatedTopics: [
+      { levelId: "matematica-financeira-iniciante", topicId: "juros-simples" },
+      { levelId: "matematica-financeira-avancado", topicId: "juros-compostos" },
+    ],
     theory: [
       {
         heading: "Progressão Aritmética (PA)",
@@ -3748,6 +3770,9 @@ export const programacaoInicianteTopics: Topic[] = [
     summary:
       "Os blocos básicos de todo programa: variáveis, comparações e estruturas condicionais.",
     minutes: 20,
+    relatedTopics: [
+      { levelId: "machine-learning-iniciante", topicId: "fundamentos-aprendizado-supervisionado" },
+    ],
     theory: [
       {
         heading: "O que é um algoritmo?",
@@ -4352,6 +4377,7 @@ export const matematicaFinanceiraInicianteTopics: Topic[] = [
     title: "Juros Simples",
     summary: "Capital, juros e montante — a base da matemática financeira, calculada de forma linear.",
     minutes: 16,
+    relatedTopics: [{ levelId: "medio", topicId: "progressoes" }],
     theory: [
       {
         heading: "Capital, juros e montante",
@@ -4759,6 +4785,7 @@ export const matematicaFinanceiraAvancadoTopics: Topic[] = [
     summary: "Juros sobre juros: como o dinheiro cresce exponencialmente ao longo do tempo.",
     minutes: 18,
     graphExpressions: ["1.1^x"],
+    relatedTopics: [{ levelId: "medio", topicId: "progressoes" }],
     theory: [
       {
         heading: "Capitalização composta",
@@ -5546,6 +5573,10 @@ export const econometriaTopics: Topic[] = [
     title: "Regressão Linear Simples",
     summary: "Como estimar e interpretar a reta que melhor descreve a relação entre duas variáveis.",
     minutes: 18,
+    relatedTopics: [
+      { levelId: "medio", topicId: "geometria-analitica" },
+      { levelId: "machine-learning-iniciante", topicId: "fundamentos-aprendizado-supervisionado" },
+    ],
     theory: [
       {
         heading: "O modelo de regressão linear simples",
@@ -6156,6 +6187,10 @@ export const machineLearningInicianteTopics: Topic[] = [
     title: "Fundamentos de Aprendizado Supervisionado",
     summary: "Como um modelo aprende com exemplos, e como saber se ele está aprendendo bem — ou só decorando.",
     minutes: 18,
+    relatedTopics: [
+      { levelId: "econometria-iniciante", topicId: "regressao-linear-simples" },
+      { levelId: "programacao-iniciante", topicId: "logica-de-programacao" },
+    ],
     theory: [
       {
         heading: "O que é aprendizado supervisionado",
@@ -8679,4 +8714,18 @@ export function getTopicsForLevel(levelId: string): Topic[] {
 
 export function getTopic(levelId: string, topicId: string): Topic | undefined {
   return getTopicsForLevel(levelId).find((t) => t.id === topicId);
+}
+
+/** Resolves a topic's `relatedTopics` refs into the actual level+topic pairs,
+ * dropping any ref whose target doesn't exist (e.g. a typo'd id). */
+export function getRelatedTopics(topic: Topic): { level: Level; topic: Topic }[] {
+  if (!topic.relatedTopics) return [];
+
+  const resolved: { level: Level; topic: Topic }[] = [];
+  for (const ref of topic.relatedTopics) {
+    const level = getLevel(ref.levelId);
+    const relatedTopic = getTopic(ref.levelId, ref.topicId);
+    if (level && relatedTopic) resolved.push({ level, topic: relatedTopic });
+  }
+  return resolved;
 }

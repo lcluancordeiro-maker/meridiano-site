@@ -7,6 +7,7 @@ import {
   estatisticaIntermediarioTopics,
   fundamental2Topics,
   getLevel,
+  getRelatedTopics,
   getTopic,
   getTopicsForLevel,
   levels,
@@ -204,5 +205,47 @@ describe("routing uniqueness", () => {
         seen.add(key);
       }
     }
+  });
+});
+
+describe("getRelatedTopics (knowledge graph)", () => {
+  it("every relatedTopics ref resolves to a real level and topic", () => {
+    for (const { levelId, topics } of ALL_TRACKS) {
+      for (const topic of topics) {
+        if (!topic.relatedTopics) continue;
+        const resolved = getRelatedTopics(topic);
+        expect(resolved.length, `${levelId}/${topic.id}`).toBe(topic.relatedTopics.length);
+      }
+    }
+  });
+
+  it("returns an empty array for a topic without relatedTopics", () => {
+    const topic = fundamental2Topics[0];
+    expect(topic.relatedTopics).toBeUndefined();
+    expect(getRelatedTopics(topic)).toEqual([]);
+  });
+
+  it("connects Função do 1º Grau to Função Quadrática and Geometria Analítica", () => {
+    const topic = getTopic("medio", "funcao-primeiro-grau")!;
+    const related = getRelatedTopics(topic).map((r) => r.topic.id);
+    expect(related).toContain("funcao-quadratica");
+    expect(related).toContain("geometria-analitica");
+  });
+
+  it("connects Progressões to both Juros Simples (PA) and Juros Compostos (PG)", () => {
+    const topic = getTopic("medio", "progressoes")!;
+    const related = getRelatedTopics(topic).map((r) => `${r.level.id}/${r.topic.id}`);
+    expect(related).toContain("matematica-financeira-iniciante/juros-simples");
+    expect(related).toContain("matematica-financeira-avancado/juros-compostos");
+  });
+
+  it("connects a linear-algebra idea across Ensino Médio, Econometria and Machine Learning", () => {
+    const geometriaAnalitica = getTopic("medio", "geometria-analitica")!;
+    const regressaoLinear = getTopic("econometria-iniciante", "regressao-linear-simples")!;
+
+    expect(getRelatedTopics(geometriaAnalitica).map((r) => r.topic.id)).toContain("regressao-linear-simples");
+    expect(getRelatedTopics(regressaoLinear).map((r) => r.topic.id)).toContain(
+      "fundamentos-aprendizado-supervisionado"
+    );
   });
 });

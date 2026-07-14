@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import PracticeSection from "@/components/PracticeSection";
 import FunctionGrapher from "@/components/FunctionGrapher";
 import InteractiveWidgetRenderer from "@/components/widgets/InteractiveWidgetRenderer";
+import KnowledgeGraph from "@/components/KnowledgeGraph";
 import { getLevel, getTopic, getTopicsForLevel, levels } from "@/data/curriculum";
 import { isPremiumUser } from "@/lib/entitlements";
 import { getServerLocale } from "@/i18n/getServerLocale";
@@ -35,7 +36,7 @@ export default async function TopicPage({
 
   const hasPremiumAccess = level.premium ? await isPremiumUser() : true;
   const locale = await getServerLocale();
-  const { premium } = getDictionary(locale);
+  const { premium, knowledgeGraph } = getDictionary(locale);
 
   return (
     <div className="flex flex-1 flex-col">
@@ -122,6 +123,8 @@ export default async function TopicPage({
                 exercises={topic.exercises}
               />
             </div>
+
+            <KnowledgeGraph topic={topic} dict={knowledgeGraph} />
           </>
         )}
       </div>
