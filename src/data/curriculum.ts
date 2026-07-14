@@ -44,7 +44,10 @@ export type InteractiveWidget =
   | "probability-spinner"
   | "mean-median-explorer"
   | "compound-interest-explorer"
-  | "tangent-line-explorer";
+  | "tangent-line-explorer"
+  | "pythagorean-explorer"
+  | "sequence-explorer"
+  | "normal-distribution-explorer";
 
 export type TheorySection = {
   heading: string;
@@ -1770,6 +1773,13 @@ export const fundamental2Topics: Topic[] = [
           solution: "a² = 3² + 4² = 9 + 16 = 25, então a = √25 = 5 cm.",
         },
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa nos dois catetos abaixo e observe: o triângulo muda de forma, mas a relação a² = b² + c² continua valendo sempre — mesmo quando a hipotenusa não dá um número inteiro.",
+        ],
+        interactiveWidget: "pythagorean-explorer",
+      },
     ],
     exercises: [
       {
@@ -2892,6 +2902,13 @@ export const estatisticaAvancadoTopics: Topic[] = [
           problem: "Média 100, desvio padrão 15. Qual o escore-z de x=130?",
           solution: "z = (130 - 100) / 15 = 30 / 15 = 2.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa na média, no desvio padrão e no valor x abaixo e observe: um σ maior 'achata' a curva (mais espalhada), e a linha vermelha mostra onde x cai — quanto mais longe do centro, maior o |z|.",
+        ],
+        interactiveWidget: "normal-distribution-explorer",
       },
     ],
     exercises: [
@@ -4275,6 +4292,13 @@ export const medioTopics: Topic[] = [
         body: [
           "A soma dos n primeiros termos de uma PG (com q ≠ 1) é Sn = a1 × (q^n - 1) / (q - 1).",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Alterne entre PA e PG, mexa no primeiro termo e na razão, e observe como os 6 primeiros termos mudam: na PA eles crescem (ou diminuem) em passos iguais; na PG eles crescem multiplicativamente, bem mais rápido.",
+        ],
+        interactiveWidget: "sequence-explorer",
       },
     ],
     exercises: [

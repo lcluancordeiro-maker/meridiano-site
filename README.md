@@ -98,7 +98,7 @@ de aplicativos.
 - **Widgets interativos na teoria** (também inspirado no Brilliant.org):
   algumas seções de teoria têm uma seção extra "Explore ao vivo" com um
   mini-app SVG em vez de só texto — sliders ou pontos arrastáveis que
-  recalculam algo na hora. Hoje são nove: em "Função do 1º Grau" (Ensino
+  recalculam algo na hora. Hoje são doze: em "Função do 1º Grau" (Ensino
   Médio), sliders para os coeficientes a/b mostram a reta mudando ao
   vivo; em "Geometria Analítica" (Ensino Médio), dois pontos arrastáveis
   recalculam distância, ponto médio e coeficiente angular em tempo real;
@@ -113,19 +113,27 @@ de aplicativos.
   favoráveis giram a fatia de uma roda mostrando a frequência relativa;
   em "Medidas de Tendência Central" (Estatística — Iniciante), 5
   sliders de valores movem pontos numa reta numérica e recalculam
-  média/mediana ao vivo; em "Juros Compostos" (Matemática Financeira —
-  Avançado, Premium), sliders de capital/taxa/tempo desenham a curva de
+  média/mediana ao vivo; em "Geometria Plana" (Fundamental II), sliders
+  para os dois catetos desenham o triângulo retângulo e recalculam a
+  hipotenusa (Teorema de Pitágoras) ao vivo; em "Progressões
+  Aritméticas e Geométricas" (Ensino Médio), botões alternam entre PA e
+  PG e sliders de primeiro termo/razão recalculam os 6 primeiros termos
+  na hora; em "Juros Compostos" (Matemática Financeira — Avançado,
+  Premium), sliders de capital/taxa/tempo desenham a curva de
   crescimento exponencial do montante; em "Limites e Derivadas" (Ensino
   Superior, Premium), um slider move um ponto sobre f(x)=x² e desenha a
-  reta tangente naquele ponto, recalculando f'(x)=2x ao vivo. Os nove
-  widgets compartilham as constantes e funções de conversão de
-  coordenadas SVG em `src/components/widgets/svgUtils.ts` (os widgets
-  mais novos usam sua própria escala, calibrada pra cada visualização).
-  Os dois widgets em trilhas Premium foram verificados manualmente
-  (`premium: false` temporário, rodada de e2e, revertido antes do
-  commit — mesma técnica descrita em "Sobre o idioma"/testes) já que o
-  ambiente de teste não tem Supabase/Stripe configurado pra simular uma
-  assinatura ativa. Ver `src/components/widgets/`.
+  reta tangente naquele ponto, recalculando f'(x)=2x ao vivo; em
+  "Distribuição Normal e Escore-Z" (Estatística — Avançado, Premium),
+  sliders de média/desvio padrão/valor x desenham a curva normal e
+  recalculam o escore-z ao vivo. Os doze widgets compartilham as
+  constantes e funções de conversão de coordenadas SVG em
+  `src/components/widgets/svgUtils.ts` (os widgets mais novos usam sua
+  própria escala, calibrada pra cada visualização). Os três widgets em
+  trilhas Premium foram verificados manualmente (`premium: false`
+  temporário, rodada de e2e, revertido antes do commit — mesma técnica
+  descrita em "Sobre o idioma"/testes) já que o ambiente de teste não
+  tem Supabase/Stripe configurado pra simular uma assinatura ativa. Ver
+  `src/components/widgets/`.
 - **Feedback de erro mais inteligente**: alguns exercícios têm um campo
   `commonMistakeHint` — na primeira resposta errada, em vez de revelar a
   resposta certa na hora, o app mostra uma dica apontando o erro de
@@ -1213,9 +1221,11 @@ unitários e e2e em todo push e pull request.
   (`SlopeExplorer.tsx`, `TwoPointExplorer.tsx`, `QuadraticExplorer.tsx`,
   `UnitCircleExplorer.tsx`, `FractionVisualizer.tsx`,
   `ProbabilitySpinner.tsx`, `MeanMedianExplorer.tsx`,
-  `CompoundInterestExplorer.tsx`, `TangentLineExplorer.tsx`);
-  `InteractiveWidgetRenderer.tsx` mapeia o campo `interactiveWidget` de
-  uma `TheorySection` (em `src/data/curriculum.ts`) pro componente
+  `CompoundInterestExplorer.tsx`, `TangentLineExplorer.tsx`,
+  `PythagoreanExplorer.tsx`, `SequenceExplorer.tsx`,
+  `NormalDistributionExplorer.tsx`); `InteractiveWidgetRenderer.tsx`
+  mapeia o campo `interactiveWidget` de uma `TheorySection` (em
+  `src/data/curriculum.ts`) pro componente
   certo, renderizado pelo `TopicPage`.
 - `src/lib/mathExpr.ts` — parser/avaliador de expressões matemáticas
   para a calculadora gráfica.

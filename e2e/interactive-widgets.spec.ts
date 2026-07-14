@@ -124,7 +124,42 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
     // Values become 20, 7, 9, 12, 15 → mean 12.6, median 12.
     await expect(page.getByText("Média = 12.6 · Mediana = 12")).toBeVisible();
   });
+
+  test("pythagorean explorer recalculates the hypotenuse as you move a leg slider", async ({ page }) => {
+    await page.goto("/trilha/fundamental-2/geometria-plana");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("a² = 3² + 4² = 25 → a = 5")).toBeVisible();
+
+    const leg1Slider = page.getByRole("slider", { name: /Cateto 1/ });
+    await leg1Slider.fill("5");
+    await expect(page.getByText("a² = 5² + 4² = 41 → a = 6.4")).toBeVisible();
+  });
+
+  test("sequence explorer switches between PA and PG and recalculates the terms", async ({ page }) => {
+    await page.goto("/trilha/medio/progressoes");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("an = 2 + (n-1)×3")).toBeVisible();
+    await expect(
+      page.getByRole("img", { name: "Termos da sequência: 2, 5, 8, 11, 14, 17" })
+    ).toBeVisible();
+
+    // Uses the widget's aria-label (not its "PG" visible text) since a
+    // real quiz exercise on this same page has a multiple-choice option
+    // literally labeled "PG" — an exact-name query would be ambiguous.
+    await page.getByRole("button", { name: "Mostrar progressão geométrica (PG)" }).click();
+    await expect(page.getByText("an = 2 × 2^(n-1)")).toBeVisible();
+    await expect(
+      page.getByRole("img", { name: "Termos da sequência: 2, 4, 8, 16, 32, 64" })
+    ).toBeVisible();
+  });
 });
+
+// The normal-distribution explorer lives on a Premium topic
+// (Estatística — Avançado), which shows a paywall instead of theory in
+// this test environment (no Supabase/Stripe configured) — same
+// limitation as the compound-interest/tangent-line explorers below.
+// Verified manually by temporarily flipping `premium: false` on the
+// level, confirming the live math, then reverting before commit.
 
 // The compound-interest and tangent-line explorers live on Premium topics
 // (Matemática Financeira — Avançado / Ensino Superior), which show a
