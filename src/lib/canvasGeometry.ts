@@ -16,3 +16,21 @@ export function toCanvasPoint(
     y: (clientY - rect.top) * scaleY,
   };
 }
+
+/** The point halfway between two points — the control geometry behind the
+ * "smooth freehand line" technique: drawing quadratic curves between
+ * consecutive midpoints (instead of straight segments point-to-point) removes
+ * the faceted look of fast pointermove sampling. */
+export function midpoint(a: { x: number; y: number }, b: { x: number; y: number }): { x: number; y: number } {
+  return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+}
+
+/** Converts a PointerEvent's `pressure` (0..1, where hardware without
+ * pressure support reports a constant 0.5 while active, per spec) into a
+ * stroke width. At the default 0.5 this returns exactly `baseWidth`, so mouse
+ * and plain-touch input are unaffected — only pressure-sensitive styluses
+ * change the line thickness. */
+export function pressureToWidth(pressure: number, baseWidth: number): number {
+  const p = pressure > 0 ? pressure : 0.5;
+  return baseWidth * (0.5 + p);
+}

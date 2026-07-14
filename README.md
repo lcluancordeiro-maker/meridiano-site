@@ -146,7 +146,19 @@ de aplicativos.
   login. Quem está logado também pode ativar "Analisar
   automaticamente ao pausar": 2 segundos depois do fim de um traço, o
   quadro é enviado sozinho para a IA — sem precisar clicar no botão a
-  cada tentativa. Reconhecimento de escrita à mão *durante* o traço
+  cada tentativa. A escrita ao toque foi refinada
+  (`src/components/DrawingCanvas.tsx`): os traços usam curvas
+  quadráticas entre os pontos médios de cada 3 pontos brutos (em vez de
+  segmentos retos), o que remove o aspecto "poligonal" de traços
+  rápidos; a espessura reage à pressão da caneta/stylus
+  (`PointerEvent.pressure`, sem efeito com mouse/toque comum, que
+  reportam sempre 0,5); `getCoalescedEvents()` captura os pontos
+  intermediários que o navegador agrupa entre eventos `pointermove`,
+  pra não perder detalhe em traços rápidos; e uma rejeição básica de
+  palma (`activePointer` em `DrawingCanvas.tsx`) garante que uma caneta
+  sempre tem prioridade sobre um toque concorrente (a mão apoiada na
+  tela), descartando o traço de toque incompleto quando a caneta
+  encosta. Reconhecimento de escrita à mão *durante* o traço
   (convertendo os traços em equação em tempo real, sem round-trip pra
   API) continua sendo um item futuro maior — hoje a IA sempre analisa
   uma imagem estática do quadro.

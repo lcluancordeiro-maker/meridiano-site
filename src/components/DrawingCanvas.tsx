@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
-import { toCanvasPoint } from "@/lib/canvasGeometry";
+import { midpoint, pressureToWidth, toCanvasPoint } from "@/lib/canvasGeometry";
 
 export type DrawingCanvasHandle = {
   clear: () => void;
@@ -10,6 +10,8 @@ export type DrawingCanvasHandle = {
 };
 
 export type Tool = "pen" | "eraser";
+
+type StrokePoint = { x: number; y: number; pressure: number };
 
 const RESOLUTION_WIDTH = 1200;
 const RESOLUTION_HEIGHT = 800;
@@ -21,8 +23,8 @@ const DrawingCanvas = forwardRef<
 >(function DrawingCanvas({ color, lineWidth, tool, ariaLabel, onStrokeEnd }, ref) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const undoStack = useRef<ImageData[]>([]);
-    const isDrawing = useRef(false);
-    const lastPoint = useRef<{ x: number; y: number } | null>(null);
+    const activePointer = useRef<{ id: number; type: string } | null>(null);
+    const strokePoints = useRef<StrokePoint[]>([]);
 
     useEffect(() => {
       const canvas = canvasRef.current;
@@ -47,6 +49,13 @@ const DrawingCanvas = forwardRef<
       if (undoStack.current.length > MAX_UNDO_STEPS) undoStack.current.shift();
     }
 
+    function restoreLastSnapshot() {
+      const ctx = getContext();
+      const snapshot = undoStack.current.pop();
+      if (!ctx || !snapshot) return;
+      ctx.putImageData(snapshot, 0, 0);
+    }
+
     useImperativeHandle(ref, () => ({
       clear() {
         const canvas = canvasRef.current;
@@ -57,10 +66,7 @@ const DrawingCanvas = forwardRef<
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       },
       undo() {
-        const ctx = getContext();
-        const snapshot = undoStack.current.pop();
-        if (!ctx || !snapshot) return;
-        ctx.putImageData(snapshot, 0, 0);
+        restoreLastSnapshot();
       },
       toBlob() {
         return new Promise((resolve) => {
@@ -74,46 +80,107 @@ const DrawingCanvas = forwardRef<
       },
     }));
 
-    function handlePointerDown(event: React.PointerEvent<HTMLCanvasElement>) {
-      const canvas = canvasRef.current;
-      const ctx = getContext();
-      if (!canvas || !ctx) return;
-      canvas.setPointerCapture(event.pointerId);
-      pushUndoSnapshot();
+    function toStrokePoint(event: PointerEvent | React.PointerEvent<HTMLCanvasElement>): StrokePoint {
+      const canvas = canvasRef.current!;
       const rect = canvas.getBoundingClientRect();
-      const point = toCanvasPoint(rect, canvas.width, canvas.height, event.clientX, event.clientY);
-      isDrawing.current = true;
-      lastPoint.current = point;
+      const { x, y } = toCanvasPoint(rect, canvas.width, canvas.height, event.clientX, event.clientY);
+      return { x, y, pressure: event.pressure };
+    }
+
+    function drawDot(point: StrokePoint) {
+      const ctx = getContext();
+      if (!ctx) return;
       ctx.beginPath();
-      ctx.arc(point.x, point.y, lineWidth / 2, 0, Math.PI * 2);
+      ctx.arc(point.x, point.y, pressureToWidth(point.pressure, lineWidth) / 2, 0, Math.PI * 2);
       ctx.fillStyle = tool === "eraser" ? "#ffffff" : color;
       ctx.fill();
     }
 
-    function handlePointerMove(event: React.PointerEvent<HTMLCanvasElement>) {
-      if (!isDrawing.current) return;
-      const canvas = canvasRef.current;
+    /** Draws a quadratic curve through the midpoints of the last three raw
+     * points instead of a straight segment — this is what keeps a fast,
+     * naturally-varying-speed stroke looking like handwriting instead of a
+     * faceted polyline. Falls back to a straight line for a stroke's first
+     * movement, when there aren't three points to smooth yet. */
+    function drawSmoothedSegment() {
       const ctx = getContext();
-      if (!canvas || !ctx || !lastPoint.current) return;
-      const rect = canvas.getBoundingClientRect();
-      const point = toCanvasPoint(rect, canvas.width, canvas.height, event.clientX, event.clientY);
+      const points = strokePoints.current;
+      if (!ctx || points.length < 2) return;
+
+      const curr = points[points.length - 2];
+      const next = points[points.length - 1];
       ctx.strokeStyle = tool === "eraser" ? "#ffffff" : color;
-      ctx.lineWidth = lineWidth;
+      ctx.lineWidth = pressureToWidth(curr.pressure, lineWidth);
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
       ctx.beginPath();
-      ctx.moveTo(lastPoint.current.x, lastPoint.current.y);
-      ctx.lineTo(point.x, point.y);
+
+      if (points.length < 3) {
+        ctx.moveTo(curr.x, curr.y);
+        ctx.lineTo(next.x, next.y);
+      } else {
+        const prev = points[points.length - 3];
+        const from = midpoint(prev, curr);
+        const to = midpoint(curr, next);
+        ctx.moveTo(from.x, from.y);
+        ctx.quadraticCurveTo(curr.x, curr.y, to.x, to.y);
+      }
       ctx.stroke();
-      lastPoint.current = point;
+    }
+
+    function handlePointerDown(event: React.PointerEvent<HTMLCanvasElement>) {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const existing = activePointer.current;
+      if (existing && existing.id !== event.pointerId) {
+        // Basic palm rejection: a stylus always wins over a concurrent touch
+        // (e.g. a resting palm) — discard the touch stroke and let the pen
+        // take over. Otherwise, ignore any second simultaneous pointer.
+        if (event.pointerType === "pen" && existing.type !== "pen") {
+          restoreLastSnapshot();
+        } else {
+          return;
+        }
+      }
+
+      // Pointer capture keeps receiving move/up events even if the pointer
+      // strays outside the canvas mid-stroke; it can legitimately fail (e.g.
+      // an already-released pointer) without affecting the drawing itself.
+      try {
+        canvas.setPointerCapture(event.pointerId);
+      } catch {
+        // ignored — see comment above.
+      }
+      pushUndoSnapshot();
+      activePointer.current = { id: event.pointerId, type: event.pointerType };
+      const point = toStrokePoint(event);
+      strokePoints.current = [point];
+      drawDot(point);
+    }
+
+    function handlePointerMove(event: React.PointerEvent<HTMLCanvasElement>) {
+      if (activePointer.current?.id !== event.pointerId) return;
+
+      const nativeEvent = event.nativeEvent;
+      const coalesced = nativeEvent.getCoalescedEvents?.();
+      const events = coalesced && coalesced.length > 0 ? coalesced : [nativeEvent];
+      for (const raw of events) {
+        strokePoints.current.push(toStrokePoint(raw));
+        drawSmoothedSegment();
+      }
     }
 
     function endStroke(event: React.PointerEvent<HTMLCanvasElement>) {
-      const wasDrawing = isDrawing.current;
-      isDrawing.current = false;
-      lastPoint.current = null;
-      canvasRef.current?.releasePointerCapture(event.pointerId);
-      if (wasDrawing) onStrokeEnd?.();
+      if (activePointer.current?.id !== event.pointerId) return;
+      const hadPoints = strokePoints.current.length > 0;
+      activePointer.current = null;
+      strokePoints.current = [];
+      try {
+        canvasRef.current?.releasePointerCapture(event.pointerId);
+      } catch {
+        // ignored — capture may never have been established (see handlePointerDown).
+      }
+      if (hadPoints) onStrokeEnd?.();
     }
 
     return (
