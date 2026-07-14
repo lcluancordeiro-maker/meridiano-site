@@ -217,6 +217,26 @@ export type Dictionary = {
     consentInvalidTitle: string;
     consentInvalidBody: string;
   };
+  chat: {
+    title: string;
+    notConfigured: string;
+    requiresLogin: string;
+    requiresVerification: string;
+    verifyLink: string;
+    newConversationHeading: string;
+    emailLabel: string;
+    startButton: string;
+    newGroupHeading: string;
+    groupTitleLabel: string;
+    groupEmailsLabel: string;
+    createGroupButton: string;
+    noConversations: string;
+    openButton: string;
+    messagePlaceholder: string;
+    sendButton: string;
+    backToChat: string;
+    noMessagesYet: string;
+  };
 };
 
 // Strings for the social features (identity verification, chat, communities,
@@ -243,6 +263,26 @@ const socialFeaturesEn = {
     consentConfirmedBody: "Thank you! Social features are now unlocked for your child's account.",
     consentInvalidTitle: "Link not found",
     consentInvalidBody: "This confirmation link is invalid or has already been used.",
+  },
+  chat: {
+    title: "Chat",
+    notConfigured: "Chat isn't available in this app yet — check back soon.",
+    requiresLogin: "Log in to use chat.",
+    requiresVerification: "Verify your identity to unlock chat.",
+    verifyLink: "Verify identity",
+    newConversationHeading: "Start a conversation",
+    emailLabel: "Their email",
+    startButton: "Start chat",
+    newGroupHeading: "Start a group",
+    groupTitleLabel: "Group name",
+    groupEmailsLabel: "Emails, separated by commas",
+    createGroupButton: "Create group",
+    noConversations: "No conversations yet — start one below.",
+    openButton: "Open",
+    messagePlaceholder: "Type a message...",
+    sendButton: "Send",
+    backToChat: "← Back to chat",
+    noMessagesYet: "No messages yet — say hi!",
   },
 };
 
@@ -469,6 +509,26 @@ export const dictionaries: Record<Locale, Dictionary> = {
       consentInvalidTitle: "Link não encontrado",
       consentInvalidBody: "Esse link de confirmação é inválido ou já foi usado.",
     },
+    chat: {
+      title: "Chat",
+      notConfigured: "O chat ainda não está disponível neste app — volte em breve.",
+      requiresLogin: "Faça login para usar o chat.",
+      requiresVerification: "Verifique sua identidade para liberar o chat.",
+      verifyLink: "Verificar identidade",
+      newConversationHeading: "Iniciar uma conversa",
+      emailLabel: "E-mail da pessoa",
+      startButton: "Iniciar conversa",
+      newGroupHeading: "Criar um grupo",
+      groupTitleLabel: "Nome do grupo",
+      groupEmailsLabel: "E-mails, separados por vírgula",
+      createGroupButton: "Criar grupo",
+      noConversations: "Nenhuma conversa ainda — comece uma abaixo.",
+      openButton: "Abrir",
+      messagePlaceholder: "Digite uma mensagem...",
+      sendButton: "Enviar",
+      backToChat: "← Voltar para o chat",
+      noMessagesYet: "Nenhuma mensagem ainda — diga oi!",
+    },
   },
   en: {
     nav: {
@@ -671,6 +731,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "The AI tutor isn't available in this app yet.",
     },
     identity: socialFeaturesEn.identity,
+    chat: socialFeaturesEn.chat,
   },
   es: {
     nav: {
@@ -893,6 +954,26 @@ export const dictionaries: Record<Locale, Dictionary> = {
       consentInvalidTitle: "Enlace no encontrado",
       consentInvalidBody: "Este enlace de confirmación no es válido o ya fue usado.",
     },
+    chat: {
+      title: "Chat",
+      notConfigured: "El chat todavía no está disponible en esta app — vuelve pronto.",
+      requiresLogin: "Inicia sesión para usar el chat.",
+      requiresVerification: "Verifica tu identidad para desbloquear el chat.",
+      verifyLink: "Verificar identidad",
+      newConversationHeading: "Iniciar una conversación",
+      emailLabel: "Correo de la persona",
+      startButton: "Iniciar chat",
+      newGroupHeading: "Crear un grupo",
+      groupTitleLabel: "Nombre del grupo",
+      groupEmailsLabel: "Correos, separados por comas",
+      createGroupButton: "Crear grupo",
+      noConversations: "Todavía no hay conversaciones — empieza una abajo.",
+      openButton: "Abrir",
+      messagePlaceholder: "Escribe un mensaje...",
+      sendButton: "Enviar",
+      backToChat: "← Volver al chat",
+      noMessagesYet: "Todavía no hay mensajes — ¡saluda!",
+    },
   },
   zh: {
     nav: {
@@ -1092,6 +1173,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "此应用暂不支持 AI 辅导功能。",
     },
     identity: socialFeaturesEn.identity,
+    chat: socialFeaturesEn.chat,
   },
   it: {
     nav: {
@@ -1295,6 +1377,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "Il tutor IA non è ancora disponibile in questa app.",
     },
     identity: socialFeaturesEn.identity,
+    chat: socialFeaturesEn.chat,
   },
   ko: {
     nav: {
@@ -1496,6 +1579,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "이 앱에서는 아직 AI 튜터를 사용할 수 없습니다.",
     },
     identity: socialFeaturesEn.identity,
+    chat: socialFeaturesEn.chat,
   },
   de: {
     nav: {
@@ -1699,6 +1783,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "Der KI-Tutor ist in dieser App noch nicht verfügbar.",
     },
     identity: socialFeaturesEn.identity,
+    chat: socialFeaturesEn.chat,
   },
   fr: {
     nav: {
@@ -1902,6 +1987,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "Le tuteur IA n'est pas encore disponible dans cette application.",
     },
     identity: socialFeaturesEn.identity,
+    chat: socialFeaturesEn.chat,
   },
   ja: {
     nav: {
@@ -2102,6 +2188,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "このアプリではまだAIチューターはご利用いただけません。",
     },
     identity: socialFeaturesEn.identity,
+    chat: socialFeaturesEn.chat,
   },
   ar: {
     nav: {
@@ -2304,6 +2391,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "المعلّم الذكي غير متاح بعد في هذا التطبيق.",
     },
     identity: socialFeaturesEn.identity,
+    chat: socialFeaturesEn.chat,
   },
   ru: {
     nav: {
@@ -2507,6 +2595,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "ИИ-репетитор пока недоступен в этом приложении.",
     },
     identity: socialFeaturesEn.identity,
+    chat: socialFeaturesEn.chat,
   },
 };
 

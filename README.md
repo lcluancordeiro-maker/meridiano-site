@@ -221,6 +221,12 @@ de aplicativos.
   configurar as variáveis de ambiente correspondentes. Domínio próprio
   também documentado, mas é um passo manual (DNS/registrador) que só
   você pode fazer. Veja "Preparando para produção" abaixo.
+- **Recursos sociais** (chat, comunidades e — em breve — lives): exigem
+  verificação de identidade via Stripe Identity (documento + selfie),
+  com consentimento dos responsáveis obrigatório para usuários
+  verificados como menores de idade antes de liberar qualquer recurso
+  social. Veja "Configurando verificação de identidade e consentimento
+  dos responsáveis" e "Sobre o chat" abaixo.
 
 ## Rodando localmente
 
@@ -490,6 +496,38 @@ fica só do lado da Stripe; guardamos apenas o status e a data de
 nascimento extraída. Não testado com uma conta Stripe Identity real
 nesta sessão — teste uma verificação de ponta a ponta antes de contar
 com isso em produção.
+
+## Sobre o chat
+
+`/chat` (link no menu) é um chat 1:1 e em grupo, estilo WhatsApp,
+exigindo verificação de identidade (`granted`, ver seção acima) para
+usar. Iniciar uma conversa é pelo e-mail da outra pessoa (não existe
+busca/listagem de usuários — só confirma se aquele e-mail específico
+tem conta, via a RPC `find_user_by_email`, o mesmo tipo de checagem
+usada num fluxo de "esqueci minha senha"). Um grupo aceita vários
+e-mails separados por vírgula.
+
+Como funciona: `src/app/actions/chat.ts` cria a conversa (RPCs
+`find_or_create_direct_conversation`/`create_group_conversation`, que
+evitam duplicar uma conversa 1:1 já existente); `ChatThread.tsx`
+(client) assina o canal Realtime do Supabase
+(`postgres_changes`/INSERT em `dm_messages`, filtrado por
+`conversation_id`) para receber mensagens novas ao vivo, e envia
+mensagens com um `insert` direto do navegador (sem round-trip por uma
+Server Action) para minimizar a latência percebida. Como a tabela
+`profiles` só permite a cada usuário ler a própria linha (RLS), mostrar
+o nome de quem está do outro lado da conversa exige RPCs `security
+definer` dedicadas (`list_my_conversations`, `get_conversation_header`,
+`get_conversation_participants`) — mesmo padrão já usado em
+`get_turma_roster` para turmas.
+
+**Limitações desta primeira versão**: sem edição/exclusão de mensagem,
+sem indicador de "digitando...", sem confirmação de leitura, sem
+upload de imagem/arquivo (só texto), e sem paginação do histórico (todas
+as mensagens da conversa são carregadas de uma vez — ok para o volume
+esperado agora, mas um ponto a revisar se conversas ficarem muito
+longas). Cotas de Premium (nº de grupos, tamanho de grupo) ainda não
+são aplicadas aqui — é um próximo passo natural.
 
 ## Preparando para produção
 

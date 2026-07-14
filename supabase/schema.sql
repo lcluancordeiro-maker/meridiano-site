@@ -842,3 +842,222 @@ drop policy if exists "live_sessions_update_own" on public.live_sessions;
 create policy "live_sessions_update_own"
   on public.live_sessions for update
   using (auth.uid() = host_id);
+
+-- Resolve o e-mail de um contato para iniciar uma conversa (estilo "iniciar
+-- chat com..."), sem expor a tabela auth.users (e sem permitir listar
+-- e-mails de terceiros — só confirma se UM e-mail específico já informado
+-- corresponde a uma conta, igual ao comportamento comum de "esqueci minha
+-- senha").
+create or replace function public.find_user_by_email(p_email text)
+returns uuid
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  v_user_id uuid;
+begin
+  if auth.uid() is null then
+    raise exception 'not_authenticated';
+  end if;
+
+  select id into v_user_id from auth.users where lower(email) = lower(p_email) limit 1;
+  return v_user_id;
+end;
+$$;
+
+grant execute on function public.find_user_by_email(text) to authenticated;
+
+-- Acha a conversa 1:1 já existente entre o usuário atual e p_other_user_id,
+-- ou cria uma nova — evita conversas duplicadas cada vez que alguém clica
+-- em "conversar com" a mesma pessoa.
+create or replace function public.find_or_create_direct_conversation(p_other_user_id uuid)
+returns uuid
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  v_conversation_id uuid;
+begin
+  if auth.uid() is null then
+    raise exception 'not_authenticated';
+  end if;
+  if p_other_user_id = auth.uid() then
+    raise exception 'cannot_chat_with_self';
+  end if;
+
+  select cp1.conversation_id into v_conversation_id
+  from public.conversation_participants cp1
+  join public.conversation_participants cp2 on cp2.conversation_id = cp1.conversation_id
+  join public.conversations c on c.id = cp1.conversation_id
+  where cp1.user_id = auth.uid()
+    and cp2.user_id = p_other_user_id
+    and c.is_group = false
+  limit 1;
+
+  if v_conversation_id is not null then
+    return v_conversation_id;
+  end if;
+
+  insert into public.conversations (is_group, created_by)
+  values (false, auth.uid())
+  returning id into v_conversation_id;
+
+  insert into public.conversation_participants (conversation_id, user_id)
+  values (v_conversation_id, auth.uid()), (v_conversation_id, p_other_user_id);
+
+  return v_conversation_id;
+end;
+$$;
+
+grant execute on function public.find_or_create_direct_conversation(uuid) to authenticated;
+
+-- Cria uma conversa em grupo com o usuário atual + os membros informados
+-- (uuids já resolvidos via find_user_by_email no lado da aplicação).
+create or replace function public.create_group_conversation(p_title text, p_member_ids uuid[])
+returns uuid
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  v_conversation_id uuid;
+  v_member_id uuid;
+begin
+  if auth.uid() is null then
+    raise exception 'not_authenticated';
+  end if;
+
+  insert into public.conversations (is_group, title, created_by)
+  values (true, p_title, auth.uid())
+  returning id into v_conversation_id;
+
+  insert into public.conversation_participants (conversation_id, user_id)
+  values (v_conversation_id, auth.uid())
+  on conflict do nothing;
+
+  foreach v_member_id in array p_member_ids loop
+    insert into public.conversation_participants (conversation_id, user_id)
+    values (v_conversation_id, v_member_id)
+    on conflict do nothing;
+  end loop;
+
+  return v_conversation_id;
+end;
+$$;
+
+grant execute on function public.create_group_conversation(text, uuid[]) to authenticated;
+
+-- Lista as conversas do usuário atual com o nome de exibição do outro
+-- participante (só para 1:1) e uma prévia da última mensagem. "security
+-- definer" porque profiles só permite ler a própria linha (profiles_select_own)
+-- — sem isso, não daria pra mostrar o nome de quem está do outro lado da
+-- conversa.
+create or replace function public.list_my_conversations()
+returns table (
+  conversation_id uuid,
+  is_group boolean,
+  title text,
+  peer_display_name text,
+  last_message_body text,
+  last_message_at timestamptz
+)
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if auth.uid() is null then
+    raise exception 'not_authenticated';
+  end if;
+
+  return query
+    select
+      c.id,
+      c.is_group,
+      c.title,
+      case when not c.is_group then (
+        select pr.display_name
+        from public.conversation_participants cp2
+        join public.profiles pr on pr.id = cp2.user_id
+        where cp2.conversation_id = c.id and cp2.user_id != auth.uid()
+        limit 1
+      ) else null end as peer_display_name,
+      (
+        select m.body from public.dm_messages m
+        where m.conversation_id = c.id
+        order by m.created_at desc
+        limit 1
+      ) as last_message_body,
+      (
+        select m.created_at from public.dm_messages m
+        where m.conversation_id = c.id
+        order by m.created_at desc
+        limit 1
+      ) as last_message_at
+    from public.conversations c
+    join public.conversation_participants cp on cp.conversation_id = c.id and cp.user_id = auth.uid()
+    order by coalesce(
+      (select max(m2.created_at) from public.dm_messages m2 where m2.conversation_id = c.id),
+      c.created_at
+    ) desc;
+end;
+$$;
+
+grant execute on function public.list_my_conversations() to authenticated;
+
+-- Cabeçalho de uma conversa específica (título/nome do outro participante),
+-- pelo mesmo motivo acima. Rejeita quem não é participante da conversa.
+create or replace function public.get_conversation_header(p_conversation_id uuid)
+returns table (is_group boolean, title text, peer_display_name text)
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if not exists (
+    select 1 from public.conversation_participants
+    where conversation_id = p_conversation_id and user_id = auth.uid()
+  ) then
+    raise exception 'not_authorized';
+  end if;
+
+  return query
+    select
+      c.is_group,
+      c.title,
+      case when not c.is_group then (
+        select pr.display_name
+        from public.conversation_participants cp2
+        join public.profiles pr on pr.id = cp2.user_id
+        where cp2.conversation_id = c.id and cp2.user_id != auth.uid()
+        limit 1
+      ) else null end
+    from public.conversations c
+    where c.id = p_conversation_id;
+end;
+$$;
+
+grant execute on function public.get_conversation_header(uuid) to authenticated;
+
+-- Todos os participantes de uma conversa com nome de exibição — usado para
+-- rotular o remetente de cada mensagem num grupo. Mesma justificativa de
+-- security definer das duas funções acima.
+create or replace function public.get_conversation_participants(p_conversation_id uuid)
+returns table (user_id uuid, display_name text)
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if not exists (
+    select 1 from public.conversation_participants
+    where conversation_id = p_conversation_id and user_id = auth.uid()
+  ) then
+    raise exception 'not_authorized';
+  end if;
+
+  return query
+    select cp.user_id, pr.display_name
+    from public.conversation_participants cp
+    left join public.profiles pr on pr.id = cp.user_id
+    where cp.conversation_id = p_conversation_id;
+end;
+$$;
+
+grant execute on function public.get_conversation_participants(uuid) to authenticated;

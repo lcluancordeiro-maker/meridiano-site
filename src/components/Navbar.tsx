@@ -22,6 +22,7 @@ export default async function Navbar() {
     { href: "/foto", label: dict.nav.resolverFoto },
     { href: "/quadro", label: dict.nav.quadro },
     { href: "/turmas", label: dict.nav.turmas },
+    { href: "/chat", label: dict.chat.title },
     { href: "/progresso", label: dict.nav.progresso },
   ];
 
