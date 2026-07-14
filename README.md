@@ -125,15 +125,23 @@ de aplicativos.
   reta tangente naquele ponto, recalculando f'(x)=2x ao vivo; em
   "Distribuição Normal e Escore-Z" (Estatística — Avançado, Premium),
   sliders de média/desvio padrão/valor x desenham a curva normal e
-  recalculam o escore-z ao vivo. Os doze widgets compartilham as
-  constantes e funções de conversão de coordenadas SVG em
-  `src/components/widgets/svgUtils.ts` (os widgets mais novos usam sua
-  própria escala, calibrada pra cada visualização). Os três widgets em
-  trilhas Premium foram verificados manualmente (`premium: false`
-  temporário, rodada de e2e, revertido antes do commit — mesma técnica
-  descrita em "Sobre o idioma"/testes) já que o ambiente de teste não
-  tem Supabase/Stripe configurado pra simular uma assinatura ativa. Ver
-  `src/components/widgets/`.
+  recalculam o escore-z ao vivo; em "Descontos e Acréscimos Percentuais"
+  (Matemática Financeira — Iniciante), sliders de valor original e duas
+  variações percentuais sucessivas mostram um gráfico de barras
+  evoluindo e o valor final em reais ao vivo; em "Regressão Linear
+  Simples" (Econometria, Premium), 5 sliders de valores de Y movem
+  pontos num gráfico de dispersão e recalculam a reta de regressão e o
+  R² na hora; em "Classificação: Matriz de Confusão, Precisão e
+  Revocação" (Machine Learning — Introdução, Premium), 4 sliders (VP,
+  FP, FN, VN) recalculam precisão, revocação, F1-score e acurácia ao
+  vivo. Os quinze widgets compartilham as constantes e funções de
+  conversão de coordenadas SVG em `src/components/widgets/svgUtils.ts`
+  (os widgets mais novos usam sua própria escala, calibrada pra cada
+  visualização). Os cinco widgets em trilhas Premium foram verificados
+  manualmente (`premium: false` temporário, rodada de e2e, revertido
+  antes do commit — mesma técnica descrita em "Sobre o idioma"/testes)
+  já que o ambiente de teste não tem Supabase/Stripe configurado pra
+  simular uma assinatura ativa. Ver `src/components/widgets/`.
 - **Feedback de erro mais inteligente**: alguns exercícios têm um campo
   `commonMistakeHint` — na primeira resposta errada, em vez de revelar a
   resposta certa na hora, o app mostra uma dica apontando o erro de
@@ -1223,7 +1231,9 @@ unitários e e2e em todo push e pull request.
   `ProbabilitySpinner.tsx`, `MeanMedianExplorer.tsx`,
   `CompoundInterestExplorer.tsx`, `TangentLineExplorer.tsx`,
   `PythagoreanExplorer.tsx`, `SequenceExplorer.tsx`,
-  `NormalDistributionExplorer.tsx`); `InteractiveWidgetRenderer.tsx`
+  `NormalDistributionExplorer.tsx`, `RegressionLineExplorer.tsx`,
+  `PercentageChangeExplorer.tsx`, `ConfusionMatrixExplorer.tsx`);
+  `InteractiveWidgetRenderer.tsx`
   mapeia o campo `interactiveWidget` de uma `TheorySection` (em
   `src/data/curriculum.ts`) pro componente
   certo, renderizado pelo `TopicPage`.

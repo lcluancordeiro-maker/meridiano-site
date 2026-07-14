@@ -152,6 +152,22 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
       page.getByRole("img", { name: "Termos da sequência: 2, 4, 8, 16, 32, 64" })
     ).toBeVisible();
   });
+
+  test("percentage change explorer recalculates the final value as you move the sliders", async ({ page }) => {
+    await page.goto("/trilha/matematica-financeira-iniciante/descontos-e-acrescimos");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("R$ 100 → R$ 108,00")).toBeVisible();
+
+    const percent2Slider = page.getByRole("slider", { name: /2ª variação/ });
+    await percent2Slider.fill("10");
+    // 100 × 1.20 × 1.10 = 132.
+    await expect(page.getByText("R$ 100 → R$ 132,00")).toBeVisible();
+
+    const originalSlider = page.getByRole("slider", { name: /Valor original/ });
+    await originalSlider.fill("200");
+    // 200 × 1.20 × 1.10 = 264.
+    await expect(page.getByText("R$ 200 → R$ 264,00")).toBeVisible();
+  });
 });
 
 // The normal-distribution explorer lives on a Premium topic
@@ -167,3 +183,9 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
 // configured) — same limitation documented in exercises-correctness.spec.ts.
 // Both were manually verified by temporarily flipping `premium: false` on
 // their levels, confirming the live math, then reverting before commit.
+
+// The regression-line and confusion-matrix explorers live on Premium
+// topics (Econometria — Iniciante / Machine Learning — Iniciante), same
+// paywall limitation as above. Both were manually verified by temporarily
+// flipping `premium: false` on their levels, confirming the live math,
+// then reverting before commit.

@@ -47,7 +47,10 @@ export type InteractiveWidget =
   | "tangent-line-explorer"
   | "pythagorean-explorer"
   | "sequence-explorer"
-  | "normal-distribution-explorer";
+  | "normal-distribution-explorer"
+  | "regression-line-explorer"
+  | "percentage-change-explorer"
+  | "confusion-matrix-explorer";
 
 export type TheorySection = {
   heading: string;
@@ -6168,6 +6171,13 @@ export const matematicaFinanceiraInicianteTopics: Topic[] = [
           solution: "0,90 × 0,90 = 0,81 → desconto único equivalente de 19% (não 20%).",
         },
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no valor original e nas duas variações abaixo e observe: as barras mostram visualmente que aplicar +10% e depois -10% não devolve o valor original — os fatores multiplicam sobre o valor já alterado.",
+        ],
+        interactiveWidget: "percentage-change-explorer",
+      },
     ],
     exercises: [
       {
@@ -8045,6 +8055,13 @@ export const econometriaTopics: Topic[] = [
           "O coeficiente de correlação de Pearson r é a raiz quadrada de R² (com o mesmo sinal da relação entre X e Y).",
         ],
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa nos 5 valores de Y abaixo e observe: quanto mais os pontos se alinham perto de uma reta, mais R² se aproxima de 1 — deixe os pontos bem espalhados para ver R² cair.",
+        ],
+        interactiveWidget: "regression-line-explorer",
+      },
     ],
     exercises: [
       {
@@ -9494,6 +9511,13 @@ export const machineLearningInicianteTopics: Topic[] = [
           problem: "Existem 10 casos realmente positivos. O modelo identificou 7 corretamente (VP=7) e deixou passar 3 (FN=3). Qual a revocação?",
           solution: "Revocação = VP / (VP + FN) = 7 / (7 + 3) = 7/10 = 70%.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa nos 4 valores da matriz de confusão abaixo e observe: aumentar FP derruba a precisão, aumentar FN derruba a revocação — e o F1-score cai se qualquer um dos dois for baixo, mesmo que o outro seja perfeito.",
+        ],
+        interactiveWidget: "confusion-matrix-explorer",
       },
     ],
     exercises: [
