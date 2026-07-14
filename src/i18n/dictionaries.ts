@@ -262,6 +262,32 @@ export type Dictionary = {
     memberCountSuffix: string;
     chatHeading: string;
   };
+  lives: {
+    title: string;
+    notConfigured: string;
+    requiresLogin: string;
+    requiresVerification: string;
+    verifyLink: string;
+    activeHeading: string;
+    noActiveLives: string;
+    joinButton: string;
+    createHeading: string;
+    titleLabel: string;
+    communityLabel: string;
+    noCommunityOption: string;
+    startButton: string;
+    premiumRequired: string;
+    backToLives: string;
+    connecting: string;
+    connectionError: string;
+    liveEnded: string;
+    micOnLabel: string;
+    micOffLabel: string;
+    cameraOnLabel: string;
+    cameraOffLabel: string;
+    endButton: string;
+    hostBadge: string;
+  };
 };
 
 // Strings for the social features (identity verification, chat, communities,
@@ -333,6 +359,32 @@ const socialFeaturesEn = {
     membersHeading: "Members",
     memberCountSuffix: "members",
     chatHeading: "Community chat",
+  },
+  lives: {
+    title: "Lives",
+    notConfigured: "Live sessions aren't available in this app yet — check back soon.",
+    requiresLogin: "Log in to use live sessions.",
+    requiresVerification: "Verify your identity to unlock live sessions.",
+    verifyLink: "Verify identity",
+    activeHeading: "Active live sessions",
+    noActiveLives: "No live sessions right now.",
+    joinButton: "Join",
+    createHeading: "Start a live session",
+    titleLabel: "Live title",
+    communityLabel: "Community (optional)",
+    noCommunityOption: "No community — open to anyone",
+    startButton: "Go live",
+    premiumRequired: "Hosting a live session is a Premium feature. Subscribe to start one — anyone verified can still join others' live sessions for free.",
+    backToLives: "← Back to lives",
+    connecting: "Connecting...",
+    connectionError: "We couldn't connect to this live session. Try again.",
+    liveEnded: "This live session has ended.",
+    micOnLabel: "Mute mic",
+    micOffLabel: "Unmute mic",
+    cameraOnLabel: "Turn camera off",
+    cameraOffLabel: "Turn camera on",
+    endButton: "End live",
+    hostBadge: "Host",
   },
 };
 
@@ -604,6 +656,32 @@ export const dictionaries: Record<Locale, Dictionary> = {
       memberCountSuffix: "membros",
       chatHeading: "Chat da comunidade",
     },
+    lives: {
+      title: "Lives",
+      notConfigured: "As lives ainda não estão disponíveis neste app — volte em breve.",
+      requiresLogin: "Faça login para usar as lives.",
+      requiresVerification: "Verifique sua identidade para liberar as lives.",
+      verifyLink: "Verificar identidade",
+      activeHeading: "Lives ao vivo agora",
+      noActiveLives: "Nenhuma live ao vivo no momento.",
+      joinButton: "Entrar",
+      createHeading: "Iniciar uma live",
+      titleLabel: "Título da live",
+      communityLabel: "Comunidade (opcional)",
+      noCommunityOption: "Sem comunidade — aberta para qualquer um",
+      startButton: "Começar live",
+      premiumRequired: "Hospedar uma live é um recurso Premium. Assine para começar — qualquer verificado pode assistir lives de outras pessoas de graça.",
+      backToLives: "← Voltar para lives",
+      connecting: "Conectando...",
+      connectionError: "Não foi possível conectar a essa live. Tente novamente.",
+      liveEnded: "Essa live já terminou.",
+      micOnLabel: "Silenciar microfone",
+      micOffLabel: "Ativar microfone",
+      cameraOnLabel: "Desligar câmera",
+      cameraOffLabel: "Ligar câmera",
+      endButton: "Encerrar live",
+      hostBadge: "Anfitrião",
+    },
   },
   en: {
     nav: {
@@ -808,6 +886,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
+    lives: socialFeaturesEn.lives,
   },
   es: {
     nav: {
@@ -1075,6 +1154,32 @@ export const dictionaries: Record<Locale, Dictionary> = {
       memberCountSuffix: "miembros",
       chatHeading: "Chat de la comunidad",
     },
+    lives: {
+      title: "En vivo",
+      notConfigured: "Las transmisiones en vivo aún no están disponibles en esta app — vuelve pronto.",
+      requiresLogin: "Inicia sesión para usar las transmisiones en vivo.",
+      requiresVerification: "Verifica tu identidad para desbloquear las transmisiones en vivo.",
+      verifyLink: "Verificar identidad",
+      activeHeading: "Transmisiones en vivo ahora",
+      noActiveLives: "No hay transmisiones en vivo en este momento.",
+      joinButton: "Unirse",
+      createHeading: "Iniciar una transmisión en vivo",
+      titleLabel: "Título de la transmisión",
+      communityLabel: "Comunidad (opcional)",
+      noCommunityOption: "Sin comunidad — abierta para cualquiera",
+      startButton: "Comenzar en vivo",
+      premiumRequired: "Transmitir en vivo es una función Premium. Suscríbete para empezar — cualquier persona verificada puede unirse gratis a transmisiones de otros.",
+      backToLives: "← Volver a en vivo",
+      connecting: "Conectando...",
+      connectionError: "No pudimos conectar a esta transmisión. Inténtalo de nuevo.",
+      liveEnded: "Esta transmisión ya terminó.",
+      micOnLabel: "Silenciar micrófono",
+      micOffLabel: "Activar micrófono",
+      cameraOnLabel: "Apagar cámara",
+      cameraOffLabel: "Encender cámara",
+      endButton: "Terminar transmisión",
+      hostBadge: "Anfitrión",
+    },
   },
   zh: {
     nav: {
@@ -1276,6 +1381,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
+    lives: socialFeaturesEn.lives,
   },
   it: {
     nav: {
@@ -1481,6 +1587,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
+    lives: socialFeaturesEn.lives,
   },
   ko: {
     nav: {
@@ -1684,6 +1791,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
+    lives: socialFeaturesEn.lives,
   },
   de: {
     nav: {
@@ -1889,6 +1997,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
+    lives: socialFeaturesEn.lives,
   },
   fr: {
     nav: {
@@ -2094,6 +2203,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
+    lives: socialFeaturesEn.lives,
   },
   ja: {
     nav: {
@@ -2296,6 +2406,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
+    lives: socialFeaturesEn.lives,
   },
   ar: {
     nav: {
@@ -2500,6 +2611,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
+    lives: socialFeaturesEn.lives,
   },
   ru: {
     nav: {
@@ -2705,6 +2817,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
     communities: socialFeaturesEn.communities,
+    lives: socialFeaturesEn.lives,
   },
 };
 

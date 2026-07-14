@@ -24,6 +24,7 @@ export default async function Navbar() {
     { href: "/turmas", label: dict.nav.turmas },
     { href: "/chat", label: dict.chat.title },
     { href: "/comunidades", label: dict.communities.title },
+    { href: "/lives", label: dict.lives.title },
     { href: "/progresso", label: dict.nav.progresso },
   ];
 

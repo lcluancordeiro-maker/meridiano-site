@@ -221,12 +221,14 @@ de aplicativos.
   configurar as variáveis de ambiente correspondentes. Domínio próprio
   também documentado, mas é um passo manual (DNS/registrador) que só
   você pode fazer. Veja "Preparando para produção" abaixo.
-- **Recursos sociais** (chat, comunidades e — em breve — lives): exigem
-  verificação de identidade via Stripe Identity (documento + selfie),
-  com consentimento dos responsáveis obrigatório para usuários
+- **Recursos sociais** (chat, comunidades e lives, via LiveKit Cloud):
+  exigem verificação de identidade via Stripe Identity (documento +
+  selfie), com consentimento dos responsáveis obrigatório para usuários
   verificados como menores de idade antes de liberar qualquer recurso
-  social. Veja "Configurando verificação de identidade e consentimento
-  dos responsáveis", "Sobre o chat" e "Sobre as comunidades" abaixo.
+  social. Hospedar uma live é Premium; assistir é grátis para qualquer
+  verificado. Veja "Configurando verificação de identidade e
+  consentimento dos responsáveis", "Sobre o chat", "Sobre as
+  comunidades" e "Sobre as lives" abaixo.
 
 ## Rodando localmente
 
@@ -497,6 +499,27 @@ nascimento extraída. Não testado com uma conta Stripe Identity real
 nesta sessão — teste uma verificação de ponta a ponta antes de contar
 com isso em produção.
 
+## Configurando as lives (LiveKit Cloud)
+
+Lives (ver "Sobre as lives" abaixo) usam a [LiveKit
+Cloud](https://cloud.livekit.io) para a transmissão de vídeo/áudio de
+verdade — este app só guarda metadados (quem, quando, título). Sem
+configurar, `/lives` fica indisponível, mas o resto do app funciona
+normalmente.
+
+1. Crie um projeto em [cloud.livekit.io](https://cloud.livekit.io).
+2. Em **Settings → Keys**, copie a API Key e o API Secret para
+   `LIVEKIT_API_KEY`/`LIVEKIT_API_SECRET`.
+3. Copie a "Project URL" (formato `wss://SEU-PROJETO.livekit.cloud`)
+   para `NEXT_PUBLIC_LIVEKIT_URL` — essa URL é usada pelo navegador
+   para conectar na sala, por isso é pública.
+
+Como as lives também são um recurso social, valem as mesmas exigências
+de verificação de identidade descritas acima. Não testado com uma
+conta LiveKit Cloud real nesta sessão — teste uma chamada de ponta a
+ponta (dois navegadores/dispositivos diferentes) antes de contar com
+isso em produção.
+
 ## Sobre o chat
 
 `/chat` (link no menu) é um chat 1:1 e em grupo, estilo WhatsApp,
@@ -565,6 +588,41 @@ para contornar a RLS de `profiles`, igual ao chat.
 (moderador), sem expulsar/banir membro, sem editar nome/descrição
 depois de criada, e as mesmas limitações de mensagens do chat (sem
 edição/exclusão, sem upload de arquivo, sem paginação).
+
+## Sobre as lives
+
+`/lives` (link no menu) são sessões de vídeo ao vivo, hospedadas na
+LiveKit Cloud — este app nunca vê o vídeo/áudio bruto, só guarda
+metadados (quem, quando, título, comunidade associada) na tabela
+`live_sessions`. Assistir uma live exige a mesma verificação de
+identidade (`granted`) do chat/comunidades e é **grátis** para
+qualquer verificado; **hospedar** uma live (virar anfitrião) é um
+recurso **Premium** — checado com `isPremiumUser()` em
+`src/app/actions/lives.ts` antes de criar a sessão.
+
+Como funciona: `createLive` gera um `room_name` único
+(`live-{uuid}`) e insere a linha em `live_sessions` (a política de RLS
+`live_sessions_insert` já garante que só o próprio host pode se
+declarar host, e que uma live vinculada a uma comunidade exige ser
+membro dela). A página `/lives/[roomName]` busca essa linha (RLS
+`live_sessions_select` já filtra quem pode ver: o host, ninguém
+vinculado a comunidade nenhuma, ou quem for membro da comunidade
+associada) e renderiza `LiveRoom.tsx`, que busca um token de acesso em
+`POST /api/livekit/token` (essa rota decide se o token permite
+publicar vídeo/áudio — `canPublish` — comparando `live.host_id` com o
+usuário logado; quem não é o host só recebe permissão de assistir) e
+conecta na sala com `livekit-client` (`Room.connect`). O host tem
+botões para ligar/desligar câmera e microfone
+(`localParticipant.setCameraEnabled`/`setMicrophoneEnabled`) e um
+botão "Encerrar live" que marca `ended_at` e redireciona para a lista.
+
+**Limitações desta primeira versão**: sem gravação/replay da live, sem
+chat de texto durante a transmissão, sem lista de espectadores, e o
+layout de vídeo é uma grade simples (sem destaque automático de quem
+está falando). Como não temos uma conta real da LiveKit Cloud
+configurada neste ambiente de desenvolvimento, este fluxo não foi
+testado contra o serviço de verdade — só o estado "não configurado" tem
+cobertura de testes automatizados (veja `e2e/lives.spec.ts`).
 
 ## Preparando para produção
 
