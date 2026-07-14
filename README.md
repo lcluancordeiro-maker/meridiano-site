@@ -35,14 +35,19 @@ de aplicativos.
   comparações, condicionais, e agora também "Vetores e Listas" —
   percorrer um vetor com laços, somar/buscar elementos), "Estruturas
   de Repetição" (Intermediário: laços 'para'/'enquanto', repetições
-  aninhadas), "Orientação a Objetos" (Avançado, Premium: classes,
-  atributos, métodos, encapsulamento) e "Fundamentos de Aprendizado
+  aninhadas, e agora também "Funções e Modularização" — parâmetros,
+  retorno, escopo de variáveis e composição de funções), "Orientação a
+  Objetos" (Avançado, Premium: classes, atributos, métodos,
+  encapsulamento, e agora também "Estruturas de Dados: Pilhas e Filas"
+  — LIFO/FIFO, quando usar cada uma) e "Fundamentos de Aprendizado
   Supervisionado" (Machine Learning — Introdução, Premium: treino/teste,
-  overfitting, acurácia e matriz de confusão) — todos ensinados com
-  pseudocódigo (independente de linguagem) já que o app não executa
-  código de verdade; os exercícios pedem pra prever o valor final de
-  variáveis (ou calcular métricas) a partir de um enunciado, não pra
-  escrever código.
+  overfitting, acurácia e matriz de confusão, e agora também
+  "Classificação: Matriz de Confusão, Precisão e Revocação" — por que
+  acurácia sozinha engana em classes desbalanceadas, e o F1-score) —
+  todos ensinados com pseudocódigo (independente de linguagem) já que o
+  app não executa código de verdade; os exercícios pedem pra prever o
+  valor final de variáveis (ou calcular métricas) a partir de um
+  enunciado, não pra escrever código.
 - **Ensino Superior** (Premium): "Limites e Derivadas" — a porta de
   entrada do Cálculo, com forma indeterminada, regra da potência e o
   limite fundamental de sin(x)/x — e agora também "Integrais":
