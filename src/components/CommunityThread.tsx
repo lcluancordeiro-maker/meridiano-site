@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { reportMessage } from "@/app/actions/moderation";
+import { notifyNewMessage } from "@/lib/pushNotifyMessage";
 import { useTranslation } from "@/i18n/LanguageContext";
 
 type Message = { id: string; sender_id: string; body: string; created_at: string };
@@ -64,13 +65,16 @@ export default function CommunityThread({
     if (!supabase) return;
 
     setSending(true);
-    const { error } = await supabase.from("community_messages").insert({
-      community_id: communityId,
-      sender_id: currentUserId,
-      body,
-    });
+    const { data, error } = await supabase
+      .from("community_messages")
+      .insert({ community_id: communityId, sender_id: currentUserId, body })
+      .select("id")
+      .single();
     setSending(false);
-    if (!error) setDraft("");
+    if (!error) {
+      setDraft("");
+      if (data) notifyNewMessage("community_messages", data.id);
+    }
   }
 
   return (

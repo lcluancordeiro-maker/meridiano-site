@@ -18,4 +18,10 @@ test.describe("push notifications (not configured in this environment)", () => {
     expect(res.status()).toBe(503);
     expect(await res.json()).toEqual({ error: "push_not_configured" });
   });
+
+  test("/api/push/notify-message reports not configured rather than erroring", async ({ request }) => {
+    const res = await request.post("/api/push/notify-message", { data: { table: "dm_messages", messageId: "x" } });
+    expect(res.status()).toBe(503);
+    expect(await res.json()).toEqual({ error: "not_configured" });
+  });
 });

@@ -454,6 +454,27 @@ Não testado com um envio real nesta sessão (sem chaves VAPID
 configuradas aqui) — teste com uma inscrição de verdade antes de
 agendar o cron em produção.
 
+A mesma infraestrutura (chaves VAPID + `push_subscriptions`) também
+notifica mensagens novas de chat e de comunidade — nenhuma variável
+adicional é necessária. Diferente do lembrete de streak (que roda uma
+vez por dia via cron), essa notificação é disparada na hora: depois
+que `ChatThread.tsx`/`CommunityThread.tsx` insere a mensagem no
+Supabase (o `insert` direto do navegador, para minimizar latência —
+ver "Sobre o chat" abaixo), o navegador também chama, sem esperar a
+resposta (`notifyNewMessage` em `src/lib/pushNotifyMessage.ts`),
+`POST /api/push/notify-message`. Essa rota reconfirma a mensagem pelo
+próprio Supabase do usuário logado (garantindo que quem chamou é
+realmente quem enviou aquela mensagem — não dá pra forjar um id de
+mensagem alheia para gerar spam de notificação) e envia um push para
+todo participante/membro (menos quem enviou).
+
+**Limitações desta primeira versão**: sem preferência de silenciar
+uma conversa/comunidade específica, e em comunidades grandes todo
+membro recebe push a cada mensagem — pode ficar barulhento em
+comunidades muito ativas. Um passo natural futuro é agregar várias
+mensagens numa única notificação, ou permitir silenciar por
+conversa/comunidade.
+
 ## Configurando verificação de identidade e consentimento dos responsáveis
 
 Chat, comunidades e lives (ver seções abaixo) são recursos sociais que
