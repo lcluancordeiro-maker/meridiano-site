@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import CreateAssignmentForm from "@/components/CreateAssignmentForm";
+import TurmaPerformanceMatrix from "@/components/TurmaPerformanceMatrix";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getLevel, getTopic, DIFFICULTY_LABELS, type Difficulty } from "@/data/curriculum";
@@ -79,6 +80,25 @@ export default async function TurmaDetailPage({
     ? (await supabase.rpc("get_turma_roster", { p_turma_id: turmaId })).data
     : null;
 
+  const progressByAssignment: Record<string, { student_user_id: string; score: number | null; total: number | null; completed: boolean | null }[]> = {};
+  if (isTeacher && assignments && assignments.length > 0) {
+    const progressResults = await Promise.all(
+      (assignments as AssignmentRow[]).map((assignment) =>
+        supabase.rpc("get_turma_assignment_progress", {
+          p_turma_id: turmaId,
+          p_level_id: assignment.level_id,
+          p_topic_id: assignment.topic_id,
+          p_difficulty: assignment.difficulty,
+        })
+      )
+    );
+    (assignments as AssignmentRow[]).forEach((assignment, i) => {
+      progressByAssignment[assignment.id] = (progressResults[i].data as
+        | { student_user_id: string; score: number | null; total: number | null; completed: boolean | null }[]
+        | null) ?? [];
+    });
+  }
+
   return (
     <div className="flex flex-1 flex-col">
       <Navbar />
@@ -155,6 +175,24 @@ export default async function TurmaDetailPage({
             <p className="mt-3 text-sm text-muted">{dict.noAssignments}</p>
           )}
         </section>
+
+        {isTeacher && assignments && assignments.length > 0 && roster && (roster as RosterRow[]).length > 0 && (
+          <section className="mt-10">
+            <h2 className="font-display text-lg font-semibold text-foreground">{dict.performanceHeading}</h2>
+            <div className="mt-3">
+              <TurmaPerformanceMatrix
+                assignments={assignments as AssignmentRow[]}
+                students={(roster as RosterRow[]).map((r) => ({
+                  student_user_id: r.student_user_id,
+                  display_name: r.display_name,
+                }))}
+                progressByAssignment={progressByAssignment}
+                notAttemptedLabel={dict.notAttemptedLabel}
+                studentColumnLabel={dict.studentColumnLabel}
+              />
+            </div>
+          </section>
+        )}
 
         {isTeacher && (
           <section className="mt-8 rounded-xl border border-border bg-surface p-5">

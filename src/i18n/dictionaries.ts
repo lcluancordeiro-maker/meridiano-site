@@ -171,6 +171,9 @@ export type Dictionary = {
     studentAssignmentsHeading: string;
     practiceLink: string;
     shareCodeHint: string;
+    performanceHeading: string;
+    notAttemptedLabel: string;
+    studentColumnLabel: string;
   };
   pwa: {
     installTitle: string;
@@ -644,6 +647,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       studentAssignmentsHeading: "Tarefas da turma",
       practiceLink: "Praticar",
       shareCodeHint: "Compartilhe este código com seus alunos para que eles entrem na turma.",
+      performanceHeading: "Desempenho por atribuição",
+      notAttemptedLabel: "Ainda não tentou",
+      studentColumnLabel: "Aluno",
     },
     pwa: {
       installTitle: "Instalar o app",
@@ -979,6 +985,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       studentAssignmentsHeading: "Class tasks",
       practiceLink: "Practice",
       shareCodeHint: "Share this code with your students so they can join the class.",
+      performanceHeading: "Performance by assignment",
+      notAttemptedLabel: "Not attempted yet",
+      studentColumnLabel: "Student",
     },
     pwa: {
       installTitle: "Install the app",
@@ -1188,6 +1197,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       studentAssignmentsHeading: "Tareas de la clase",
       practiceLink: "Practicar",
       shareCodeHint: "Comparte este código con tus estudiantes para que se unan a la clase.",
+      performanceHeading: "Desempeño por tarea",
+      notAttemptedLabel: "Aún no lo intentó",
+      studentColumnLabel: "Estudiante",
     },
     pwa: {
       installTitle: "Instalar la app",
@@ -1519,6 +1531,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       studentAssignmentsHeading: "班级任务",
       practiceLink: "练习",
       shareCodeHint: "将此邀请码分享给你的学生,让他们加入班级。",
+      performanceHeading: "按任务的表现",
+      notAttemptedLabel: "尚未尝试",
+      studentColumnLabel: "学生",
     },
     pwa: {
       installTitle: "安装应用",
@@ -1729,6 +1744,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       studentAssignmentsHeading: "Compiti della classe",
       practiceLink: "Esercitati",
       shareCodeHint: "Condividi questo codice con i tuoi studenti così possono unirsi alla classe.",
+      performanceHeading: "Rendimento per compito",
+      notAttemptedLabel: "Non ancora tentato",
+      studentColumnLabel: "Studente",
     },
     pwa: {
       installTitle: "Installa l'app",
@@ -1937,6 +1955,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       studentAssignmentsHeading: "학급 과제",
       practiceLink: "연습하기",
       shareCodeHint: "이 코드를 학생들과 공유하여 학급에 참여하도록 하세요.",
+      performanceHeading: "과제별 성과",
+      notAttemptedLabel: "아직 시도하지 않음",
+      studentColumnLabel: "학생",
     },
     pwa: {
       installTitle: "앱 설치",
@@ -2147,6 +2168,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       studentAssignmentsHeading: "Aufgaben der Klasse",
       practiceLink: "Üben",
       shareCodeHint: "Teile diesen Code mit deinen Schülern, damit sie der Klasse beitreten können.",
+      performanceHeading: "Leistung nach Aufgabe",
+      notAttemptedLabel: "Noch nicht versucht",
+      studentColumnLabel: "Schüler",
     },
     pwa: {
       installTitle: "App installieren",
@@ -2357,6 +2381,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       studentAssignmentsHeading: "Devoirs de la classe",
       practiceLink: "S'entraîner",
       shareCodeHint: "Partagez ce code avec vos élèves pour qu'ils rejoignent la classe.",
+      performanceHeading: "Performance par devoir",
+      notAttemptedLabel: "Pas encore tenté",
+      studentColumnLabel: "Élève",
     },
     pwa: {
       installTitle: "Installer l'application",
@@ -2564,6 +2591,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       studentAssignmentsHeading: "クラスの課題",
       practiceLink: "練習する",
       shareCodeHint: "このコードを生徒と共有して、クラスに参加してもらいましょう。",
+      performanceHeading: "課題別の成績",
+      notAttemptedLabel: "まだ挑戦していません",
+      studentColumnLabel: "生徒",
     },
     pwa: {
       installTitle: "アプリをインストール",
@@ -2773,6 +2803,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       studentAssignmentsHeading: "مهام الصف",
       practiceLink: "تدرّب",
       shareCodeHint: "شارك هذا الرمز مع طلابك حتى ينضموا إلى الصف.",
+      performanceHeading: "الأداء حسب المهمة",
+      notAttemptedLabel: "لم تتم المحاولة بعد",
+      studentColumnLabel: "الطالب",
     },
     pwa: {
       installTitle: "تثبيت التطبيق",
@@ -2983,6 +3016,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       studentAssignmentsHeading: "Задания класса",
       practiceLink: "Практика",
       shareCodeHint: "Поделитесь этим кодом со своими учениками, чтобы они могли присоединиться к классу.",
+      performanceHeading: "Успеваемость по заданию",
+      notAttemptedLabel: "Ещё не пробовал(а)",
+      studentColumnLabel: "Ученик",
     },
     pwa: {
       installTitle: "Установить приложение",

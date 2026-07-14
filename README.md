@@ -884,6 +884,18 @@ brecha maior do que o necessário — três funções `security definer` em
 específica antes de retornar qualquer linha): `join_turma_by_code`,
 `get_turma_roster` e `get_turma_assignment_progress`.
 
+**Desempenho por atribuição**: a página da turma (para o professor)
+mostra uma tabela aluno × tarefa — cada célula é a nota daquela tarefa
+específica para aquele aluno (`X/Y (Z%)`, colorida verde/amarelo/
+vermelho pela porcentagem), ou "Ainda não tentou" se o aluno ainda não
+fez aquele exercício. Isso já usava a RPC `get_turma_assignment_progress`
+(criada desde o início, mas nunca conectada a nenhuma tela) — o único
+código novo foi chamá-la uma vez por tarefa (em paralelo, via
+`Promise.all`) e montar a tabela em `TurmaPerformanceMatrix.tsx`. É
+assim que um professor identifica rapidamente que um aluno específico
+está com dificuldade num tópico específico, em vez de só ver XP/
+sequência agregados.
+
 ## Sobre a integração de conhecimento (o "neurônio")
 
 A ideia: o conhecimento no app não devia viver isolado em "gavetas"
