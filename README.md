@@ -40,22 +40,25 @@ de aplicativos.
   nula).
 - **Programação & Machine Learning** — trilha independente com 4
   níveis disponíveis: "Lógica de Programação" (Iniciante: variáveis,
-  comparações, condicionais, e agora também "Vetores e Listas" —
-  percorrer um vetor com laços, somar/buscar elementos), "Estruturas
-  de Repetição" (Intermediário: laços 'para'/'enquanto', repetições
-  aninhadas, e agora também "Funções e Modularização" — parâmetros,
+  comparações, condicionais, "Vetores e Listas" — percorrer um vetor
+  com laços, somar/buscar elementos — e agora também "Strings e
+  Manipulação de Texto" — tamanho, concatenação e subcadeia/substring),
+  "Estruturas de Repetição" (Intermediário: laços 'para'/'enquanto',
+  repetições aninhadas, e "Funções e Modularização" — parâmetros,
   retorno, escopo de variáveis e composição de funções), "Orientação a
   Objetos" (Avançado, Premium: classes, atributos, métodos,
-  encapsulamento, e agora também "Estruturas de Dados: Pilhas e Filas"
-  — LIFO/FIFO, quando usar cada uma) e "Fundamentos de Aprendizado
-  Supervisionado" (Machine Learning — Introdução, Premium: treino/teste,
-  overfitting, acurácia e matriz de confusão, e agora também
-  "Classificação: Matriz de Confusão, Precisão e Revocação" — por que
-  acurácia sozinha engana em classes desbalanceadas, e o F1-score) —
-  todos ensinados com pseudocódigo (independente de linguagem) já que o
-  app não executa código de verdade; os exercícios pedem pra prever o
-  valor final de variáveis (ou calcular métricas) a partir de um
-  enunciado, não pra escrever código.
+  encapsulamento, e "Estruturas de Dados: Pilhas e Filas" — LIFO/FIFO,
+  quando usar cada uma) e "Fundamentos de Aprendizado Supervisionado"
+  (Machine Learning — Introdução, Premium: treino/teste, overfitting,
+  acurácia e matriz de confusão, "Classificação: Matriz de Confusão,
+  Precisão e Revocação" — por que acurácia sozinha engana em classes
+  desbalanceadas, e o F1-score — e agora também "Árvores de Decisão" —
+  nós/ramos/folhas, impureza, profundidade máxima e como ela se
+  relaciona com overfitting) — todos ensinados com pseudocódigo
+  (independente de linguagem) já que o app não executa código de
+  verdade; os exercícios pedem pra prever o valor final de variáveis
+  (ou calcular métricas) a partir de um enunciado, não pra escrever
+  código.
 - **Ensino Superior** (Premium): "Limites e Derivadas" — a porta de
   entrada do Cálculo, com forma indeterminada, regra da potência e o
   limite fundamental de sin(x)/x —, "Integrais": antiderivada, integral
@@ -225,9 +228,12 @@ de aplicativos.
   dificuldade); os alunos veem as tarefas atribuídas com um link direto
   pra praticar. Veja "Sobre as turmas" abaixo para os detalhes de RLS.
 - **Matemática Financeira** — trilha independente com 2 níveis:
-  Iniciante, grátis ("Juros Simples" e "Descontos e Acréscimos
-  Percentuais" — fator multiplicativo, aumentos/descontos sucessivos) e
-  Avançado, Premium ("Juros Compostos", com gráfico interativo de
+  Iniciante, grátis ("Juros Simples", "Descontos e Acréscimos
+  Percentuais" — fator multiplicativo, aumentos/descontos sucessivos —
+  e agora também "Inflação e Correção Monetária" — corrigir valores
+  pela inflação com juros compostos, poder de compra e inflação
+  acumulada em vários períodos) e Avançado, Premium ("Juros
+  Compostos", com gráfico interativo de
   crescimento exponencial, "Financiamentos: Price e SAC", comparando
   amortização constante com parcelas fixas, e agora também "Valor
   Presente e Valor Futuro" — trazer uma quantia a valor de hoje ou
