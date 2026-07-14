@@ -7,12 +7,13 @@ import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/actions/auth";
 import { getServerLocale } from "@/i18n/getServerLocale";
 import { getDictionary } from "@/i18n/dictionaries";
-import { isPremiumUser } from "@/lib/entitlements";
+import { isAdmin, isPremiumUser } from "@/lib/entitlements";
 
 export default async function Navbar() {
   const supabase = await createClient();
   const user = supabase ? (await supabase.auth.getUser()).data.user : null;
   const isPremium = user ? await isPremiumUser() : false;
+  const isModerator = user ? await isAdmin() : false;
   const locale = await getServerLocale();
   const dict = getDictionary(locale);
 
@@ -26,6 +27,7 @@ export default async function Navbar() {
     { href: "/comunidades", label: dict.communities.title },
     { href: "/lives", label: dict.lives.title },
     { href: "/progresso", label: dict.nav.progresso },
+    ...(isModerator ? [{ href: "/admin/moderacao", label: "Moderação" }] : []),
   ];
 
   return (

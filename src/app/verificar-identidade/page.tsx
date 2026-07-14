@@ -75,6 +75,10 @@ export default async function VerificarIdentidadePage() {
               {identity.grantedMessage}
             </p>
           )}
+
+          {status === "banned" && (
+            <p className="rounded-xl border border-error bg-error-bg p-4 text-sm text-error">{identity.bannedMessage}</p>
+          )}
         </div>
       </div>
     </div>

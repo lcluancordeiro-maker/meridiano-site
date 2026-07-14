@@ -218,6 +218,7 @@ export type Dictionary = {
     consentConfirmedBody: string;
     consentInvalidTitle: string;
     consentInvalidBody: string;
+    bannedMessage: string;
   };
   chat: {
     title: string;
@@ -335,6 +336,7 @@ const socialFeaturesEn = {
     consentConfirmedBody: "Thank you! Social features are now unlocked for your child's account.",
     consentInvalidTitle: "Link not found",
     consentInvalidBody: "This confirmation link is invalid or has already been used.",
+    bannedMessage: "A moderator has restricted your access to social features (chat, communities, lives). This doesn't affect the rest of the app.",
   },
   chat: {
     title: "Chat",
@@ -652,6 +654,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       consentConfirmedBody: "Obrigado! Os recursos sociais já estão liberados para a conta do seu filho(a).",
       consentInvalidTitle: "Link não encontrado",
       consentInvalidBody: "Esse link de confirmação é inválido ou já foi usado.",
+      bannedMessage: "Um moderador restringiu seu acesso aos recursos sociais (chat, comunidades, lives). Isso não afeta o resto do app.",
     },
     chat: {
       title: "Chat",
@@ -1174,6 +1177,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       consentConfirmedBody: "¡Gracias! Los recursos sociales ya están desbloqueados para la cuenta de tu hijo(a).",
       consentInvalidTitle: "Enlace no encontrado",
       consentInvalidBody: "Este enlace de confirmación no es válido o ya fue usado.",
+      bannedMessage: "Un moderador restringió tu acceso a las funciones sociales (chat, comunidades, en vivo). Esto no afecta el resto de la app.",
     },
     chat: {
       title: "Chat",

@@ -63,7 +63,13 @@ export default async function ComunidadesPage() {
           </p>
         )}
 
-        {status !== "not_configured" && status !== "logged_out" && status !== "granted" && (
+        {status === "banned" && (
+          <p className="mt-8 rounded-xl border border-error bg-error-bg p-4 text-sm text-error">
+            {identity.bannedMessage}
+          </p>
+        )}
+
+        {status !== "not_configured" && status !== "logged_out" && status !== "granted" && status !== "banned" && (
           <p className="mt-8 rounded-xl border border-border bg-surface p-4 text-sm text-muted">
             {dict.requiresVerification}{" "}
             <Link href="/verificar-identidade" className="font-semibold text-primary hover:underline">

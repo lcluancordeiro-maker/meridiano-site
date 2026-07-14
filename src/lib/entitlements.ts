@@ -26,6 +26,21 @@ export async function isPremiumUser(): Promise<boolean> {
   return true;
 }
 
+/** Whether the currently logged-in visitor is a moderator/admin (see the
+ * `admins` table in supabase/schema.sql — promoted manually via SQL, no
+ * self-service UI). Always false when logged out or Supabase isn't
+ * configured. */
+export async function isAdmin(): Promise<boolean> {
+  if (!isSupabaseConfigured) return false;
+
+  const supabase = await createClient();
+  const user = supabase ? (await supabase.auth.getUser()).data.user : null;
+  if (!supabase || !user) return false;
+
+  const { data } = await supabase.rpc("is_admin");
+  return Boolean(data);
+}
+
 /**
  * The current state of a user's access to social features (chat,
  * communities, lives) — all of which require a completed identity
@@ -39,6 +54,9 @@ export async function isPremiumUser(): Promise<boolean> {
  *   "start verification" prompt.
  * - "needs_parental_consent": identity confirmed as a minor; a
  *   parent/guardian must confirm via the emailed link before unlocking.
+ * - "banned": a moderator has banned this account from social features
+ *   specifically (see src/app/actions/admin.ts) — doesn't affect login or
+ *   the educational content, only chat/communities/lives.
  * - "granted": fully unlocked.
  */
 export type SocialAccessStatus =
@@ -48,6 +66,7 @@ export type SocialAccessStatus =
   | "pending"
   | "failed"
   | "needs_parental_consent"
+  | "banned"
   | "granted";
 
 export async function getSocialAccessStatus(): Promise<SocialAccessStatus> {
@@ -56,6 +75,9 @@ export async function getSocialAccessStatus(): Promise<SocialAccessStatus> {
   const supabase = await createClient();
   const user = supabase ? (await supabase.auth.getUser()).data.user : null;
   if (!supabase || !user) return "logged_out";
+
+  const { data: ban } = await supabase.from("banned_users").select("user_id").eq("user_id", user.id).maybeSingle();
+  if (ban) return "banned";
 
   const { data: verification } = await supabase
     .from("identity_verifications")

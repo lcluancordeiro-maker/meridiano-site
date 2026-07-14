@@ -659,11 +659,8 @@ idade. Esta primeira versão cobre:
 - **Denunciar mensagem**: um botão "Denunciar" em cada mensagem alheia
   (chat e comunidade) chama a RPC `report_message`, que confirma que
   quem denuncia realmente tinha acesso àquela mensagem antes de
-  aceitar, e grava em `message_reports`. **Não existe painel de
-  moderação nesta versão** — revisar denúncias hoje é manual, direto
-  no banco (via SQL ou o dashboard do Supabase com a `service_role`
-  key). Um painel de moderação é um passo natural para uma próxima
-  versão.
+  aceitar, e grava em `message_reports`. Denúncias são revisadas no
+  painel `/admin/moderacao` (ver "Sobre o painel de moderação" abaixo).
 - **Bloquear um contato**: no cabeçalho de uma conversa 1:1,
   "Bloquear esta pessoa" insere uma linha em `blocked_users`. A partir
   daí, a policy de RLS `dm_messages_insert` passa a recusar qualquer
@@ -682,10 +679,47 @@ idade. Esta primeira versão cobre:
   sem dono, então a única opção do dono é excluir a comunidade.
 
 **Limitações desta primeira versão**: sem mute temporário (só
-remoção definitiva), sem banimento que impeça reentrar com um novo
-convite/link, sem aviso automático quando uma denúncia atinge um
-certo número de ocorrências, e denúncias não geram nenhuma notificação
-— alguém da equipe precisa ir olhar `message_reports` periodicamente.
+remoção definitiva de grupo/comunidade, ou banimento total dos
+recursos sociais via painel de moderação), sem banimento que impeça
+reentrar com um novo convite/link, sem aviso automático quando uma
+denúncia atinge um certo número de ocorrências, e o painel de
+moderação não notifica ninguém — um admin precisa entrar em
+`/admin/moderacao` periodicamente para ver o que chegou.
+
+## Sobre o painel de moderação
+
+`/admin/moderacao` lista as denúncias feitas via "Denunciar" (chat e
+comunidades), com o conteúdo da mensagem, quem enviou e quem denunciou
+— só quem está na tabela `admins` consegue ver essa página (qualquer
+outra pessoa recebe 404, não uma mensagem de "acesso negado", para não
+revelar que a página existe). Para cada denúncia pendente, o admin
+pode:
+
+- **Dispensar**: marca a denúncia como resolvida sem tomar nenhuma
+  ação (`resolve_report` com status `dismissed`).
+- **Marcar ação tomada**: mesma coisa, mas registra que alguma ação
+  foi tomada fora do painel (`action_taken`) — útil quando a ação já
+  foi feita manualmente (ex: conversa direta com o usuário).
+- **Banir remetente dos recursos sociais**: insere o autor da
+  mensagem em `banned_users`. A partir daí, `getSocialAccessStatus()`
+  retorna `"banned"` para essa pessoa, bloqueando chat, comunidades e
+  lives — mas **não** afeta login nem o conteúdo educacional do resto
+  do app. Reversível a qualquer momento ("Desbanir remetente").
+
+**Promovendo um admin**: não existe (de propósito) nenhuma tela de
+"virar admin" — isso teria que ser auto-serviço ou exigir um segundo
+nível de permissão para conceder permissões, o que é mais complexidade
+do que vale a pena agora. Em vez disso, promova alguém rodando, no SQL
+Editor do Supabase (com a `service_role`, nunca pelo cliente):
+
+```sql
+insert into public.admins (user_id)
+values ('UUID_DO_USUARIO_AQUI');
+```
+
+**Limitações desta primeira versão**: sem log de auditoria de ações do
+painel (quem baniu quem, quando), sem busca/filtro na lista de
+denúncias, e sem paginação (ok para o volume esperado agora).
 
 ## Preparando para produção
 

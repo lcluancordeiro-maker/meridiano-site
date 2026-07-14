@@ -1382,3 +1382,191 @@ end;
 $$;
 
 grant execute on function public.match_related_topics(text, text, int) to authenticated, anon;
+
+-- ---------------------------------------------------------------------
+-- Painel de moderação: quem é admin, status de denúncias, e banimento de
+-- recursos sociais. Sem UI de auto-promoção a admin de propósito — a
+-- tabela admins só é gravada via SQL direto pelo dono do projeto (ver
+-- "Sobre o painel de moderação" no README), mesmo espírito de
+-- identity_verifications/subscriptions (só service_role escreve).
+-- ---------------------------------------------------------------------
+create table if not exists public.admins (
+  user_id uuid primary key references auth.users (id) on delete cascade,
+  created_at timestamptz not null default now()
+);
+
+alter table public.admins enable row level security;
+
+drop policy if exists "admins_select_own" on public.admins;
+create policy "admins_select_own"
+  on public.admins for select
+  using (auth.uid() = user_id);
+
+-- Sem policy de insert/update/delete para authenticated — promover alguém a
+-- admin é um passo manual (INSERT direto via SQL Editor do Supabase).
+
+create or replace function public.is_admin()
+returns boolean
+language sql
+security definer set search_path = public
+stable
+as $$
+  select exists (select 1 from public.admins where user_id = auth.uid());
+$$;
+
+grant execute on function public.is_admin() to authenticated;
+
+alter table public.message_reports
+  add column if not exists status text not null default 'pending' check (status in ('pending', 'dismissed', 'action_taken')),
+  add column if not exists resolved_at timestamptz,
+  add column if not exists resolved_by uuid references auth.users (id);
+
+create table if not exists public.banned_users (
+  user_id uuid primary key references auth.users (id) on delete cascade,
+  banned_by uuid not null references auth.users (id),
+  reason text,
+  created_at timestamptz not null default now()
+);
+
+alter table public.banned_users enable row level security;
+
+-- Um usuário pode ver a própria linha (para saber que foi banido dos
+-- recursos sociais — ver getSocialAccessStatus() em src/lib/entitlements.ts).
+-- Sem policy de insert/update/delete para authenticated — banir/desbanir
+-- sempre passa pelas RPCs ban_user/unban_user abaixo, que checam is_admin().
+drop policy if exists "banned_users_select_own" on public.banned_users;
+create policy "banned_users_select_own"
+  on public.banned_users for select
+  using (auth.uid() = user_id);
+
+-- Lista denúncias pendentes com o conteúdo da mensagem denunciada e nomes de
+-- exibição de quem denunciou/enviou — só para admins. Une dm_messages e
+-- community_messages (message_table decide qual) porque message_reports não
+-- tem uma FK polimórfica de verdade.
+create or replace function public.list_message_reports()
+returns table (
+  report_id uuid,
+  message_table text,
+  message_id uuid,
+  context_id uuid,
+  body text,
+  sender_id uuid,
+  sender_name text,
+  reporter_id uuid,
+  reporter_name text,
+  status text,
+  created_at timestamptz
+)
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if not public.is_admin() then
+    raise exception 'not_authorized';
+  end if;
+
+  return query
+    select
+      r.id,
+      r.message_table,
+      r.message_id,
+      case when r.message_table = 'dm_messages' then dm.conversation_id else cm.community_id end,
+      case when r.message_table = 'dm_messages' then dm.body else cm.body end,
+      case when r.message_table = 'dm_messages' then dm.sender_id else cm.sender_id end,
+      pr_sender.display_name,
+      r.reporter_id,
+      pr_reporter.display_name,
+      r.status,
+      r.created_at
+    from public.message_reports r
+    left join public.dm_messages dm on r.message_table = 'dm_messages' and dm.id = r.message_id
+    left join public.community_messages cm on r.message_table = 'community_messages' and cm.id = r.message_id
+    left join public.profiles pr_sender
+      on pr_sender.id = (case when r.message_table = 'dm_messages' then dm.sender_id else cm.sender_id end)
+    left join public.profiles pr_reporter on pr_reporter.id = r.reporter_id
+    order by r.status = 'pending' desc, r.created_at desc;
+end;
+$$;
+
+grant execute on function public.list_message_reports() to authenticated;
+
+-- Marca uma denúncia como resolvida (dispensada ou com ação tomada) — só
+-- para admins.
+create or replace function public.resolve_report(p_report_id uuid, p_status text)
+returns void
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if not public.is_admin() then
+    raise exception 'not_authorized';
+  end if;
+
+  if p_status not in ('dismissed', 'action_taken') then
+    raise exception 'invalid_status';
+  end if;
+
+  update public.message_reports
+  set status = p_status, resolved_at = now(), resolved_by = auth.uid()
+  where id = p_report_id;
+end;
+$$;
+
+grant execute on function public.resolve_report(uuid, text) to authenticated;
+
+-- Bane um usuário dos recursos sociais (chat/comunidades/lives) — só para
+-- admins. Não impede login nem acesso ao conteúdo educacional, só ao
+-- social; ver getSocialAccessStatus().
+create or replace function public.ban_user(p_user_id uuid, p_reason text)
+returns void
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if not public.is_admin() then
+    raise exception 'not_authorized';
+  end if;
+
+  insert into public.banned_users (user_id, banned_by, reason)
+  values (p_user_id, auth.uid(), p_reason)
+  on conflict (user_id) do update set reason = excluded.reason, banned_by = excluded.banned_by;
+end;
+$$;
+
+grant execute on function public.ban_user(uuid, text) to authenticated;
+
+create or replace function public.unban_user(p_user_id uuid)
+returns void
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if not public.is_admin() then
+    raise exception 'not_authorized';
+  end if;
+
+  delete from public.banned_users where user_id = p_user_id;
+end;
+$$;
+
+grant execute on function public.unban_user(uuid) to authenticated;
+
+-- Quais dos ids informados estão banidos dos recursos sociais — só para
+-- admins (banned_users_select_own só deixa cada um ver a própria linha, o
+-- que não serve para um admin revisar o status de outros usuários).
+create or replace function public.get_banned_user_ids(p_user_ids uuid[])
+returns table (user_id uuid)
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if not public.is_admin() then
+    raise exception 'not_authorized';
+  end if;
+
+  return query
+    select b.user_id from public.banned_users b where b.user_id = any(p_user_ids);
+end;
+$$;
+
+grant execute on function public.get_banned_user_ids(uuid[]) to authenticated;
