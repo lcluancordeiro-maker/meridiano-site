@@ -1061,3 +1061,30 @@ end;
 $$;
 
 grant execute on function public.get_conversation_participants(uuid) to authenticated;
+
+-- Membros de uma comunidade com nome de exibição — mesma justificativa de
+-- security definer das funções de chat acima (profiles só permite ler a
+-- própria linha).
+create or replace function public.get_community_members(p_community_id uuid)
+returns table (user_id uuid, display_name text, role text, joined_at timestamptz)
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if not exists (
+    select 1 from public.community_members
+    where community_id = p_community_id and user_id = auth.uid()
+  ) then
+    raise exception 'not_authorized';
+  end if;
+
+  return query
+    select cm.user_id, pr.display_name, cm.role, cm.joined_at
+    from public.community_members cm
+    left join public.profiles pr on pr.id = cm.user_id
+    where cm.community_id = p_community_id
+    order by cm.joined_at asc;
+end;
+$$;
+
+grant execute on function public.get_community_members(uuid) to authenticated;

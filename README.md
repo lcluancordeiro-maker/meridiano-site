@@ -226,7 +226,7 @@ de aplicativos.
   com consentimento dos responsáveis obrigatório para usuários
   verificados como menores de idade antes de liberar qualquer recurso
   social. Veja "Configurando verificação de identidade e consentimento
-  dos responsáveis" e "Sobre o chat" abaixo.
+  dos responsáveis", "Sobre o chat" e "Sobre as comunidades" abaixo.
 
 ## Rodando localmente
 
@@ -528,6 +528,43 @@ as mensagens da conversa são carregadas de uma vez — ok para o volume
 esperado agora, mas um ponto a revisar se conversas ficarem muito
 longas). Cotas de Premium (nº de grupos, tamanho de grupo) ainda não
 são aplicadas aqui — é um próximo passo natural.
+
+## Sobre as comunidades
+
+`/comunidades` (link no menu) são grupos de estudo persistentes, com
+chat próprio, também exigindo verificação de identidade (`granted`)
+para usar. Diferente do chat 1:1/grupo, uma comunidade tem: um código
+de entrada (`join_code`, gerado com `generateJoinCode()`, o mesmo
+gerador já usado nas turmas), opção de ser pública (listada em
+"Descobrir comunidades públicas" para qualquer verificado entrar sem
+código) ou privada (só entra quem tiver o código), e um limite opcional
+de membros.
+
+Limites do plano gratuito: um usuário free pode **criar** no máximo
+`FREE_COMMUNITY_LIMIT = 1` comunidade (checado contando linhas em
+`communities` por `creator_id` em `src/app/actions/communities.ts`), e
+uma comunidade criada por um usuário free tem um teto de
+`FREE_MEMBER_CAP = 20` membros (aplicado dentro da RPC `join_community`,
+que recusa a entrada com o erro `community_full` quando o teto é
+atingido). Comunidades criadas por assinantes Premium não têm limite de
+membros (`member_cap` nulo). Não há limite para **entrar** em
+comunidades de outras pessoas, seja free ou Premium.
+
+Como funciona: `create_community` (RPC `security definer`) cria a
+comunidade e já insere o criador como `role='owner'` na mesma
+transação — evita o problema de "ovo e galinha" de `community_members`
+não ter política de insert direta (toda entrada de membro passa pela
+RPC `join_community`, que também é quem checa o `member_cap`).
+`CommunityThread.tsx` é uma cópia quase idêntica de `ChatThread.tsx`,
+só trocando a tabela/canal Realtime para `community_messages`/
+`community:{id}`. Mostrar nome e papel (owner/member) de cada membro
+usa a mesma técnica de RPC `security definer` (`get_community_members`)
+para contornar a RLS de `profiles`, igual ao chat.
+
+**Limitações desta primeira versão**: sem papéis intermediários
+(moderador), sem expulsar/banir membro, sem editar nome/descrição
+depois de criada, e as mesmas limitações de mensagens do chat (sem
+edição/exclusão, sem upload de arquivo, sem paginação).
 
 ## Preparando para produção
 

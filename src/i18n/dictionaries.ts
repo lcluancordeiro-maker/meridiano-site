@@ -237,6 +237,31 @@ export type Dictionary = {
     backToChat: string;
     noMessagesYet: string;
   };
+  communities: {
+    title: string;
+    notConfigured: string;
+    requiresLogin: string;
+    requiresVerification: string;
+    verifyLink: string;
+    myCommunitiesHeading: string;
+    discoverHeading: string;
+    noCommunitiesYet: string;
+    noPublicCommunities: string;
+    createHeading: string;
+    nameLabel: string;
+    descriptionLabel: string;
+    publicLabel: string;
+    createButton: string;
+    joinHeading: string;
+    codeLabel: string;
+    joinButton: string;
+    joinCodePrefix: string;
+    viewButton: string;
+    backToCommunities: string;
+    membersHeading: string;
+    memberCountSuffix: string;
+    chatHeading: string;
+  };
 };
 
 // Strings for the social features (identity verification, chat, communities,
@@ -283,6 +308,31 @@ const socialFeaturesEn = {
     sendButton: "Send",
     backToChat: "← Back to chat",
     noMessagesYet: "No messages yet — say hi!",
+  },
+  communities: {
+    title: "Communities",
+    notConfigured: "Communities aren't available in this app yet — check back soon.",
+    requiresLogin: "Log in to use communities.",
+    requiresVerification: "Verify your identity to unlock communities.",
+    verifyLink: "Verify identity",
+    myCommunitiesHeading: "Your communities",
+    discoverHeading: "Discover public communities",
+    noCommunitiesYet: "You haven't joined any communities yet.",
+    noPublicCommunities: "No public communities to discover yet.",
+    createHeading: "Create a community",
+    nameLabel: "Community name",
+    descriptionLabel: "Description (optional)",
+    publicLabel: "Make this community public (listed for anyone to discover and join)",
+    createButton: "Create community",
+    joinHeading: "Join with a code",
+    codeLabel: "Community code",
+    joinButton: "Join",
+    joinCodePrefix: "Code",
+    viewButton: "View",
+    backToCommunities: "← Back to communities",
+    membersHeading: "Members",
+    memberCountSuffix: "members",
+    chatHeading: "Community chat",
   },
 };
 
@@ -529,6 +579,31 @@ export const dictionaries: Record<Locale, Dictionary> = {
       backToChat: "← Voltar para o chat",
       noMessagesYet: "Nenhuma mensagem ainda — diga oi!",
     },
+    communities: {
+      title: "Comunidades",
+      notConfigured: "Comunidades ainda não estão disponíveis neste app — volte em breve.",
+      requiresLogin: "Faça login para usar comunidades.",
+      requiresVerification: "Verifique sua identidade para liberar comunidades.",
+      verifyLink: "Verificar identidade",
+      myCommunitiesHeading: "Suas comunidades",
+      discoverHeading: "Descobrir comunidades públicas",
+      noCommunitiesYet: "Você ainda não entrou em nenhuma comunidade.",
+      noPublicCommunities: "Nenhuma comunidade pública para descobrir ainda.",
+      createHeading: "Criar uma comunidade",
+      nameLabel: "Nome da comunidade",
+      descriptionLabel: "Descrição (opcional)",
+      publicLabel: "Tornar esta comunidade pública (listada para qualquer um descobrir e entrar)",
+      createButton: "Criar comunidade",
+      joinHeading: "Entrar com um código",
+      codeLabel: "Código da comunidade",
+      joinButton: "Entrar",
+      joinCodePrefix: "Código",
+      viewButton: "Ver",
+      backToCommunities: "← Voltar para comunidades",
+      membersHeading: "Membros",
+      memberCountSuffix: "membros",
+      chatHeading: "Chat da comunidade",
+    },
   },
   en: {
     nav: {
@@ -732,6 +807,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
+    communities: socialFeaturesEn.communities,
   },
   es: {
     nav: {
@@ -974,6 +1050,31 @@ export const dictionaries: Record<Locale, Dictionary> = {
       backToChat: "← Volver al chat",
       noMessagesYet: "Todavía no hay mensajes — ¡saluda!",
     },
+    communities: {
+      title: "Comunidades",
+      notConfigured: "Las comunidades todavía no están disponibles en esta app — vuelve pronto.",
+      requiresLogin: "Inicia sesión para usar comunidades.",
+      requiresVerification: "Verifica tu identidad para desbloquear comunidades.",
+      verifyLink: "Verificar identidad",
+      myCommunitiesHeading: "Tus comunidades",
+      discoverHeading: "Descubrir comunidades públicas",
+      noCommunitiesYet: "Todavía no te has unido a ninguna comunidad.",
+      noPublicCommunities: "Todavía no hay comunidades públicas para descubrir.",
+      createHeading: "Crear una comunidad",
+      nameLabel: "Nombre de la comunidad",
+      descriptionLabel: "Descripción (opcional)",
+      publicLabel: "Hacer esta comunidad pública (visible para que cualquiera la descubra y se una)",
+      createButton: "Crear comunidad",
+      joinHeading: "Unirse con un código",
+      codeLabel: "Código de la comunidad",
+      joinButton: "Unirse",
+      joinCodePrefix: "Código",
+      viewButton: "Ver",
+      backToCommunities: "← Volver a comunidades",
+      membersHeading: "Miembros",
+      memberCountSuffix: "miembros",
+      chatHeading: "Chat de la comunidad",
+    },
   },
   zh: {
     nav: {
@@ -1174,6 +1275,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
+    communities: socialFeaturesEn.communities,
   },
   it: {
     nav: {
@@ -1378,6 +1480,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
+    communities: socialFeaturesEn.communities,
   },
   ko: {
     nav: {
@@ -1580,6 +1683,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
+    communities: socialFeaturesEn.communities,
   },
   de: {
     nav: {
@@ -1784,6 +1888,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
+    communities: socialFeaturesEn.communities,
   },
   fr: {
     nav: {
@@ -1988,6 +2093,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
+    communities: socialFeaturesEn.communities,
   },
   ja: {
     nav: {
@@ -2189,6 +2295,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
+    communities: socialFeaturesEn.communities,
   },
   ar: {
     nav: {
@@ -2392,6 +2499,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
+    communities: socialFeaturesEn.communities,
   },
   ru: {
     nav: {
@@ -2596,6 +2704,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
+    communities: socialFeaturesEn.communities,
   },
 };
 
