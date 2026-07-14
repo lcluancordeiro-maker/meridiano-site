@@ -1043,6 +1043,18 @@ Isso significa: hoje dá para navegar o app inteiro em qualquer um dos
 10 outros idiomas, mas ao entrar numa trilha e resolver exercícios, o
 conteúdo continua em português.
 
+**Sobre as seções sociais mais novas** (`identity`, `chat`,
+`communities`, `lives`, `knowledgeGraph`, `onboarding`): pt-BR e es têm
+tradução real desde que essas seções foram criadas; os outros 8 idiomas
+apontam para `socialFeaturesEn` (um bloco de textos em inglês
+compartilhado) em vez de repetir o inglês em cada objeto de idioma —
+assim o `Dictionary` fica satisfeito sem duplicar string por string.
+Traduzir de verdade as 6 seções para os 8 idiomas de uma vez é um
+projeto grande; em vez de tentar tudo junto, aprofundamos uma seção por
+vez conforme dá tempo — `chat` já tem tradução real em Français (`fr`)
+como primeiro passo, e o resto do inglês compartilhado continua
+funcionando normalmente enquanto isso avança aos poucos.
+
 ## Testes
 
 ```bash
