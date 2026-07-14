@@ -142,6 +142,15 @@ de aplicativos.
   antes do commit — mesma técnica descrita em "Sobre o idioma"/testes)
   já que o ambiente de teste não tem Supabase/Stripe configurado pra
   simular uma assinatura ativa. Ver `src/components/widgets/`.
+- **Mapa de progressão (skill path)**: a página de cada trilha
+  (`/trilha/[nivel]`) mostra os tópicos como uma jornada vertical —
+  nós numerados conectados por uma linha, com o nó virando um ✓ verde
+  quando os 4 níveis de dificuldade do tópico são concluídos e a linha
+  se pintando de verde atrás dele. Cada nó mostra também o contador
+  "n/4 níveis" e os pontinhos por dificuldade. O progresso vem do mesmo
+  `localStorage` que o quiz grava, então o mapa atualiza ao vivo. Ver
+  `src/components/SkillPath.tsx` (substituiu o antigo grid de
+  `TopicCard`).
 - **Desafios nos widgets**: três widgets gratuitos (reta, Pitágoras e
   frações) trazem um card "Desafio" que transforma a exploração em
   pergunta — um alvo é proposto ("monte a reta f(x) = -2x + 3", "monte

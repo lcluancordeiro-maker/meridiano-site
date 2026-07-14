@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import TopicCard from "@/components/TopicCard";
+import SkillPath from "@/components/SkillPath";
 import { getLevel, getTopicsForLevel, levels } from "@/data/curriculum";
 import { isPremiumUser } from "@/lib/entitlements";
 import { getServerLocale } from "@/i18n/getServerLocale";
@@ -49,11 +49,7 @@ export default async function LevelPage({
           </p>
         )}
 
-        <div className="mt-10 grid gap-5 sm:grid-cols-2">
-          {topics.map((topic) => (
-            <TopicCard key={topic.id} levelId={level.id} topic={topic} />
-          ))}
-        </div>
+        <SkillPath levelId={level.id} topics={topics} />
       </div>
     </div>
   );
