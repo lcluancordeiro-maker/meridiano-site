@@ -97,6 +97,16 @@ export type TheorySection = {
  * conhecimento" in the README. */
 export type RelatedTopicRef = { levelId: string; topicId: string };
 
+/** "Um pouco de história": nota opcional no fim da teoria contando por que
+ * o assunto existe e de onde veio — contexto que motiva o conteúdo em vez
+ * de só apresentá-lo. `mathematicians` são ids de src/data/mathematicians.ts
+ * e viram links para as biografias em /matematicos. */
+export type HistoricalNote = {
+  title: string;
+  body: string[];
+  mathematicians?: string[];
+};
+
 export type Topic = {
   id: string;
   title: string;
@@ -107,6 +117,7 @@ export type Topic = {
   /** Optional starting expressions for an embedded interactive graph. */
   graphExpressions?: string[];
   relatedTopics?: RelatedTopicRef[];
+  historicalNote?: HistoricalNote;
 };
 
 export type LevelGroup = "serie" | "estatistica" | "econometria" | "programacao" | "financas" | "vestibulares";
@@ -568,6 +579,14 @@ export const fundamental2Topics: Topic[] = [
     summary:
       "Entenda o que são frações, como simplificá-las e como somar, subtrair, multiplicar e dividir.",
     minutes: 18,
+    historicalNote: {
+      title: "Pão, terra e o papiro de Rhind",
+      body: [
+        "As frações nasceram de problemas bem concretos: dividir pão entre trabalhadores e repartir terras às margens do Nilo. O papiro de Rhind (c. 1550 a.C.), um dos documentos matemáticos mais antigos que existem, é cheio de contas assim — mas os egípcios só usavam frações unitárias (1/2, 1/3, 1/4…) e escreviam todo o resto como soma delas: 3/4 virava 1/2 + 1/4.",
+        "Já a simplificação que você usa hoje depende do máximo divisor comum — e o método mais eficiente para achá-lo foi registrado por Euclides há mais de 2300 anos, num dos algoritmos mais antigos ainda em uso no mundo.",
+      ],
+      mathematicians: ["euclides"],
+    },
     theory: [
       {
         heading: "O que é uma fração?",
@@ -1817,6 +1836,14 @@ export const fundamental2Topics: Topic[] = [
     summary:
       "Calcule perímetros, áreas de figuras planas e aplique o Teorema de Pitágoras.",
     minutes: 20,
+    historicalNote: {
+      title: "Medir a terra deu nome à geometria",
+      body: [
+        "'Geometria' vem do grego geo (terra) + metria (medida): no Egito antigo, as cheias do Nilo apagavam as divisas dos terrenos todo ano, e era preciso remedi-los — daí nasceu a arte de calcular áreas e perímetros. O 'teorema de Pitágoras' já aparecia em tabuletas babilônicas mil anos antes de Pitágoras, mas foi a escola grega que o demonstrou em vez de só usá-lo.",
+        "Por volta de 300 a.C., Euclides organizou todo esse conhecimento nos Elementos, partindo de cinco postulados e deduzindo o resto — o livro didático mais longevo da história, usado por mais de dois mil anos. Pouco depois, Arquimedes levou a geometria ao limite calculando áreas de figuras curvas por aproximações, plantando a semente do que viraria o cálculo.",
+      ],
+      mathematicians: ["pitagoras", "euclides", "arquimedes"],
+    },
     theory: [
       {
         heading: "Perímetro e área",
@@ -3693,6 +3720,14 @@ export const medioTopics: Topic[] = [
     minutes: 20,
     graphExpressions: ["x^2 - 4x + 3"],
     relatedTopics: [{ levelId: "medio", topicId: "funcao-primeiro-grau" }],
+    historicalNote: {
+      title: "Da Babilônia a Bagdá: 4 mil anos de equações do 2º grau",
+      body: [
+        "Escribas babilônicos já resolviam problemas equivalentes a equações do 2º grau há quase 4 mil anos — em geral, questões de área de terrenos. Mas foi Al-Khwarizmi, na Bagdá do século IX, quem sistematizou os métodos de resolução no livro que deu origem à palavra 'álgebra' (al-jabr), justificando cada passo com recortes geométricos: literalmente 'completar o quadrado'.",
+        "Curiosidade: chamar a fórmula resolutiva de 'fórmula de Bhaskara' é um costume quase exclusivamente brasileiro — o matemático indiano Bhaskara II (século XII) trabalhou com essas equações, mas a fórmula como conhecemos é bem posterior a ele.",
+      ],
+      mathematicians: ["al-khwarizmi"],
+    },
     theory: [
       {
         heading: "O que é uma função quadrática?",
@@ -4176,6 +4211,14 @@ export const medioTopics: Topic[] = [
       { levelId: "medio", topicId: "funcao-primeiro-grau" },
       { levelId: "econometria-iniciante", topicId: "regressao-linear-simples" },
     ],
+    historicalNote: {
+      title: "A mosca no teto de Descartes",
+      body: [
+        "Em 1637, René Descartes publicou La Géométrie e uniu dois mundos que andavam separados havia dois mil anos: a álgebra e a geometria. A ideia — descrever cada ponto por um par de números — teria surgido, diz a lenda, observando uma mosca no teto do quarto: para dizer onde ela estava, bastavam as distâncias até duas paredes. São as coordenadas do 'plano cartesiano', que leva seu nome.",
+        "Essa ponte é uma das ideias mais férteis da matemática: curvas viraram equações, contas viraram desenhos, e o cálculo de Newton ganhou a linguagem de que precisava. Muito antes, Hipátia de Alexandria já havia comentado e preservado as Cônicas de Apolônio — as curvas que a geometria analítica descreveria com equações séculos depois.",
+      ],
+      mathematicians: ["descartes", "hipatia"],
+    },
     theory: [
       {
         heading: "Distância entre dois pontos",
@@ -4417,6 +4460,14 @@ export const medioTopics: Topic[] = [
       { levelId: "matematica-financeira-iniciante", topicId: "juros-simples" },
       { levelId: "matematica-financeira-avancado", topicId: "juros-compostos" },
     ],
+    historicalNote: {
+      title: "O menino que somou de 1 a 100 em segundos",
+      body: [
+        "Conta-se que o professor de Carl Friedrich Gauss, para ocupar a turma, mandou somar todos os números de 1 a 100. O pequeno Gauss respondeu quase de imediato: 5050. Ele notou que 1+100, 2+99, 3+98… formam 50 pares que somam 101 cada — exatamente o raciocínio por trás da fórmula da soma de uma PA.",
+        "Já o crescimento explosivo de uma PG aparece na lenda do tabuleiro de xadrez: como recompensa, o sábio pediu 1 grão de arroz na primeira casa, 2 na segunda, 4 na terceira, dobrando a cada casa. O rei riu do pedido 'modesto' — mas a soma das 64 casas passa de 18 quintilhões de grãos, mais arroz do que o mundo produz em séculos. É o mesmo crescimento dos juros compostos.",
+      ],
+      mathematicians: ["gauss"],
+    },
     theory: [
       {
         heading: "Progressão Aritmética (PA)",

@@ -142,6 +142,18 @@ de aplicativos.
   antes do commit — mesma técnica descrita em "Sobre o idioma"/testes)
   já que o ambiente de teste não tem Supabase/Stripe configurado pra
   simular uma assinatura ativa. Ver `src/components/widgets/`.
+- **História da matemática**: alguns tópicos terminam com uma nota "📜 Um
+  pouco de história" contando de onde o assunto veio e por que ele
+  importa (o Nilo e a geometria, Al-Khwarizmi e a álgebra, o menino
+  Gauss somando de 1 a 100…), com links para as biografias em
+  **/matematicos** — 9 figuras por enquanto (Pitágoras, Euclides,
+  Arquimedes, Hipátia, Al-Khwarizmi, Descartes, Newton, Euler e Gauss),
+  cada uma com vida, principais contribuições e links de volta para os
+  tópicos do app onde suas ideias aparecem (mesmo espírito do grafo de
+  conhecimento). Campo `historicalNote` opcional em `Topic`
+  (`curriculum.ts`) + `src/data/mathematicians.ts`; páginas estáticas
+  incluídas no sitemap. Piloto: 5 notas (Frações, Geometria Plana,
+  Função Quadrática, Geometria Analítica e Progressões).
 - **Liga semanal** (`/liga`, requer conta): ranking amistoso e opt-in do
   XP ganho na semana corrente, no espírito das ligas do Brilliant.org.
   Só participa (e vê o placar) quem clica "Entrar na liga"; apenas o

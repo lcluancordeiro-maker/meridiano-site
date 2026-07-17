@@ -7,6 +7,7 @@ import InteractiveWidgetRenderer from "@/components/widgets/InteractiveWidgetRen
 import KnowledgeGraph from "@/components/KnowledgeGraph";
 import TheoryCheckQuestion from "@/components/TheoryCheckQuestion";
 import { getLevel, getTopic, getTopicsForLevel, levels } from "@/data/curriculum";
+import { getMathematician } from "@/data/mathematicians";
 import { isPremiumUser } from "@/lib/entitlements";
 import { getServerLocale } from "@/i18n/getServerLocale";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -104,6 +105,42 @@ export default async function TopicPage({
                 </div>
               ))}
             </div>
+
+            {topic.historicalNote && (
+              <aside className="mt-10 rounded-2xl border border-warning/30 bg-warning-bg p-6">
+                <p className="text-xs font-semibold uppercase tracking-wide text-warning">
+                  📜 Um pouco de história
+                </p>
+                <h2 className="mt-2 font-display text-xl font-semibold text-foreground">
+                  {topic.historicalNote.title}
+                </h2>
+                <div className="mt-3 flex flex-col gap-3">
+                  {topic.historicalNote.body.map((paragraph, i) => (
+                    <p key={i} className="leading-relaxed text-foreground/80">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+                {topic.historicalNote.mathematicians && (
+                  <p className="mt-4 flex flex-wrap items-center gap-2 text-sm">
+                    <span className="font-medium text-muted">Conheça:</span>
+                    {topic.historicalNote.mathematicians.map((id) => {
+                      const figure = getMathematician(id);
+                      if (!figure) return null;
+                      return (
+                        <Link
+                          key={id}
+                          href={`/matematicos/${figure.id}`}
+                          className="rounded-full border border-warning/40 bg-surface px-3 py-1 font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
+                        >
+                          {figure.portrait} {figure.name}
+                        </Link>
+                      );
+                    })}
+                  </p>
+                )}
+              </aside>
+            )}
 
             {topic.graphExpressions && (
               <div className="mt-10">

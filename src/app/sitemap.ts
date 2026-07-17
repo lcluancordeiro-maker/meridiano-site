@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { levels, getTopicsForLevel } from "@/data/curriculum";
+import { MATHEMATICIANS } from "@/data/mathematicians";
 import { SITE_URL } from "@/lib/siteUrl";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -25,5 +26,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       return [levelUrl, ...topicUrls];
     });
 
-  return [...staticRoutes, ...trilhaRoutes];
+  const matematicosRoutes: MetadataRoute.Sitemap = [
+    { url: `${SITE_URL}/matematicos`, changeFrequency: "monthly", priority: 0.5 },
+    ...MATHEMATICIANS.map((figure) => ({
+      url: `${SITE_URL}/matematicos/${figure.id}`,
+      changeFrequency: "yearly" as const,
+      priority: 0.4,
+    })),
+  ];
+
+  return [...staticRoutes, ...trilhaRoutes, ...matematicosRoutes];
 }

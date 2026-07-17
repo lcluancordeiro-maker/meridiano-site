@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { getMathematician } from "./mathematicians";
 import {
   DIFFICULTY_ORDER,
   econometriaTopics,
@@ -143,6 +144,21 @@ describe.each(ALL_TRACKS)("topics for $levelId", ({ levelId, topics }) => {
   it("getTopic resolves each topic through the public accessor", () => {
     for (const topic of topics) {
       expect(getTopic(levelId, topic.id)?.title).toBe(topic.title);
+    }
+  });
+
+  it("every historical note is non-empty and references only real mathematicians", () => {
+    for (const topic of topics) {
+      const note = topic.historicalNote;
+      if (!note) continue;
+      expect(note.title.trim(), `${topic.id} note title`).not.toBe("");
+      expect(note.body.length, `${topic.id} note body`).toBeGreaterThan(0);
+      for (const paragraph of note.body) {
+        expect(paragraph.trim(), `${topic.id} note paragraph`).not.toBe("");
+      }
+      for (const id of note.mathematicians ?? []) {
+        expect(getMathematician(id), `${topic.id} → mathematician ${id}`).toBeDefined();
+      }
     }
   });
 
