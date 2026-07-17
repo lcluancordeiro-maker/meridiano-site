@@ -35,5 +35,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ];
 
-  return [...staticRoutes, ...trilhaRoutes, ...matematicosRoutes];
+  const caminhoRoutes: MetadataRoute.Sitemap = levels
+    .filter((level) => level.available)
+    .flatMap((level) =>
+      getTopicsForLevel(level.id).map((topic) => ({
+        url: `${SITE_URL}/caminho/${level.id}/${topic.id}`,
+        changeFrequency: "monthly" as const,
+        priority: 0.3,
+      }))
+    );
+
+  return [...staticRoutes, ...trilhaRoutes, ...matematicosRoutes, ...caminhoRoutes];
 }

@@ -337,6 +337,13 @@ export type Dictionary = {
     discussionsHeading: string;
     openCommunityLink: string;
     openChatLink: string;
+    pathwayEntryLink: string;
+    pathwayHeading: string;
+    pathwayYouAreHere: string;
+    pathwayStudyButton: string;
+    pathwayExploreButton: string;
+    pathwayEmptyState: string;
+    pathwayBackButton: string;
   };
 };
 
@@ -455,6 +462,13 @@ const socialFeaturesEn = {
     discussionsHeading: "Related conversations",
     openCommunityLink: "Open in community",
     openChatLink: "Open in chat",
+    pathwayEntryLink: "See the full knowledge pathway →",
+    pathwayHeading: "Knowledge pathway",
+    pathwayYouAreHere: "You are here",
+    pathwayStudyButton: "Study this topic",
+    pathwayExploreButton: "Explore connections",
+    pathwayEmptyState: "This topic doesn't have any mapped connections yet.",
+    pathwayBackButton: "← Back to the topic",
   },
   onboarding: {
     step1Title: "Welcome to Meridiano Matemática!",
@@ -801,6 +815,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       discussionsHeading: "Conversas relacionadas",
       openCommunityLink: "Abrir na comunidade",
       openChatLink: "Abrir na conversa",
+      pathwayEntryLink: "Ver caminho de conhecimento completo →",
+      pathwayHeading: "Caminho de conhecimento",
+      pathwayYouAreHere: "Você está aqui",
+      pathwayStudyButton: "Estudar este tópico",
+      pathwayExploreButton: "Explorar conexões",
+      pathwayEmptyState: "Esse tópico ainda não tem conexões mapeadas.",
+      pathwayBackButton: "← Voltar para o tópico",
     },
     onboarding: {
       step1Title: "Bem-vindo ao Meridiano Matemática!",
@@ -1362,6 +1383,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       discussionsHeading: "Conversaciones relacionadas",
       openCommunityLink: "Abrir en la comunidad",
       openChatLink: "Abrir en el chat",
+      pathwayEntryLink: "Ver el camino de conocimiento completo →",
+      pathwayHeading: "Camino de conocimiento",
+      pathwayYouAreHere: "Estás aquí",
+      pathwayStudyButton: "Estudiar este tema",
+      pathwayExploreButton: "Explorar conexiones",
+      pathwayEmptyState: "Este tema todavía no tiene conexiones mapeadas.",
+      pathwayBackButton: "← Volver al tema",
     },
     onboarding: {
       step1Title: "¡Bienvenido a Meridiano Matemática!",

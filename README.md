@@ -1125,6 +1125,26 @@ Tudo isso é renderizado por `KnowledgeGraph.tsx`, incluído no fim de
 `/trilha/[nivel]/[topico]`. Quando um tópico não tem `relatedTopics`,
 só o botão do Gauss aparece — o resto da seção fica invisível.
 
+4. **Caminho de conhecimento (`/caminho/[nivel]/[topico]`)**: o rodapé
+   de tópicos relacionados é uma lista plana — bom para "aqui está algo
+   parecido", mas não mostra a ideia de espiral entre trilhas. A página
+   `/caminho` resolve isso: mostra o tópico atual no centro, seus
+   tópicos relacionados diretos (1º grau) cada um com dois botões
+   ("Estudar este tópico" → a lição de verdade; "Explorar conexões" →
+   continua a navegação pelo caminho daquele tópico), e — o que faz
+   isso parecer de fato um caminho, não só uma lista — os tópicos
+   relacionados de CADA um desses (2º grau), como chips menores. É
+   assim que "Geometria Analítica" (Ensino Médio) mostra "Regressão
+   Linear Simples" (Econometria) que por sua vez mostra "Fundamentos de
+   Aprendizado Supervisionado" (Machine Learning) sem precisar clicar
+   duas vezes. Lógica pura e testável em
+   `src/lib/knowledgePathway.ts` (a função `buildPathway` cuida de não
+   repetir o tópico central nem duplicar um tópico de 2º grau que
+   aparece nas conexões de mais de um tópico de 1º grau). Um link "Ver
+   caminho de conhecimento completo →" na página real do tópico é a
+   porta de entrada; tópicos sem `relatedTopics` mostram um estado
+   vazio em vez de 404.
+
 **Fase 2 (implementada, opcional)**: a curadoria manual de
 `relatedTopics` não escala para milhares de exercícios, então também
 existe um caminho por embeddings — opcional, precisa de

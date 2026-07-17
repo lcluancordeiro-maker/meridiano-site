@@ -86,6 +86,14 @@ export default async function KnowledgeGraph({
               </li>
             ))}
           </ul>
+          {curatedTopics.length > 0 && (
+            <Link
+              href={`/caminho/${levelId}/${topic.id}`}
+              className="mt-3 inline-block text-sm font-semibold text-primary hover:underline"
+            >
+              {dict.pathwayEntryLink}
+            </Link>
+          )}
         </div>
       )}
 
