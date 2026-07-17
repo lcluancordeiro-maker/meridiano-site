@@ -1,10 +1,13 @@
 import type { InteractiveWidget } from "@/data/curriculum";
+import CombinationExplorer from "./CombinationExplorer";
 import CompoundInterestExplorer from "./CompoundInterestExplorer";
 import ConfusionMatrixExplorer from "./ConfusionMatrixExplorer";
 import FractionVisualizer from "./FractionVisualizer";
+import MatrixExplorer from "./MatrixExplorer";
 import MeanMedianExplorer from "./MeanMedianExplorer";
 import NormalDistributionExplorer from "./NormalDistributionExplorer";
 import PercentageChangeExplorer from "./PercentageChangeExplorer";
+import PrimeFactorizationExplorer from "./PrimeFactorizationExplorer";
 import ProbabilitySpinner from "./ProbabilitySpinner";
 import PythagoreanExplorer from "./PythagoreanExplorer";
 import QuadraticExplorer from "./QuadraticExplorer";
@@ -31,6 +34,9 @@ const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
   "regression-line-explorer": RegressionLineExplorer,
   "percentage-change-explorer": PercentageChangeExplorer,
   "confusion-matrix-explorer": ConfusionMatrixExplorer,
+  "matrix-explorer": MatrixExplorer,
+  "prime-factorization-explorer": PrimeFactorizationExplorer,
+  "combination-explorer": CombinationExplorer,
 };
 
 export default function InteractiveWidgetRenderer({ widget }: { widget: InteractiveWidget }) {

@@ -65,7 +65,10 @@ export type InteractiveWidget =
   | "normal-distribution-explorer"
   | "regression-line-explorer"
   | "percentage-change-explorer"
-  | "confusion-matrix-explorer";
+  | "confusion-matrix-explorer"
+  | "matrix-explorer"
+  | "prime-factorization-explorer"
+  | "combination-explorer";
 
 /** A quick one-tap multiple-choice check rendered inline right after a
  * theory section — Brilliant.org-style "learn by doing": instead of reading
@@ -11773,6 +11776,13 @@ export const vestibularUnespTopics: Topic[] = [
           solution: "D = 3×1-2×1 = 1. Dx = 16×1-2×6 = 4. x = Dx/D = 4/1 = 4.",
         },
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa nos 4 elementos da matriz abaixo e observe como o determinante muda — perceba que trocar a e d (ou b e c) de lugar altera o valor de forma diferente de trocar sinais.",
+        ],
+        interactiveWidget: "matrix-explorer",
+      },
     ],
     exercises: [
       {
@@ -12345,6 +12355,13 @@ export const vestibularObmepTopics: Topic[] = [
           "O MMC de dois números é o menor número que é múltiplo dos dois. Uma relação útil: MDC × MMC = produto dos dois números — o que permite achar um deles conhecendo o outro, o MDC e o MMC.",
         ],
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no slider abaixo e veja a fatoração em primos de cada número mudar em tempo real, junto com a contagem de divisores positivos.",
+        ],
+        interactiveWidget: "prime-factorization-explorer",
+      },
     ],
     exercises: [
       {
@@ -12875,6 +12892,13 @@ export const vestibularOimTopics: Topic[] = [
         body: [
           "Se n objetos são distribuídos em k grupos, algum grupo tem pelo menos ⌈n/k⌉ objetos. Na forma geral: para garantir m objetos num mesmo grupo entre k grupos, é preciso pelo menos (m-1)×k + 1 objetos.",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa em n e k e veja C(n,k) destacado na linha correspondente do triângulo de Pascal — repare como a linha é sempre simétrica.",
+        ],
+        interactiveWidget: "combination-explorer",
       },
     ],
     exercises: [

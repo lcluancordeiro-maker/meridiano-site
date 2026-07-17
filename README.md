@@ -98,7 +98,7 @@ de aplicativos.
 - **Widgets interativos na teoria** (também inspirado no Brilliant.org):
   algumas seções de teoria têm uma seção extra "Explore ao vivo" com um
   mini-app SVG em vez de só texto — sliders ou pontos arrastáveis que
-  recalculam algo na hora. Hoje são doze: em "Função do 1º Grau" (Ensino
+  recalculam algo na hora. Hoje são dezoito: em "Função do 1º Grau" (Ensino
   Médio), sliders para os coeficientes a/b mostram a reta mudando ao
   vivo; em "Geometria Analítica" (Ensino Médio), dois pontos arrastáveis
   recalculam distância, ponto médio e coeficiente angular em tempo real;
@@ -134,14 +134,23 @@ de aplicativos.
   R² na hora; em "Classificação: Matriz de Confusão, Precisão e
   Revocação" (Machine Learning — Introdução, Premium), 4 sliders (VP,
   FP, FN, VN) recalculam precisão, revocação, F1-score e acurácia ao
-  vivo. Os quinze widgets compartilham as constantes e funções de
+  vivo; em "Matrizes e Sistemas Lineares" (UNESP, Premium), 4 sliders
+  para os elementos a/b/c/d de uma matriz 2×2 recalculam o determinante
+  ao vivo; em "Divisibilidade e Números Primos" (OBMEP, Premium), um
+  slider de 2 a 100 mostra a fatoração em primos do número e a
+  contagem de divisores positivos em tempo real; em "Combinatória e
+  Contagem" (OIM, Premium), sliders de n e k recalculam C(n,k) e
+  destacam a posição correspondente na linha n do triângulo de
+  Pascal. Os dezoito widgets compartilham as constantes e funções de
   conversão de coordenadas SVG em `src/components/widgets/svgUtils.ts`
   (os widgets mais novos usam sua própria escala, calibrada pra cada
-  visualização). Os cinco widgets em trilhas Premium foram verificados
-  manualmente (`premium: false` temporário, rodada de e2e, revertido
-  antes do commit — mesma técnica descrita em "Sobre o idioma"/testes)
-  já que o ambiente de teste não tem Supabase/Stripe configurado pra
-  simular uma assinatura ativa. Ver `src/components/widgets/`.
+  visualização, e os três mais recentes — matriz, fatoração e
+  combinação — nem usam SVG, só grid/flexbox). Os oito widgets em
+  trilhas Premium foram verificados manualmente (`premium: false`
+  temporário, rodada de e2e, revertido antes do commit — mesma técnica
+  descrita em "Sobre o idioma"/testes) já que o ambiente de teste não
+  tem Supabase/Stripe configurado pra simular uma assinatura ativa. Ver
+  `src/components/widgets/`.
 - **História da matemática**: alguns tópicos terminam com uma nota "📜 Um
   pouco de história" contando de onde o assunto veio e por que ele
   importa (o Nilo e a geometria, Al-Khwarizmi e a álgebra, o menino
