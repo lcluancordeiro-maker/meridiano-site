@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import {
   __resetProgressForTests,
   getAllProgressSnapshot,
+  getMostRecentTopic,
   getTopicProgressSnapshot,
   saveTopicProgress,
 } from "./progress";
@@ -40,5 +41,29 @@ describe("saveTopicProgress / getTopicProgressSnapshot", () => {
     saveTopicProgress("fundamental-2", "fracoes", "medio", 5, 6);
     const after = getAllProgressSnapshot();
     expect(after).not.toBe(before);
+  });
+});
+
+describe("getMostRecentTopic", () => {
+  it("returns undefined for a visitor with no progress", () => {
+    expect(getMostRecentTopic()).toBeUndefined();
+  });
+
+  it("returns the only topic touched so far", () => {
+    saveTopicProgress("fundamental-2", "fracoes", "medio", 5, 6);
+    expect(getMostRecentTopic()).toMatchObject({ levelId: "fundamental-2", topicId: "fracoes" });
+  });
+
+  it("returns the most recently updated topic across levels, not just the last save", () => {
+    saveTopicProgress("fundamental-2", "fracoes", "medio", 5, 6);
+    saveTopicProgress("medio", "funcao-primeiro-grau", "facil", 6, 6);
+    expect(getMostRecentTopic()).toMatchObject({ levelId: "medio", topicId: "funcao-primeiro-grau" });
+  });
+
+  it("keeps returning the most recent topic even after an older tier of the same topic is saved again", () => {
+    saveTopicProgress("medio", "funcao-primeiro-grau", "facil", 6, 6);
+    saveTopicProgress("fundamental-2", "fracoes", "medio", 5, 6);
+    // Re-saving an easier tier of the topic touched first must not make it "most recent".
+    expect(getMostRecentTopic()).toMatchObject({ levelId: "fundamental-2", topicId: "fracoes" });
   });
 });

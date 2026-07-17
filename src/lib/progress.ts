@@ -87,6 +87,29 @@ export function getAllProgress(): ProgressStore {
   return readStore();
 }
 
+/** Which topic the student last answered something in, across every level
+ * — powers the "Continue de onde parou" card on the home page. Undefined
+ * for a visitor with no progress yet.
+ *
+ * Uses `>=`, not `>`, when comparing `updatedAt`: two saves in the same
+ * test (or two fast real answers) can land on the same millisecond, and
+ * Object.entries always iterates in insertion order for these string keys,
+ * so on a tie the entry written later is also the one seen later here —
+ * `>=` correctly prefers it instead of freezing on whichever came first. */
+export function getMostRecentTopic():
+  | { levelId: string; topicId: string; updatedAt: number }
+  | undefined {
+  let best: { levelId: string; topicId: string; updatedAt: number } | undefined;
+  for (const [key, value] of Object.entries(ensureCache())) {
+    const [levelId, topicId] = key.split("/");
+    if (!levelId || !topicId) continue;
+    if (!best || value.updatedAt >= best.updatedAt) {
+      best = { levelId, topicId, updatedAt: value.updatedAt };
+    }
+  }
+  return best;
+}
+
 /** Test-only: clears the in-memory cache so the next call re-reads localStorage. */
 export function __resetProgressForTests(): void {
   cache = null;

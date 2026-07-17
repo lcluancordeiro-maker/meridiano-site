@@ -2,6 +2,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import LevelCard from "@/components/LevelCard";
 import DailyChallenge from "@/components/DailyChallenge";
+import ContinueLearningCard from "@/components/ContinueLearningCard";
 import { levels } from "@/data/curriculum";
 import { getServerLocale } from "@/i18n/getServerLocale";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -38,6 +39,7 @@ export default async function Home() {
               {home.comecarFundamental2}
             </Link>
           </div>
+          <ContinueLearningCard label={home.continuarLabel} cta={home.continuarCta} />
         </div>
       </section>
 

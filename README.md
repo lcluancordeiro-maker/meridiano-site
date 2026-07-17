@@ -172,6 +172,14 @@ de aplicativos.
   opcional em `Exercise` (`src/data/curriculum.ts`), renderizado por
   `GuidedSteps.tsx`. Piloto: 3 exercícios (2 em Geometria Plana, 1 em
   Descontos e Acréscimos).
+- **"Continue de onde parou"**: a home mostra, logo abaixo do CTA
+  principal, um card apontando para o último tópico em que o aluno
+  respondeu algo — no espírito do Brilliant.org de retomar o curso
+  exatamente de onde parou. Some por completo para quem nunca praticou
+  (só os CTAs padrão do hero aparecem nesse caso). `getMostRecentTopic()`
+  em `src/lib/progress.ts` varre o mesmo `localStorage` do quiz e
+  resolve pelo `updatedAt` mais recente entre todos os níveis/tópicos;
+  `src/components/ContinueLearningCard.tsx` renderiza o card.
 - **Progresso real nos cards de nível**: na home, cada card de trilha
   mostra uma barra de progresso fina com a % de dificuldades concluídas
   em todos os tópicos daquele nível — some quando o nível ainda não foi

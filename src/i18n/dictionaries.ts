@@ -29,6 +29,8 @@ export type Dictionary = {
     heroTag: string;
     heroTitle: string;
     heroSubtitle: string;
+    continuarLabel: string;
+    continuarCta: string;
     verTrilhas: string;
     comecarFundamental2: string;
     escolhaNivel: string;
@@ -507,6 +509,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "Aprenda matemática no seu ritmo, com teoria clara e exercícios que dão feedback na hora.",
       heroSubtitle:
         "Trilhas organizadas por nível de ensino, explicações objetivas e prática guiada — tudo direto no navegador, sem precisar instalar nada.",
+      continuarLabel: "Continue de onde parou",
+      continuarCta: "Continuar",
       verTrilhas: "Ver trilhas disponíveis",
       comecarFundamental2: "Começar Fundamental II",
       escolhaNivel: "Escolha seu nível de ensino",
@@ -849,6 +853,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "Learn math at your own pace, with clear theory and exercises that give instant feedback.",
       heroSubtitle:
         "Tracks organized by grade level, clear explanations and guided practice — all in your browser, nothing to install.",
+      continuarLabel: "Continue where you left off",
+      continuarCta: "Continue",
       verTrilhas: "See available tracks",
       comecarFundamental2: "Start Middle School",
       escolhaNivel: "Choose your grade level",
@@ -1065,6 +1071,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "Aprende matemáticas a tu ritmo, con teoría clara y ejercicios que dan retroalimentación al instante.",
       heroSubtitle:
         "Rutas organizadas por nivel educativo, explicaciones claras y práctica guiada — todo desde el navegador, sin instalar nada.",
+      continuarLabel: "Continúa donde lo dejaste",
+      continuarCta: "Continuar",
       verTrilhas: "Ver rutas disponibles",
       comecarFundamental2: "Empezar Secundaria",
       escolhaNivel: "Elige tu nivel educativo",
@@ -1404,6 +1412,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       heroTag: "从小学到大学",
       heroTitle: "按照自己的节奏学习数学,清晰的理论讲解加上即时反馈的练习题。",
       heroSubtitle: "按学段划分的学习路径、清晰的讲解和有引导的练习——全部在浏览器中完成,无需安装任何软件。",
+      continuarLabel: "继续上次的学习",
+      continuarCta: "继续",
       verTrilhas: "查看可用的学习路径",
       comecarFundamental2: "开始学习初中数学",
       escolhaNivel: "选择你的学段",
@@ -1618,6 +1628,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       heroTitle: "Impara la matematica al tuo ritmo, con teoria chiara ed esercizi che danno un feedback immediato.",
       heroSubtitle:
         "Percorsi organizzati per livello scolastico, spiegazioni chiare e pratica guidata — tutto nel browser, senza installare nulla.",
+      continuarLabel: "Continua da dove hai lasciato",
+      continuarCta: "Continua",
       verTrilhas: "Vedi i percorsi disponibili",
       comecarFundamental2: "Inizia le medie",
       escolhaNivel: "Scegli il tuo livello scolastico",
@@ -1835,6 +1847,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       heroTitle: "명확한 이론과 즉각적인 피드백을 주는 문제로, 자신의 속도에 맞춰 수학을 배우세요.",
       heroSubtitle:
         "학년별로 구성된 학습 트랙, 명확한 설명과 안내된 연습 — 설치할 필요 없이 브라우저에서 모두 이용할 수 있습니다.",
+      continuarLabel: "이어서 학습하기",
+      continuarCta: "계속하기",
       verTrilhas: "이용 가능한 학습 트랙 보기",
       comecarFundamental2: "중학교 과정 시작하기",
       escolhaNivel: "학년을 선택하세요",
@@ -2050,6 +2064,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       heroTitle: "Lerne Mathematik in deinem eigenen Tempo, mit klarer Theorie und Übungen mit sofortigem Feedback.",
       heroSubtitle:
         "Kurse nach Klassenstufe geordnet, klare Erklärungen und geführtes Üben — alles im Browser, ohne etwas installieren zu müssen.",
+      continuarLabel: "Weiter, wo du aufgehört hast",
+      continuarCta: "Weiter",
       verTrilhas: "Verfügbare Kurse ansehen",
       comecarFundamental2: "Mit der Mittelstufe beginnen",
       escolhaNivel: "Wähle deine Klassenstufe",
@@ -2267,6 +2283,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       heroTitle: "Apprenez les mathématiques à votre rythme, avec une théorie claire et des exercices qui donnent un retour immédiat.",
       heroSubtitle:
         "Des parcours organisés par niveau scolaire, des explications claires et une pratique guidée — le tout dans le navigateur, sans rien installer.",
+      continuarLabel: "Reprenez là où vous en étiez",
+      continuarCta: "Continuer",
       verTrilhas: "Voir les parcours disponibles",
       comecarFundamental2: "Commencer le collège",
       escolhaNivel: "Choisissez votre niveau scolaire",
@@ -2511,6 +2529,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       heroTag: "小学校から大学まで",
       heroTitle: "明確な理論とすぐにフィードバックが得られる演習で、自分のペースで数学を学びましょう。",
       heroSubtitle: "学年別に整理された学習コース、わかりやすい解説とガイド付きの演習 — すべてブラウザ上で、インストール不要です。",
+      continuarLabel: "前回の続きから",
+      continuarCta: "続ける",
       verTrilhas: "利用可能なコースを見る",
       comecarFundamental2: "中学校コースを始める",
       escolhaNivel: "学年を選択してください",
@@ -2726,6 +2746,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       heroTitle: "تعلّم الرياضيات وفق وتيرتك الخاصة، بشرح واضح وتمارين توفر تغذية راجعة فورية.",
       heroSubtitle:
         "مسارات منظمة حسب المرحلة الدراسية، وشروحات واضحة، وتدريب موجَّه — كل ذلك في المتصفح، دون الحاجة لتثبيت أي شيء.",
+      continuarLabel: "أكمل من حيث توقفت",
+      continuarCta: "متابعة",
       verTrilhas: "عرض المسارات المتاحة",
       comecarFundamental2: "ابدأ المرحلة الإعدادية",
       escolhaNivel: "اختر مرحلتك الدراسية",
@@ -2942,6 +2964,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       heroTitle: "Изучайте математику в своём темпе — с понятной теорией и упражнениями с мгновенной обратной связью.",
       heroSubtitle:
         "Курсы, организованные по классам, понятные объяснения и практика с подсказками — всё прямо в браузере, без установки.",
+      continuarLabel: "Продолжить с того же места",
+      continuarCta: "Продолжить",
       verTrilhas: "Смотреть доступные курсы",
       comecarFundamental2: "Начать среднюю школу",
       escolhaNivel: "Выберите свой уровень обучения",
