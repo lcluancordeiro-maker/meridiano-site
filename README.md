@@ -275,7 +275,17 @@ de aplicativos.
   Exponenciais e Logarítmicas" (16 exercícios): equações exponenciais,
   logaritmo como operação inversa, propriedades dos logaritmos e
   aplicações interdisciplinares (decaimento radioativo, escala
-  Richter) — um assunto que nenhuma outra trilha cobria ainda.
+  Richter) — um assunto que nenhuma outra trilha cobria ainda. A UNESP
+  ganhou seu próprio 3º tópico, "Matrizes e Sistemas Lineares" (16
+  exercícios): operações com matrizes, determinante de matriz 2×2 e
+  resolução de sistemas lineares pela regra de Cramer — um tema
+  clássico e recorrente na prova. A OBMEP ganhou "Divisibilidade e
+  Números Primos" (16 exercícios): critérios de divisibilidade,
+  fatoração em primos, MDC e MMC — as ferramentas por trás da maioria
+  dos quebra-cabeças numéricos da 1ª fase. E a OIM ganhou "Combinatória
+  e Contagem" (16 exercícios): princípio fundamental da contagem,
+  permutações, combinações e o princípio da casa dos pombos em sua
+  forma geral — fechando as 5 provas da Fase 1 com 3 tópicos cada.
   **Fase 2** adiciona **SAT Math** (Premium: álgebra e funções, estilo
   múltipla escolha com 4 alternativas — uma a menos que o ENEM — e
   agora também "Estatística e Geometria": média, mediana, moda,
@@ -283,13 +293,18 @@ de aplicativos.
   Quant** (Premium: raciocínio lógico-quantitativo rápido, com
   problemas de razão, taxas e contextos de negócio, e agora também
   "Combinatória e Probabilidade": permutações, combinações C(n,k) e
-  probabilidade de eventos independentes). Como o resto do conteúdo do
-  app, os enunciados do SAT/GMAT ficam em português por
-  consistência com a base de exercícios — as provas reais são em
-  inglês, então vale complementar o preparo com material em inglês
-  também. Gaokao (multidisciplinar, em chinês) e PISA (avaliação de
-  letramento da OCDE, não uma prova que se "treina" com simulados)
-  ficaram de fora por não se encaixarem no formato do app.
+  probabilidade de eventos independentes). Ambas também ganharam um 3º
+  tópico (20 exercícios cada, no mesmo formato do simulado geral): o
+  SAT com "Sistemas e Exponenciais" (sistemas lineares por substituição
+  e eliminação, regras de expoentes e inequações) e o GMAT com
+  "Conjuntos e Estatística" (conjuntos sobrepostos com diagrama de
+  Venn, amplitude e interpretação de dados em contextos de negócio).
+  Como o resto do conteúdo do app, os enunciados do SAT/GMAT ficam em
+  português por consistência com a base de exercícios — as provas
+  reais são em inglês, então vale complementar o preparo com material
+  em inglês também. Gaokao (multidisciplinar, em chinês) e PISA
+  (avaliação de letramento da OCDE, não uma prova que se "treina" com
+  simulados) ficaram de fora por não se encaixarem no formato do app.
 - **Gamificação**: XP por resposta certa (escalado por dificuldade),
   níveis, sequência (streak) diária e conquistas.
 - **Micro-animações**: o feedback de resposta (quiz, revisão, Desafio do
