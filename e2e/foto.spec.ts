@@ -9,8 +9,9 @@ test.describe("resolver por foto (Supabase not configured in this environment)",
     await expect(page.getByRole("link", { name: "criar uma conta" })).toHaveAttribute("href", "/cadastro");
   });
 
-  test("navbar links to the foto page", async ({ page }) => {
+  test("navbar (under 'Mais') links to the foto page", async ({ page }) => {
     await page.goto("/");
+    await page.getByRole("button", { name: "Mais" }).click();
     await expect(page.getByRole("link", { name: "Resolver por foto" })).toHaveAttribute("href", "/foto");
   });
 });

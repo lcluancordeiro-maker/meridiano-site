@@ -355,6 +355,19 @@ de aplicativos.
   "Instalar o app" aparece automaticamente quando o navegador oferece a
   instalação (evento `beforeinstallprompt`), com botão de instalar e de
   dispensar (`src/components/InstallPwaPrompt.tsx`).
+- **Navbar consolidada (menu "Mais")**: no desktop, a barra do topo só
+  mostra os 3 links do ciclo central de estudo — Trilhas, Progresso,
+  Revisão — mantendo o topo enxuto no espírito minimalista do
+  Brilliant.org. Tudo o mais (Calculadora, Resolver por foto, Quadro,
+  Turmas, Chat, Comunidades, Lives, Liga, Matemáticos e Moderação para
+  admins) fica atrás de um dropdown "Mais". No mobile, o hambúrguer
+  continua revelando os links todos numa lista única (não há espaço de
+  sobra pra um segundo nível de menu numa tela pequena). Ver
+  `src/components/Navbar.tsx` (divide `primaryNavItems`/
+  `secondaryNavItems`) e `src/components/MobileNavMenu.tsx` (renderiza
+  os dois em containers separados — badges de XP, seletor de idioma,
+  tema e login ficam num terceiro container à parte, pra nunca duplicar
+  no DOM).
 - **Prontidão para produção**: `sitemap.xml`/`robots.txt` gerados a
   partir do catálogo de trilhas, metadados OpenGraph/Twitter,
   monitoramento de erros opcional (Sentry) e analytics de página sem

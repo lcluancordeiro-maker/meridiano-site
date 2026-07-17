@@ -18,8 +18,9 @@ test.describe("lives (LiveKit not configured in this environment)", () => {
     expect(await response.json()).toEqual({ error: "not_configured" });
   });
 
-  test("navbar links to /lives", async ({ page }) => {
+  test("navbar (under 'Mais') links to /lives", async ({ page }) => {
     await page.goto("/");
+    await page.getByRole("button", { name: "Mais" }).click();
     await expect(page.getByRole("link", { name: "Lives", exact: true })).toHaveAttribute("href", "/lives");
   });
 });

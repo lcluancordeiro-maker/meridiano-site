@@ -12,8 +12,9 @@ test.describe("chat (Supabase not configured in this environment)", () => {
     await expect(page).toHaveURL("/chat");
   });
 
-  test("navbar links to /chat", async ({ page }) => {
+  test("navbar (under 'Mais') links to /chat", async ({ page }) => {
     await page.goto("/");
+    await page.getByRole("button", { name: "Mais" }).click();
     await expect(page.getByRole("link", { name: "Chat", exact: true })).toHaveAttribute("href", "/chat");
   });
 });

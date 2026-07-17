@@ -16,8 +16,9 @@ test.describe("turmas (Supabase not configured in this environment)", () => {
     ).toBeVisible();
   });
 
-  test("navbar links to /turmas", async ({ page }) => {
+  test("navbar (under 'Mais') links to /turmas", async ({ page }) => {
     await page.goto("/");
+    await page.getByRole("button", { name: "Mais" }).click();
     await expect(page.getByRole("link", { name: "Turmas", exact: true })).toHaveAttribute(
       "href",
       "/turmas"

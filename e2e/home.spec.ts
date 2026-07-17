@@ -24,8 +24,9 @@ test.describe("home page", () => {
     await expect(page.locator('a[href="/trilha/fundamental-1"]')).toHaveCount(0);
   });
 
-  test("navbar links reach the calculator and progress pages", async ({ page }) => {
+  test("navbar links reach the calculator (under 'Mais') and progress pages", async ({ page }) => {
     await page.goto("/");
+    await page.getByRole("button", { name: "Mais" }).click();
     await page.getByRole("link", { name: "Calculadora" }).click();
     await expect(page).toHaveURL(/\/calculadora$/);
 

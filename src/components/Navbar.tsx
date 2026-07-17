@@ -17,8 +17,17 @@ export default async function Navbar() {
   const locale = await getServerLocale();
   const dict = getDictionary(locale);
 
-  const navItems = [
+  // Primary: the core learning loop, always visible. Everything else is
+  // real and useful but secondary to "study a topic, track progress" — it
+  // lives behind the "Mais" menu so the top-level nav stays scannable
+  // (Brilliant.org keeps its own shell down to essentially one action).
+  const primaryNavItems = [
     { href: "/#niveis", label: dict.nav.trilhas },
+    { href: "/progresso", label: dict.nav.progresso },
+    { href: "/revisao", label: dict.nav.revisao },
+  ];
+
+  const secondaryNavItems = [
     { href: "/calculadora", label: dict.nav.calculadora },
     { href: "/foto", label: dict.nav.resolverFoto },
     { href: "/quadro", label: dict.nav.quadro },
@@ -26,8 +35,8 @@ export default async function Navbar() {
     { href: "/chat", label: dict.chat.title },
     { href: "/comunidades", label: dict.communities.title },
     { href: "/lives", label: dict.lives.title },
-    { href: "/progresso", label: dict.nav.progresso },
-    { href: "/revisao", label: dict.nav.revisao },
+    { href: "/liga", label: dict.nav.liga },
+    { href: "/matematicos", label: dict.nav.matematicos },
     ...(isModerator ? [{ href: "/admin/moderacao", label: "Moderação" }] : []),
   ];
 
@@ -44,7 +53,13 @@ export default async function Navbar() {
             Meridiano <span className="text-primary">Matemática</span>
           </span>
         </Link>
-        <MobileNavMenu navItems={navItems} openLabel={dict.nav.abrirMenu} closeLabel={dict.nav.fecharMenu}>
+        <MobileNavMenu
+          primaryNavItems={primaryNavItems}
+          secondaryNavItems={secondaryNavItems}
+          moreLabel={dict.nav.mais}
+          openLabel={dict.nav.abrirMenu}
+          closeLabel={dict.nav.fecharMenu}
+        >
           <Link
             href="/assinatura"
             className={

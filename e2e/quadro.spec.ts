@@ -39,8 +39,9 @@ test.describe("quadro de rascunho", () => {
     expect(download.suggestedFilename()).toBe("quadro-meridiano.png");
   });
 
-  test("navbar links to the quadro page", async ({ page }) => {
+  test("navbar (under 'Mais') links to the quadro page", async ({ page }) => {
     await page.goto("/");
+    await page.getByRole("button", { name: "Mais" }).click();
     await expect(page.getByRole("link", { name: "Quadro" })).toHaveAttribute("href", "/quadro");
   });
 

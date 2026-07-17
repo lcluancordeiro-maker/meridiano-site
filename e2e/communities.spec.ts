@@ -14,8 +14,9 @@ test.describe("communities (Supabase not configured in this environment)", () =>
     await expect(page).toHaveURL("/comunidades");
   });
 
-  test("navbar links to /comunidades", async ({ page }) => {
+  test("navbar (under 'Mais') links to /comunidades", async ({ page }) => {
     await page.goto("/");
+    await page.getByRole("button", { name: "Mais" }).click();
     await expect(page.getByRole("link", { name: "Comunidades", exact: true })).toHaveAttribute(
       "href",
       "/comunidades"
