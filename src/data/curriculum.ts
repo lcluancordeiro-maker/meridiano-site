@@ -97,6 +97,18 @@ export type TheorySection = {
  * conhecimento" in the README. */
 export type RelatedTopicRef = { levelId: string; topicId: string };
 
+/** Optional mid-level grouping between a Level (course) and its Topics
+ * (lessons) — a themed cluster of a few topics, purely presentational (no
+ * own route). Lets the skill path (SkillPath.tsx) render a level's topics
+ * as chapter-sized sections instead of one long flat list, closer to how
+ * Brilliant.org structures a course. `topicIds` must list, in order, a
+ * subset of that level's topic ids — a level without `chapters` renders as
+ * a flat list exactly as before (fully backward compatible). */
+export type Chapter = {
+  title: string;
+  topicIds: string[];
+};
+
 /** "Um pouco de história": nota opcional no fim da teoria contando por que
  * o assunto existe e de onde veio — contexto que motiva o conteúdo em vez
  * de só apresentá-lo. `mathematicians` são ids de src/data/mathematicians.ts
@@ -132,6 +144,8 @@ export type Level = {
    * src/lib/entitlements.ts. Irrelevant while `available` is false. */
   premium: boolean;
   group: LevelGroup;
+  /** Optional chapter grouping for the skill path — see Chapter. */
+  chapters?: Chapter[];
 };
 
 export const levels: Level[] = [
@@ -153,6 +167,14 @@ export const levels: Level[] = [
     available: true,
     premium: false,
     group: "serie",
+    chapters: [
+      { title: "Números e Frações", topicIds: ["numeros-inteiros", "fracoes"] },
+      {
+        title: "Álgebra e Potências",
+        topicIds: ["introducao-algebra", "potenciacao-radiciacao", "proporcionalidade-porcentagem"],
+      },
+      { title: "Equações e Geometria", topicIds: ["equacoes-segundo-grau", "geometria-plana"] },
+    ],
   },
   {
     id: "medio",
@@ -162,6 +184,14 @@ export const levels: Level[] = [
     available: true,
     premium: false,
     group: "serie",
+    chapters: [
+      { title: "Funções", topicIds: ["funcao-primeiro-grau", "funcao-quadratica"] },
+      {
+        title: "Geometria e Trigonometria",
+        topicIds: ["trigonometria-triangulo-retangulo", "geometria-analitica"],
+      },
+      { title: "Sequências e Números Complexos", topicIds: ["progressoes", "numeros-complexos"] },
+    ],
   },
   {
     id: "superior",

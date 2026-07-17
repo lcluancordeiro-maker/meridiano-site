@@ -181,6 +181,22 @@ de aplicativos.
   `localStorage` que o quiz grava, então o mapa atualiza ao vivo. Ver
   `src/components/SkillPath.tsx` (substituiu o antigo grid de
   `TopicCard`).
+- **Capítulos (agrupamento intermediário)**: opcionalmente, uma trilha
+  pode definir `chapters` — clusters temáticos de 2-3 tópicos entre o
+  nível e o tópico, mais perto de como o Brilliant.org estrutura um
+  curso (curso → capítulo → lição). No mapa de progressão, cada
+  capítulo aparece como um divisor com o título e um contador somado
+  entre todos os seus tópicos e dificuldades ("n/total"), virando ✓
+  quando o capítulo inteiro é concluído. Piloto em Ensino Fundamental
+  II ("Números e Frações", "Álgebra e Potências", "Equações e
+  Geometria") e Ensino Médio ("Funções", "Geometria e Trigonometria",
+  "Sequências e Números Complexos") — os demais tópicos e trilhas
+  continuam sem `chapters`, renderizando como lista plana, sem nenhuma
+  mudança de comportamento. Campo opcional `chapters` em `Level`
+  (`src/data/curriculum.ts`), `useChapterCompletion.ts` soma o
+  progresso do capítulo, e `curriculum.test.ts` garante que, quando
+  definidos, os capítulos cobrem cada tópico da trilha exatamente uma
+  vez (sem lacunas nem duplicatas).
 - **Desafios nos widgets**: três widgets gratuitos (reta, Pitágoras e
   frações) trazem um card "Desafio" que transforma a exploração em
   pergunta — um alvo é proposto ("monte a reta f(x) = -2x + 3", "monte

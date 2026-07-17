@@ -59,6 +59,24 @@ describe("levels", () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
+  it("every chapter topicId is a real topic of that level, with no gaps or duplicates", () => {
+    for (const level of levels) {
+      if (!level.chapters) continue;
+      const levelTopicIds = getTopicsForLevel(level.id).map((t) => t.id);
+      const chapterTopicIds = level.chapters.flatMap((c) => c.topicIds);
+
+      for (const id of chapterTopicIds) {
+        expect(levelTopicIds, `${level.id} chapters → topic ${id}`).toContain(id);
+      }
+      expect(new Set(chapterTopicIds).size, `${level.id} chapters have duplicate topics`).toBe(
+        chapterTopicIds.length
+      );
+      expect(chapterTopicIds.sort(), `${level.id} chapters cover every topic exactly once`).toEqual(
+        [...levelTopicIds].sort()
+      );
+    }
+  });
+
   it("every available level has at least one topic", () => {
     for (const level of levels) {
       if (level.available) {

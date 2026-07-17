@@ -49,7 +49,7 @@ export default async function LevelPage({
           </p>
         )}
 
-        <SkillPath levelId={level.id} topics={topics} />
+        <SkillPath levelId={level.id} topics={topics} chapters={level.chapters} />
       </div>
     </div>
   );
