@@ -54,7 +54,7 @@ export default async function Home() {
           {levels
             .filter((level) => level.group === "serie")
             .map((level) => (
-              <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} />
+              <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} progressLabel={dict.nav.progresso} />
             ))}
         </div>
       </section>
@@ -71,7 +71,7 @@ export default async function Home() {
             {levels
               .filter((level) => level.group === "estatistica")
               .map((level) => (
-                <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} />
+                <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} progressLabel={dict.nav.progresso} />
               ))}
           </div>
         </div>
@@ -89,7 +89,7 @@ export default async function Home() {
             {levels
               .filter((level) => level.group === "programacao")
               .map((level) => (
-                <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} />
+                <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} progressLabel={dict.nav.progresso} />
               ))}
           </div>
         </div>
@@ -106,7 +106,7 @@ export default async function Home() {
           {levels
             .filter((level) => level.group === "econometria")
             .map((level) => (
-              <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} />
+              <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} progressLabel={dict.nav.progresso} />
             ))}
         </div>
       </section>
@@ -123,7 +123,7 @@ export default async function Home() {
             {levels
               .filter((level) => level.group === "financas")
               .map((level) => (
-                <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} />
+                <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} progressLabel={dict.nav.progresso} />
               ))}
           </div>
         </div>
@@ -140,7 +140,7 @@ export default async function Home() {
           {levels
             .filter((level) => level.group === "vestibulares")
             .map((level) => (
-              <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} />
+              <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} progressLabel={dict.nav.progresso} />
             ))}
         </div>
       </section>

@@ -1,16 +1,19 @@
 import Link from "next/link";
 import type { Level } from "@/data/curriculum";
+import LevelCardProgress from "./LevelCardProgress";
 
 export default function LevelCard({
   level,
   emBreve,
   comecarTrilha,
   premiumBadge,
+  progressLabel,
 }: {
   level: Level;
   emBreve: string;
   comecarTrilha: string;
   premiumBadge: string;
+  progressLabel: string;
 }) {
   const content = (
     <div
@@ -43,6 +46,9 @@ export default function LevelCard({
         <p className="mt-2 text-sm leading-relaxed text-muted">
           {level.description}
         </p>
+        {level.available && (
+          <LevelCardProgress levelId={level.id} progressLabel={progressLabel} />
+        )}
       </div>
       {level.available && (
         <span className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-primary">

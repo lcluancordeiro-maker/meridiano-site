@@ -172,6 +172,12 @@ de aplicativos.
   opcional em `Exercise` (`src/data/curriculum.ts`), renderizado por
   `GuidedSteps.tsx`. Piloto: 3 exercícios (2 em Geometria Plana, 1 em
   Descontos e Acréscimos).
+- **Progresso real nos cards de nível**: na home, cada card de trilha
+  mostra uma barra de progresso fina com a % de dificuldades concluídas
+  em todos os tópicos daquele nível — some quando o nível ainda não foi
+  começado (mesma convenção do badge de XP na navbar). Reaproveita
+  `useChapterCompletion` passando a lista completa de tópicos do nível
+  em vez de só um capítulo. Ver `src/components/LevelCardProgress.tsx`.
 - **Mapa de progressão (skill path)**: a página de cada trilha
   (`/trilha/[nivel]`) mostra os tópicos como uma jornada vertical —
   nós numerados conectados por uma linha, com o nó virando um ✓ verde
