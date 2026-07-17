@@ -195,6 +195,15 @@ de aplicativos.
   `localStorage` que o quiz grava, então o mapa atualiza ao vivo. Ver
   `src/components/SkillPath.tsx` (substituiu o antigo grid de
   `TopicCard`).
+- **Pré-requisito suave entre capítulos**: quando o capítulo anterior
+  ainda não tem nenhum progresso, o divisor do capítulo seguinte mostra
+  um aviso 🔒 sugerindo começar por ali primeiro (com tooltip explicando
+  qual capítulo). É só uma sugestão: nenhum link de tópico é bloqueado —
+  quem quiser pular à frente clica normalmente. O aviso some assim que
+  qualquer exercício do capítulo anterior é concluído. Implementado em
+  `ChapterHeading` (`SkillPath.tsx`), sem tabela nem estado novo — reusa
+  `useChapterCompletion` para descobrir se o capítulo anterior está
+  zerado.
 - **Capítulos (agrupamento intermediário)**: opcionalmente, uma trilha
   pode definir `chapters` — clusters temáticos de 2-3 tópicos entre o
   nível e o tópico, mais perto de como o Brilliant.org estrutura um

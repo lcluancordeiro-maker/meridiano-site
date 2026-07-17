@@ -94,19 +94,46 @@ function SkillPathNode({
 
 /** A section divider between chapters — shows the chapter title and a
  * rolled-up "n/total" across every difficulty tier of every topic in it,
- * turning green once the whole chapter is done. */
-function ChapterHeading({ levelId, chapter }: { levelId: string; chapter: Chapter }) {
+ * turning green once the whole chapter is done.
+ *
+ * Also carries a *soft* prerequisite nudge: if the previous chapter has no
+ * progress at all yet, this one shows a 🔒 hint suggesting the student
+ * start there first. It's a suggestion only — every topic link underneath
+ * stays fully clickable either way, so nobody who wants to skip ahead is
+ * ever blocked. `previousChapter` is undefined for the first chapter in a
+ * level, which is never locked. */
+function ChapterHeading({
+  levelId,
+  chapter,
+  previousChapter,
+}: {
+  levelId: string;
+  chapter: Chapter;
+  previousChapter?: Chapter;
+}) {
   const { completed, total } = useChapterCompletion(levelId, chapter.topicIds);
+  const previous = useChapterCompletion(levelId, previousChapter?.topicIds ?? []);
   const done = completed === total;
+  const locked = Boolean(previousChapter) && previous.total > 0 && previous.completed === 0;
 
   return (
-    <li className="my-2 flex items-center gap-3 first:mt-0" data-testid="chapter-heading">
+    <li
+      className="my-2 flex items-center gap-3 first:mt-0"
+      data-testid="chapter-heading"
+      data-locked={locked}
+    >
       <span aria-hidden className="h-px flex-1 bg-border" />
       <span
         className={`whitespace-nowrap text-xs font-semibold uppercase tracking-wide ${
-          done ? "text-success" : "text-muted"
+          done ? "text-success" : locked ? "text-warning" : "text-muted"
         }`}
+        title={
+          locked
+            ? `Recomendado: comece por "${previousChapter!.title}" antes deste capítulo.`
+            : undefined
+        }
       >
+        {locked && "🔒 "}
         {chapter.title} · {completed}/{total}
         {done ? " ✓" : ""}
       </span>
@@ -168,7 +195,13 @@ export default function SkillPath({
     <ol className="mt-10 flex flex-col">
       {sections.map(({ section, startIndex }, sectionIndex) => (
         <Fragment key={section.chapter?.title ?? `section-${sectionIndex}`}>
-          {section.chapter && <ChapterHeading levelId={levelId} chapter={section.chapter} />}
+          {section.chapter && (
+            <ChapterHeading
+              levelId={levelId}
+              chapter={section.chapter}
+              previousChapter={sections[sectionIndex - 1]?.section.chapter}
+            />
+          )}
           {section.topics.map((topic, topicIndex) => {
             const index = startIndex + topicIndex;
             return (

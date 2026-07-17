@@ -106,3 +106,48 @@ test.describe("skill path chapters", () => {
     await expect(page.getByTestId("skill-node").first()).toBeVisible();
   });
 });
+
+// A chapter shows a 🔒 soft-lock hint when the previous chapter has zero
+// progress — a suggestion only, never a real block: every topic link
+// underneath stays clickable regardless of the lock state.
+test.describe("skill path soft chapter lock", () => {
+  test("the first chapter is never locked, later ones are for a fresh visitor", async ({ page }) => {
+    await page.goto("/trilha/fundamental-2");
+    const headings = page.getByTestId("chapter-heading");
+    await expect(headings.nth(0)).toHaveAttribute("data-locked", "false");
+    await expect(headings.nth(1)).toHaveAttribute("data-locked", "true");
+    await expect(headings.nth(1)).toContainText("🔒");
+    await expect(headings.nth(2)).toHaveAttribute("data-locked", "true");
+  });
+
+  test("starting the first chapter unlocks the hint on the second", async ({ page }) => {
+    await page.addInitScript(() => {
+      window.localStorage.setItem(
+        "meridiano-math-progress",
+        JSON.stringify({
+          "fundamental-2/numeros-inteiros/facil": {
+            completed: true,
+            score: 6,
+            total: 6,
+            updatedAt: Date.now(),
+          },
+        })
+      );
+    });
+    await page.goto("/trilha/fundamental-2");
+    const headings = page.getByTestId("chapter-heading");
+    await expect(headings.nth(1)).toHaveAttribute("data-locked", "false");
+    await expect(headings.nth(1)).not.toContainText("🔒");
+  });
+
+  test("a locked chapter's topics stay fully clickable — the lock never blocks navigation", async ({
+    page,
+  }) => {
+    await page.goto("/trilha/fundamental-2");
+    await expect(page.getByTestId("chapter-heading").nth(1)).toHaveAttribute("data-locked", "true");
+
+    // "Introdução à Álgebra" is the first topic of the (locked) 2nd chapter.
+    await page.getByRole("link", { name: /Introdução à Álgebra/ }).click();
+    await expect(page).toHaveURL(/\/trilha\/fundamental-2\/introducao-algebra$/);
+  });
+});
