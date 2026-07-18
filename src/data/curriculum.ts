@@ -72,7 +72,8 @@ export type InteractiveWidget =
   | "solid-3d-explorer"
   | "vector-explorer"
   | "venn-diagram-explorer"
-  | "truth-table-explorer";
+  | "truth-table-explorer"
+  | "interval-explorer";
 
 /** A quick one-tap multiple-choice check rendered inline right after a
  * theory section — Brilliant.org-style "learn by doing": instead of reading
@@ -9849,6 +9850,13 @@ export const logicaEConjuntosTopics: Topic[] = [
         body: [
           "União e interseção de intervalos funcionam como em qualquer conjunto — a diferença é que aqui pensamos na reta real: onde os intervalos se sobrepõem (interseção) e onde, juntos, eles cobrem (união).",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa nos extremos dos dois intervalos na reta numérica e observe a interseção (destacada em roxo) e a união se recalcularem ao vivo.",
+        ],
+        interactiveWidget: "interval-explorer",
       },
     ],
     exercises: [

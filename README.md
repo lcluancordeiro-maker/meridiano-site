@@ -119,7 +119,7 @@ de aplicativos.
 - **Widgets interativos na teoria** (também inspirado no Brilliant.org):
   algumas seções de teoria têm uma seção extra "Explore ao vivo" com um
   mini-app SVG em vez de só texto — sliders ou pontos arrastáveis que
-  recalculam algo na hora. Hoje são vinte e dois: em "Função do 1º Grau" (Ensino
+  recalculam algo na hora. Hoje são vinte e três: em "Função do 1º Grau" (Ensino
   Médio), sliders para os coeficientes a/b mostram a reta mudando ao
   vivo; em "Geometria Analítica" (Ensino Médio), dois pontos arrastáveis
   recalculam distância, ponto médio e coeficiente angular em tempo real;
@@ -173,8 +173,11 @@ de aplicativos.
   Venn com a contagem de cada região e recalculam |A∪B| ao vivo; em
   "Proposições e Conectivos Lógicos" (Lógica e Conjuntos), botões
   alternam o conectivo (∧/∨/→) e o valor lógico de p e q, destacando
-  ao vivo a linha correspondente da tabela-verdade. Os vinte e dois
-  widgets compartilham as constantes e funções de conversão de
+  ao vivo a linha correspondente da tabela-verdade; em "Conjuntos
+  Numéricos e Intervalos" (Lógica e Conjuntos), sliders para os
+  extremos de dois intervalos os desenham numa reta numérica e
+  recalculam interseção (destacada em roxo) e união ao vivo. Os vinte
+  e três widgets compartilham as constantes e funções de conversão de
   coordenadas SVG em `src/components/widgets/svgUtils.ts` (os widgets
   mais novos usam sua própria escala, calibrada pra cada visualização,
   e quatro deles — matriz, fatoração, combinação e tabela-verdade —

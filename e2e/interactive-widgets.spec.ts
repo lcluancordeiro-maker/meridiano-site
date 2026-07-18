@@ -195,6 +195,19 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
     await expect(page.getByText("Com p=V e q=F, p→q = F")).toBeVisible();
   });
 
+  test("interval explorer recalculates intersection/union as you move the sliders", async ({ page }) => {
+    await page.goto("/trilha/logica-e-conjuntos/conjuntos-numericos-e-intervalos");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("[1,5] ∩ [3,8] = [3,5]")).toBeVisible();
+    await expect(page.getByText("União = [1,8]")).toBeVisible();
+
+    const b1Slider = page.getByRole("slider", { name: "Fim do intervalo 1 (b1)" });
+    await b1Slider.fill("2");
+    // [1,2] and [3,8] no longer overlap.
+    await expect(page.getByText("[1,2] ∩ [3,8] = ∅")).toBeVisible();
+    await expect(page.getByText("União = [1,2]∪[3,8]")).toBeVisible();
+  });
+
   test("percentage change explorer recalculates the final value as you move the sliders", async ({ page }) => {
     await page.goto("/trilha/matematica-financeira-iniciante/descontos-e-acrescimos");
     await expect(page.getByText("Explore ao vivo")).toBeVisible();
@@ -278,6 +291,16 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
 
     await page.getByRole("button", { name: "Selecionar conectivo p→q" }).click();
     await page.getByRole("button", { name: "Alternar valor lógico de q" }).click();
+    await challenge.getByRole("button", { name: "Conferir desafio" }).click();
+    await expect(challenge.getByText("Desafio concluído! 🎉")).toBeVisible();
+  });
+
+  test("interval explorer challenge accepts a non-overlapping pair", async ({ page }) => {
+    await page.goto("/trilha/logica-e-conjuntos/conjuntos-numericos-e-intervalos");
+    const challenge = page.getByTestId("widget-challenge");
+    await challenge.scrollIntoViewIfNeeded();
+
+    await page.getByRole("slider", { name: "Fim do intervalo 1 (b1)" }).fill("2");
     await challenge.getByRole("button", { name: "Conferir desafio" }).click();
     await expect(challenge.getByText("Desafio concluído! 🎉")).toBeVisible();
   });

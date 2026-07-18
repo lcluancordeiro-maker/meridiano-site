@@ -3,6 +3,7 @@ import CombinationExplorer from "./CombinationExplorer";
 import CompoundInterestExplorer from "./CompoundInterestExplorer";
 import ConfusionMatrixExplorer from "./ConfusionMatrixExplorer";
 import FractionVisualizer from "./FractionVisualizer";
+import IntervalExplorer from "./IntervalExplorer";
 import MatrixExplorer from "./MatrixExplorer";
 import MeanMedianExplorer from "./MeanMedianExplorer";
 import NormalDistributionExplorer from "./NormalDistributionExplorer";
@@ -45,6 +46,7 @@ const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
   "vector-explorer": VectorExplorer,
   "venn-diagram-explorer": VennDiagramExplorer,
   "truth-table-explorer": TruthTableExplorer,
+  "interval-explorer": IntervalExplorer,
 };
 
 export default function InteractiveWidgetRenderer({ widget }: { widget: InteractiveWidget }) {
