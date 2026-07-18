@@ -68,7 +68,7 @@ export default function RegressionLineExplorer() {
               step={1}
               value={y}
               onChange={(e) => updateY(i, Number(e.target.value))}
-              className="flex-1 accent-[var(--color-primary)]"
+              className="min-w-0 flex-1 accent-[var(--color-primary)]"
             />
           </label>
         ))}

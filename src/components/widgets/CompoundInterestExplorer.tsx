@@ -63,7 +63,7 @@ export default function CompoundInterestExplorer() {
             step={100}
             value={principal}
             onChange={(e) => setPrincipal(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
           />
         </label>
         <label className="flex items-center gap-3 text-sm text-foreground">
@@ -75,7 +75,7 @@ export default function CompoundInterestExplorer() {
             step={1}
             value={ratePercent}
             onChange={(e) => setRatePercent(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
           />
         </label>
         <label className="flex items-center gap-3 text-sm text-foreground">
@@ -87,7 +87,7 @@ export default function CompoundInterestExplorer() {
             step={1}
             value={years}
             onChange={(e) => setYears(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
           />
         </label>
       </div>

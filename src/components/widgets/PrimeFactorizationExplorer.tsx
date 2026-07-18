@@ -58,7 +58,7 @@ export default function PrimeFactorizationExplorer() {
           step={1}
           value={n}
           onChange={(e) => setN(Number(e.target.value))}
-          className="flex-1 accent-[var(--color-primary)]"
+          className="min-w-0 flex-1 accent-[var(--color-primary)]"
           aria-label="Número n"
         />
       </label>

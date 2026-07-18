@@ -56,7 +56,7 @@ export default function NormalDistributionExplorer() {
             step={5}
             value={mean}
             onChange={(e) => setMean(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
           />
         </label>
         <label className="flex items-center gap-3 text-sm text-foreground">
@@ -68,7 +68,7 @@ export default function NormalDistributionExplorer() {
             step={1}
             value={sigma}
             onChange={(e) => setSigma(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
           />
         </label>
         <label className="flex items-center gap-3 text-sm text-foreground">
@@ -80,7 +80,7 @@ export default function NormalDistributionExplorer() {
             step={1}
             value={clampedX}
             onChange={(e) => setX(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
           />
         </label>
       </div>

@@ -42,7 +42,7 @@ export default function ConfusionMatrixExplorer() {
               step={1}
               value={s.value}
               onChange={(e) => s.setValue(Number(e.target.value))}
-              className="flex-1 accent-[var(--color-primary)]"
+              className="min-w-0 flex-1 accent-[var(--color-primary)]"
             />
           </label>
         ))}

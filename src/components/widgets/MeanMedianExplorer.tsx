@@ -44,7 +44,7 @@ export default function MeanMedianExplorer() {
               step={1}
               value={value}
               onChange={(e) => updateValue(i, Number(e.target.value))}
-              className="flex-1 accent-[var(--color-primary)]"
+              className="min-w-0 flex-1 accent-[var(--color-primary)]"
             />
           </label>
         ))}

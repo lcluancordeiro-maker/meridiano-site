@@ -49,7 +49,7 @@ export default function PercentageChangeExplorer() {
             step={10}
             value={original}
             onChange={(e) => setOriginal(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
           />
         </label>
         <label className="flex items-center gap-3 text-sm text-foreground">
@@ -61,7 +61,7 @@ export default function PercentageChangeExplorer() {
             step={5}
             value={percent1}
             onChange={(e) => setPercent1(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
           />
         </label>
         <label className="flex items-center gap-3 text-sm text-foreground">
@@ -73,7 +73,7 @@ export default function PercentageChangeExplorer() {
             step={5}
             value={percent2}
             onChange={(e) => setPercent2(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
           />
         </label>
       </div>

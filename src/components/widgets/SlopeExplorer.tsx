@@ -36,7 +36,7 @@ export default function SlopeExplorer() {
             step={0.5}
             value={a}
             onChange={(e) => setA(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
           />
         </label>
         <label className="flex items-center gap-3 text-sm text-foreground">
@@ -48,7 +48,7 @@ export default function SlopeExplorer() {
             step={0.5}
             value={b}
             onChange={(e) => setB(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
           />
         </label>
       </div>

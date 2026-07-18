@@ -43,7 +43,7 @@ export default function UnitCircleExplorer() {
           step={1}
           value={angleDeg}
           onChange={(e) => setAngleDeg(Number(e.target.value))}
-          className="flex-1 accent-[var(--color-primary)]"
+          className="min-w-0 flex-1 accent-[var(--color-primary)]"
         />
       </label>
 

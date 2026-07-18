@@ -41,7 +41,7 @@ export default function ProbabilitySpinner() {
             step={1}
             value={total}
             onChange={(e) => setTotal(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
           />
         </label>
         <label className="flex items-center gap-3 text-sm text-foreground">
@@ -53,7 +53,7 @@ export default function ProbabilitySpinner() {
             step={1}
             value={clampedFavorable}
             onChange={(e) => setFavorable(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
           />
         </label>
       </div>

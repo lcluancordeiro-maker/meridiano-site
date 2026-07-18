@@ -45,7 +45,7 @@ export default function CombinationExplorer() {
             step={1}
             value={n}
             onChange={(e) => updateN(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
             aria-label="Total de elementos (n)"
           />
         </label>
@@ -58,7 +58,7 @@ export default function CombinationExplorer() {
             step={1}
             value={k}
             onChange={(e) => setK(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
             aria-label="Elementos escolhidos (k)"
           />
         </label>

@@ -44,7 +44,7 @@ export default function TangentLineExplorer() {
           step={0.25}
           value={x}
           onChange={(e) => setX(Number(e.target.value))}
-          className="flex-1 accent-[var(--color-primary)]"
+          className="min-w-0 flex-1 accent-[var(--color-primary)]"
         />
       </label>
 

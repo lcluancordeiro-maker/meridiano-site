@@ -60,7 +60,7 @@ export default function IntervalExplorer() {
             step={1}
             value={a1}
             onChange={(e) => updateA1(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
             aria-label="Início do intervalo 1 (a1)"
           />
         </label>
@@ -73,7 +73,7 @@ export default function IntervalExplorer() {
             step={1}
             value={b1}
             onChange={(e) => updateB1(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
             aria-label="Fim do intervalo 1 (b1)"
           />
         </label>
@@ -86,7 +86,7 @@ export default function IntervalExplorer() {
             step={1}
             value={a2}
             onChange={(e) => updateA2(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
             aria-label="Início do intervalo 2 (a2)"
           />
         </label>
@@ -99,7 +99,7 @@ export default function IntervalExplorer() {
             step={1}
             value={b2}
             onChange={(e) => updateB2(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
             aria-label="Fim do intervalo 2 (b2)"
           />
         </label>

@@ -38,7 +38,7 @@ export default function FractionVisualizer() {
             step={1}
             value={clampedNumerator}
             onChange={(e) => setNumerator(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
           />
         </label>
         <label className="flex items-center gap-3 text-sm text-foreground">
@@ -50,7 +50,7 @@ export default function FractionVisualizer() {
             step={1}
             value={denominator}
             onChange={(e) => setDenominator(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
           />
         </label>
       </div>

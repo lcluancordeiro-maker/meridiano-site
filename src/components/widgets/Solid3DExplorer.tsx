@@ -40,7 +40,7 @@ export default function Solid3DExplorer() {
             step={1}
             value={r}
             onChange={(e) => setR(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
             aria-label="Raio do cilindro"
           />
         </label>
@@ -53,7 +53,7 @@ export default function Solid3DExplorer() {
             step={1}
             value={h}
             onChange={(e) => setH(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
             aria-label="Altura do cilindro"
           />
         </label>

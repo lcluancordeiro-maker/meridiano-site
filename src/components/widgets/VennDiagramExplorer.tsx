@@ -31,7 +31,7 @@ export default function VennDiagramExplorer() {
             step={1}
             value={totalA}
             onChange={(e) => setTotalA(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
             aria-label="Tamanho do conjunto A"
           />
         </label>
@@ -44,7 +44,7 @@ export default function VennDiagramExplorer() {
             step={1}
             value={totalB}
             onChange={(e) => setTotalB(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
             aria-label="Tamanho do conjunto B"
           />
         </label>
@@ -57,7 +57,7 @@ export default function VennDiagramExplorer() {
             step={1}
             value={clampedIntersection}
             onChange={(e) => setIntersection(Number(e.target.value))}
-            className="flex-1 accent-[var(--color-primary)]"
+            className="min-w-0 flex-1 accent-[var(--color-primary)]"
             aria-label="Tamanho da interseção A∩B"
           />
         </label>
