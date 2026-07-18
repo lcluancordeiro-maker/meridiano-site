@@ -73,6 +73,14 @@ de aplicativos.
   retângulo, volume máximo de uma caixa) — e agora também "Equações
   Diferenciais": achar a função original a partir de dy/dx=f(x) e usar
   uma condição inicial para fixar a constante C.
+- **Geometria Espacial** (Premium, nova trilha): "Prismas e Cilindros"
+  — volume (área da base × altura) e área lateral/total —, "Pirâmides
+  e Cones" — sempre 1/3 do volume do prisma/cilindro correspondente,
+  mais a geratriz de um cone (g²=r²+h²) — e "Esferas e Sólidos
+  Compostos" — volume (4/3)πr³ e área 4πr² da esfera, e como somar ou
+  subtrair partes para achar o volume de um sólido composto (silo,
+  cavidade). 3 tópicos, 20 exercícios cada, mesmo padrão do Ensino
+  Médio/Superior.
 - **Econometria** (Premium): "Regressão Linear Simples" — estimar
   β0/β1 a partir de covariância e variância, prever valores e
   interpretar o coeficiente de determinação (R²) —, "Regressão
@@ -98,7 +106,7 @@ de aplicativos.
 - **Widgets interativos na teoria** (também inspirado no Brilliant.org):
   algumas seções de teoria têm uma seção extra "Explore ao vivo" com um
   mini-app SVG em vez de só texto — sliders ou pontos arrastáveis que
-  recalculam algo na hora. Hoje são dezoito: em "Função do 1º Grau" (Ensino
+  recalculam algo na hora. Hoje são dezenove: em "Função do 1º Grau" (Ensino
   Médio), sliders para os coeficientes a/b mostram a reta mudando ao
   vivo; em "Geometria Analítica" (Ensino Médio), dois pontos arrastáveis
   recalculam distância, ponto médio e coeficiente angular em tempo real;
@@ -140,17 +148,19 @@ de aplicativos.
   slider de 2 a 100 mostra a fatoração em primos do número e a
   contagem de divisores positivos em tempo real; em "Combinatória e
   Contagem" (OIM, Premium), sliders de n e k recalculam C(n,k) e
-  destacam a posição correspondente na linha n do triângulo de
-  Pascal. Os dezoito widgets compartilham as constantes e funções de
-  conversão de coordenadas SVG em `src/components/widgets/svgUtils.ts`
-  (os widgets mais novos usam sua própria escala, calibrada pra cada
-  visualização, e os três mais recentes — matriz, fatoração e
-  combinação — nem usam SVG, só grid/flexbox). Os oito widgets em
-  trilhas Premium foram verificados manualmente (`premium: false`
-  temporário, rodada de e2e, revertido antes do commit — mesma técnica
-  descrita em "Sobre o idioma"/testes) já que o ambiente de teste não
-  tem Supabase/Stripe configurado pra simular uma assinatura ativa. Ver
-  `src/components/widgets/`.
+  destacam a posição correspondente na linha n do triângulo de Pascal;
+  em "Prismas e Cilindros" (Geometria Espacial, Premium), sliders de
+  raio e altura desenham um cilindro (elipses + retas) e recalculam
+  volume e área lateral em termos de π ao vivo. Os dezenove widgets
+  compartilham as constantes e funções de conversão de coordenadas SVG
+  em `src/components/widgets/svgUtils.ts` (os widgets mais novos usam
+  sua própria escala, calibrada pra cada visualização, e três deles —
+  matriz, fatoração e combinação — nem usam SVG, só grid/flexbox). Os
+  nove widgets em trilhas Premium foram verificados manualmente
+  (`premium: false` temporário, rodada de e2e, revertido antes do
+  commit — mesma técnica descrita em "Sobre o idioma"/testes) já que o
+  ambiente de teste não tem Supabase/Stripe configurado pra simular uma
+  assinatura ativa. Ver `src/components/widgets/`.
 - **História da matemática**: alguns tópicos terminam com uma nota "📜 Um
   pouco de história" contando de onde o assunto veio e por que ele
   importa (o Nilo e a geometria, Al-Khwarizmi e a álgebra, o menino

@@ -14,6 +14,7 @@ import QuadraticExplorer from "./QuadraticExplorer";
 import RegressionLineExplorer from "./RegressionLineExplorer";
 import SequenceExplorer from "./SequenceExplorer";
 import SlopeExplorer from "./SlopeExplorer";
+import Solid3DExplorer from "./Solid3DExplorer";
 import TangentLineExplorer from "./TangentLineExplorer";
 import TwoPointExplorer from "./TwoPointExplorer";
 import UnitCircleExplorer from "./UnitCircleExplorer";
@@ -37,6 +38,7 @@ const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
   "matrix-explorer": MatrixExplorer,
   "prime-factorization-explorer": PrimeFactorizationExplorer,
   "combination-explorer": CombinationExplorer,
+  "solid-3d-explorer": Solid3DExplorer,
 };
 
 export default function InteractiveWidgetRenderer({ widget }: { widget: InteractiveWidget }) {
