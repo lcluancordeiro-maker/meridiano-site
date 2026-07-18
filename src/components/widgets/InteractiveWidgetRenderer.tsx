@@ -19,6 +19,7 @@ import TangentLineExplorer from "./TangentLineExplorer";
 import TwoPointExplorer from "./TwoPointExplorer";
 import UnitCircleExplorer from "./UnitCircleExplorer";
 import VectorExplorer from "./VectorExplorer";
+import VennDiagramExplorer from "./VennDiagramExplorer";
 
 const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
   "slope-explorer": SlopeExplorer,
@@ -41,6 +42,7 @@ const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
   "combination-explorer": CombinationExplorer,
   "solid-3d-explorer": Solid3DExplorer,
   "vector-explorer": VectorExplorer,
+  "venn-diagram-explorer": VennDiagramExplorer,
 };
 
 export default function InteractiveWidgetRenderer({ widget }: { widget: InteractiveWidget }) {

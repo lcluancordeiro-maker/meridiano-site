@@ -168,6 +168,19 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
     await expect(page.getByText(/u·v=0 \(perpendiculares!\)/)).toBeVisible();
   });
 
+  test("venn diagram explorer recalculates the union as you move the sliders", async ({ page }) => {
+    await page.goto("/trilha/logica-e-conjuntos/operacoes-com-conjuntos");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("|A∪B| = |A|+|B|-|A∩B| = 12+9-4 = 17")).toBeVisible();
+
+    const aSlider = page.getByRole("slider", { name: "Tamanho do conjunto A" });
+    await aSlider.fill("20");
+    const bSlider = page.getByRole("slider", { name: "Tamanho do conjunto B" });
+    await bSlider.fill("14");
+    // A=20, B=14, intersection stays at 4 -> union = 20+14-4 = 30.
+    await expect(page.getByText("|A∪B| = |A|+|B|-|A∩B| = 20+14-4 = 30")).toBeVisible();
+  });
+
   test("percentage change explorer recalculates the final value as you move the sliders", async ({ page }) => {
     await page.goto("/trilha/matematica-financeira-iniciante/descontos-e-acrescimos");
     await expect(page.getByText("Explore ao vivo")).toBeVisible();
@@ -229,6 +242,17 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
 
     await page.getByRole("slider", { name: "Componente v: c" }).fill("3");
     await page.getByRole("slider", { name: "Componente v: d" }).fill("-2");
+    await challenge.getByRole("button", { name: "Conferir desafio" }).click();
+    await expect(challenge.getByText("Desafio concluído! 🎉")).toBeVisible();
+  });
+
+  test("venn diagram explorer challenge accepts |A∪B|=30", async ({ page }) => {
+    await page.goto("/trilha/logica-e-conjuntos/operacoes-com-conjuntos");
+    const challenge = page.getByTestId("widget-challenge");
+    await challenge.scrollIntoViewIfNeeded();
+
+    await page.getByRole("slider", { name: "Tamanho do conjunto A" }).fill("20");
+    await page.getByRole("slider", { name: "Tamanho do conjunto B" }).fill("14");
     await challenge.getByRole("button", { name: "Conferir desafio" }).click();
     await expect(challenge.getByText("Desafio concluído! 🎉")).toBeVisible();
   });

@@ -83,6 +83,14 @@ de aplicativos.
   subtrair partes para achar o volume de um sólido composto (silo,
   cavidade). 3 tópicos, 20 exercícios cada, mesmo padrão do Ensino
   Médio/Superior.
+- **Lógica e Conjuntos** (gratuita, nova trilha): "Proposições e
+  Conectivos Lógicos" — negação, conjunção, disjunção, condicional,
+  tabelas-verdade e as Leis de De Morgan —, "Operações com Conjuntos"
+  — união, interseção, diferença e o princípio da inclusão-exclusão
+  (|A∪B|=|A|+|B|-|A∩B|), com um diagrama de Venn interativo — e
+  "Conjuntos Numéricos e Intervalos" — N⊂Z⊂Q⊂R, números irracionais e
+  notação/operações com intervalos ([a,b], (a,b) etc). 3 tópicos, 20
+  exercícios cada.
 - **Econometria** (Premium): "Regressão Linear Simples" — estimar
   β0/β1 a partir de covariância e variância, prever valores e
   interpretar o coeficiente de determinação (R²) —, "Regressão
@@ -108,7 +116,7 @@ de aplicativos.
 - **Widgets interativos na teoria** (também inspirado no Brilliant.org):
   algumas seções de teoria têm uma seção extra "Explore ao vivo" com um
   mini-app SVG em vez de só texto — sliders ou pontos arrastáveis que
-  recalculam algo na hora. Hoje são vinte: em "Função do 1º Grau" (Ensino
+  recalculam algo na hora. Hoje são vinte e um: em "Função do 1º Grau" (Ensino
   Médio), sliders para os coeficientes a/b mostram a reta mudando ao
   vivo; em "Geometria Analítica" (Ensino Médio), dois pontos arrastáveis
   recalculam distância, ponto médio e coeficiente angular em tempo real;
@@ -157,12 +165,15 @@ de aplicativos.
   Médio), sliders para as componentes de dois vetores u e v desenham
   as setas a partir da origem (mais a soma tracejada) e recalculam
   módulo e produto escalar ao vivo — com um destaque quando os dois
-  ficam perpendiculares. Os vinte widgets compartilham as constantes e
-  funções de conversão de coordenadas SVG em
-  `src/components/widgets/svgUtils.ts` (os widgets mais novos usam sua
-  própria escala, calibrada pra cada visualização, e três deles —
-  matriz, fatoração e combinação — nem usam SVG, só grid/flexbox). Os
-  nove widgets em trilhas Premium foram verificados manualmente
+  ficam perpendiculares; em "Operações com Conjuntos" (Lógica e
+  Conjuntos), sliders para |A|, |B| e |A∩B| desenham um diagrama de
+  Venn com a contagem de cada região e recalculam |A∪B| ao vivo. Os
+  vinte e um widgets compartilham as constantes e funções de conversão
+  de coordenadas SVG em `src/components/widgets/svgUtils.ts` (os
+  widgets mais novos usam sua própria escala, calibrada pra cada
+  visualização, e três deles — matriz, fatoração e combinação — nem
+  usam SVG, só grid/flexbox). Os nove widgets em trilhas Premium foram
+  verificados manualmente
   (`premium: false` temporário, rodada de e2e, revertido antes do
   commit — mesma técnica descrita em "Sobre o idioma"/testes) já que o
   ambiente de teste não tem Supabase/Stripe configurado pra simular uma

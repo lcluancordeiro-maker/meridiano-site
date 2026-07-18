@@ -4,6 +4,7 @@ import {
   DIFFICULTY_ORDER,
   estatisticaInicianteTopics,
   fundamental2Topics,
+  logicaEConjuntosTopics,
   matematicaFinanceiraInicianteTopics,
   medioTopics,
   programacaoInicianteTopics,
@@ -55,6 +56,7 @@ const TRACKS: { levelId: string; topicId: string; exercises: Exercise[] }[] = [
     exercises: t.exercises,
   })),
   ...vestibularEnemTopics.map((t) => ({ levelId: "vestibular-enem", topicId: t.id, exercises: t.exercises })),
+  ...logicaEConjuntosTopics.map((t) => ({ levelId: "logica-e-conjuntos", topicId: t.id, exercises: t.exercises })),
 ];
 
 async function answerExercise(page: Page, exercise: Exercise) {
