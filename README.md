@@ -373,9 +373,16 @@ de aplicativos.
   `globals.css` (keyframes `rise-in`/`pop-in`/`xp-pop`) e desligado por
   completo para quem usa `prefers-reduced-motion`.
 - **Dashboard de progresso** (`/progresso`) com gráficos de desempenho
-  por tópico e XP ao longo do tempo. Quem está logado vê ali um botão
-  para ativar **lembretes de sequência por notificação push** — avisa
-  quando a sequência de dias praticando está prestes a quebrar. Veja
+  por tópico e XP ao longo do tempo, e um card **"Pontos de atenção"**
+  que varre o progresso salvo em TODAS as trilhas (não só as que têm
+  gráfico dedicado), soma acerto por tópico entre os quatro níveis de
+  dificuldade e lista os até 5 tópicos com menor acerto abaixo de 80%
+  (só entram tópicos com pelo menos 3 exercícios respondidos, pra um
+  chute isolado não aparecer como "ponto fraco") — cada linha já linka
+  de volta pra praticar aquele tópico (`src/lib/weakSpots.ts`, testado
+  isoladamente). Quem está logado vê ali um botão para ativar
+  **lembretes de sequência por notificação push** — avisa quando a
+  sequência de dias praticando está prestes a quebrar. Veja
   "Configurando notificações push" abaixo.
 - Progresso e gamificação salvos localmente no navegador
   (`localStorage`) — funciona sem conta (modo convidado).

@@ -2,11 +2,13 @@
 
 import StatTile from "@/components/StatTile";
 import BadgeGrid from "@/components/BadgeGrid";
+import WeakSpotsCard from "@/components/WeakSpotsCard";
 import AccuracyChart from "@/components/charts/AccuracyChart";
 import XpTrendChart from "@/components/charts/XpTrendChart";
 import { useGamification } from "@/lib/useGamification";
 import { useAllProgress } from "@/lib/useAllProgress";
 import { levelFromXp, getXpLast } from "@/lib/gamification";
+import { getWeakSpots } from "@/lib/weakSpots";
 import {
   DIFFICULTY_ORDER,
   estatisticaAvancadoTopics,
@@ -93,6 +95,7 @@ export default function ProgressoContent() {
   );
 
   const hasAnyActivity = gamification.xp > 0;
+  const weakSpots = getWeakSpots(allProgress, { limit: 8 });
 
   return (
     <div className="mx-auto w-full max-w-4xl px-6 py-12">
@@ -152,6 +155,9 @@ export default function ProgressoContent() {
             <div className="mt-4">
               <XpTrendChart data={xpTrend} />
             </div>
+          </div>
+          <div className="sm:col-span-2">
+            <WeakSpotsCard weakSpots={weakSpots} />
           </div>
         </div>
       )}
