@@ -196,7 +196,11 @@ de aplicativos.
   (`premium: false` temporário, rodada de e2e, revertido antes do
   commit — mesma técnica descrita em "Sobre o idioma"/testes) já que o
   ambiente de teste não tem Supabase/Stripe configurado pra simular uma
-  assinatura ativa. Ver `src/components/widgets/`.
+  assinatura ativa. `InteractiveWidgetRenderer` carrega cada widget sob
+  demanda via `next/dynamic` (chunk próprio por widget, ~2-5KB cada) —
+  uma página de tópico só baixa o widget que ela de fato usa, em vez do
+  bundle com os 24 juntos que era carregado antes em toda página
+  `/trilha/*/*`, com widget ou sem. Ver `src/components/widgets/`.
 - **História da matemática**: alguns tópicos terminam com uma nota "📜 Um
   pouco de história" contando de onde o assunto veio e por que ele
   importa (o Nilo e a geometria, Al-Khwarizmi e a álgebra, o menino

@@ -1,54 +1,41 @@
-import type { InteractiveWidget } from "@/data/curriculum";
-import BubbleSortExplorer from "./BubbleSortExplorer";
-import CombinationExplorer from "./CombinationExplorer";
-import CompoundInterestExplorer from "./CompoundInterestExplorer";
-import ConfusionMatrixExplorer from "./ConfusionMatrixExplorer";
-import FractionVisualizer from "./FractionVisualizer";
-import IntervalExplorer from "./IntervalExplorer";
-import MatrixExplorer from "./MatrixExplorer";
-import MeanMedianExplorer from "./MeanMedianExplorer";
-import NormalDistributionExplorer from "./NormalDistributionExplorer";
-import PercentageChangeExplorer from "./PercentageChangeExplorer";
-import PrimeFactorizationExplorer from "./PrimeFactorizationExplorer";
-import ProbabilitySpinner from "./ProbabilitySpinner";
-import PythagoreanExplorer from "./PythagoreanExplorer";
-import QuadraticExplorer from "./QuadraticExplorer";
-import RegressionLineExplorer from "./RegressionLineExplorer";
-import SequenceExplorer from "./SequenceExplorer";
-import SlopeExplorer from "./SlopeExplorer";
-import Solid3DExplorer from "./Solid3DExplorer";
-import TangentLineExplorer from "./TangentLineExplorer";
-import TruthTableExplorer from "./TruthTableExplorer";
-import TwoPointExplorer from "./TwoPointExplorer";
-import UnitCircleExplorer from "./UnitCircleExplorer";
-import VectorExplorer from "./VectorExplorer";
-import VennDiagramExplorer from "./VennDiagramExplorer";
+"use client";
 
+import dynamic from "next/dynamic";
+import type { InteractiveWidget } from "@/data/curriculum";
+
+function WidgetLoading() {
+  return <div className="h-48 animate-pulse rounded-2xl border border-border bg-surface" aria-hidden />;
+}
+
+// Each entry is code-split into its own chunk and only fetched when this
+// specific widget renders — a topic page no longer pays for the other 23
+// widgets it never uses. (Was previously one eagerly-loaded shared chunk
+// covering all widgets on every /trilha/*/* page, widget or not.)
 const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
-  "slope-explorer": SlopeExplorer,
-  "two-point-explorer": TwoPointExplorer,
-  "quadratic-explorer": QuadraticExplorer,
-  "unit-circle-explorer": UnitCircleExplorer,
-  "fraction-visualizer": FractionVisualizer,
-  "probability-spinner": ProbabilitySpinner,
-  "mean-median-explorer": MeanMedianExplorer,
-  "compound-interest-explorer": CompoundInterestExplorer,
-  "tangent-line-explorer": TangentLineExplorer,
-  "pythagorean-explorer": PythagoreanExplorer,
-  "sequence-explorer": SequenceExplorer,
-  "normal-distribution-explorer": NormalDistributionExplorer,
-  "regression-line-explorer": RegressionLineExplorer,
-  "percentage-change-explorer": PercentageChangeExplorer,
-  "confusion-matrix-explorer": ConfusionMatrixExplorer,
-  "matrix-explorer": MatrixExplorer,
-  "prime-factorization-explorer": PrimeFactorizationExplorer,
-  "combination-explorer": CombinationExplorer,
-  "solid-3d-explorer": Solid3DExplorer,
-  "vector-explorer": VectorExplorer,
-  "venn-diagram-explorer": VennDiagramExplorer,
-  "truth-table-explorer": TruthTableExplorer,
-  "interval-explorer": IntervalExplorer,
-  "bubble-sort-explorer": BubbleSortExplorer,
+  "slope-explorer": dynamic(() => import("./SlopeExplorer"), { ssr: false, loading: WidgetLoading }),
+  "two-point-explorer": dynamic(() => import("./TwoPointExplorer"), { ssr: false, loading: WidgetLoading }),
+  "quadratic-explorer": dynamic(() => import("./QuadraticExplorer"), { ssr: false, loading: WidgetLoading }),
+  "unit-circle-explorer": dynamic(() => import("./UnitCircleExplorer"), { ssr: false, loading: WidgetLoading }),
+  "fraction-visualizer": dynamic(() => import("./FractionVisualizer"), { ssr: false, loading: WidgetLoading }),
+  "probability-spinner": dynamic(() => import("./ProbabilitySpinner"), { ssr: false, loading: WidgetLoading }),
+  "mean-median-explorer": dynamic(() => import("./MeanMedianExplorer"), { ssr: false, loading: WidgetLoading }),
+  "compound-interest-explorer": dynamic(() => import("./CompoundInterestExplorer"), { ssr: false, loading: WidgetLoading }),
+  "tangent-line-explorer": dynamic(() => import("./TangentLineExplorer"), { ssr: false, loading: WidgetLoading }),
+  "pythagorean-explorer": dynamic(() => import("./PythagoreanExplorer"), { ssr: false, loading: WidgetLoading }),
+  "sequence-explorer": dynamic(() => import("./SequenceExplorer"), { ssr: false, loading: WidgetLoading }),
+  "normal-distribution-explorer": dynamic(() => import("./NormalDistributionExplorer"), { ssr: false, loading: WidgetLoading }),
+  "regression-line-explorer": dynamic(() => import("./RegressionLineExplorer"), { ssr: false, loading: WidgetLoading }),
+  "percentage-change-explorer": dynamic(() => import("./PercentageChangeExplorer"), { ssr: false, loading: WidgetLoading }),
+  "confusion-matrix-explorer": dynamic(() => import("./ConfusionMatrixExplorer"), { ssr: false, loading: WidgetLoading }),
+  "matrix-explorer": dynamic(() => import("./MatrixExplorer"), { ssr: false, loading: WidgetLoading }),
+  "prime-factorization-explorer": dynamic(() => import("./PrimeFactorizationExplorer"), { ssr: false, loading: WidgetLoading }),
+  "combination-explorer": dynamic(() => import("./CombinationExplorer"), { ssr: false, loading: WidgetLoading }),
+  "solid-3d-explorer": dynamic(() => import("./Solid3DExplorer"), { ssr: false, loading: WidgetLoading }),
+  "vector-explorer": dynamic(() => import("./VectorExplorer"), { ssr: false, loading: WidgetLoading }),
+  "venn-diagram-explorer": dynamic(() => import("./VennDiagramExplorer"), { ssr: false, loading: WidgetLoading }),
+  "truth-table-explorer": dynamic(() => import("./TruthTableExplorer"), { ssr: false, loading: WidgetLoading }),
+  "interval-explorer": dynamic(() => import("./IntervalExplorer"), { ssr: false, loading: WidgetLoading }),
+  "bubble-sort-explorer": dynamic(() => import("./BubbleSortExplorer"), { ssr: false, loading: WidgetLoading }),
 };
 
 export default function InteractiveWidgetRenderer({ widget }: { widget: InteractiveWidget }) {
