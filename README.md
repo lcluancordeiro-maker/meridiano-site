@@ -121,7 +121,7 @@ de aplicativos.
 - **Widgets interativos na teoria** (também inspirado no Brilliant.org):
   algumas seções de teoria têm uma seção extra "Explore ao vivo" com um
   mini-app SVG em vez de só texto — sliders ou pontos arrastáveis que
-  recalculam algo na hora. Hoje são vinte e três: em "Função do 1º Grau" (Ensino
+  recalculam algo na hora. Hoje são vinte e quatro: em "Função do 1º Grau" (Ensino
   Médio), sliders para os coeficientes a/b mostram a reta mudando ao
   vivo; em "Geometria Analítica" (Ensino Médio), dois pontos arrastáveis
   recalculam distância, ponto médio e coeficiente angular em tempo real;
@@ -178,13 +178,17 @@ de aplicativos.
   ao vivo a linha correspondente da tabela-verdade; em "Conjuntos
   Numéricos e Intervalos" (Lógica e Conjuntos), sliders para os
   extremos de dois intervalos os desenham numa reta numérica e
-  recalculam interseção (destacada em roxo) e união ao vivo. Os vinte
-  e três widgets compartilham as constantes e funções de conversão de
-  coordenadas SVG em `src/components/widgets/svgUtils.ts` (os widgets
-  mais novos usam sua própria escala, calibrada pra cada visualização,
-  e quatro deles — matriz, fatoração, combinação e tabela-verdade —
-  nem usam SVG, só grid/flexbox/tabela). Os nove widgets em trilhas
-  Premium foram verificados manualmente
+  recalculam interseção (destacada em roxo) e união ao vivo; em "Busca
+  e Ordenação Básica" (Programação — Intermediário), um botão "Próximo
+  passo" avança o bubble sort uma comparação por vez, destacando o par
+  sendo comparado e marcando em verde os elementos já na posição
+  final. Os vinte e quatro widgets compartilham as constantes e
+  funções de conversão de coordenadas SVG em
+  `src/components/widgets/svgUtils.ts` (os widgets mais novos usam sua
+  própria escala, calibrada pra cada visualização, e cinco deles —
+  matriz, fatoração, combinação, tabela-verdade e bubble sort — nem
+  usam SVG, só grid/flexbox/tabela/barras). Os nove widgets em
+  trilhas Premium foram verificados manualmente
   (`premium: false` temporário, rodada de e2e, revertido antes do
   commit — mesma técnica descrita em "Sobre o idioma"/testes) já que o
   ambiente de teste não tem Supabase/Stripe configurado pra simular uma

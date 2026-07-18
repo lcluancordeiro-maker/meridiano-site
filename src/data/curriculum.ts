@@ -73,7 +73,8 @@ export type InteractiveWidget =
   | "vector-explorer"
   | "venn-diagram-explorer"
   | "truth-table-explorer"
-  | "interval-explorer";
+  | "interval-explorer"
+  | "bubble-sort-explorer";
 
 /** A quick one-tap multiple-choice check rendered inline right after a
  * theory section — Brilliant.org-style "learn by doing": instead of reading
@@ -6457,6 +6458,13 @@ export const programacaoIntermediarioTopics: Topic[] = [
         body: [
           "No pior caso, o bubble sort precisa de até n-1 passagens completas pelo vetor para garantir que ele está totalmente ordenado.",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Clique em 'Próximo passo' e veja o bubble sort comparar (e trocar, quando necessário) um par de elementos por vez, até o vetor inteiro ficar ordenado (em verde).",
+        ],
+        interactiveWidget: "bubble-sort-explorer",
       },
     ],
     exercises: [

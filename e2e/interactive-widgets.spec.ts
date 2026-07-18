@@ -208,6 +208,27 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
     await expect(page.getByText("União = [1,2]∪[3,8]")).toBeVisible();
   });
 
+  test("bubble sort explorer steps through comparisons/swaps until the array is sorted", async ({ page }) => {
+    await page.goto("/trilha/programacao-intermediario/busca-e-ordenacao-basica");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("Comparando as posições 1 e 2")).toBeVisible();
+    await expect(page.getByText("Comparações: 0 · Trocas: 0")).toBeVisible();
+
+    const nextButton = page.getByRole("button", { name: "Próximo passo" });
+    // Array [5,2,8,1,9,3], length 6 -> worst case needs up to 5+4+3+2+1=15 steps.
+    for (let i = 0; i < 20; i++) {
+      const isDone = await page.getByText("Ordenado! 🎉").isVisible();
+      if (isDone) break;
+      await nextButton.click();
+    }
+    await expect(page.getByText("Ordenado! 🎉")).toBeVisible();
+    await expect(nextButton).toBeDisabled();
+
+    await page.getByRole("button", { name: "Reiniciar" }).click();
+    await expect(page.getByText("Comparando as posições 1 e 2")).toBeVisible();
+    await expect(page.getByText("Comparações: 0 · Trocas: 0")).toBeVisible();
+  });
+
   test("percentage change explorer recalculates the final value as you move the sliders", async ({ page }) => {
     await page.goto("/trilha/matematica-financeira-iniciante/descontos-e-acrescimos");
     await expect(page.getByText("Explore ao vivo")).toBeVisible();
@@ -301,6 +322,21 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
     await challenge.scrollIntoViewIfNeeded();
 
     await page.getByRole("slider", { name: "Fim do intervalo 1 (b1)" }).fill("2");
+    await challenge.getByRole("button", { name: "Conferir desafio" }).click();
+    await expect(challenge.getByText("Desafio concluído! 🎉")).toBeVisible();
+  });
+
+  test("bubble sort explorer challenge accepts a fully sorted array", async ({ page }) => {
+    await page.goto("/trilha/programacao-intermediario/busca-e-ordenacao-basica");
+    const challenge = page.getByTestId("widget-challenge");
+    await challenge.scrollIntoViewIfNeeded();
+
+    const nextButton = page.getByRole("button", { name: "Próximo passo" });
+    for (let i = 0; i < 20; i++) {
+      const isDone = await page.getByText("Ordenado! 🎉").isVisible();
+      if (isDone) break;
+      await nextButton.click();
+    }
     await challenge.getByRole("button", { name: "Conferir desafio" }).click();
     await expect(challenge.getByText("Desafio concluído! 🎉")).toBeVisible();
   });

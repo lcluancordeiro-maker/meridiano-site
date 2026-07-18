@@ -1,4 +1,5 @@
 import type { InteractiveWidget } from "@/data/curriculum";
+import BubbleSortExplorer from "./BubbleSortExplorer";
 import CombinationExplorer from "./CombinationExplorer";
 import CompoundInterestExplorer from "./CompoundInterestExplorer";
 import ConfusionMatrixExplorer from "./ConfusionMatrixExplorer";
@@ -47,6 +48,7 @@ const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
   "venn-diagram-explorer": VennDiagramExplorer,
   "truth-table-explorer": TruthTableExplorer,
   "interval-explorer": IntervalExplorer,
+  "bubble-sort-explorer": BubbleSortExplorer,
 };
 
 export default function InteractiveWidgetRenderer({ widget }: { widget: InteractiveWidget }) {
