@@ -39,7 +39,11 @@ de aplicativos.
   n×p; Avançado: distribuição normal e escore-z, intervalos de
   confiança e "Testes de Hipótese" — H0/H1, estatística de teste z,
   valor crítico e a regra de decisão de rejeitar ou não a hipótese
-  nula).
+  nula). Os 5 tópicos mais antigos da trilha (Medidas de Tendência
+  Central, Probabilidade Básica, Regras de Probabilidade, Distribuição
+  Normal e Intervalos de Confiança) tinham só o nível Médio — ganharam
+  agora Fácil, Difícil e Olimpíada também (mais 18 exercícios cada),
+  fechando a lacuna encontrada numa auditoria de qualidade.
 - **Programação & Machine Learning** — trilha independente com 4
   níveis disponíveis: "Lógica de Programação" (Iniciante: variáveis,
   comparações, condicionais, "Vetores e Listas" — percorrer um vetor
