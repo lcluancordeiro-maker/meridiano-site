@@ -43,9 +43,11 @@ de aplicativos.
 - **Programação & Machine Learning** — trilha independente com 4
   níveis disponíveis: "Lógica de Programação" (Iniciante: variáveis,
   comparações, condicionais, "Vetores e Listas" — percorrer um vetor
-  com laços, somar/buscar elementos — e agora também "Strings e
-  Manipulação de Texto" — tamanho, concatenação e subcadeia/substring),
-  "Estruturas de Repetição" (Intermediário: laços 'para'/'enquanto',
+  com laços, somar/buscar elementos —, "Strings e Manipulação de
+  Texto" — tamanho, concatenação e subcadeia/substring — e agora
+  também "Operadores Lógicos (E, OU, NÃO)" — combinar condições com E,
+  OU e NÃO em pseudocódigo, ligado à trilha de matemática Lógica e
+  Conjuntos), "Estruturas de Repetição" (Intermediário: laços 'para'/'enquanto',
   repetições aninhadas, "Funções e Modularização" — parâmetros,
   retorno, escopo de variáveis e composição de funções — e agora
   também "Busca e Ordenação Básica" — busca linear e o bubble sort,
