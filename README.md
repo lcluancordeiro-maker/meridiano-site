@@ -78,11 +78,14 @@ de aplicativos.
 - **Geometria Espacial** (Premium, nova trilha): "Prismas e Cilindros"
   — volume (área da base × altura) e área lateral/total —, "Pirâmides
   e Cones" — sempre 1/3 do volume do prisma/cilindro correspondente,
-  mais a geratriz de um cone (g²=r²+h²) — e "Esferas e Sólidos
+  mais a geratriz de um cone (g²=r²+h²) —, "Esferas e Sólidos
   Compostos" — volume (4/3)πr³ e área 4πr² da esfera, e como somar ou
   subtrair partes para achar o volume de um sólido composto (silo,
-  cavidade). 3 tópicos, 20 exercícios cada, mesmo padrão do Ensino
-  Médio/Superior.
+  cavidade) — e agora também "Poliedros e a Relação de Euler":
+  vértices, arestas e faces, a relação V-A+F=2 (válida para todo
+  poliedro convexo), os 5 sólidos de Platão e a soma dos ângulos das
+  faces S=(V-2)×360°. 4 tópicos, 20 exercícios cada, mesmo padrão do
+  Ensino Médio/Superior.
 - **Lógica e Conjuntos** (gratuita, nova trilha): "Proposições e
   Conectivos Lógicos" — negação, conjunção, disjunção, condicional,
   tabelas-verdade e as Leis de De Morgan —, "Operações com Conjuntos"
@@ -116,7 +119,7 @@ de aplicativos.
 - **Widgets interativos na teoria** (também inspirado no Brilliant.org):
   algumas seções de teoria têm uma seção extra "Explore ao vivo" com um
   mini-app SVG em vez de só texto — sliders ou pontos arrastáveis que
-  recalculam algo na hora. Hoje são vinte e um: em "Função do 1º Grau" (Ensino
+  recalculam algo na hora. Hoje são vinte e dois: em "Função do 1º Grau" (Ensino
   Médio), sliders para os coeficientes a/b mostram a reta mudando ao
   vivo; em "Geometria Analítica" (Ensino Médio), dois pontos arrastáveis
   recalculam distância, ponto médio e coeficiente angular em tempo real;
@@ -167,13 +170,16 @@ de aplicativos.
   módulo e produto escalar ao vivo — com um destaque quando os dois
   ficam perpendiculares; em "Operações com Conjuntos" (Lógica e
   Conjuntos), sliders para |A|, |B| e |A∩B| desenham um diagrama de
-  Venn com a contagem de cada região e recalculam |A∪B| ao vivo. Os
-  vinte e um widgets compartilham as constantes e funções de conversão
-  de coordenadas SVG em `src/components/widgets/svgUtils.ts` (os
-  widgets mais novos usam sua própria escala, calibrada pra cada
-  visualização, e três deles — matriz, fatoração e combinação — nem
-  usam SVG, só grid/flexbox). Os nove widgets em trilhas Premium foram
-  verificados manualmente
+  Venn com a contagem de cada região e recalculam |A∪B| ao vivo; em
+  "Proposições e Conectivos Lógicos" (Lógica e Conjuntos), botões
+  alternam o conectivo (∧/∨/→) e o valor lógico de p e q, destacando
+  ao vivo a linha correspondente da tabela-verdade. Os vinte e dois
+  widgets compartilham as constantes e funções de conversão de
+  coordenadas SVG em `src/components/widgets/svgUtils.ts` (os widgets
+  mais novos usam sua própria escala, calibrada pra cada visualização,
+  e quatro deles — matriz, fatoração, combinação e tabela-verdade —
+  nem usam SVG, só grid/flexbox/tabela). Os nove widgets em trilhas
+  Premium foram verificados manualmente
   (`premium: false` temporário, rodada de e2e, revertido antes do
   commit — mesma técnica descrita em "Sobre o idioma"/testes) já que o
   ambiente de teste não tem Supabase/Stripe configurado pra simular uma

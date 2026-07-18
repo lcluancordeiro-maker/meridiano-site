@@ -71,7 +71,8 @@ export type InteractiveWidget =
   | "combination-explorer"
   | "solid-3d-explorer"
   | "vector-explorer"
-  | "venn-diagram-explorer";
+  | "venn-diagram-explorer"
+  | "truth-table-explorer";
 
 /** A quick one-tap multiple-choice check rendered inline right after a
  * theory section — Brilliant.org-style "learn by doing": instead of reading
@@ -9181,6 +9182,208 @@ export const geometriaEspacialTopics: Topic[] = [
       },
     ],
   },
+  {
+    id: "poliedros-e-relacao-de-euler",
+    title: "Poliedros e a Relação de Euler",
+    summary: "Vértices, arestas e faces de poliedros, e a relação V-A+F=2 que vale para todo poliedro convexo.",
+    minutes: 25,
+    theory: [
+      {
+        heading: "O que é um poliedro",
+        body: [
+          "Um poliedro é um sólido cujas faces são todas polígonos planos. Os pontos onde as arestas se encontram são os vértices (V), os segmentos onde duas faces se encontram são as arestas (A), e as próprias faces planas são F.",
+        ],
+      },
+      {
+        heading: "A Relação de Euler",
+        body: [
+          "Para todo poliedro convexo, vale V - A + F = 2. Essa relação simples permite descobrir uma das três grandezas conhecendo as outras duas.",
+        ],
+        example: {
+          problem: "Um cubo tem V=8, A=12, F=6.",
+          solution: "V-A+F = 8-12+6 = 2. ✓",
+        },
+      },
+      {
+        heading: "Poliedros regulares (Sólidos de Platão)",
+        body: [
+          "Existem só 5 poliedros regulares convexos: tetraedro (4 faces triangulares), cubo (6 faces quadradas), octaedro (8 faces triangulares), dodecaedro (12 faces pentagonais) e icosaedro (20 faces triangulares).",
+        ],
+      },
+      {
+        heading: "Soma dos ângulos das faces",
+        body: [
+          "A soma de todos os ângulos internos de todas as faces de um poliedro convexo é S = (V-2)×360°.",
+        ],
+        example: {
+          problem: "Cubo: V=8",
+          solution: "S = (8-2)×360° = 2160°.",
+        },
+      },
+    ],
+    exercises: [
+      {
+        id: "f1",
+        prompt: "Um cubo tem quantos vértices?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "8",
+        explanation: "Um cubo tem 8 vértices.",
+      },
+      {
+        id: "f2",
+        prompt: "Um cubo tem quantas arestas?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "12",
+        explanation: "Um cubo tem 12 arestas.",
+      },
+      {
+        id: "f3",
+        prompt: "Um cubo tem quantas faces?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "6",
+        explanation: "Um cubo tem 6 faces.",
+      },
+      {
+        id: "f4",
+        prompt: "Verifique a relação de Euler para o cubo: V-A+F = 8-12+6 = ?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "2",
+        explanation: "8-12+6 = 2, como esperado para qualquer poliedro convexo.",
+      },
+      {
+        id: "f5",
+        prompt: "Uma pirâmide de base quadrada tem quantos vértices? (4 da base + 1 do topo)",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "5",
+        explanation: "4 vértices da base + 1 vértice no topo (ápice) = 5.",
+      },
+      {
+        id: "m1",
+        prompt: "Uma pirâmide de base quadrada tem quantas arestas? (4 da base + 4 laterais)",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "8",
+        explanation: "4 arestas da base + 4 arestas laterais = 8.",
+      },
+      {
+        id: "m2",
+        prompt: "Uma pirâmide de base quadrada tem quantas faces? (1 base + 4 laterais)",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "5",
+        explanation: "1 face da base + 4 faces triangulares laterais = 5.",
+      },
+      {
+        id: "m3",
+        prompt: "Verifique Euler para a pirâmide de base quadrada: V-A+F = 5-8+5 = ?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "2",
+        explanation: "5-8+5 = 2.",
+      },
+      {
+        id: "m4",
+        prompt: "Um poliedro tem 6 vértices e 9 arestas. Pela relação de Euler, quantas faces tem? (F = 2-V+A)",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "5",
+        explanation: "F = 2-6+9 = 5.",
+      },
+      {
+        id: "m5",
+        prompt: "Um poliedro tem 10 vértices e 7 faces. Pela relação de Euler, quantas arestas tem? (A = V+F-2)",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "15",
+        explanation: "A = 10+7-2 = 15.",
+      },
+      {
+        id: "d1",
+        prompt: "Um octaedro (sólido de Platão) tem 6 vértices e 12 arestas. Quantas faces tem, pela relação de Euler?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "8",
+        explanation: "F = 2-6+12 = 8.",
+      },
+      {
+        id: "d2",
+        prompt: "Um icosaedro tem 12 vértices e 20 faces. Quantas arestas tem?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "30",
+        explanation: "A = 12+20-2 = 30.",
+      },
+      {
+        id: "d3",
+        prompt: "Um dodecaedro tem 20 vértices e 30 arestas. Quantas faces tem?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "12",
+        explanation: "F = 2-20+30 = 12.",
+      },
+      {
+        id: "d4",
+        prompt: "Um prisma hexagonal tem 12 vértices (2 hexágonos, 6 vértices cada) e 8 faces (2 hexágonos + 6 retângulos). Quantas arestas tem?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "18",
+        explanation: "A = 12+8-2 = 18.",
+      },
+      {
+        id: "d5",
+        prompt: "Um poliedro convexo tem todas as faces triangulares. Se ele tem 6 vértices e 8 faces, quantas arestas tem?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "12",
+        explanation: "A = 6+8-2 = 12.",
+      },
+      {
+        id: "o1",
+        prompt: "Um poliedro convexo tem o dobro de vértices em relação a faces (V=2F) e 16 arestas. Quantas faces tem? (substitua V=2F na relação de Euler: 2F-A+F=2)",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "6",
+        explanation: "3F = A+2 = 18 → F = 6.",
+      },
+      {
+        id: "o2",
+        prompt: "Uma pirâmide de base quadrada tem 4 faces triangulares e 1 face quadrada. Qual é a soma dos ângulos internos de todas as faces? (4 triângulos ×180° + 1 quadrado ×360°)",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "1080",
+        explanation: "4×180 + 360 = 720+360 = 1080.",
+      },
+      {
+        id: "o3",
+        prompt: "Usando a fórmula S=(V-2)×360° para a soma dos ângulos das faces de um poliedro convexo, qual é essa soma para um poliedro com 8 vértices (como o cubo)?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "2160",
+        explanation: "S = (8-2)×360° = 2160°.",
+      },
+      {
+        id: "o4",
+        prompt: "Um poliedro convexo tem 12 arestas e cada face é um triângulo (cada aresta compartilhada por 2 faces, então F = 2×A/3). Quantas faces tem?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "8",
+        explanation: "F = 2×12/3 = 8.",
+      },
+      {
+        id: "o5",
+        prompt: "Um poliedro convexo tem 30 arestas, com cada vértice tocado por exatamente 5 arestas. Quantos vértices tem? (a soma dos graus dos vértices é 2×arestas, então 5V=2×30)",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "12",
+        explanation: "5V = 60 → V = 12.",
+      },
+    ],
+  },
 ];
 
 export const logicaEConjuntosTopics: Topic[] = [
@@ -9213,6 +9416,13 @@ export const logicaEConjuntosTopics: Topic[] = [
         body: [
           "O condicional p→q ('se p então q') só é falso quando p é verdadeira e q é falsa — em todos os outros casos, é verdadeiro (mesmo quando p é falsa).",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Escolha um conectivo, alterne p e q e veja a linha correspondente da tabela-verdade se destacar ao vivo.",
+        ],
+        interactiveWidget: "truth-table-explorer",
       },
     ],
     exercises: [

@@ -16,6 +16,7 @@ import SequenceExplorer from "./SequenceExplorer";
 import SlopeExplorer from "./SlopeExplorer";
 import Solid3DExplorer from "./Solid3DExplorer";
 import TangentLineExplorer from "./TangentLineExplorer";
+import TruthTableExplorer from "./TruthTableExplorer";
 import TwoPointExplorer from "./TwoPointExplorer";
 import UnitCircleExplorer from "./UnitCircleExplorer";
 import VectorExplorer from "./VectorExplorer";
@@ -43,6 +44,7 @@ const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
   "solid-3d-explorer": Solid3DExplorer,
   "vector-explorer": VectorExplorer,
   "venn-diagram-explorer": VennDiagramExplorer,
+  "truth-table-explorer": TruthTableExplorer,
 };
 
 export default function InteractiveWidgetRenderer({ widget }: { widget: InteractiveWidget }) {

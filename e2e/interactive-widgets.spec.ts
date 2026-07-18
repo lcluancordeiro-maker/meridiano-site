@@ -181,6 +181,20 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
     await expect(page.getByText("|A∪B| = |A|+|B|-|A∩B| = 20+14-4 = 30")).toBeVisible();
   });
 
+  test("truth table explorer highlights the matching row as you toggle p/q and the connective", async ({
+    page,
+  }) => {
+    await page.goto("/trilha/logica-e-conjuntos/proposicoes-e-conectivos");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("Com p=V e q=V, p∧q = V")).toBeVisible();
+
+    await page.getByRole("button", { name: "Selecionar conectivo p→q" }).click();
+    await expect(page.getByText("Com p=V e q=V, p→q = V")).toBeVisible();
+
+    await page.getByRole("button", { name: "Alternar valor lógico de q" }).click();
+    await expect(page.getByText("Com p=V e q=F, p→q = F")).toBeVisible();
+  });
+
   test("percentage change explorer recalculates the final value as you move the sliders", async ({ page }) => {
     await page.goto("/trilha/matematica-financeira-iniciante/descontos-e-acrescimos");
     await expect(page.getByText("Explore ao vivo")).toBeVisible();
@@ -253,6 +267,17 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
 
     await page.getByRole("slider", { name: "Tamanho do conjunto A" }).fill("20");
     await page.getByRole("slider", { name: "Tamanho do conjunto B" }).fill("14");
+    await challenge.getByRole("button", { name: "Conferir desafio" }).click();
+    await expect(challenge.getByText("Desafio concluído! 🎉")).toBeVisible();
+  });
+
+  test("truth table explorer challenge accepts p→q false (p=V, q=F)", async ({ page }) => {
+    await page.goto("/trilha/logica-e-conjuntos/proposicoes-e-conectivos");
+    const challenge = page.getByTestId("widget-challenge");
+    await challenge.scrollIntoViewIfNeeded();
+
+    await page.getByRole("button", { name: "Selecionar conectivo p→q" }).click();
+    await page.getByRole("button", { name: "Alternar valor lógico de q" }).click();
     await challenge.getByRole("button", { name: "Conferir desafio" }).click();
     await expect(challenge.getByText("Desafio concluído! 🎉")).toBeVisible();
   });
