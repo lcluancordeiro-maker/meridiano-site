@@ -56,6 +56,23 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
     await expect(page.getByText("(2, 1)")).toBeVisible();
   });
 
+  test("two-point explorer moves a point with the keyboard (not just drag)", async ({ page }) => {
+    await page.goto("/trilha/medio/geometria-analitica");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+
+    const pointA = page.getByRole("button", { name: /^Ponto A em \(-3, -2\)/ });
+    await pointA.focus();
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowUp");
+
+    // A moved from (-3,-2) to (0,-1); B stays at (4,3): distance = sqrt(32) = 5.66, midpoint = (2, 1).
+    await expect(page.getByRole("button", { name: /^Ponto A em \(0, -1\)/ })).toBeVisible();
+    await expect(page.getByText("5.66")).toBeVisible();
+    await expect(page.getByText("(2, 1)")).toBeVisible();
+  });
+
   test("quadratic explorer updates the parabola equation and vertex as you move the sliders", async ({ page }) => {
     await page.goto("/trilha/medio/funcao-quadratica");
     await expect(page.getByText("Explore ao vivo")).toBeVisible();

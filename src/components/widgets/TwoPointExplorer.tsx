@@ -26,6 +26,23 @@ export default function TwoPointExplorer() {
     dragging.current = null;
   }
 
+  const ARROW_DELTA: Record<string, [number, number]> = {
+    ArrowUp: [0, 1],
+    ArrowDown: [0, -1],
+    ArrowLeft: [-1, 0],
+    ArrowRight: [1, 0],
+  };
+
+  function handleKeyDown(target: "a" | "b", event: React.KeyboardEvent<SVGCircleElement>) {
+    const delta = ARROW_DELTA[event.key];
+    if (!delta) return;
+    event.preventDefault();
+    const [dx, dy] = delta;
+    const move = (p: Point) => ({ x: clamp(p.x + dx, -RANGE, RANGE), y: clamp(p.y + dy, -RANGE, RANGE) });
+    if (target === "a") setPointA(move);
+    else setPointB(move);
+  }
+
   function handlePointerMove(event: React.PointerEvent<SVGSVGElement>) {
     if (!dragging.current || !svgRef.current) return;
     const rect = svgRef.current.getBoundingClientRect();
@@ -43,7 +60,9 @@ export default function TwoPointExplorer() {
 
   return (
     <div className="rounded-2xl border border-border bg-surface p-4 sm:p-6">
-      <p className="text-sm text-muted">Arraste os pontos A e B pelo gráfico.</p>
+      <p className="text-sm text-muted">
+        Arraste os pontos A e B pelo gráfico (ou selecione um ponto e use as setas do teclado).
+      </p>
 
       <div className="mt-3 grid gap-2 text-sm sm:grid-cols-3">
         <div className="rounded-lg bg-background p-3">
@@ -101,8 +120,12 @@ export default function TwoPointExplorer() {
             fill="#1baf7a"
             stroke="white"
             strokeWidth={2}
-            className="cursor-grab"
+            className="cursor-grab focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[#1baf7a]"
             onPointerDown={handlePointerDownA}
+            tabIndex={0}
+            role="button"
+            aria-label={`Ponto A em (${pointA.x}, ${pointA.y}). Use as setas do teclado para mover.`}
+            onKeyDown={(e) => handleKeyDown("a", e)}
           />
           <text x={toPx(pointA.x) + 12} y={toPy(pointA.y) - 8} fontSize={13} fontWeight={600} fill="#1baf7a">
             A
@@ -115,8 +138,12 @@ export default function TwoPointExplorer() {
             fill="#d63b3b"
             stroke="white"
             strokeWidth={2}
-            className="cursor-grab"
+            className="cursor-grab focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[#d63b3b]"
             onPointerDown={handlePointerDownB}
+            tabIndex={0}
+            role="button"
+            aria-label={`Ponto B em (${pointB.x}, ${pointB.y}). Use as setas do teclado para mover.`}
+            onKeyDown={(e) => handleKeyDown("b", e)}
           />
           <text x={toPx(pointB.x) + 12} y={toPy(pointB.y) - 8} fontSize={13} fontWeight={600} fill="#d63b3b">
             B
