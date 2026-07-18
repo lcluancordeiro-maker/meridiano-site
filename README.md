@@ -16,16 +16,18 @@ de aplicativos.
   equações do 2º grau, geometria plana), cada um com 24 exercícios
   divididos em 4 níveis de dificuldade (Fácil/Médio/Difícil/Olimpíada),
   escolhidos livremente pelo aluno.
-- **Ensino Médio** — 6 tópicos: "Função do 1º Grau" (coeficientes,
+- **Ensino Médio** — 7 tópicos: "Função do 1º Grau" (coeficientes,
   raiz, gráfico), "Função Quadrática" (vértice, concavidade, gráfico em
   parábola), "Trigonometria no Triângulo Retângulo" (seno, cosseno,
   tangente, Teorema de Pitágoras), "Geometria Analítica" (distância
   entre pontos, ponto médio, coeficiente angular, equação da reta),
-  "Progressões Aritméticas e Geométricas" (termo geral, soma de PA/PG)
-  e agora também "Números Complexos" (a unidade imaginária i, soma,
-  multiplicação, módulo e o conjugado) — todos em 4 níveis de
+  "Progressões Aritméticas e Geométricas" (termo geral, soma de PA/PG),
+  "Números Complexos" (a unidade imaginária i, soma, multiplicação,
+  módulo e o conjugado) e agora também "Vetores" (módulo, soma,
+  subtração, produto escalar e perpendicularidade — junta-se ao
+  capítulo "Geometria e Trigonometria") — todos em 4 níveis de
   dificuldade, com gráfico interativo embutido onde faz sentido
-  (parábola, `sin(x)`, reta).
+  (parábola, `sin(x)`, reta, vetores).
 - **Estatística** — trilha independente com 3 níveis (Iniciante:
   medidas de tendência central, medidas de dispersão (amplitude,
   variância, desvio padrão) e agora também "Gráficos e Distribuição de
@@ -106,7 +108,7 @@ de aplicativos.
 - **Widgets interativos na teoria** (também inspirado no Brilliant.org):
   algumas seções de teoria têm uma seção extra "Explore ao vivo" com um
   mini-app SVG em vez de só texto — sliders ou pontos arrastáveis que
-  recalculam algo na hora. Hoje são dezenove: em "Função do 1º Grau" (Ensino
+  recalculam algo na hora. Hoje são vinte: em "Função do 1º Grau" (Ensino
   Médio), sliders para os coeficientes a/b mostram a reta mudando ao
   vivo; em "Geometria Analítica" (Ensino Médio), dois pontos arrastáveis
   recalculam distância, ponto médio e coeficiente angular em tempo real;
@@ -151,10 +153,14 @@ de aplicativos.
   destacam a posição correspondente na linha n do triângulo de Pascal;
   em "Prismas e Cilindros" (Geometria Espacial, Premium), sliders de
   raio e altura desenham um cilindro (elipses + retas) e recalculam
-  volume e área lateral em termos de π ao vivo. Os dezenove widgets
-  compartilham as constantes e funções de conversão de coordenadas SVG
-  em `src/components/widgets/svgUtils.ts` (os widgets mais novos usam
-  sua própria escala, calibrada pra cada visualização, e três deles —
+  volume e área lateral em termos de π ao vivo; em "Vetores" (Ensino
+  Médio), sliders para as componentes de dois vetores u e v desenham
+  as setas a partir da origem (mais a soma tracejada) e recalculam
+  módulo e produto escalar ao vivo — com um destaque quando os dois
+  ficam perpendiculares. Os vinte widgets compartilham as constantes e
+  funções de conversão de coordenadas SVG em
+  `src/components/widgets/svgUtils.ts` (os widgets mais novos usam sua
+  própria escala, calibrada pra cada visualização, e três deles —
   matriz, fatoração e combinação — nem usam SVG, só grid/flexbox). Os
   nove widgets em trilhas Premium foram verificados manualmente
   (`premium: false` temporário, rodada de e2e, revertido antes do

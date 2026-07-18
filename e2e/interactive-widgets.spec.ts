@@ -153,6 +153,21 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
     ).toBeVisible();
   });
 
+  test("vector explorer recalculates modulo/dot product as you move the sliders", async ({ page }) => {
+    await page.goto("/trilha/medio/vetores");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("u=(2,3) · v=(1,1)")).toBeVisible();
+    await expect(page.getByText("|u|=3.6 · |v|=1.4 · u·v=5")).toBeVisible();
+
+    const cSlider = page.getByRole("slider", { name: "Componente v: c" });
+    await cSlider.fill("3");
+    const dSlider = page.getByRole("slider", { name: "Componente v: d" });
+    await dSlider.fill("-2");
+    // u=(2,3), v=(3,-2) -> u.v = 6-6 = 0.
+    await expect(page.getByText("u=(2,3) · v=(3,-2)")).toBeVisible();
+    await expect(page.getByText(/u·v=0 \(perpendiculares!\)/)).toBeVisible();
+  });
+
   test("percentage change explorer recalculates the final value as you move the sliders", async ({ page }) => {
     await page.goto("/trilha/matematica-financeira-iniciante/descontos-e-acrescimos");
     await expect(page.getByText("Explore ao vivo")).toBeVisible();
@@ -203,6 +218,17 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
 
     await page.getByRole("slider", { name: /Denominador/ }).fill("8");
     await page.getByRole("slider", { name: /Numerador/ }).fill("4");
+    await challenge.getByRole("button", { name: "Conferir desafio" }).click();
+    await expect(challenge.getByText("Desafio concluído! 🎉")).toBeVisible();
+  });
+
+  test("vector explorer challenge accepts a perpendicular pair", async ({ page }) => {
+    await page.goto("/trilha/medio/vetores");
+    const challenge = page.getByTestId("widget-challenge");
+    await challenge.scrollIntoViewIfNeeded();
+
+    await page.getByRole("slider", { name: "Componente v: c" }).fill("3");
+    await page.getByRole("slider", { name: "Componente v: d" }).fill("-2");
     await challenge.getByRole("button", { name: "Conferir desafio" }).click();
     await expect(challenge.getByText("Desafio concluído! 🎉")).toBeVisible();
   });

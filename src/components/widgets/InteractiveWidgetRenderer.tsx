@@ -18,6 +18,7 @@ import Solid3DExplorer from "./Solid3DExplorer";
 import TangentLineExplorer from "./TangentLineExplorer";
 import TwoPointExplorer from "./TwoPointExplorer";
 import UnitCircleExplorer from "./UnitCircleExplorer";
+import VectorExplorer from "./VectorExplorer";
 
 const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
   "slope-explorer": SlopeExplorer,
@@ -39,6 +40,7 @@ const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
   "prime-factorization-explorer": PrimeFactorizationExplorer,
   "combination-explorer": CombinationExplorer,
   "solid-3d-explorer": Solid3DExplorer,
+  "vector-explorer": VectorExplorer,
 };
 
 export default function InteractiveWidgetRenderer({ widget }: { widget: InteractiveWidget }) {

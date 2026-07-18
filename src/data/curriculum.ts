@@ -69,7 +69,8 @@ export type InteractiveWidget =
   | "matrix-explorer"
   | "prime-factorization-explorer"
   | "combination-explorer"
-  | "solid-3d-explorer";
+  | "solid-3d-explorer"
+  | "vector-explorer";
 
 /** A quick one-tap multiple-choice check rendered inline right after a
  * theory section — Brilliant.org-style "learn by doing": instead of reading
@@ -192,7 +193,7 @@ export const levels: Level[] = [
       { title: "Funções", topicIds: ["funcao-primeiro-grau", "funcao-quadratica"] },
       {
         title: "Geometria e Trigonometria",
-        topicIds: ["trigonometria-triangulo-retangulo", "geometria-analitica"],
+        topicIds: ["trigonometria-triangulo-retangulo", "geometria-analitica", "vetores"],
       },
       { title: "Sequências e Números Complexos", topicIds: ["progressoes", "numeros-complexos"] },
     ],
@@ -4930,6 +4931,222 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "4",
         explanation: "(1-i)(1+i) = 1-i² = 1+1 = 2. 2×2 = 4.",
+      },
+    ],
+  },
+  {
+    id: "vetores",
+    title: "Vetores",
+    summary: "Módulo, soma, subtração e produto escalar — a base para entender direção e perpendicularidade.",
+    minutes: 25,
+    theory: [
+      {
+        heading: "O que é um vetor",
+        body: [
+          "Um vetor representa uma grandeza com módulo (tamanho) e direção — diferente de um número, que só tem tamanho. No plano, escrevemos v=(a,b), onde a e b são as componentes horizontal e vertical.",
+        ],
+      },
+      {
+        heading: "Módulo de um vetor",
+        body: [
+          "O módulo (tamanho) de v=(a,b) é |v| = √(a²+b²) — o mesmo Teorema de Pitágoras da Geometria Analítica.",
+        ],
+        example: {
+          problem: "v = (3,4)",
+          solution: "|v| = √(3²+4²) = √25 = 5.",
+        },
+      },
+      {
+        heading: "Soma e subtração de vetores",
+        body: [
+          "Para somar ou subtrair vetores, opere componente a componente: (a,b) + (c,d) = (a+c, b+d).",
+        ],
+        example: {
+          problem: "u=(2,3), v=(1,5). Qual é u+v?",
+          solution: "u+v = (2+1, 3+5) = (3,8).",
+        },
+      },
+      {
+        heading: "Produto escalar",
+        body: [
+          "O produto escalar entre u=(a,b) e v=(c,d) é u·v = a×c + b×d — um número, não um vetor. Quando u·v = 0, os dois vetores são perpendiculares.",
+        ],
+        example: {
+          problem: "u=(1,2), v=(3,4)",
+          solution: "u·v = 1×3 + 2×4 = 3+8 = 11.",
+        },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa nas componentes de u e v e observe o módulo, o produto escalar e o vetor soma (tracejado) se recalcularem ao vivo — repare no que acontece com u·v quando os vetores ficam perpendiculares.",
+        ],
+        interactiveWidget: "vector-explorer",
+      },
+    ],
+    exercises: [
+      {
+        id: "f1",
+        prompt: "Qual é o módulo do vetor v=(3,4)?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "5",
+        explanation: "|v| = √(3²+4²) = √25 = 5.",
+      },
+      {
+        id: "f2",
+        prompt: "Se u=(2,3) e v=(1,5), qual é u+v?",
+        type: "multiple-choice",
+        difficulty: "facil",
+        options: ["(3,8)", "(1,2)", "(3,2)", "(1,8)"],
+        answer: "(3,8)",
+        explanation: "u+v = (2+1, 3+5) = (3,8).",
+      },
+      {
+        id: "f3",
+        prompt: "Qual é o módulo do vetor v=(6,8)?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "10",
+        explanation: "|v| = √(6²+8²) = √100 = 10.",
+      },
+      {
+        id: "f4",
+        prompt: "Se u=(4,1) e v=(2,3), qual é u-v?",
+        type: "multiple-choice",
+        difficulty: "facil",
+        options: ["(2,-2)", "(6,4)", "(2,2)", "(-2,2)"],
+        answer: "(2,-2)",
+        explanation: "u-v = (4-2, 1-3) = (2,-2).",
+      },
+      {
+        id: "f5",
+        prompt: "Qual é o produto escalar entre u=(1,2) e v=(3,4)?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "11",
+        explanation: "u·v = 1×3 + 2×4 = 3+8 = 11.",
+      },
+      {
+        id: "m1",
+        prompt: "Qual é o módulo do vetor v=(5,12)?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "13",
+        explanation: "|v| = √(5²+12²) = √169 = 13.",
+      },
+      {
+        id: "m2",
+        prompt: "Se u=(2,-1) e v=(-3,4), qual é u+v?",
+        type: "multiple-choice",
+        difficulty: "medio",
+        options: ["(-1,3)", "(5,-5)", "(-1,-3)", "(1,3)"],
+        answer: "(-1,3)",
+        explanation: "u+v = (2-3, -1+4) = (-1,3).",
+      },
+      {
+        id: "m3",
+        prompt: "Qual é o produto escalar entre u=(2,0) e v=(0,5)?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "0",
+        explanation: "u·v = 2×0 + 0×5 = 0 (são perpendiculares).",
+      },
+      {
+        id: "m4",
+        prompt: "Os vetores u=(3,k) e v=(2,-6) são perpendiculares. Qual é o valor de k? (produto escalar = 0)",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "1",
+        explanation: "3×2 + k×(-6) = 0 → 6 - 6k = 0 → k = 1.",
+      },
+      {
+        id: "m5",
+        prompt: "Qual é o módulo do vetor v=(0,7)?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "7",
+        explanation: "|v| = √(0²+7²) = 7.",
+      },
+      {
+        id: "d1",
+        prompt: "Se u=(3,4) e v=(1,1), qual é o produto escalar u·v?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "7",
+        explanation: "u·v = 3×1 + 4×1 = 3+4 = 7.",
+      },
+      {
+        id: "d2",
+        prompt: "Os vetores u=(4,3) e v=(x,6) são paralelos (componentes proporcionais). Qual é o valor de x? (4/x = 3/6)",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "8",
+        explanation: "4/x = 3/6 = 1/2 → x = 8.",
+      },
+      {
+        id: "d3",
+        prompt: "Qual é o módulo do vetor soma de u=(3,0) e v=(0,4)?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "5",
+        explanation: "u+v = (3,4). |u+v| = √(3²+4²) = 5.",
+      },
+      {
+        id: "d4",
+        prompt: "O vetor v=(a,b) tem módulo 10 e a=6. Qual é o valor positivo de b?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "8",
+        explanation: "b² = 10²-6² = 64 → b = 8.",
+      },
+      {
+        id: "d5",
+        prompt: "Dois vetores u e v têm módulos 3 e 4, e são perpendiculares. Qual é o módulo do vetor soma u+v? (quando perpendiculares, |u+v|² = |u|²+|v|², como no Teorema de Pitágoras)",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "5",
+        explanation: "|u+v| = √(3²+4²) = 5.",
+      },
+      {
+        id: "o1",
+        prompt: "Os vetores u=(2,3) e v=(k,-2) são perpendiculares. Qual é o valor de k?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "3",
+        explanation: "2k + 3×(-2) = 0 → 2k = 6 → k = 3.",
+      },
+      {
+        id: "o2",
+        prompt: "Um vetor v=(a,b) tem módulo 13, com a e b inteiros positivos. Se a=5, qual é b?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "12",
+        explanation: "b² = 13²-5² = 144 → b = 12.",
+      },
+      {
+        id: "o3",
+        prompt: "Os vetores u=(3,4) e v=(3,-4) formam dois lados de um paralelogramo a partir da origem. Qual é o módulo da diagonal (vetor soma u+v)?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "6",
+        explanation: "u+v = (6,0). Módulo = 6.",
+      },
+      {
+        id: "o4",
+        prompt: "Um vetor v=(a,b) tem módulo 25. Se a=7 e b é positivo, qual é b? (7-24-25 é um terno pitagórico)",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "24",
+        explanation: "b² = 25²-7² = 576 → b = 24.",
+      },
+      {
+        id: "o5",
+        prompt: "Dois vetores unitários formam um ângulo de 60° entre si. Sabendo que, para vetores unitários, u·v = cos(ângulo), qual é o valor de u·v?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "0,5",
+        explanation: "cos(60°) = 0,5.",
       },
     ],
   },
