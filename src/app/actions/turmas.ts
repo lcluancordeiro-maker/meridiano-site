@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { getAuthedSupabase } from "@/lib/actionAuth";
 import { generateJoinCode } from "@/lib/turmaCode";
 
 export type TurmaFormState = { error?: string } | undefined;
@@ -11,12 +12,13 @@ const NOT_CONFIGURED_ERROR: TurmaFormState = { error: "Turmas ainda não estão 
 const MAX_JOIN_CODE_ATTEMPTS = 5;
 
 export async function createTurma(_prevState: TurmaFormState, formData: FormData): Promise<TurmaFormState> {
-  if (!isSupabaseConfigured) return NOT_CONFIGURED_ERROR;
-  const supabase = await createClient();
-  if (!supabase) return NOT_CONFIGURED_ERROR;
-
-  const user = (await supabase.auth.getUser()).data.user;
-  if (!user) return { error: "Faça login para criar uma turma." };
+  const auth = await getAuthedSupabase();
+  if ("reason" in auth) {
+    return auth.reason === "not-configured"
+      ? NOT_CONFIGURED_ERROR
+      : { error: "Faça login para criar uma turma." };
+  }
+  const { supabase, user } = auth;
 
   const name = String(formData.get("name") ?? "").trim();
   if (!name) return { error: "Dê um nome para a turma." };
@@ -47,12 +49,13 @@ export async function createTurma(_prevState: TurmaFormState, formData: FormData
 }
 
 export async function joinTurma(_prevState: TurmaFormState, formData: FormData): Promise<TurmaFormState> {
-  if (!isSupabaseConfigured) return NOT_CONFIGURED_ERROR;
-  const supabase = await createClient();
-  if (!supabase) return NOT_CONFIGURED_ERROR;
-
-  const user = (await supabase.auth.getUser()).data.user;
-  if (!user) return { error: "Faça login para entrar em uma turma." };
+  const auth = await getAuthedSupabase();
+  if ("reason" in auth) {
+    return auth.reason === "not-configured"
+      ? NOT_CONFIGURED_ERROR
+      : { error: "Faça login para entrar em uma turma." };
+  }
+  const { supabase } = auth;
 
   const code = String(formData.get("code") ?? "").trim().toUpperCase();
   if (!code) return { error: "Informe o código da turma." };

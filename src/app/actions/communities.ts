@@ -1,8 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { getAuthedSupabase } from "@/lib/actionAuth";
 import { getSocialAccessStatus, isPremiumUser } from "@/lib/entitlements";
 import { generateJoinCode } from "@/lib/turmaCode";
 
@@ -13,12 +12,13 @@ const FREE_MEMBER_CAP = 20;
 const FREE_COMMUNITY_LIMIT = 1;
 
 export async function createCommunity(_prevState: CommunityFormState, formData: FormData): Promise<CommunityFormState> {
-  if (!isSupabaseConfigured) return { error: "Comunidades ainda não estão disponíveis neste app." };
-  const supabase = await createClient();
-  if (!supabase) return { error: "Comunidades ainda não estão disponíveis neste app." };
-
-  const user = (await supabase.auth.getUser()).data.user;
-  if (!user) return { error: "Faça login para criar uma comunidade." };
+  const auth = await getAuthedSupabase();
+  if ("reason" in auth) {
+    return auth.reason === "not-configured"
+      ? { error: "Comunidades ainda não estão disponíveis neste app." }
+      : { error: "Faça login para criar uma comunidade." };
+  }
+  const { supabase, user } = auth;
   if ((await getSocialAccessStatus()) !== "granted") return NOT_GRANTED_ERROR;
 
   const name = String(formData.get("name") ?? "").trim();
@@ -63,12 +63,13 @@ export async function createCommunity(_prevState: CommunityFormState, formData: 
 }
 
 export async function joinCommunity(_prevState: CommunityFormState, formData: FormData): Promise<CommunityFormState> {
-  if (!isSupabaseConfigured) return { error: "Comunidades ainda não estão disponíveis neste app." };
-  const supabase = await createClient();
-  if (!supabase) return { error: "Comunidades ainda não estão disponíveis neste app." };
-
-  const user = (await supabase.auth.getUser()).data.user;
-  if (!user) return { error: "Faça login para entrar em uma comunidade." };
+  const auth = await getAuthedSupabase();
+  if ("reason" in auth) {
+    return auth.reason === "not-configured"
+      ? { error: "Comunidades ainda não estão disponíveis neste app." }
+      : { error: "Faça login para entrar em uma comunidade." };
+  }
+  const { supabase } = auth;
   if ((await getSocialAccessStatus()) !== "granted") return NOT_GRANTED_ERROR;
 
   const code = String(formData.get("code") ?? "").trim().toUpperCase();

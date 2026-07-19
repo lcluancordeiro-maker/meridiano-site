@@ -2,8 +2,7 @@
 
 import { randomUUID } from "crypto";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { getAuthedSupabase } from "@/lib/actionAuth";
 import { getSocialAccessStatus, isPremiumUser } from "@/lib/entitlements";
 import { isLiveKitConfigured } from "@/lib/livekit/config";
 
@@ -13,14 +12,16 @@ const NOT_GRANTED_ERROR: LiveFormState = { error: "Verifique sua identidade ante
 const NOT_PREMIUM_ERROR: LiveFormState = { error: "Hospedar uma live é um recurso Premium. Assine para continuar." };
 
 export async function createLive(_prevState: LiveFormState, formData: FormData): Promise<LiveFormState> {
-  if (!isSupabaseConfigured || !isLiveKitConfigured) {
+  if (!isLiveKitConfigured) {
     return { error: "As lives ainda não estão disponíveis neste app." };
   }
-  const supabase = await createClient();
-  if (!supabase) return { error: "As lives ainda não estão disponíveis neste app." };
-
-  const user = (await supabase.auth.getUser()).data.user;
-  if (!user) return { error: "Faça login para iniciar uma live." };
+  const auth = await getAuthedSupabase();
+  if ("reason" in auth) {
+    return auth.reason === "not-configured"
+      ? { error: "As lives ainda não estão disponíveis neste app." }
+      : { error: "Faça login para iniciar uma live." };
+  }
+  const { supabase, user } = auth;
   if ((await getSocialAccessStatus()) !== "granted") return NOT_GRANTED_ERROR;
   if (!(await isPremiumUser())) return NOT_PREMIUM_ERROR;
 
@@ -45,12 +46,9 @@ export async function createLive(_prevState: LiveFormState, formData: FormData):
 }
 
 export async function endLive(roomName: string): Promise<void> {
-  if (!isSupabaseConfigured) return;
-  const supabase = await createClient();
-  if (!supabase) return;
-
-  const user = (await supabase.auth.getUser()).data.user;
-  if (!user) return;
+  const auth = await getAuthedSupabase();
+  if ("reason" in auth) return;
+  const { supabase, user } = auth;
 
   await supabase
     .from("live_sessions")

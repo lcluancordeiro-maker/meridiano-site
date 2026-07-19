@@ -1,9 +1,8 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import { createServiceRoleClient } from "@/lib/supabase/serviceRole";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { getAuthedSupabase } from "@/lib/actionAuth";
 
 export type DeleteAccountFormState = { error?: string } | undefined;
 
@@ -23,11 +22,13 @@ export async function deleteMyAccount(
   _prevState: DeleteAccountFormState,
   formData: FormData
 ): Promise<DeleteAccountFormState> {
-  if (!isSupabaseConfigured) return { error: "Contas ainda não estão disponíveis neste app." };
-
-  const supabase = await createClient();
-  const user = supabase ? (await supabase.auth.getUser()).data.user : null;
-  if (!supabase || !user) return { error: "Faça login para excluir sua conta." };
+  const auth = await getAuthedSupabase();
+  if ("reason" in auth) {
+    return auth.reason === "not-configured"
+      ? { error: "Contas ainda não estão disponíveis neste app." }
+      : { error: "Faça login para excluir sua conta." };
+  }
+  const { supabase, user } = auth;
 
   const confirmationEmail = String(formData.get("confirmationEmail") ?? "").trim();
   if (confirmationEmail.toLowerCase() !== (user.email ?? "").toLowerCase()) {

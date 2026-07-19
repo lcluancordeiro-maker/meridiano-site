@@ -1,8 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { getAuthedSupabase } from "@/lib/actionAuth";
 import { getSocialAccessStatus } from "@/lib/entitlements";
 
 export type ChatFormState = { error?: string } | undefined;
@@ -15,12 +14,13 @@ async function requireSocialAccess() {
 }
 
 export async function startDirectConversation(_prevState: ChatFormState, formData: FormData): Promise<ChatFormState> {
-  if (!isSupabaseConfigured) return { error: "O chat ainda não está disponível neste app." };
-  const supabase = await createClient();
-  if (!supabase) return { error: "O chat ainda não está disponível neste app." };
-
-  const user = (await supabase.auth.getUser()).data.user;
-  if (!user) return { error: "Faça login para usar o chat." };
+  const auth = await getAuthedSupabase();
+  if ("reason" in auth) {
+    return auth.reason === "not-configured"
+      ? { error: "O chat ainda não está disponível neste app." }
+      : { error: "Faça login para usar o chat." };
+  }
+  const { supabase } = auth;
   if (!(await requireSocialAccess())) return NOT_GRANTED_ERROR;
 
   const email = String(formData.get("email") ?? "").trim();
@@ -43,12 +43,13 @@ export async function startDirectConversation(_prevState: ChatFormState, formDat
 }
 
 export async function createGroupConversation(_prevState: ChatFormState, formData: FormData): Promise<ChatFormState> {
-  if (!isSupabaseConfigured) return { error: "O chat ainda não está disponível neste app." };
-  const supabase = await createClient();
-  if (!supabase) return { error: "O chat ainda não está disponível neste app." };
-
-  const user = (await supabase.auth.getUser()).data.user;
-  if (!user) return { error: "Faça login para criar um grupo." };
+  const auth = await getAuthedSupabase();
+  if ("reason" in auth) {
+    return auth.reason === "not-configured"
+      ? { error: "O chat ainda não está disponível neste app." }
+      : { error: "Faça login para criar um grupo." };
+  }
+  const { supabase } = auth;
   if (!(await requireSocialAccess())) return NOT_GRANTED_ERROR;
 
   const title = String(formData.get("title") ?? "").trim();

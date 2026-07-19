@@ -1541,6 +1541,16 @@ unitários e e2e em todo push e pull request.
   portal de gerenciamento e webhook; `src/app/assinatura/page.tsx` —
   página de assinatura.
 - `src/app/privacidade/page.tsx` — política de privacidade (LGPD).
+- `src/lib/actionAuth.ts` — `getAuthedSupabase()`, o guard "Supabase está
+  configurado? tem usuário logado?" compartilhado por server actions em
+  `account.ts`, `chat.ts`, `communities.ts`, `identity.ts`,
+  `leaderboard.ts`, `lives.ts` e `turmas.ts` (antes copiado em cada
+  arquivo); retorna uma união discriminada (`{ supabase, user }` ou
+  `{ reason }`) porque cada action ainda decide sozinha o que devolver
+  numa falha (mensagem de erro, `void` ou redirect). `admin.ts` e
+  `moderation.ts` mantêm seus próprios `requireAdmin()`/`requireUser()`
+  locais — já resolviam a duplicação dentro do próprio arquivo, então não
+  foram alterados.
 - `src/app/turmas/` — lista de turmas e detalhe (roster do professor +
   tarefas atribuídas); `src/app/actions/turmas.ts` — criar turma, entrar
   por código, atribuir tarefa; `src/lib/turmaCode.ts` — gerador do

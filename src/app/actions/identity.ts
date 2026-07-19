@@ -1,9 +1,8 @@
 "use server";
 
 import { randomUUID } from "crypto";
-import { createClient } from "@/lib/supabase/server";
 import { createServiceRoleClient } from "@/lib/supabase/serviceRole";
-import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { getAuthedSupabase } from "@/lib/actionAuth";
 import { sendEmail } from "@/lib/email/resend";
 
 export type ConsentFormState = { error?: string; sent?: boolean } | undefined;
@@ -14,11 +13,13 @@ export type ConsentFormState = { error?: string; sent?: boolean } | undefined;
  * link is still generated and stored (so it works if you look it up
  * manually), but no email actually goes out — see src/lib/email/resend.ts. */
 export async function requestParentalConsent(_prevState: ConsentFormState, formData: FormData): Promise<ConsentFormState> {
-  if (!isSupabaseConfigured) return { error: "Esse recurso ainda não está disponível." };
-
-  const supabase = await createClient();
-  const user = supabase ? (await supabase.auth.getUser()).data.user : null;
-  if (!supabase || !user) return { error: "Faça login para continuar." };
+  const auth = await getAuthedSupabase();
+  if ("reason" in auth) {
+    return auth.reason === "not-configured"
+      ? { error: "Esse recurso ainda não está disponível." }
+      : { error: "Faça login para continuar." };
+  }
+  const { user } = auth;
 
   const parentEmail = String(formData.get("parentEmail") ?? "").trim();
   if (!parentEmail || !parentEmail.includes("@")) {
