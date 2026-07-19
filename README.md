@@ -92,13 +92,19 @@ de aplicativos.
   poliedro convexo), os 5 sólidos de Platão e a soma dos ângulos das
   faces S=(V-2)×360°. 4 tópicos, 20 exercícios cada, mesmo padrão do
   Ensino Médio/Superior.
-- **Lógica e Conjuntos** (gratuita, nova trilha): "Proposições e
-  Conectivos Lógicos" — negação, conjunção, disjunção, condicional,
+- **Lógica e Conjuntos** (gratuita): "Proposições e Conectivos
+  Lógicos" — negação, conjunção, disjunção, condicional,
   tabelas-verdade e as Leis de De Morgan —, "Operações com Conjuntos"
   — união, interseção, diferença e o princípio da inclusão-exclusão
-  (|A∪B|=|A|+|B|-|A∩B|), com um diagrama de Venn interativo — e
+  (|A∪B|=|A|+|B|-|A∩B|), com um diagrama de Venn interativo —,
   "Conjuntos Numéricos e Intervalos" — N⊂Z⊂Q⊂R, números irracionais e
-  notação/operações com intervalos ([a,b], (a,b) etc). 3 tópicos, 20
+  notação/operações com intervalos ([a,b], (a,b) etc) — e "Argumentos
+  Lógicos e Validade" — Modus Ponens, Modus Tollens, silogismo
+  hipotético e as duas falácias mais comuns (afirmar o consequente,
+  negar o antecedente), incluindo exercícios de nível olimpíada que
+  testam a diferença entre "forma válida" e "conclusão verdadeira"
+  (um argumento pode ter forma inválida e ainda assim chegar numa
+  conclusão verdadeira por coincidência, e vice-versa). 4 tópicos, 20
   exercícios cada.
 - **Econometria** (Premium): "Regressão Linear Simples" — estimar
   β0/β1 a partir de covariância e variância, prever valores e
