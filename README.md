@@ -1526,7 +1526,13 @@ unitários e e2e em todo push e pull request.
   `ComplexPlaneExplorer.tsx` (Números Complexos, Ensino Médio),
   `ProbabilityBarExplorer.tsx`, `ProbabilityRulesExplorer.tsx`,
   `BinomialDistributionExplorer.tsx`, `ConfidenceIntervalExplorer.tsx`,
-  `HypothesisTestExplorer.tsx` (Estatística Intermediário/Avançado));
+  `HypothesisTestExplorer.tsx` (Estatística Intermediário/Avançado),
+  `DispersionExplorer.tsx` (Estatística Iniciante),
+  `ConditionalLogicExplorer.tsx`, `ArrayIndexExplorer.tsx`,
+  `StringIndexExplorer.tsx`, `LogicOperatorExplorer.tsx` (Programação
+  Iniciante), `LoopStepExplorer.tsx`, `FunctionCallExplorer.tsx`
+  (Programação Intermediário), `SimpleInterestExplorer.tsx`,
+  `InflationErosionExplorer.tsx` (Matemática Financeira Iniciante));
   `InteractiveWidgetRenderer.tsx`
   mapeia o campo `interactiveWidget` de uma `TheorySection` (em
   `src/data/curriculum.ts`) pro componente

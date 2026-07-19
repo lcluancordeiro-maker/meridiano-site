@@ -85,7 +85,16 @@ export type InteractiveWidget =
   | "probability-rules-explorer"
   | "binomial-distribution-explorer"
   | "confidence-interval-explorer"
-  | "hypothesis-test-explorer";
+  | "hypothesis-test-explorer"
+  | "dispersion-explorer"
+  | "conditional-logic-explorer"
+  | "array-index-explorer"
+  | "string-index-explorer"
+  | "logic-operator-explorer"
+  | "loop-step-explorer"
+  | "function-call-explorer"
+  | "simple-interest-explorer"
+  | "inflation-erosion-explorer";
 
 /** A quick one-tap multiple-choice check rendered inline right after a
  * theory section — Brilliant.org-style "learn by doing": instead of reading
@@ -2534,6 +2543,13 @@ export const estatisticaInicianteTopics: Topic[] = [
         body: [
           "Quando todos os valores do conjunto são iguais, não há dispersão: a variância e o desvio padrão são exatamente 0.",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa nos 4 valores abaixo e veja a amplitude, a variância e o desvio padrão mudarem conforme os pontos se espalham mais ou menos.",
+        ],
+        interactiveWidget: "dispersion-explorer",
       },
     ],
     exercises: [
@@ -6045,6 +6061,13 @@ export const programacaoInicianteTopics: Topic[] = [
           solution: "Como 8 > 5 é verdadeiro, o bloco do 'então' executa: y recebe 1.",
         },
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa em x abaixo e veja qual ramo do 'se/senão' executa, conforme a condição fica verdadeira ou falsa.",
+        ],
+        interactiveWidget: "conditional-logic-explorer",
+      },
     ],
     exercises: [
       {
@@ -6253,6 +6276,13 @@ export const programacaoInicianteTopics: Topic[] = [
           "Combinando um laço com uma condicional 'se', é possível encontrar o maior/menor valor, contar elementos que satisfazem uma condição, ou somar apenas parte do vetor.",
         ],
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no índice abaixo e veja qual elemento do vetor v fica destacado — e o valor de v[índice] correspondente.",
+        ],
+        interactiveWidget: "array-index-explorer",
+      },
     ],
     exercises: [
       {
@@ -6430,6 +6460,13 @@ export const programacaoInicianteTopics: Topic[] = [
           problem: 's ← "programacao"\nsubcadeia(s, 1, 4)',
           solution: '"prog" — os caracteres das posições 1 a 4.',
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no início e no fim abaixo e veja a subcadeia destacada em \"matematica\" mudar em tempo real.",
+        ],
+        interactiveWidget: "string-index-explorer",
       },
     ],
     exercises: [
@@ -6648,6 +6685,13 @@ export const programacaoInicianteTopics: Topic[] = [
         body: [
           "Assim como em expressões aritméticas, os parênteses controlam a ordem de avaliação: o que está entre parênteses é calculado primeiro.",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa em x e troque entre E/OU abaixo e veja cada condição (verde = verdadeiro, vermelho = falso) e o resultado combinado.",
+        ],
+        interactiveWidget: "logic-operator-explorer",
       },
     ],
     exercises: [
@@ -6868,6 +6912,13 @@ export const programacaoIntermediarioTopics: Topic[] = [
           "Se a condição do 'enquanto' nunca fica falsa (por exemplo, esquecer de atualizar a variável testada), a repetição nunca para — isso é chamado de loop infinito, um erro comum ao programar.",
         ],
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa em n abaixo e veja o laço 'para i de 1 até n' rodar passo a passo, acumulando soma a cada repetição.",
+        ],
+        interactiveWidget: "loop-step-explorer",
+      },
     ],
     exercises: [
       {
@@ -7083,6 +7134,13 @@ export const programacaoIntermediarioTopics: Topic[] = [
           problem: "função dobro(x):\n  retorna x * 2\n\nfunção quadruplo(x):\n  retorna dobro(dobro(x))\n\nquadruplo(3)",
           solution: "dobro(3) = 6. dobro(6) = 12. Então quadruplo(3) = 12.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa em a e b abaixo e veja soma(a, b) ser calculada e depois usada como entrada de dobro — uma função chamando outra.",
+        ],
+        interactiveWidget: "function-call-explorer",
       },
     ],
     exercises: [
@@ -7511,6 +7569,13 @@ export const matematicaFinanceiraInicianteTopics: Topic[] = [
         body: [
           "A mesma fórmula J = C × i × t permite encontrar qualquer uma das variáveis quando as outras três são conhecidas: C = J/(i×t), i = J/(C×t), t = J/(C×i).",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no capital, na taxa e no tempo abaixo e veja o montante crescer sempre em linha reta — a marca do juro simples.",
+        ],
+        interactiveWidget: "simple-interest-explorer",
       },
     ],
     exercises: [
@@ -7962,6 +8027,13 @@ export const matematicaFinanceiraInicianteTopics: Topic[] = [
           problem: "Inflação de 5% no ano 1 e 3% no ano 2",
           solution: "Fator acumulado = 1,05 × 1,03 = 1,0815, ou seja, 8,15% de inflação acumulada nos dois anos — um pouco mais que a soma simples (8%), por causa do efeito composto.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no valor, na inflação e nos períodos abaixo e compare o valor corrigido com o poder de compra de quem não reajustou.",
+        ],
+        interactiveWidget: "inflation-erosion-explorer",
       },
     ],
     exercises: [

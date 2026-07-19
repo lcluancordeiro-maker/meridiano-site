@@ -418,6 +418,102 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
     await bSlider.fill("0");
     await expect(page.getByText("z = 3 + 0i · |z| = 3")).toBeVisible();
   });
+
+  test("dispersion explorer recalculates as you move a data point slider", async ({ page }) => {
+    await page.goto("/trilha/estatistica-iniciante/medidas-de-dispersao");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    // Defaults: 2, 4, 6, 8 → amplitude 6, variância 5, desvio padrão 2.2.
+    await expect(page.getByText("Amplitude = 6 · Variância = 5 · Desvio padrão = 2.2")).toBeVisible();
+
+    const firstValueSlider = page.getByRole("slider", { name: "Valor 1" });
+    await firstValueSlider.fill("14");
+    // Values become 14, 4, 6, 8 → mean 8, amplitude 10, variância 14, desvio padrão 3.7.
+    await expect(page.getByText("Amplitude = 10 · Variância = 14 · Desvio padrão = 3.7")).toBeVisible();
+  });
+
+  test("conditional logic explorer switches branches as x crosses the threshold", async ({ page }) => {
+    await page.goto("/trilha/programacao-iniciante/logica-de-programacao");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("x = 8 → (x > 5) é Verdadeiro → y = 1")).toBeVisible();
+
+    const xSlider = page.getByRole("slider", { name: "Valor de x" });
+    await xSlider.fill("3");
+    await expect(page.getByText("x = 3 → (x > 5) é Falso → y = 0")).toBeVisible();
+  });
+
+  test("array index explorer highlights the element at the chosen index", async ({ page }) => {
+    await page.goto("/trilha/programacao-iniciante/vetores-e-listas");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("v[2] = 20")).toBeVisible();
+
+    const indexSlider = page.getByRole("slider", { name: "Índice do vetor" });
+    await indexSlider.fill("4");
+    await expect(page.getByText("v[4] = 40")).toBeVisible();
+  });
+
+  test("string index explorer recalculates the substring as you move the sliders", async ({ page }) => {
+    await page.goto("/trilha/programacao-iniciante/strings-e-manipulacao-de-texto");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText('tamanho(s) = 10 · subcadeia(s, 1, 4) = "mate"')).toBeVisible();
+
+    const startSlider = page.getByRole("slider", { name: "Posição inicial da subcadeia" });
+    await startSlider.fill("5");
+    // Moving start past end (4) clamps end up to 5 too: substring is just s[5], "m".
+    await expect(page.getByText('tamanho(s) = 10 · subcadeia(s, 5, 5) = "m"')).toBeVisible();
+  });
+
+  test("logic operator explorer recalculates E/OU as x and the operator change", async ({ page }) => {
+    await page.goto("/trilha/programacao-iniciante/operadores-logicos");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("(x > 3) E (x < 10) = Verdadeiro")).toBeVisible();
+
+    const xSlider = page.getByRole("slider", { name: "Valor de x" });
+    await xSlider.fill("2");
+    await expect(page.getByText("(x > 3) E (x < 10) = Falso")).toBeVisible();
+
+    await page.getByRole("button", { name: "OU" }).click();
+    await expect(page.getByText("(x > 3) OU (x < 10) = Verdadeiro")).toBeVisible();
+  });
+
+  test("loop step explorer recalculates the accumulated soma as n changes", async ({ page }) => {
+    await page.goto("/trilha/programacao-intermediario/estruturas-de-repeticao");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("para i de 1 até 5: soma ← soma + i → soma = 15")).toBeVisible();
+
+    const nSlider = page.getByRole("slider", { name: "Limite superior do laço, n" });
+    await nSlider.fill("3");
+    await expect(page.getByText("para i de 1 até 3: soma ← soma + i → soma = 6")).toBeVisible();
+  });
+
+  test("function call explorer recalculates soma/dobro as the parameters change", async ({ page }) => {
+    await page.goto("/trilha/programacao-intermediario/funcoes-e-modularizacao");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("soma(3, 4) = 7 · dobro(soma(3, 4)) = 14")).toBeVisible();
+
+    const aSlider = page.getByRole("slider", { name: "Parâmetro a" });
+    await aSlider.fill("6");
+    await expect(page.getByText("soma(6, 4) = 10 · dobro(soma(6, 4)) = 20")).toBeVisible();
+  });
+
+  test("simple interest explorer recalculates J/M linearly as the rate changes", async ({ page }) => {
+    await page.goto("/trilha/matematica-financeira-iniciante/juros-simples");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("J = R$ 100,00 · M = R$ 1100,00")).toBeVisible();
+
+    const rateSlider = page.getByRole("slider", { name: "Taxa de juros ao mês" });
+    await rateSlider.fill("5");
+    await expect(page.getByText("J = R$ 250,00 · M = R$ 1250,00")).toBeVisible();
+  });
+
+  test("inflation erosion explorer recalculates the corrected value as periods change", async ({ page }) => {
+    await page.goto("/trilha/matematica-financeira-iniciante/inflacao-e-correcao-monetaria");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("R$ 1000 → corrigido R$ 1100,00")).toBeVisible();
+
+    const yearsSlider = page.getByRole("slider", { name: "Número de períodos, em anos" });
+    await yearsSlider.fill("2");
+    await expect(page.getByText("R$ 1000 → corrigido R$ 1210,00")).toBeVisible();
+  });
 });
 
 // The normal-distribution explorer lives on a Premium topic

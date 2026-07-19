@@ -47,6 +47,15 @@ const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
   "binomial-distribution-explorer": dynamic(() => import("./BinomialDistributionExplorer"), { ssr: false, loading: WidgetLoading }),
   "confidence-interval-explorer": dynamic(() => import("./ConfidenceIntervalExplorer"), { ssr: false, loading: WidgetLoading }),
   "hypothesis-test-explorer": dynamic(() => import("./HypothesisTestExplorer"), { ssr: false, loading: WidgetLoading }),
+  "dispersion-explorer": dynamic(() => import("./DispersionExplorer"), { ssr: false, loading: WidgetLoading }),
+  "conditional-logic-explorer": dynamic(() => import("./ConditionalLogicExplorer"), { ssr: false, loading: WidgetLoading }),
+  "array-index-explorer": dynamic(() => import("./ArrayIndexExplorer"), { ssr: false, loading: WidgetLoading }),
+  "string-index-explorer": dynamic(() => import("./StringIndexExplorer"), { ssr: false, loading: WidgetLoading }),
+  "logic-operator-explorer": dynamic(() => import("./LogicOperatorExplorer"), { ssr: false, loading: WidgetLoading }),
+  "loop-step-explorer": dynamic(() => import("./LoopStepExplorer"), { ssr: false, loading: WidgetLoading }),
+  "function-call-explorer": dynamic(() => import("./FunctionCallExplorer"), { ssr: false, loading: WidgetLoading }),
+  "simple-interest-explorer": dynamic(() => import("./SimpleInterestExplorer"), { ssr: false, loading: WidgetLoading }),
+  "inflation-erosion-explorer": dynamic(() => import("./InflationErosionExplorer"), { ssr: false, loading: WidgetLoading }),
 };
 
 export default function InteractiveWidgetRenderer({ widget }: { widget: InteractiveWidget }) {
