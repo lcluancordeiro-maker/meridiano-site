@@ -51,14 +51,14 @@ export default function OverfittingExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white p-4">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface p-4">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-32 w-full"
           role="img"
           aria-label={`Acurácia de treino ${train}% vs teste ${test}%: ${diagnosis}`}
         >
-          <line x1={0} x2={WIDTH} y1={HEIGHT - MARGIN_BOTTOM} y2={HEIGHT - MARGIN_BOTTOM} stroke="#898781" strokeWidth={1.5} />
+          <line x1={0} x2={WIDTH} y1={HEIGHT - MARGIN_BOTTOM} y2={HEIGHT - MARGIN_BOTTOM} stroke="var(--color-muted)" strokeWidth={1.5} />
           {[
             { label: "Treino", value: train, color: "#2a78d6" },
             { label: "Teste", value: test, color: "#e34948" },
@@ -69,7 +69,7 @@ export default function OverfittingExplorer() {
             return (
               <g key={i}>
                 <rect x={x} y={HEIGHT - MARGIN_BOTTOM - barHeight} width={barWidth} height={barHeight} fill={bar.color} fillOpacity={0.7} />
-                <text x={x + barWidth / 2} y={HEIGHT - MARGIN_BOTTOM + 16} fontSize={11} fill="#3d3b47" textAnchor="middle">
+                <text x={x + barWidth / 2} y={HEIGHT - MARGIN_BOTTOM + 16} fontSize={11} fill="var(--color-muted)" textAnchor="middle">
                   {bar.label} {bar.value}%
                 </text>
               </g>

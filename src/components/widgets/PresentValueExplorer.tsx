@@ -20,7 +20,7 @@ export default function PresentValueExplorer() {
   const maxValue = Math.max(futureValue, presentValue, 1);
 
   const bars = [
-    { label: "Valor Futuro", value: futureValue, color: "#898781" },
+    { label: "Valor Futuro", value: futureValue, color: "var(--color-muted)" },
     { label: "Valor Presente", value: presentValue, color: "#2a78d6" },
   ];
 
@@ -72,14 +72,14 @@ export default function PresentValueExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white p-4">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface p-4">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-32 w-full"
           role="img"
           aria-label={`Valor futuro R$${futureValue} vs valor presente R$${formatCurrency(presentValue)}`}
         >
-          <line x1={0} x2={WIDTH} y1={HEIGHT - MARGIN_BOTTOM} y2={HEIGHT - MARGIN_BOTTOM} stroke="#898781" strokeWidth={1.5} />
+          <line x1={0} x2={WIDTH} y1={HEIGHT - MARGIN_BOTTOM} y2={HEIGHT - MARGIN_BOTTOM} stroke="var(--color-muted)" strokeWidth={1.5} />
           {bars.map((bar, i) => {
             const barWidth = 70;
             const x = 30 + i * (barWidth + 60);
@@ -87,7 +87,7 @@ export default function PresentValueExplorer() {
             return (
               <g key={i}>
                 <rect x={x} y={HEIGHT - MARGIN_BOTTOM - barHeight} width={barWidth} height={barHeight} fill={bar.color} fillOpacity={0.7} />
-                <text x={x + barWidth / 2} y={HEIGHT - MARGIN_BOTTOM + 16} fontSize={10} fill="#3d3b47" textAnchor="middle">
+                <text x={x + barWidth / 2} y={HEIGHT - MARGIN_BOTTOM + 16} fontSize={10} fill="var(--color-muted)" textAnchor="middle">
                   {bar.label}
                 </text>
               </g>

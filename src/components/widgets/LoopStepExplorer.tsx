@@ -39,7 +39,7 @@ export default function LoopStepExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 max-h-40 overflow-y-auto rounded-xl border border-border bg-white p-3 font-mono text-sm">
+      <div className="mt-4 max-h-40 overflow-y-auto rounded-xl border border-border bg-surface p-3 font-mono text-sm">
         {steps.map(({ i, soma }) => (
           <p key={i} className="text-foreground">
             i={i} → soma={soma}

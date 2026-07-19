@@ -98,14 +98,14 @@ export default function ConfidenceIntervalExplorer() {
         </div>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-20 w-full"
           role="img"
           aria-label={`Intervalo de confiança de ${confidence}%: de ${formatNumber(lower)} a ${formatNumber(upper)}, centrado em ${mean}`}
         >
-          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT / 2} y2={HEIGHT / 2} stroke="#898781" strokeWidth={1.5} />
+          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT / 2} y2={HEIGHT / 2} stroke="var(--color-muted)" strokeWidth={1.5} />
           <line
             x1={toX(lower)}
             x2={toX(upper)}
@@ -116,10 +116,10 @@ export default function ConfidenceIntervalExplorer() {
             strokeLinecap="round"
           />
           <circle cx={toX(mean)} cy={HEIGHT / 2} r={6} fill="#e34948" />
-          <text x={toX(lower)} y={HEIGHT / 2 + 24} fontSize={11} fill="#3d3b47" textAnchor="middle">
+          <text x={toX(lower)} y={HEIGHT / 2 + 24} fontSize={11} fill="var(--color-muted)" textAnchor="middle">
             {formatNumber(lower)}
           </text>
-          <text x={toX(upper)} y={HEIGHT / 2 + 24} fontSize={11} fill="#3d3b47" textAnchor="middle">
+          <text x={toX(upper)} y={HEIGHT / 2 + 24} fontSize={11} fill="var(--color-muted)" textAnchor="middle">
             {formatNumber(upper)}
           </text>
         </svg>

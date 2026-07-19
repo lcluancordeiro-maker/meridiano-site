@@ -54,7 +54,7 @@ export default function StackQueueExplorer() {
         </div>
       </div>
 
-      <div className="mt-4 flex min-h-[52px] flex-wrap items-center gap-2 rounded-xl border border-border bg-white p-3">
+      <div className="mt-4 flex min-h-[52px] flex-wrap items-center gap-2 rounded-xl border border-border bg-surface p-3">
         {items.length === 0 && <span className="text-xs text-muted">(vazia)</span>}
         {items.map((item, i) => {
           const isNext = mode === "Pilha" ? i === items.length - 1 : i === 0;

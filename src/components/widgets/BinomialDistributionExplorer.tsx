@@ -70,7 +70,7 @@ export default function BinomialDistributionExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-40 w-full"
@@ -82,7 +82,7 @@ export default function BinomialDistributionExplorer() {
             x2={WIDTH - 10}
             y1={HEIGHT - MARGIN_BOTTOM}
             y2={HEIGHT - MARGIN_BOTTOM}
-            stroke="#898781"
+            stroke="var(--color-muted)"
             strokeWidth={1.5}
           />
           {probabilities.map((prob, k) => {
@@ -99,7 +99,7 @@ export default function BinomialDistributionExplorer() {
                   fill={isNearMean ? "#e34948" : "#2a78d6"}
                 />
                 {n <= 15 && (
-                  <text x={x + barWidth / 2} y={HEIGHT - MARGIN_BOTTOM + 12} fontSize={8} fill="#898781" textAnchor="middle">
+                  <text x={x + barWidth / 2} y={HEIGHT - MARGIN_BOTTOM + 12} fontSize={8} fill="var(--color-muted)" textAnchor="middle">
                     {k}
                   </text>
                 )}

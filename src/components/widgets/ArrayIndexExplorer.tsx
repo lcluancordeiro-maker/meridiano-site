@@ -31,7 +31,7 @@ export default function ArrayIndexExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white p-4">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface p-4">
         <svg
           viewBox={`0 0 ${ARRAY.length * (CELL + GAP)} ${CELL + 24}`}
           className="h-24 w-full"
@@ -49,15 +49,15 @@ export default function ArrayIndexExplorer() {
                   width={CELL}
                   height={CELL}
                   rx={6}
-                  fill={highlighted ? "#2a78d6" : "#e6e4de"}
+                  fill={highlighted ? "#2a78d6" : "var(--color-border)"}
                   fillOpacity={highlighted ? 0.25 : 1}
-                  stroke={highlighted ? "#2a78d6" : "#898781"}
+                  stroke={highlighted ? "#2a78d6" : "var(--color-muted)"}
                   strokeWidth={highlighted ? 2 : 1}
                 />
-                <text x={x + CELL / 2} y={CELL / 2 + 5} fontSize={16} fontWeight={700} fill="#1a1a2e" textAnchor="middle">
+                <text x={x + CELL / 2} y={CELL / 2 + 5} fontSize={16} fontWeight={700} fill="var(--color-foreground)" textAnchor="middle">
                   {value}
                 </text>
-                <text x={x + CELL / 2} y={CELL + 16} fontSize={11} fill="#898781" textAnchor="middle">
+                <text x={x + CELL / 2} y={CELL + 16} fontSize={11} fill="var(--color-muted)" textAnchor="middle">
                   v[{i + 1}]
                 </text>
               </g>

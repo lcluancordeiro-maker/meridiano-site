@@ -53,7 +53,7 @@ export default function LogicOperatorExplorer() {
         </div>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white p-4">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface p-4">
         <div className="flex items-center justify-center gap-4 text-sm">
           <span
             className={`rounded-lg px-3 py-2 font-semibold ${

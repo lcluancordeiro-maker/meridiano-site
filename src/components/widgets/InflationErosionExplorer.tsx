@@ -20,7 +20,7 @@ export default function InflationErosionExplorer() {
   const maxValue = Math.max(value, corrected, 1);
 
   const bars = [
-    { label: "Valor original", value, color: "#898781" },
+    { label: "Valor original", value, color: "var(--color-muted)" },
     { label: "Corrigido pela inflação", value: corrected, color: "#2a78d6" },
     { label: "Poder de compra se não corrigido", value: realPower, color: "#e34948" },
   ];
@@ -73,7 +73,7 @@ export default function InflationErosionExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white p-4">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface p-4">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-32 w-full"

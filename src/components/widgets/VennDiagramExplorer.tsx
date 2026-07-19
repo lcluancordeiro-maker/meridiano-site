@@ -68,7 +68,7 @@ export default function VennDiagramExplorer() {
         role="img"
         aria-label={`Diagrama de Venn: apenas A tem ${onlyA}, apenas B tem ${onlyB}, ambos têm ${clampedIntersection}`}
       >
-        <svg viewBox="0 0 300 200" className="h-full w-full bg-white">
+        <svg viewBox="0 0 300 200" className="h-full w-full bg-surface">
           <circle cx={120} cy={100} r={80} fill="#2a78d6" fillOpacity={0.25} stroke="#2a78d6" strokeWidth={2} />
           <circle cx={180} cy={100} r={80} fill="#1baf7a" fillOpacity={0.25} stroke="#1baf7a" strokeWidth={2} />
           <text x={80} y={60} fontSize={13} fontWeight={600} fill="#2a78d6">
@@ -77,13 +77,13 @@ export default function VennDiagramExplorer() {
           <text x={210} y={60} fontSize={13} fontWeight={600} fill="#1baf7a">
             B
           </text>
-          <text x={85} y={105} fontSize={18} fontWeight={700} fill="#1a1a2e" textAnchor="middle">
+          <text x={85} y={105} fontSize={18} fontWeight={700} fill="var(--color-foreground)" textAnchor="middle">
             {onlyA}
           </text>
-          <text x={150} y={105} fontSize={18} fontWeight={700} fill="#1a1a2e" textAnchor="middle">
+          <text x={150} y={105} fontSize={18} fontWeight={700} fill="var(--color-foreground)" textAnchor="middle">
             {clampedIntersection}
           </text>
-          <text x={215} y={105} fontSize={18} fontWeight={700} fill="#1a1a2e" textAnchor="middle">
+          <text x={215} y={105} fontSize={18} fontWeight={700} fill="var(--color-foreground)" textAnchor="middle">
             {onlyB}
           </text>
         </svg>

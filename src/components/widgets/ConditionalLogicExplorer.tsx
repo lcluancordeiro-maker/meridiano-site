@@ -31,7 +31,7 @@ export default function ConditionalLogicExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white p-4 font-mono text-sm">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface p-4 font-mono text-sm">
         <p className="text-foreground">x ← {x}</p>
         <p className="text-foreground">
           se x &gt; {threshold} então

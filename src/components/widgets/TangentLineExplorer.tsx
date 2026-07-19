@@ -51,18 +51,18 @@ export default function TangentLineExplorer() {
       <div className="mt-4 overflow-hidden rounded-xl border border-border" style={{ aspectRatio: "1 / 1" }}>
         <svg
           viewBox={`0 0 ${SIZE} ${SIZE}`}
-          className="h-full w-full bg-white"
+          className="h-full w-full bg-surface"
           role="img"
           aria-label={`Gráfico de f(x) = x² com reta tangente no ponto x = ${formatNumber(x)}`}
         >
           {TICKS.map((v) => (
-            <line key={`gx${v}`} x1={toPx(v)} x2={toPx(v)} y1={0} y2={SIZE} stroke="#e4e2f1" strokeWidth={1} />
+            <line key={`gx${v}`} x1={toPx(v)} x2={toPx(v)} y1={0} y2={SIZE} stroke="var(--color-border)" strokeWidth={1} />
           ))}
           {TICKS.map((v) => (
-            <line key={`gy${v}`} x1={0} x2={SIZE} y1={toPy(v)} y2={toPy(v)} stroke="#e4e2f1" strokeWidth={1} />
+            <line key={`gy${v}`} x1={0} x2={SIZE} y1={toPy(v)} y2={toPy(v)} stroke="var(--color-border)" strokeWidth={1} />
           ))}
-          <line x1={0} x2={SIZE} y1={toPy(0)} y2={toPy(0)} stroke="#898781" strokeWidth={1.5} />
-          <line x1={toPx(0)} x2={toPx(0)} y1={0} y2={SIZE} stroke="#898781" strokeWidth={1.5} />
+          <line x1={0} x2={SIZE} y1={toPy(0)} y2={toPy(0)} stroke="var(--color-muted)" strokeWidth={1.5} />
+          <line x1={toPx(0)} x2={toPx(0)} y1={0} y2={SIZE} stroke="var(--color-muted)" strokeWidth={1.5} />
           <path d={curvePath} fill="none" stroke="#2a78d6" strokeWidth={2.5} />
           <path d={tangentPath} fill="none" stroke="#e34948" strokeWidth={2} strokeDasharray="5 4" />
           <circle cx={toPx(x)} cy={toPy(y)} r={5} fill="#eda100" />

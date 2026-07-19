@@ -62,16 +62,16 @@ export default function EquationBalanceExplorer() {
       </div>
 
       <div
-        className="mt-4 overflow-hidden rounded-xl border border-border bg-white"
+        className="mt-4 overflow-hidden rounded-xl border border-border bg-surface"
         role="img"
         aria-label={`Balança equilibrada: ${a}x + ${b} de um lado, ${c} do outro, resultando em x = ${formatNumber(x)}`}
       >
         <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="h-32 w-full">
-          <polygon points="150,20 170,20 160,5" fill="#898781" />
-          <line x1={160} x2={160} y1={20} y2={45} stroke="#898781" strokeWidth={3} />
-          <line x1={50} x2={270} y1={45} y2={45} stroke="#3d3b47" strokeWidth={3} />
-          <line x1={50} x2={50} y1={45} y2={70} stroke="#898781" strokeWidth={1.5} />
-          <line x1={270} x2={270} y1={45} y2={70} stroke="#898781" strokeWidth={1.5} />
+          <polygon points="150,20 170,20 160,5" fill="var(--color-muted)" />
+          <line x1={160} x2={160} y1={20} y2={45} stroke="var(--color-muted)" strokeWidth={3} />
+          <line x1={50} x2={270} y1={45} y2={45} stroke="var(--color-muted)" strokeWidth={3} />
+          <line x1={50} x2={50} y1={45} y2={70} stroke="var(--color-muted)" strokeWidth={1.5} />
+          <line x1={270} x2={270} y1={45} y2={70} stroke="var(--color-muted)" strokeWidth={1.5} />
           <rect x={15} y={70} width={70} height={40} rx={6} fill="#2a78d6" fillOpacity={0.2} stroke="#2a78d6" strokeWidth={2} />
           <text x={50} y={95} fontSize={14} fontWeight={700} fill="#2a78d6" textAnchor="middle">
             {a}x {b >= 0 ? "+" : "−"} {Math.abs(b)}

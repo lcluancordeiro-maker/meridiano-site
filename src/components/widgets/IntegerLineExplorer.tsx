@@ -58,18 +58,18 @@ export default function IntegerLineExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-24 w-full"
           role="img"
           aria-label={`Reta numérica: partindo de ${start}, um passo de ${step} chega em ${result}`}
         >
-          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT / 2} y2={HEIGHT / 2} stroke="#898781" strokeWidth={1.5} />
+          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT / 2} y2={HEIGHT / 2} stroke="var(--color-muted)" strokeWidth={1.5} />
           {ticks.map((t) => (
             <g key={t}>
-              <line x1={toX(t)} x2={toX(t)} y1={HEIGHT / 2 - 4} y2={HEIGHT / 2 + 4} stroke="#898781" strokeWidth={1} />
-              <text x={toX(t)} y={HEIGHT / 2 + 18} fontSize={10} fill="#898781" textAnchor="middle">
+              <line x1={toX(t)} x2={toX(t)} y1={HEIGHT / 2 - 4} y2={HEIGHT / 2 + 4} stroke="var(--color-muted)" strokeWidth={1} />
+              <text x={toX(t)} y={HEIGHT / 2 + 18} fontSize={10} fill="var(--color-muted)" textAnchor="middle">
                 {t}
               </text>
             </g>
@@ -88,13 +88,13 @@ export default function IntegerLineExplorer() {
               <path d="M0,0 L8,4 L0,8 Z" fill="#2a78d6" />
             </marker>
           </defs>
-          <circle cx={toX(start)} cy={HEIGHT / 2} r={5} fill="#898781" />
+          <circle cx={toX(start)} cy={HEIGHT / 2} r={5} fill="var(--color-muted)" />
           <circle cx={toX(result)} cy={HEIGHT / 2} r={6} fill="#e34948" />
         </svg>
       </div>
       <div className="mt-2 flex gap-4 text-xs">
         <span className="flex items-center gap-1.5 text-foreground">
-          <span className="h-2 w-2 rounded-full bg-[#898781]" aria-hidden /> Partida
+          <span className="h-2 w-2 rounded-full bg-[var(--color-muted)]" aria-hidden /> Partida
         </span>
         <span className="flex items-center gap-1.5 text-foreground">
           <span className="h-2 w-2 rounded-full bg-[#e34948]" aria-hidden /> Resultado

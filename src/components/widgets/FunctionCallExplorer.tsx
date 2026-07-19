@@ -44,7 +44,7 @@ export default function FunctionCallExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white p-4 font-mono text-sm">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface p-4 font-mono text-sm">
         <p className="text-foreground">função soma(a, b): retorna a + b</p>
         <p className="text-foreground">função dobro(x): retorna x * 2</p>
         <p className="mt-2 text-primary">

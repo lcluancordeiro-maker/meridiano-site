@@ -1546,7 +1546,13 @@ unitários e e2e em todo push e pull request.
   `InteractiveWidgetRenderer.tsx`
   mapeia o campo `interactiveWidget` de uma `TheorySection` (em
   `src/data/curriculum.ts`) pro componente
-  certo, renderizado pelo `TopicPage`.
+  certo, renderizado pelo `TopicPage`. Todos os widgets usam apenas as
+  variáveis de tema (`var(--color-foreground)`, `var(--color-muted)`,
+  `var(--color-border)`, `bg-surface`) para fundo, texto e linhas do SVG,
+  em vez de cores fixas (`bg-white`, `#1a1a2e` etc.) — o canvas de cada
+  widget acompanha o modo claro/escuro automaticamente. Cores saturadas de
+  dado (azul, verde, vermelho, âmbar, roxo) permanecem fixas por
+  legibilidade em ambos os temas.
 - `src/lib/mathExpr.ts` — parser/avaliador de expressões matemáticas
   para a calculadora gráfica.
 - `src/components/PracticeSection.tsx` + `DifficultyPicker.tsx` +

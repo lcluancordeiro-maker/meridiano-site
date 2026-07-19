@@ -41,7 +41,7 @@ export default function PowerRootExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 flex justify-center overflow-hidden rounded-xl border border-border bg-white p-4">
+      <div className="mt-4 flex justify-center overflow-hidden rounded-xl border border-border bg-surface p-4">
         <svg
           viewBox={`0 0 ${MAX_N * (CELL + GAP)} ${MAX_N * (CELL + GAP)}`}
           width={size}

@@ -74,15 +74,15 @@ export default function RegressionLineExplorer() {
         ))}
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-56 w-full"
           role="img"
           aria-label={`Gráfico de dispersão com reta de regressão, R² = ${formatNumber(r2)}`}
         >
-          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT - MARGIN} y2={HEIGHT - MARGIN} stroke="#898781" strokeWidth={1.5} />
-          <line x1={MARGIN} x2={MARGIN} y1={MARGIN} y2={HEIGHT - MARGIN} stroke="#898781" strokeWidth={1.5} />
+          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT - MARGIN} y2={HEIGHT - MARGIN} stroke="var(--color-muted)" strokeWidth={1.5} />
+          <line x1={MARGIN} x2={MARGIN} y1={MARGIN} y2={HEIGHT - MARGIN} stroke="var(--color-muted)" strokeWidth={1.5} />
           <path d={linePath} stroke="#e34948" strokeWidth={2} fill="none" />
           {X_VALUES.map((x, i) => (
             <circle key={i} cx={toX(x)} cy={toY(yValues[i])} r={5} fill="#2a78d6" />

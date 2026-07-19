@@ -51,7 +51,7 @@ export default function PythagoreanExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white" style={{ aspectRatio: "1 / 1" }}>
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface" style={{ aspectRatio: "1 / 1" }}>
         <svg
           viewBox={`0 0 ${SIZE} ${SIZE}`}
           className="h-full w-full"
@@ -64,11 +64,11 @@ export default function PythagoreanExplorer() {
             stroke="#2a78d6"
             strokeWidth={2}
           />
-          <rect x={originX} y={originY - 12} width={12} height={12} fill="none" stroke="#898781" strokeWidth={1} />
-          <text x={(originX + rightX) / 2} y={originY + 18} textAnchor="middle" fontSize="14" fill="#3d3b47">
+          <rect x={originX} y={originY - 12} width={12} height={12} fill="none" stroke="var(--color-muted)" strokeWidth={1} />
+          <text x={(originX + rightX) / 2} y={originY + 18} textAnchor="middle" fontSize="14" fill="var(--color-muted)">
             {a}
           </text>
-          <text x={originX - 16} y={(originY + topY) / 2} textAnchor="middle" fontSize="14" fill="#3d3b47">
+          <text x={originX - 16} y={(originY + topY) / 2} textAnchor="middle" fontSize="14" fill="var(--color-muted)">
             {b}
           </text>
           <text

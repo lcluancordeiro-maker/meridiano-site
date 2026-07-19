@@ -13,7 +13,7 @@ export default function ObjectStateExplorer() {
       </p>
 
       <div className="mt-4 grid grid-cols-2 gap-4">
-        <div className="rounded-xl border border-border bg-white p-4 text-center">
+        <div className="rounded-xl border border-border bg-surface p-4 text-center">
           <p className="text-sm font-semibold text-foreground">c1 (Contador)</p>
           <p className="mt-2 font-display text-2xl font-bold text-primary">{c1}</p>
           <button
@@ -23,7 +23,7 @@ export default function ObjectStateExplorer() {
             c1.incrementar()
           </button>
         </div>
-        <div className="rounded-xl border border-border bg-white p-4 text-center">
+        <div className="rounded-xl border border-border bg-surface p-4 text-center">
           <p className="text-sm font-semibold text-foreground">c2 (Contador)</p>
           <p className="mt-2 font-display text-2xl font-bold text-primary">{c2}</p>
           <button

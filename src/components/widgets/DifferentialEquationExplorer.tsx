@@ -58,14 +58,14 @@ export default function DifferentialEquationExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-36 w-full"
           role="img"
           aria-label={`Reta solução y = ${k}x + ${y0}, passando por (0, ${y0})`}
         >
-          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT / 2} y2={HEIGHT / 2} stroke="#e6e4de" strokeWidth={1} />
+          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT / 2} y2={HEIGHT / 2} stroke="var(--color-border)" strokeWidth={1} />
           <line
             x1={toX(-RANGE)}
             x2={toX(RANGE)}

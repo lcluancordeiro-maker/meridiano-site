@@ -67,7 +67,7 @@ export default function ProbabilityRulesExplorer() {
         role="img"
         aria-label={`Diagrama de probabilidades: P(A)=${formatNumber(pA)}, P(B)=${formatNumber(pB)}, P(A∩B)=${formatNumber(clampedIntersection)}`}
       >
-        <svg viewBox="0 0 300 160" className="h-full w-full bg-white">
+        <svg viewBox="0 0 300 160" className="h-full w-full bg-surface">
           <circle cx={120} cy={80} r={65} fill="#2a78d6" fillOpacity={0.25} stroke="#2a78d6" strokeWidth={2} />
           <circle cx={180} cy={80} r={65} fill="#1baf7a" fillOpacity={0.25} stroke="#1baf7a" strokeWidth={2} />
           <text x={85} y={45} fontSize={13} fontWeight={600} fill="#2a78d6">
@@ -76,13 +76,13 @@ export default function ProbabilityRulesExplorer() {
           <text x={210} y={45} fontSize={13} fontWeight={600} fill="#1baf7a">
             B
           </text>
-          <text x={95} y={84} fontSize={14} fontWeight={700} fill="#1a1a2e" textAnchor="middle">
+          <text x={95} y={84} fontSize={14} fontWeight={700} fill="var(--color-foreground)" textAnchor="middle">
             {formatNumber(pA - clampedIntersection)}
           </text>
-          <text x={150} y={84} fontSize={14} fontWeight={700} fill="#1a1a2e" textAnchor="middle">
+          <text x={150} y={84} fontSize={14} fontWeight={700} fill="var(--color-foreground)" textAnchor="middle">
             {formatNumber(clampedIntersection)}
           </text>
-          <text x={205} y={84} fontSize={14} fontWeight={700} fill="#1a1a2e" textAnchor="middle">
+          <text x={205} y={84} fontSize={14} fontWeight={700} fill="var(--color-foreground)" textAnchor="middle">
             {formatNumber(pB - clampedIntersection)}
           </text>
         </svg>

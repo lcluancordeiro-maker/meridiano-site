@@ -85,14 +85,14 @@ export default function SimpleInterestExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-36 w-full"
           role="img"
           aria-label={`Crescimento linear do montante de R$${capital} até R$${formatCurrency(montante)} em ${time} meses`}
         >
-          <line x1={MARGIN_TOP} x2={WIDTH - MARGIN_TOP} y1={HEIGHT - MARGIN_BOTTOM} y2={HEIGHT - MARGIN_BOTTOM} stroke="#898781" strokeWidth={1.5} />
+          <line x1={MARGIN_TOP} x2={WIDTH - MARGIN_TOP} y1={HEIGHT - MARGIN_BOTTOM} y2={HEIGHT - MARGIN_BOTTOM} stroke="var(--color-muted)" strokeWidth={1.5} />
           <path d={linePath} fill="none" stroke="#2a78d6" strokeWidth={2.5} />
           <circle cx={toX(time)} cy={toY(montante)} r={5} fill="#e34948" />
         </svg>

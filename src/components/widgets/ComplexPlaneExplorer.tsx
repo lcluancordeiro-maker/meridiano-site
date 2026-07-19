@@ -56,19 +56,19 @@ export default function ComplexPlaneExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="aspect-square w-full"
           role="img"
           aria-label={`Plano de Argand com o ponto z = ${a} + ${b}i, módulo ${formatNumber(modulus)}`}
         >
-          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT / 2} y2={HEIGHT / 2} stroke="#898781" strokeWidth={1} />
-          <line x1={WIDTH / 2} x2={WIDTH / 2} y1={MARGIN} y2={HEIGHT - MARGIN} stroke="#898781" strokeWidth={1} />
-          <text x={WIDTH - MARGIN + 4} y={HEIGHT / 2 + 4} fontSize={11} fill="#898781">
+          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT / 2} y2={HEIGHT / 2} stroke="var(--color-muted)" strokeWidth={1} />
+          <line x1={WIDTH / 2} x2={WIDTH / 2} y1={MARGIN} y2={HEIGHT - MARGIN} stroke="var(--color-muted)" strokeWidth={1} />
+          <text x={WIDTH - MARGIN + 4} y={HEIGHT / 2 + 4} fontSize={11} fill="var(--color-muted)">
             Re
           </text>
-          <text x={WIDTH / 2 + 6} y={MARGIN - 6} fontSize={11} fill="#898781">
+          <text x={WIDTH / 2 + 6} y={MARGIN - 6} fontSize={11} fill="var(--color-muted)">
             Im
           </text>
           <line x1={toX(0)} x2={toX(a)} y1={toY(0)} y2={toY(b)} stroke="#2a78d6" strokeWidth={2} markerEnd="url(#arrow)" />

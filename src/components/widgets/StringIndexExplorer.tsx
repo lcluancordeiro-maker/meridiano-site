@@ -49,7 +49,7 @@ export default function StringIndexExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white p-4">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface p-4">
         <svg
           viewBox={`0 0 ${TEXT.length * (CELL + GAP)} ${CELL + 20}`}
           className="h-16 w-full"
@@ -67,15 +67,15 @@ export default function StringIndexExplorer() {
                   width={CELL}
                   height={CELL}
                   rx={4}
-                  fill={highlighted ? "#2a78d6" : "#e6e4de"}
+                  fill={highlighted ? "#2a78d6" : "var(--color-border)"}
                   fillOpacity={highlighted ? 0.25 : 1}
-                  stroke={highlighted ? "#2a78d6" : "#898781"}
+                  stroke={highlighted ? "#2a78d6" : "var(--color-muted)"}
                   strokeWidth={highlighted ? 2 : 1}
                 />
-                <text x={x + CELL / 2} y={CELL / 2 + 6} fontSize={15} fontWeight={700} fill="#1a1a2e" textAnchor="middle">
+                <text x={x + CELL / 2} y={CELL / 2 + 6} fontSize={15} fontWeight={700} fill="var(--color-foreground)" textAnchor="middle">
                   {char}
                 </text>
-                <text x={x + CELL / 2} y={CELL + 14} fontSize={9} fill="#898781" textAnchor="middle">
+                <text x={x + CELL / 2} y={CELL + 14} fontSize={9} fill="var(--color-muted)" textAnchor="middle">
                   {i + 1}
                 </text>
               </g>

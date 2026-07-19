@@ -35,7 +35,7 @@ export default function SphereVolumeExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 flex justify-center overflow-hidden rounded-xl border border-border bg-white p-4">
+      <div className="mt-4 flex justify-center overflow-hidden rounded-xl border border-border bg-surface p-4">
         <svg
           viewBox={`0 0 ${SIZE} ${SIZE}`}
           className="h-36 w-36"

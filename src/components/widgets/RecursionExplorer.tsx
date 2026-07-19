@@ -37,7 +37,7 @@ export default function RecursionExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white p-3 font-mono text-xs">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface p-3 font-mono text-xs">
         {calls.map(({ n: k }, i) => (
           <p key={k} style={{ paddingLeft: `${i * 12}px` }} className="text-foreground">
             fatorial({k}) {k > 1 ? `= ${k} × fatorial(${k - 1})` : "= 1 (caso base)"}

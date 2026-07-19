@@ -92,7 +92,7 @@ export default function CompoundInterestExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-56 w-full"
@@ -104,10 +104,10 @@ export default function CompoundInterestExplorer() {
             x2={WIDTH - MARGIN_RIGHT}
             y1={HEIGHT - MARGIN_BOTTOM}
             y2={HEIGHT - MARGIN_BOTTOM}
-            stroke="#898781"
+            stroke="var(--color-muted)"
             strokeWidth={1.5}
           />
-          <line x1={MARGIN_LEFT} x2={MARGIN_LEFT} y1={MARGIN_TOP} y2={HEIGHT - MARGIN_BOTTOM} stroke="#898781" strokeWidth={1.5} />
+          <line x1={MARGIN_LEFT} x2={MARGIN_LEFT} y1={MARGIN_TOP} y2={HEIGHT - MARGIN_BOTTOM} stroke="var(--color-muted)" strokeWidth={1.5} />
           <path d={curvePath} fill="none" stroke="#2a78d6" strokeWidth={2.5} />
           <circle cx={toX(years)} cy={toY(amount, maxAmount)} r={5} fill="#eda100" />
         </svg>

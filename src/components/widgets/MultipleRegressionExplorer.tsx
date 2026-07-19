@@ -75,7 +75,7 @@ export default function MultipleRegressionExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white p-4 text-sm">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface p-4 text-sm">
         <p className="text-foreground">
           Y = β0 + β1X1 + β2X2 = {b0} + {b1}×{x1} + {b2}×{x2} = <strong>{y}</strong>
         </p>

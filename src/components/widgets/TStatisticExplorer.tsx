@@ -56,19 +56,19 @@ export default function TStatisticExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-20 w-full"
           role="img"
           aria-label={`Reta com t=${formatNumber(t)} comparado ao valor crítico ±${CRITICAL}`}
         >
-          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT / 2} y2={HEIGHT / 2} stroke="#898781" strokeWidth={1.5} />
+          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT / 2} y2={HEIGHT / 2} stroke="var(--color-muted)" strokeWidth={1.5} />
           <rect x={toX(-RANGE)} y={HEIGHT / 2 - 10} width={toX(-CRITICAL) - toX(-RANGE)} height={20} fill="#e34948" fillOpacity={0.15} />
           <rect x={toX(CRITICAL)} y={HEIGHT / 2 - 10} width={toX(RANGE) - toX(CRITICAL)} height={20} fill="#e34948" fillOpacity={0.15} />
           <line x1={toX(-CRITICAL)} x2={toX(-CRITICAL)} y1={10} y2={HEIGHT - 10} stroke="#e34948" strokeWidth={1.5} strokeDasharray="3 3" />
           <line x1={toX(CRITICAL)} x2={toX(CRITICAL)} y1={10} y2={HEIGHT - 10} stroke="#e34948" strokeWidth={1.5} strokeDasharray="3 3" />
-          <circle cx={toX(Math.max(-RANGE, Math.min(RANGE, t)))} cy={HEIGHT / 2} r={6} fill={significant ? "#1baf7a" : "#898781"} />
+          <circle cx={toX(Math.max(-RANGE, Math.min(RANGE, t)))} cy={HEIGHT / 2} r={6} fill={significant ? "#1baf7a" : "var(--color-muted)"} />
         </svg>
       </div>
       <p className="mt-2 text-xs text-foreground">

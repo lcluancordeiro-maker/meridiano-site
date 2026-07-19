@@ -83,14 +83,14 @@ export default function SacScheduleExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-36 w-full"
           role="img"
           aria-label={`Parcelas do SAC decrescendo de R$${formatCurrency(firstPayment)} até R$${formatCurrency(lastPayment)} em ${installments} meses`}
         >
-          <line x1={10} x2={WIDTH - 10} y1={HEIGHT - MARGIN_BOTTOM} y2={HEIGHT - MARGIN_BOTTOM} stroke="#898781" strokeWidth={1.5} />
+          <line x1={10} x2={WIDTH - 10} y1={HEIGHT - MARGIN_BOTTOM} y2={HEIGHT - MARGIN_BOTTOM} stroke="var(--color-muted)" strokeWidth={1.5} />
           {schedule.map((row, i) => {
             const h = (row.payment / maxPayment) * (HEIGHT - MARGIN_BOTTOM - MARGIN_TOP);
             const x = 10 + i * barWidth;

@@ -62,7 +62,7 @@ export default function Solid3DExplorer() {
       <div className="mt-4 overflow-hidden rounded-xl border border-border">
         <svg
           viewBox={`0 0 ${WIDTH} ${TOP_Y + 8 * H_SCALE + 20}`}
-          className="h-full w-full bg-white"
+          className="h-full w-full bg-surface"
           role="img"
           aria-label={`Cilindro com raio ${r} e altura ${h}`}
         >
@@ -81,7 +81,7 @@ export default function Solid3DExplorer() {
             strokeWidth={1}
             strokeDasharray="3,3"
           />
-          <ellipse cx={cx} cy={TOP_Y} rx={rPx} ry={ryPx} fill="#e8f1fc" stroke="#2a78d6" strokeWidth={2} />
+          <ellipse cx={cx} cy={TOP_Y} rx={rPx} ry={ryPx} fill="var(--color-border)" stroke="#2a78d6" strokeWidth={2} />
         </svg>
       </div>
 

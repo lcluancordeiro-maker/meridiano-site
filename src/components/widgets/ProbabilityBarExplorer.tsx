@@ -55,16 +55,16 @@ export default function ProbabilityBarExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white p-4">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface p-4">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-14 w-full"
           role="img"
           aria-label={`Barra de probabilidade: ${clampedFavorable} favoráveis em ${total} possíveis, P(A) = ${formatNumber(probability)}`}
         >
-          <rect x={0} y={10} width={WIDTH} height={30} rx={6} fill="#e6e4de" />
+          <rect x={0} y={10} width={WIDTH} height={30} rx={6} fill="var(--color-border)" />
           <rect x={0} y={10} width={barWidth} height={30} rx={6} fill="#2a78d6" />
-          <text x={WIDTH / 2} y={54} fontSize={11} fill="#3d3b47" textAnchor="middle">
+          <text x={WIDTH / 2} y={54} fontSize={11} fill="var(--color-muted)" textAnchor="middle">
             P(A) preenchido em azul · P(não A) = {formatNumber(1 - probability)} em cinza
           </text>
         </svg>

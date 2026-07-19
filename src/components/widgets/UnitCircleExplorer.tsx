@@ -50,13 +50,13 @@ export default function UnitCircleExplorer() {
       <div className="mt-4 overflow-hidden rounded-xl border border-border" style={{ aspectRatio: "1 / 1" }}>
         <svg
           viewBox={`0 0 ${SIZE} ${SIZE}`}
-          className="h-full w-full bg-white"
+          className="h-full w-full bg-surface"
           role="img"
           aria-label={`Círculo trigonométrico com ângulo de ${angleDeg} graus`}
         >
-          <line x1={0} x2={SIZE} y1={CENTER} y2={CENTER} stroke="#898781" strokeWidth={1.5} />
-          <line x1={CENTER} x2={CENTER} y1={0} y2={SIZE} stroke="#898781" strokeWidth={1.5} />
-          <circle cx={CENTER} cy={CENTER} r={RADIUS_PX} fill="none" stroke="#c9c7db" strokeWidth={1.5} />
+          <line x1={0} x2={SIZE} y1={CENTER} y2={CENTER} stroke="var(--color-muted)" strokeWidth={1.5} />
+          <line x1={CENTER} x2={CENTER} y1={0} y2={SIZE} stroke="var(--color-muted)" strokeWidth={1.5} />
+          <circle cx={CENTER} cy={CENTER} r={RADIUS_PX} fill="none" stroke="var(--color-border)" strokeWidth={1.5} />
           <line x1={CENTER} y1={CENTER} x2={px} y2={CENTER} stroke="#1baf7a" strokeWidth={2.5} strokeDasharray="4 3" />
           <line x1={px} y1={CENTER} x2={px} y2={py} stroke="#e34948" strokeWidth={2.5} strokeDasharray="4 3" />
           <line x1={CENTER} y1={CENTER} x2={px} y2={py} stroke="#2a78d6" strokeWidth={2} />

@@ -50,14 +50,14 @@ export default function MeanMedianExplorer() {
         ))}
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-24 w-full"
           role="img"
           aria-label={`Reta numérica com 5 pontos de dados, média ${formatNumber(mean)} e mediana ${formatNumber(median)}`}
         >
-          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT / 2} y2={HEIGHT / 2} stroke="#898781" strokeWidth={1.5} />
+          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT / 2} y2={HEIGHT / 2} stroke="var(--color-muted)" strokeWidth={1.5} />
           {values.map((value, i) => (
             <circle key={i} cx={toX(value)} cy={HEIGHT / 2} r={5} fill="#2a78d6" />
           ))}

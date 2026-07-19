@@ -83,14 +83,14 @@ export default function IntegralAreaExplorer() {
         </label>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-40 w-full"
           role="img"
           aria-label={`Área sob a curva f(x)=x² entre x=${a} e x=${clampedB}, valor da integral ${formatNumber(integral)}`}
         >
-          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT - MARGIN} y2={HEIGHT - MARGIN} stroke="#898781" strokeWidth={1.5} />
+          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT - MARGIN} y2={HEIGHT - MARGIN} stroke="var(--color-muted)" strokeWidth={1.5} />
           <path d={areaPath} fill="#2a78d6" fillOpacity={0.25} />
           <path d={curvePath} fill="none" stroke="#2a78d6" strokeWidth={2.5} />
         </svg>

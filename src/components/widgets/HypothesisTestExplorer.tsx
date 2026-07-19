@@ -87,14 +87,14 @@ export default function HypothesisTestExplorer() {
         </div>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-white">
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-surface">
         <svg
           viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
           className="h-36 w-full"
           role="img"
           aria-label={`Curva normal padrão com z=${formatNumber(z)} e valor crítico ±${zCritical} para α=${alpha}%; ${rejects ? "rejeita" : "não rejeita"} H0`}
         >
-          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT - MARGIN} y2={HEIGHT - MARGIN} stroke="#898781" strokeWidth={1.5} />
+          <line x1={MARGIN} x2={WIDTH - MARGIN} y1={HEIGHT - MARGIN} y2={HEIGHT - MARGIN} stroke="var(--color-muted)" strokeWidth={1.5} />
           <path d={tailPath(-RANGE, -zCritical)} fill="#e34948" fillOpacity={0.25} />
           <path d={tailPath(zCritical, RANGE)} fill="#e34948" fillOpacity={0.25} />
           <path d={curvePath} fill="none" stroke="#2a78d6" strokeWidth={2.5} />

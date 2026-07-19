@@ -112,10 +112,10 @@ export default function IntervalExplorer() {
           hasIntersection ? `[${interStart},${interEnd}]` : "vazia"
         }`}
       >
-        <svg viewBox={`0 0 ${WIDTH} 90`} className="h-full w-full bg-white">
-          <line x1={0} y1={70} x2={WIDTH} y2={70} stroke="#898781" strokeWidth={1.5} />
+        <svg viewBox={`0 0 ${WIDTH} 90`} className="h-full w-full bg-surface">
+          <line x1={0} y1={70} x2={WIDTH} y2={70} stroke="var(--color-muted)" strokeWidth={1.5} />
           {Array.from({ length: (MAX - MIN) / 2 + 1 }, (_, i) => MIN + i * 2).map((v) => (
-            <line key={v} x1={toX(v)} y1={65} x2={toX(v)} y2={75} stroke="#898781" strokeWidth={1} />
+            <line key={v} x1={toX(v)} y1={65} x2={toX(v)} y2={75} stroke="var(--color-muted)" strokeWidth={1} />
           ))}
 
           <line x1={toX(a1)} y1={20} x2={toX(b1)} y2={20} stroke="#2a78d6" strokeWidth={6} strokeLinecap="round" />

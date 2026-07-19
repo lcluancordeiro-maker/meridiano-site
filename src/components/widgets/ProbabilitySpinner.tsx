@@ -61,17 +61,17 @@ export default function ProbabilitySpinner() {
       <div className="mt-4 overflow-hidden rounded-xl border border-border" style={{ aspectRatio: "1 / 1" }}>
         <svg
           viewBox={`0 0 ${SIZE} ${SIZE}`}
-          className="h-full w-full bg-white"
+          className="h-full w-full bg-surface"
           role="img"
           aria-label={`Roda de probabilidade com ${clampedFavorable} casos favoráveis em ${total}`}
         >
-          <circle cx={CENTER} cy={CENTER} r={RADIUS} fill="#e4e2f1" />
+          <circle cx={CENTER} cy={CENTER} r={RADIUS} fill="var(--color-border)" />
           {favorableAngle >= 359.99 ? (
             <circle cx={CENTER} cy={CENTER} r={RADIUS} fill="#2a78d6" />
           ) : (
             favorableAngle > 0 && <path d={describeArc(0, favorableAngle)} fill="#2a78d6" />
           )}
-          <circle cx={CENTER} cy={CENTER} r={RADIUS} fill="none" stroke="#898781" strokeWidth={1.5} />
+          <circle cx={CENTER} cy={CENTER} r={RADIUS} fill="none" stroke="var(--color-muted)" strokeWidth={1.5} />
         </svg>
       </div>
       <div className="mt-2 flex gap-4 text-xs">
@@ -79,7 +79,7 @@ export default function ProbabilitySpinner() {
           <span className="h-2 w-2 rounded-full bg-[#2a78d6]" aria-hidden /> Favorável
         </span>
         <span className="flex items-center gap-1.5 text-foreground">
-          <span className="h-2 w-2 rounded-full bg-[#e4e2f1] ring-1 ring-border" aria-hidden /> Restante
+          <span className="h-2 w-2 rounded-full bg-border ring-1 ring-border" aria-hidden /> Restante
         </span>
       </div>
     </div>
