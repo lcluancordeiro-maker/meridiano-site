@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 export type XpDatum = {
   date: string; // YYYY-MM-DD
@@ -14,8 +15,6 @@ const PAD_TOP = 20;
 const PAD_LEFT = 28;
 const SEQUENTIAL_BLUE = "#2a78d6";
 
-const WEEKDAY_LABELS = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"];
-
 function niceMax(value: number): number {
   if (value <= 0) return 10;
   const magnitude = Math.pow(10, Math.floor(Math.log10(value)));
@@ -28,6 +27,8 @@ function niceMax(value: number): number {
 }
 
 export default function XpTrendChart({ data }: { data: XpDatum[] }) {
+  const { dict } = useTranslation();
+  const t = dict.progresso;
   const [hovered, setHovered] = useState<number | null>(null);
   const plotWidth = W - PAD_LEFT;
   const plotHeight = H - PAD_BOTTOM - PAD_TOP;
@@ -50,15 +51,12 @@ export default function XpTrendChart({ data }: { data: XpDatum[] }) {
           viewBox={`0 0 ${W} ${H}`}
           className="h-full w-full overflow-visible"
           role="img"
-          aria-label={`XP ganho nos últimos ${data.length} dias, total de ${data.reduce(
-            (s, d) => s + d.xp,
-            0
-          )} XP`}
+          aria-label={`${t.chartXpCaption}: ${data.reduce((s, d) => s + d.xp, 0)} XP`}
         >
-          {yTicks.map((t) => {
-            const y = PAD_TOP + plotHeight - (t / maxValue) * plotHeight;
+          {yTicks.map((tick) => {
+            const y = PAD_TOP + plotHeight - (tick / maxValue) * plotHeight;
             return (
-              <g key={t}>
+              <g key={tick}>
                 <line
                   x1={PAD_LEFT}
                   x2={W}
@@ -68,7 +66,7 @@ export default function XpTrendChart({ data }: { data: XpDatum[] }) {
                   strokeWidth={1}
                 />
                 <text x={0} y={y + 3} fontSize={10} fill="#898781">
-                  {Math.round(t)}
+                  {Math.round(tick)}
                 </text>
               </g>
             );
@@ -80,7 +78,7 @@ export default function XpTrendChart({ data }: { data: XpDatum[] }) {
             const y = PAD_TOP + plotHeight - barHeight;
             const radius = 4;
             const isHovered = hovered === i;
-            const weekday = WEEKDAY_LABELS[new Date(d.date + "T00:00:00").getDay()];
+            const weekday = t.weekdayLabels[new Date(d.date + "T00:00:00").getDay()];
             const shouldLabel = i === maxIndex || i === todayIndex;
 
             return (
@@ -140,7 +138,7 @@ export default function XpTrendChart({ data }: { data: XpDatum[] }) {
                   </text>
                 )}
                 <text x={cx} y={H - PAD_BOTTOM + 16} textAnchor="middle" fontSize={10} fill="#635f78">
-                  {i === todayIndex ? "hoje" : weekday}
+                  {i === todayIndex ? t.chartToday : weekday}
                 </text>
               </g>
             );
@@ -162,14 +160,14 @@ export default function XpTrendChart({ data }: { data: XpDatum[] }) {
 
       <details className="mt-2">
         <summary className="cursor-pointer text-xs font-medium text-muted hover:text-foreground">
-          Ver dados em tabela
+          {t.chartViewTable}
         </summary>
         <table className="mt-2 w-full text-left text-xs">
-          <caption className="sr-only">XP ganho por dia</caption>
+          <caption className="sr-only">{t.chartXpCaption}</caption>
           <thead>
             <tr className="text-muted">
               <th scope="col" className="py-1 pr-4 font-medium">
-                Data
+                {t.chartDateColumn}
               </th>
               <th scope="col" className="py-1 font-medium">
                 XP

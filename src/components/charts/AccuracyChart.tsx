@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
+import { useTranslation } from "@/i18n/LanguageContext";
 
 export type AccuracyDatum = {
   label: string;
@@ -14,6 +15,8 @@ const PAD_TOP = 24;
 const BAR_MAX_WIDTH = 24;
 
 export default function AccuracyChart({ data }: { data: AccuracyDatum[] }) {
+  const { dict } = useTranslation();
+  const t = dict.progresso;
   const [hovered, setHovered] = useState<number | null>(null);
   const gid = useId();
   const manyBars = data.length > 5;
@@ -31,7 +34,7 @@ export default function AccuracyChart({ data }: { data: AccuracyDatum[] }) {
           viewBox={`0 0 ${W} ${H}`}
           className="h-full w-full overflow-visible"
           role="img"
-          aria-label={`Percentual de acertos por tópico: ${data
+          aria-label={`${t.chartAccuracyCaption}: ${data
             .map((d) => `${d.label} ${d.value ?? 0}%`)
             .join(", ")}`}
         >
@@ -66,7 +69,7 @@ export default function AccuracyChart({ data }: { data: AccuracyDatum[] }) {
                 onBlur={() => setHovered(null)}
                 tabIndex={0}
                 role="graphics-symbol"
-                aria-label={`${d.label}: ${d.value === null ? "ainda não feito" : `${d.value}%`}`}
+                aria-label={`${d.label}: ${d.value === null ? t.chartNotAttempted : `${d.value}%`}`}
                 style={{ cursor: "pointer" }}
               >
                 <rect
@@ -142,24 +145,24 @@ export default function AccuracyChart({ data }: { data: AccuracyDatum[] }) {
             }}
           >
             {data[hovered].label}:{" "}
-            {data[hovered].value === null ? "ainda não feito" : `${data[hovered].value}%`}
+            {data[hovered].value === null ? t.chartNotAttempted : `${data[hovered].value}%`}
           </div>
         )}
       </div>
 
       <details className="mt-2">
         <summary className="cursor-pointer text-xs font-medium text-muted hover:text-foreground">
-          Ver dados em tabela
+          {t.chartViewTable}
         </summary>
         <table className="mt-2 w-full text-left text-xs">
-          <caption className="sr-only">Percentual de acertos por tópico</caption>
+          <caption className="sr-only">{t.chartAccuracyCaption}</caption>
           <thead>
             <tr className="text-muted">
               <th scope="col" className="py-1 pr-4 font-medium">
-                Tópico
+                {t.chartTopicColumn}
               </th>
               <th scope="col" className="py-1 font-medium">
-                Acertos
+                {t.chartAccuracyColumn}
               </th>
             </tr>
           </thead>
@@ -168,7 +171,7 @@ export default function AccuracyChart({ data }: { data: AccuracyDatum[] }) {
               <tr key={`${gid}-${d.label}`} className="border-t border-border">
                 <td className="py-1.5 pr-4 text-foreground">{d.label}</td>
                 <td className="py-1.5 text-foreground">
-                  {d.value === null ? "Ainda não feito" : `${d.value}%`}
+                  {d.value === null ? t.chartNotAttempted : `${d.value}%`}
                 </td>
               </tr>
             ))}

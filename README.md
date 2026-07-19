@@ -1372,7 +1372,7 @@ adicionar o código à união `Locale` e ao array `LOCALES` em
 `src/i18n/config.ts` (mais `RTL_LOCALES` se for um idioma da direita
 pra esquerda), e (2) adicionar um objeto completo ao `dictionaries` em
 `dictionaries.ts` — o TypeScript aponta na hora qualquer chave faltando,
-porque `Record<Locale, Dictionary>` exige as ~190 chaves do tipo
+porque `Record<Locale, Dictionary>` exige as ~330 chaves do tipo
 `Dictionary` para todo idioma.
 
 **O que ainda não é traduzido** (fica em português por enquanto):
@@ -1381,13 +1381,18 @@ porque `Record<Locale, Dictionary>` exige as ~190 chaves do tipo
   `src/data/curriculum.ts`) — traduzir isso com qualidade pedagógica é
   um projeto de conteúdo à parte, do mesmo porte de adicionar um nível
   novo, não algo que dá para fazer bem em lote.
-- O motor de exercícios (`ExerciseQuiz`, `DifficultyPicker`), o
-  dashboard de progresso e a página de revisão espaçada
-  (`ReviewSession`, que reaproveita o mesmo motor) — mexer neles
-  quebraria dezenas de testes e2e que hoje verificam texto exato em
-  português; fica como próximo passo se decidirmos ir além da
-  navegação. O link do menu (`nav.revisao`) já está traduzido nos 11
-  idiomas, como qualquer outro item de navegação.
+- O motor de exercícios (`ExerciseQuiz`, `DifficultyPicker`) e a
+  página de revisão espaçada (`ReviewSession`, que reaproveita o mesmo
+  motor) — mexer neles quebraria dezenas de testes e2e que hoje
+  verificam texto exato em português; fica como próximo passo se
+  decidirmos ir além da navegação. O link do menu (`nav.revisao`) já
+  está traduzido nos 11 idiomas, como qualquer outro item de navegação.
+  O dashboard de progresso (`/progresso`, incluindo o card "Pontos de
+  atenção") já é totalmente traduzido (chave `progresso` em
+  `dictionaries.ts`, real em pt-BR/en/es, fallback pro inglês nos
+  outros 8) — a única coisa que continua só em português ali são os
+  nomes/descrições das conquistas (`src/lib/gamification.ts`), que
+  ainda não têm chave de dicionário.
 - Mensagens de erro de autenticação (vêm prontas do Supabase via
   `src/app/actions/auth.ts`).
 

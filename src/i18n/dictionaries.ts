@@ -345,6 +345,39 @@ export type Dictionary = {
     pathwayEmptyState: string;
     pathwayBackButton: string;
   };
+  progresso: {
+    title: string;
+    subtitle: string;
+    ligaLink: string;
+    statLevel: string;
+    statLevelSubtext: string;
+    statStreak: string;
+    statStreakDaySingular: string;
+    statStreakDayPlural: string;
+    statStreakRecord: string;
+    statXpTotal: string;
+    emptyState: string;
+    accuracyByTopic: string;
+    fund2Label: string;
+    estatisticaLabel: string;
+    xpLastWeek: string;
+    last7Days: string;
+    achievements: string;
+    weakSpotsTitle: string;
+    weakSpotsSubtitle: string;
+    weakSpotsEmptyNoData: string;
+    weakSpotsEmptyAllGood: string;
+    chartViewTable: string;
+    chartAccuracyCaption: string;
+    chartTopicColumn: string;
+    chartAccuracyColumn: string;
+    chartXpCaption: string;
+    chartDateColumn: string;
+    chartNotAttempted: string;
+    chartToday: string;
+    /** Sun..Sat, short form, for the XP-trend chart's x-axis labels. */
+    weekdayLabels: string[];
+  };
 };
 
 // Strings for the social features (identity verification, chat, communities,
@@ -489,6 +522,42 @@ const socialFeaturesEn = {
     skipButton: "Skip",
     finishButton: "Get started",
   },
+};
+
+// Progress-dashboard strings are only translated to pt-BR/en/es so far — the
+// other 8 locales fall back to this English copy, same pattern as
+// socialFeaturesEn above. See "Sobre o idioma" in the README.
+const progressoEn = {
+  title: "Your progress",
+  subtitle: "Track your growth, XP, study streak and achievements.",
+  ligaLink: "Weekly league — compare your XP this week against other students",
+  statLevel: "Level",
+  statLevelSubtext: "{into}/{total} XP to next level",
+  statStreak: "Current streak",
+  statStreakDaySingular: "day",
+  statStreakDayPlural: "days",
+  statStreakRecord: "Record: {count} {unit}",
+  statXpTotal: "Total XP",
+  emptyState: "You haven't completed any exercises yet. Start a track to see your progress here!",
+  accuracyByTopic: "Performance by topic",
+  fund2Label: "Middle School",
+  estatisticaLabel: "Statistics",
+  xpLastWeek: "XP this week",
+  last7Days: "Last 7 days",
+  achievements: "Achievements",
+  weakSpotsTitle: "Focus areas",
+  weakSpotsSubtitle: "Topics with the lowest accuracy among the ones you've practiced — good candidates to review.",
+  weakSpotsEmptyNoData: "Keep practicing — once you've answered at least 3 exercises in a topic, it can show up here.",
+  weakSpotsEmptyAllGood: "No topic below 80% accuracy right now. Nice work! 🎉",
+  chartViewTable: "View as table",
+  chartAccuracyCaption: "Percentage correct by topic",
+  chartTopicColumn: "Topic",
+  chartAccuracyColumn: "Accuracy",
+  chartXpCaption: "XP earned per day",
+  chartDateColumn: "Date",
+  chartNotAttempted: "not attempted yet",
+  chartToday: "today",
+  weekdayLabels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
 };
 
 export const dictionaries: Record<Locale, Dictionary> = {
@@ -842,6 +911,38 @@ export const dictionaries: Record<Locale, Dictionary> = {
       skipButton: "Pular",
       finishButton: "Começar",
     },
+    progresso: {
+      title: "Seu progresso",
+      subtitle: "Acompanhe sua evolução, XP, sequência de estudos e conquistas.",
+      ligaLink: "Liga semanal — compare seu XP da semana com outros estudantes",
+      statLevel: "Nível",
+      statLevelSubtext: "{into}/{total} XP para o próximo nível",
+      statStreak: "Sequência atual",
+      statStreakDaySingular: "dia",
+      statStreakDayPlural: "dias",
+      statStreakRecord: "Recorde: {count} {unit}",
+      statXpTotal: "XP total",
+      emptyState: "Você ainda não completou nenhum exercício. Comece uma trilha para ver seu progresso aqui!",
+      accuracyByTopic: "Desempenho por tópico",
+      fund2Label: "Ensino Fundamental II",
+      estatisticaLabel: "Estatística",
+      xpLastWeek: "XP na última semana",
+      last7Days: "Últimos 7 dias",
+      achievements: "Conquistas",
+      weakSpotsTitle: "Pontos de atenção",
+      weakSpotsSubtitle: "Tópicos com menor acerto entre os que você já praticou — bons candidatos pra revisar.",
+      weakSpotsEmptyNoData: "Continue praticando — assim que você tiver pelo menos 3 exercícios respondidos num tópico, ele pode aparecer aqui.",
+      weakSpotsEmptyAllGood: "Nenhum tópico abaixo de 80% de acerto agora. Mandou bem! 🎉",
+      chartViewTable: "Ver dados em tabela",
+      chartAccuracyCaption: "Percentual de acertos por tópico",
+      chartTopicColumn: "Tópico",
+      chartAccuracyColumn: "Acertos",
+      chartXpCaption: "XP ganho por dia",
+      chartDateColumn: "Data",
+      chartNotAttempted: "ainda não feito",
+      chartToday: "hoje",
+      weekdayLabels: ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"],
+    },
   },
   en: {
     nav: {
@@ -1060,6 +1161,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
+    progresso: progressoEn,
   },
   es: {
     nav: {
@@ -1410,6 +1512,38 @@ export const dictionaries: Record<Locale, Dictionary> = {
       skipButton: "Saltar",
       finishButton: "Empezar",
     },
+    progresso: {
+      title: "Tu progreso",
+      subtitle: "Sigue tu evolución, XP, racha de estudio y logros.",
+      ligaLink: "Liga semanal — compara tu XP de la semana con otros estudiantes",
+      statLevel: "Nivel",
+      statLevelSubtext: "{into}/{total} XP para el próximo nivel",
+      statStreak: "Racha actual",
+      statStreakDaySingular: "día",
+      statStreakDayPlural: "días",
+      statStreakRecord: "Récord: {count} {unit}",
+      statXpTotal: "XP total",
+      emptyState: "Aún no has completado ningún ejercicio. ¡Empieza una ruta para ver tu progreso aquí!",
+      accuracyByTopic: "Rendimiento por tema",
+      fund2Label: "Secundaria Básica",
+      estatisticaLabel: "Estadística",
+      xpLastWeek: "XP de la última semana",
+      last7Days: "Últimos 7 días",
+      achievements: "Logros",
+      weakSpotsTitle: "Puntos de atención",
+      weakSpotsSubtitle: "Temas con menor acierto entre los que ya practicaste — buenos candidatos para repasar.",
+      weakSpotsEmptyNoData: "Sigue practicando — en cuanto respondas al menos 3 ejercicios de un tema, puede aparecer aquí.",
+      weakSpotsEmptyAllGood: "Ningún tema por debajo del 80% de acierto ahora mismo. ¡Bien hecho! 🎉",
+      chartViewTable: "Ver datos en tabla",
+      chartAccuracyCaption: "Porcentaje de aciertos por tema",
+      chartTopicColumn: "Tema",
+      chartAccuracyColumn: "Aciertos",
+      chartXpCaption: "XP ganado por día",
+      chartDateColumn: "Fecha",
+      chartNotAttempted: "aún no hecho",
+      chartToday: "hoy",
+      weekdayLabels: ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
+    },
   },
   zh: {
     nav: {
@@ -1625,6 +1759,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
+    progresso: progressoEn,
   },
   it: {
     nav: {
@@ -1844,6 +1979,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
+    progresso: progressoEn,
   },
   ko: {
     nav: {
@@ -2061,6 +2197,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
+    progresso: progressoEn,
   },
   de: {
     nav: {
@@ -2280,6 +2417,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
+    progresso: progressoEn,
   },
   fr: {
     nav: {
@@ -2527,6 +2665,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
+    progresso: progressoEn,
   },
   ja: {
     nav: {
@@ -2743,6 +2882,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
+    progresso: progressoEn,
   },
   ar: {
     nav: {
@@ -2961,6 +3101,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
+    progresso: progressoEn,
   },
   ru: {
     nav: {
@@ -3180,6 +3321,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     lives: socialFeaturesEn.lives,
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
+    progresso: progressoEn,
   },
 };
 

@@ -49,4 +49,20 @@ test.describe("language switcher", () => {
     await page.getByRole("combobox", { name: "اللغة" }).selectOption("pt-BR");
     await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
   });
+
+  test("the progress dashboard (/progresso) is translated, not stuck in Portuguese", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await page.getByRole("combobox", { name: "Idioma" }).selectOption("en");
+    await page.goto("/progresso");
+    await expect(page.getByRole("heading", { name: "Your progress" })).toBeVisible();
+    await expect(
+      page.getByText("You haven't completed any exercises yet. Start a track to see your progress here!")
+    ).toBeVisible();
+    await expect(page.getByText("Weekly league — compare your XP this week against other students")).toBeVisible();
+
+    await page.getByRole("combobox", { name: "Language" }).selectOption("es");
+    await expect(page.getByRole("heading", { name: "Tu progreso" })).toBeVisible();
+  });
 });

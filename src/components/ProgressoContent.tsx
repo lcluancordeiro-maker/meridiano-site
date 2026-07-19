@@ -9,6 +9,7 @@ import { useGamification } from "@/lib/useGamification";
 import { useAllProgress } from "@/lib/useAllProgress";
 import { levelFromXp, getXpLast } from "@/lib/gamification";
 import { getWeakSpots } from "@/lib/weakSpots";
+import { useTranslation } from "@/i18n/LanguageContext";
 import {
   DIFFICULTY_ORDER,
   estatisticaAvancadoTopics,
@@ -67,6 +68,8 @@ function buildAccuracyData(
 }
 
 export default function ProgressoContent() {
+  const { dict } = useTranslation();
+  const t = dict.progresso;
   const gamification = useGamification();
   const allProgress = useAllProgress();
   const { level, xpIntoLevel, xpForNextLevel } = levelFromXp(gamification.xp);
@@ -100,58 +103,64 @@ export default function ProgressoContent() {
   return (
     <div className="mx-auto w-full max-w-4xl px-6 py-12">
       <h1 className="font-display text-3xl font-semibold text-foreground sm:text-4xl">
-        Seu progresso
+        {t.title}
       </h1>
-      <p className="mt-2 text-muted">
-        Acompanhe sua evolução, XP, sequência de estudos e conquistas.
-      </p>
+      <p className="mt-2 text-muted">{t.subtitle}</p>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
         <StatTile
           icon="⭐"
-          label="Nível"
+          label={t.statLevel}
           value={String(level)}
-          subtext={`${xpIntoLevel}/${xpForNextLevel} XP para o próximo nível`}
+          subtext={t.statLevelSubtext
+            .replace("{into}", String(xpIntoLevel))
+            .replace("{total}", String(xpForNextLevel))}
         />
         <StatTile
           icon="🔥"
-          label="Sequência atual"
-          value={`${gamification.streak.current} ${gamification.streak.current === 1 ? "dia" : "dias"}`}
-          subtext={`Recorde: ${gamification.streak.longest} ${gamification.streak.longest === 1 ? "dia" : "dias"}`}
+          label={t.statStreak}
+          value={`${gamification.streak.current} ${
+            gamification.streak.current === 1 ? t.statStreakDaySingular : t.statStreakDayPlural
+          }`}
+          subtext={t.statStreakRecord
+            .replace("{count}", String(gamification.streak.longest))
+            .replace(
+              "{unit}",
+              gamification.streak.longest === 1 ? t.statStreakDaySingular : t.statStreakDayPlural
+            )}
         />
-        <StatTile icon="✨" label="XP total" value={String(gamification.xp)} />
+        <StatTile icon="✨" label={t.statXpTotal} value={String(gamification.xp)} />
       </div>
 
       {!hasAnyActivity ? (
         <div className="mt-10 rounded-2xl border border-border bg-surface p-8 text-center text-muted">
-          Você ainda não completou nenhum exercício. Comece uma trilha para ver seu progresso
-          aqui!
+          {t.emptyState}
         </div>
       ) : (
         <div className="mt-10 grid gap-6 sm:grid-cols-2">
           <div className="rounded-2xl border border-border bg-surface p-5">
             <h2 className="font-display text-lg font-semibold text-foreground">
-              Desempenho por tópico
+              {t.accuracyByTopic}
             </h2>
-            <p className="mt-1 text-xs text-muted">Ensino Fundamental II</p>
+            <p className="mt-1 text-xs text-muted">{t.fund2Label}</p>
             <div className="mt-4">
               <AccuracyChart data={fund2AccuracyData} />
             </div>
           </div>
           <div className="rounded-2xl border border-border bg-surface p-5">
             <h2 className="font-display text-lg font-semibold text-foreground">
-              Desempenho por tópico
+              {t.accuracyByTopic}
             </h2>
-            <p className="mt-1 text-xs text-muted">Estatística</p>
+            <p className="mt-1 text-xs text-muted">{t.estatisticaLabel}</p>
             <div className="mt-4">
               <AccuracyChart data={estatisticaAccuracyData} />
             </div>
           </div>
           <div className="rounded-2xl border border-border bg-surface p-5 sm:col-span-2">
             <h2 className="font-display text-lg font-semibold text-foreground">
-              XP na última semana
+              {t.xpLastWeek}
             </h2>
-            <p className="mt-1 text-xs text-muted">Últimos 7 dias</p>
+            <p className="mt-1 text-xs text-muted">{t.last7Days}</p>
             <div className="mt-4">
               <XpTrendChart data={xpTrend} />
             </div>
@@ -163,7 +172,7 @@ export default function ProgressoContent() {
       )}
 
       <div className="mt-10">
-        <h2 className="font-display text-xl font-semibold text-foreground">Conquistas</h2>
+        <h2 className="font-display text-xl font-semibold text-foreground">{t.achievements}</h2>
         <div className="mt-4">
           <BadgeGrid unlockedBadges={gamification.unlockedBadges} />
         </div>
