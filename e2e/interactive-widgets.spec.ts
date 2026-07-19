@@ -542,3 +542,16 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
 // limitation as above. All five were manually verified by temporarily
 // flipping `premium: false` on their levels, confirming the live math,
 // then reverting before commit.
+
+// The integral-area, critical-point and differential-equation explorers
+// (Ensino Superior); cone-volume, sphere-volume and euler-formula
+// explorers (Geometria Espacial); multiple-regression and t-statistic
+// explorers (Econometria — Iniciante); object-state, stack-queue and
+// recursion explorers (Programação Avançado); overfitting and
+// decision-tree explorers (Machine Learning — Iniciante); and
+// sac-schedule and present-value explorers (Matemática Financeira —
+// Avançado) all live on Premium topics, same paywall limitation as
+// above. All fifteen were manually verified by temporarily flipping
+// `premium: false` on their levels, confirming the live math (initial
+// render and after moving sliders/clicking buttons), then reverting
+// before commit.

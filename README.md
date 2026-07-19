@@ -1532,7 +1532,17 @@ unitários e e2e em todo push e pull request.
   `StringIndexExplorer.tsx`, `LogicOperatorExplorer.tsx` (Programação
   Iniciante), `LoopStepExplorer.tsx`, `FunctionCallExplorer.tsx`
   (Programação Intermediário), `SimpleInterestExplorer.tsx`,
-  `InflationErosionExplorer.tsx` (Matemática Financeira Iniciante));
+  `InflationErosionExplorer.tsx` (Matemática Financeira Iniciante),
+  `IntegralAreaExplorer.tsx`, `CriticalPointExplorer.tsx`,
+  `DifferentialEquationExplorer.tsx` (Ensino Superior),
+  `ConeVolumeExplorer.tsx`, `SphereVolumeExplorer.tsx`,
+  `EulerFormulaExplorer.tsx` (Geometria Espacial),
+  `MultipleRegressionExplorer.tsx`, `TStatisticExplorer.tsx`
+  (Econometria Iniciante), `ObjectStateExplorer.tsx`,
+  `StackQueueExplorer.tsx`, `RecursionExplorer.tsx` (Programação
+  Avançado), `OverfittingExplorer.tsx`, `DecisionTreeExplorer.tsx`
+  (Machine Learning Iniciante), `SacScheduleExplorer.tsx`,
+  `PresentValueExplorer.tsx` (Matemática Financeira Avançado));
   `InteractiveWidgetRenderer.tsx`
   mapeia o campo `interactiveWidget` de uma `TheorySection` (em
   `src/data/curriculum.ts`) pro componente

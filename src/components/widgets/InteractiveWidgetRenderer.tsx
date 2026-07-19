@@ -56,6 +56,21 @@ const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
   "function-call-explorer": dynamic(() => import("./FunctionCallExplorer"), { ssr: false, loading: WidgetLoading }),
   "simple-interest-explorer": dynamic(() => import("./SimpleInterestExplorer"), { ssr: false, loading: WidgetLoading }),
   "inflation-erosion-explorer": dynamic(() => import("./InflationErosionExplorer"), { ssr: false, loading: WidgetLoading }),
+  "integral-area-explorer": dynamic(() => import("./IntegralAreaExplorer"), { ssr: false, loading: WidgetLoading }),
+  "critical-point-explorer": dynamic(() => import("./CriticalPointExplorer"), { ssr: false, loading: WidgetLoading }),
+  "differential-equation-explorer": dynamic(() => import("./DifferentialEquationExplorer"), { ssr: false, loading: WidgetLoading }),
+  "cone-volume-explorer": dynamic(() => import("./ConeVolumeExplorer"), { ssr: false, loading: WidgetLoading }),
+  "sphere-volume-explorer": dynamic(() => import("./SphereVolumeExplorer"), { ssr: false, loading: WidgetLoading }),
+  "euler-formula-explorer": dynamic(() => import("./EulerFormulaExplorer"), { ssr: false, loading: WidgetLoading }),
+  "multiple-regression-explorer": dynamic(() => import("./MultipleRegressionExplorer"), { ssr: false, loading: WidgetLoading }),
+  "t-statistic-explorer": dynamic(() => import("./TStatisticExplorer"), { ssr: false, loading: WidgetLoading }),
+  "object-state-explorer": dynamic(() => import("./ObjectStateExplorer"), { ssr: false, loading: WidgetLoading }),
+  "stack-queue-explorer": dynamic(() => import("./StackQueueExplorer"), { ssr: false, loading: WidgetLoading }),
+  "recursion-explorer": dynamic(() => import("./RecursionExplorer"), { ssr: false, loading: WidgetLoading }),
+  "overfitting-explorer": dynamic(() => import("./OverfittingExplorer"), { ssr: false, loading: WidgetLoading }),
+  "decision-tree-explorer": dynamic(() => import("./DecisionTreeExplorer"), { ssr: false, loading: WidgetLoading }),
+  "sac-schedule-explorer": dynamic(() => import("./SacScheduleExplorer"), { ssr: false, loading: WidgetLoading }),
+  "present-value-explorer": dynamic(() => import("./PresentValueExplorer"), { ssr: false, loading: WidgetLoading }),
 };
 
 export default function InteractiveWidgetRenderer({ widget }: { widget: InteractiveWidget }) {

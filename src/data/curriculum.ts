@@ -94,7 +94,22 @@ export type InteractiveWidget =
   | "loop-step-explorer"
   | "function-call-explorer"
   | "simple-interest-explorer"
-  | "inflation-erosion-explorer";
+  | "inflation-erosion-explorer"
+  | "integral-area-explorer"
+  | "critical-point-explorer"
+  | "differential-equation-explorer"
+  | "cone-volume-explorer"
+  | "sphere-volume-explorer"
+  | "euler-formula-explorer"
+  | "multiple-regression-explorer"
+  | "t-statistic-explorer"
+  | "object-state-explorer"
+  | "stack-queue-explorer"
+  | "recursion-explorer"
+  | "overfitting-explorer"
+  | "decision-tree-explorer"
+  | "sac-schedule-explorer"
+  | "present-value-explorer";
 
 /** A quick one-tap multiple-choice check rendered inline right after a
  * theory section — Brilliant.org-style "learn by doing": instead of reading
@@ -8456,6 +8471,13 @@ export const matematicaFinanceiraAvancadoTopics: Topic[] = [
           "Para o mesmo valor financiado, prazo e taxa, o SAC começa com parcelas mais altas que a Price, mas termina com parcelas mais baixas — e paga menos juros no total, porque amortiza a dívida mais rapidamente no início.",
         ],
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no valor, na taxa e no número de parcelas abaixo e veja as prestações do SAC diminuírem mês a mês.",
+        ],
+        interactiveWidget: "sac-schedule-explorer",
+      },
     ],
     exercises: [
       {
@@ -8670,6 +8692,13 @@ export const matematicaFinanceiraAvancadoTopics: Topic[] = [
         body: [
           "O valor presente de uma série de parcelas iguais é o que se financiaria hoje para depois pagar essas parcelas: VP = PMT × [(1-(1+i)^-n)/i]. É essa a lógica por trás das prestações da Tabela Price.",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no valor futuro, na taxa e nos períodos abaixo e veja o valor presente encolher conforme a taxa ou o prazo aumentam.",
+        ],
+        interactiveWidget: "present-value-explorer",
       },
     ],
     exercises: [
@@ -9096,6 +9125,13 @@ export const superiorTopics: Topic[] = [
           "∫xⁿ dx = x^(n+1)/(n+1) + C, e a integral de uma soma é a soma das integrais de cada termo.",
         ],
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa em a e b abaixo e veja a área sombreada sob f(x)=x² mudar, junto com o valor da integral.",
+        ],
+        interactiveWidget: "integral-area-explorer",
+      },
     ],
     exercises: [
       {
@@ -9273,6 +9309,13 @@ export const superiorTopics: Topic[] = [
           problem: "Um retângulo tem perímetro 20. Sua área é A(x) = x(10-x) = 10x - x², com x sendo um dos lados, e A'(x) = 10 - 2x.",
           solution: "Fazendo A'(x)=0: 10-2x=0 → x=5. Como A''(x)=-2<0, é um máximo. O retângulo de maior área é o quadrado de lado 5, com área 25.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa em a, b e c abaixo e veja o ponto crítico e sua classificação (mínimo/máximo) recalcularem ao vivo.",
+        ],
+        interactiveWidget: "critical-point-explorer",
       },
     ],
     exercises: [
@@ -9486,6 +9529,13 @@ export const superiorTopics: Topic[] = [
           problem: "y = 3x² é solução de dy/dx = 6x?",
           solution: "A derivada de 3x² é 6x — sim, satisfaz a equação.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa em k (dy/dx) e na condição inicial y(0) abaixo e veja a reta solução se ajustar.",
+        ],
+        interactiveWidget: "differential-equation-explorer",
       },
     ],
     exercises: [
@@ -9932,6 +9982,13 @@ export const geometriaEspacialTopics: Topic[] = [
           "Essa razão de 1/3 vale sempre que a base e a altura são as mesmas: a pirâmide/cone sempre 'cabe' 3 vezes dentro do prisma/cilindro correspondente.",
         ],
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no raio e na altura abaixo e compare o volume do cone com o do cilindro correspondente — o cone é sempre um terço.",
+        ],
+        interactiveWidget: "cone-volume-explorer",
+      },
     ],
     exercises: [
       {
@@ -10138,6 +10195,13 @@ export const geometriaEspacialTopics: Topic[] = [
         body: [
           "Quando um sólido tem uma parte 'oca' ou removida (como um cone escavado dentro de um cilindro), o volume final é o volume externo menos o volume da cavidade.",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no raio abaixo e veja o volume e a área da superfície da esfera recalcularem, em termos de π.",
+        ],
+        interactiveWidget: "sphere-volume-explorer",
       },
     ],
     exercises: [
@@ -10353,6 +10417,13 @@ export const geometriaEspacialTopics: Topic[] = [
           problem: "Cubo: V=8",
           solution: "S = (8-2)×360° = 2160°.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa em V, A e F abaixo e confira se a combinação forma um poliedro convexo válido (V-A+F=2).",
+        ],
+        interactiveWidget: "euler-formula-explorer",
       },
     ],
     exercises: [
@@ -11713,6 +11784,13 @@ export const econometriaTopics: Topic[] = [
           "Em Y = β0 + β1X1 + β2X2, o coeficiente β2 representa o quanto Y muda para cada unidade adicional de X2, mantendo X1 constante — não é o mesmo que o efeito de X2 sozinha, sem controlar por X1.",
         ],
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa nos coeficientes e nas variáveis abaixo e veja Y recalcular, além do efeito parcial de X2 mantendo X1 fixo.",
+        ],
+        interactiveWidget: "multiple-regression-explorer",
+      },
     ],
     exercises: [
       {
@@ -11895,6 +11973,13 @@ export const econometriaTopics: Topic[] = [
         body: [
           "Um coeficiente 'não significante' (|t| pequeno) não prova que a variável não importa — só que a amostra não trouxe evidência estatística suficiente para descartar a hipótese de que ele é zero. Isso pode acontecer, por exemplo, por multicolinearidade (ver 'Regressão Múltipla') ou amostra pequena.",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa em β̂ e no erro-padrão abaixo e veja t recalcular — e se ele cai na zona de significância.",
+        ],
+        interactiveWidget: "t-statistic-explorer",
       },
     ],
     exercises: [
@@ -12110,6 +12195,13 @@ export const programacaoAvancadoTopics: Topic[] = [
           "Encapsulamento é o princípio de proteger os atributos internos de um objeto, expondo apenas métodos controlados para lê-los ou alterá-los — em vez de permitir que qualquer parte do código mude os dados diretamente e sem controle.",
         ],
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Clique em incrementar() em c1 e c2 abaixo e veja que cada objeto guarda seu próprio valor, independente do outro.",
+        ],
+        interactiveWidget: "object-state-explorer",
+      },
     ],
     exercises: [
       {
@@ -12324,6 +12416,13 @@ export const programacaoAvancadoTopics: Topic[] = [
           "Pilhas são úteis quando a ordem certa de processar é 'o mais recente primeiro' — por exemplo, desfazer a última ação (Ctrl+Z) ou navegar 'voltar' num histórico. Filas são úteis quando a ordem certa é 'quem chegou primeiro' — por exemplo, uma fila de impressão ou de atendimento.",
         ],
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Alterne entre Pilha e Fila abaixo, adicione e remova itens, e veja qual item sai primeiro em cada estrutura.",
+        ],
+        interactiveWidget: "stack-queue-explorer",
+      },
     ],
     exercises: [
       {
@@ -12529,6 +12628,13 @@ export const programacaoAvancadoTopics: Topic[] = [
         body: [
           "Muitos problemas resolvidos com recursão também podem ser resolvidos com um laço ('para' ou 'enquanto'). A recursão costuma deixar o código mais parecido com a definição matemática do problema, à custa de usar mais memória — uma chamada empilhada para cada nível da recursão.",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa em n abaixo e veja a pilha de chamadas de fatorial(n) até o caso base, e como o resultado se acumula.",
+        ],
+        interactiveWidget: "recursion-explorer",
       },
     ],
     exercises: [
@@ -12739,6 +12845,13 @@ export const machineLearningInicianteTopics: Topic[] = [
           problem: "80 previsões corretas em 100 exemplos de teste",
           solution: "Acurácia = 80/100 = 0,80 = 80%.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa na acurácia de treino e teste abaixo e veja o diagnóstico mudar entre overfitting, underfitting e bom ajuste.",
+        ],
+        interactiveWidget: "overfitting-explorer",
       },
     ],
     exercises: [
@@ -13197,6 +13310,13 @@ export const machineLearningInicianteTopics: Topic[] = [
         body: [
           "Quanto mais profunda a árvore (mais perguntas em sequência), mais ela se ajusta aos detalhes dos dados de treino — o que pode causar overfitting. Limitar a profundidade máxima é uma forma comum de controlar isso, mesmo que isso reduza um pouco a acurácia no treino.",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Responda as perguntas abaixo e veja a árvore percorrer o caminho até a folha com a previsão final.",
+        ],
+        interactiveWidget: "decision-tree-explorer",
       },
     ],
     exercises: [
