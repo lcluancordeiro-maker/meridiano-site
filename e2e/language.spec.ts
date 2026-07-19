@@ -61,8 +61,11 @@ test.describe("language switcher", () => {
       page.getByText("You haven't completed any exercises yet. Start a track to see your progress here!")
     ).toBeVisible();
     await expect(page.getByText("Weekly league — compare your XP this week against other students")).toBeVisible();
+    await expect(page.getByText("First step")).toBeVisible();
+    await expect(page.getByText("Complete your first topic.")).toBeVisible();
 
     await page.getByRole("combobox", { name: "Language" }).selectOption("es");
     await expect(page.getByRole("heading", { name: "Tu progreso" })).toBeVisible();
+    await expect(page.getByText("Primer paso")).toBeVisible();
   });
 });

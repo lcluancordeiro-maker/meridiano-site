@@ -1,10 +1,17 @@
+"use client";
+
 import { BADGES } from "@/lib/gamification";
+import { useTranslation } from "@/i18n/LanguageContext";
+import type { BadgeId } from "@/i18n/dictionaries";
 
 export default function BadgeGrid({ unlockedBadges }: { unlockedBadges: string[] }) {
+  const { dict } = useTranslation();
+
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
       {BADGES.map((badge) => {
         const unlocked = unlockedBadges.includes(badge.id);
+        const t = dict.badges[badge.id as BadgeId];
         return (
           <div
             key={badge.id}
@@ -15,8 +22,8 @@ export default function BadgeGrid({ unlockedBadges }: { unlockedBadges: string[]
             <span className="text-2xl" aria-hidden>
               {unlocked ? badge.icon : "🔒"}
             </span>
-            <span className="text-sm font-semibold text-foreground">{badge.name}</span>
-            <span className="text-xs text-muted">{badge.description}</span>
+            <span className="text-sm font-semibold text-foreground">{t.name}</span>
+            <span className="text-xs text-muted">{t.description}</span>
           </div>
         );
       })}

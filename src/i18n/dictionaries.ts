@@ -1,5 +1,18 @@
 import type { Locale } from "./config";
 
+/** Mirrors the `id` field of every entry in `BADGES` (src/lib/gamification.ts).
+ * Kept as a literal union here (not imported) to avoid coupling the i18n
+ * module to the gamification module — this file is the single place that
+ * needs to know every badge id exists in every locale. */
+export type BadgeId =
+  | "first-topic"
+  | "perfect-score"
+  | "fundamental-2-complete"
+  | "streak-3"
+  | "streak-7"
+  | "olympian"
+  | "all-difficulties";
+
 export type Dictionary = {
   nav: {
     trilhas: string;
@@ -378,6 +391,7 @@ export type Dictionary = {
     /** Sun..Sat, short form, for the XP-trend chart's x-axis labels. */
     weekdayLabels: string[];
   };
+  badges: Record<BadgeId, { name: string; description: string }>;
 };
 
 // Strings for the social features (identity verification, chat, communities,
@@ -558,6 +572,25 @@ const progressoEn = {
   chartNotAttempted: "not attempted yet",
   chartToday: "today",
   weekdayLabels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+};
+
+// Achievement names/descriptions — same pt-BR/en/es-real, 8-locale-fallback
+// pattern as progressoEn above. Keyed by the `id` field of BADGES in
+// src/lib/gamification.ts.
+const badgesEn: Record<BadgeId, { name: string; description: string }> = {
+  "first-topic": { name: "First step", description: "Complete your first topic." },
+  "perfect-score": { name: "Perfect score", description: "Get 100% on a topic's exercises." },
+  "fundamental-2-complete": {
+    name: "Middle School complete",
+    description: "Complete every topic in Middle School.",
+  },
+  "streak-3": { name: "Consistency", description: "Study 3 days in a row." },
+  "streak-7": { name: "One week!", description: "Study 7 days in a row." },
+  olympian: { name: "Olympiad level", description: "Get 100% on an olympiad-tier exercise." },
+  "all-difficulties": {
+    name: "All tiers",
+    description: "Complete all 4 difficulty tiers of the same topic.",
+  },
 };
 
 export const dictionaries: Record<Locale, Dictionary> = {
@@ -943,6 +976,27 @@ export const dictionaries: Record<Locale, Dictionary> = {
       chartToday: "hoje",
       weekdayLabels: ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"],
     },
+    badges: {
+      "first-topic": { name: "Primeiro passo", description: "Conclua seu primeiro tópico." },
+      "perfect-score": {
+        name: "Nota máxima",
+        description: "Acerte 100% dos exercícios de um tópico.",
+      },
+      "fundamental-2-complete": {
+        name: "Fundamental II completo",
+        description: "Conclua todos os tópicos do Ensino Fundamental II.",
+      },
+      "streak-3": { name: "Constância", description: "Estude 3 dias seguidos." },
+      "streak-7": { name: "Uma semana!", description: "Estude 7 dias seguidos." },
+      olympian: {
+        name: "Nível Olimpíada",
+        description: "Acerte 100% de um exercício nível olimpíada.",
+      },
+      "all-difficulties": {
+        name: "Todos os níveis",
+        description: "Complete os 4 níveis de dificuldade de um mesmo tópico.",
+      },
+    },
   },
   en: {
     nav: {
@@ -1162,6 +1216,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
     progresso: progressoEn,
+    badges: badgesEn,
   },
   es: {
     nav: {
@@ -1544,6 +1599,27 @@ export const dictionaries: Record<Locale, Dictionary> = {
       chartToday: "hoy",
       weekdayLabels: ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
     },
+    badges: {
+      "first-topic": { name: "Primer paso", description: "Completa tu primer tema." },
+      "perfect-score": {
+        name: "Puntuación perfecta",
+        description: "Acierta el 100% de los ejercicios de un tema.",
+      },
+      "fundamental-2-complete": {
+        name: "Secundaria Básica completa",
+        description: "Completa todos los temas de la Secundaria Básica.",
+      },
+      "streak-3": { name: "Constancia", description: "Estudia 3 días seguidos." },
+      "streak-7": { name: "¡Una semana!", description: "Estudia 7 días seguidos." },
+      olympian: {
+        name: "Nivel Olimpiada",
+        description: "Acierta el 100% de un ejercicio de nivel olimpiada.",
+      },
+      "all-difficulties": {
+        name: "Todos los niveles",
+        description: "Completa los 4 niveles de dificultad de un mismo tema.",
+      },
+    },
   },
   zh: {
     nav: {
@@ -1760,6 +1836,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
     progresso: progressoEn,
+    badges: badgesEn,
   },
   it: {
     nav: {
@@ -1980,6 +2057,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
     progresso: progressoEn,
+    badges: badgesEn,
   },
   ko: {
     nav: {
@@ -2198,6 +2276,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
     progresso: progressoEn,
+    badges: badgesEn,
   },
   de: {
     nav: {
@@ -2418,6 +2497,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
     progresso: progressoEn,
+    badges: badgesEn,
   },
   fr: {
     nav: {
@@ -2666,6 +2746,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
     progresso: progressoEn,
+    badges: badgesEn,
   },
   ja: {
     nav: {
@@ -2883,6 +2964,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
     progresso: progressoEn,
+    badges: badgesEn,
   },
   ar: {
     nav: {
@@ -3102,6 +3184,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
     progresso: progressoEn,
+    badges: badgesEn,
   },
   ru: {
     nav: {
@@ -3322,6 +3405,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     knowledgeGraph: socialFeaturesEn.knowledgeGraph,
     onboarding: socialFeaturesEn.onboarding,
     progresso: progressoEn,
+    badges: badgesEn,
   },
 };
 

@@ -1405,11 +1405,17 @@ porque `Record<Locale, Dictionary>` exige as ~330 chaves do tipo
   decidirmos ir além da navegação. O link do menu (`nav.revisao`) já
   está traduzido nos 11 idiomas, como qualquer outro item de navegação.
   O dashboard de progresso (`/progresso`, incluindo o card "Pontos de
-  atenção") já é totalmente traduzido (chave `progresso` em
-  `dictionaries.ts`, real em pt-BR/en/es, fallback pro inglês nos
-  outros 8) — a única coisa que continua só em português ali são os
-  nomes/descrições das conquistas (`src/lib/gamification.ts`), que
-  ainda não têm chave de dicionário.
+  atenção" e a grade de conquistas) já é totalmente traduzido — chaves
+  `progresso` e `badges` em `dictionaries.ts` (`badges` é indexada por
+  `BadgeId`, o mesmo `id` usado em `BADGES` no `gamification.ts`),
+  real em pt-BR/en/es, fallback pro inglês nos outros 8. A única
+  exceção é o toast "Nova conquista!" que aparece dentro do
+  `ExerciseQuiz` ao terminar um quiz — ele ainda usa `badge.name`/
+  `badge.description` direto do `gamification.ts` (português), de
+  propósito: o resto da tela de resultado do `ExerciseQuiz` também é
+  só português (ver item acima), então traduzir só o nome da conquista
+  ali deixaria a tela com dois idiomas misturados — pior que deixar
+  tudo em português.
 - Mensagens de erro de autenticação (vêm prontas do Supabase via
   `src/app/actions/auth.ts`).
 
