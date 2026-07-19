@@ -36,6 +36,17 @@ const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
   "truth-table-explorer": dynamic(() => import("./TruthTableExplorer"), { ssr: false, loading: WidgetLoading }),
   "interval-explorer": dynamic(() => import("./IntervalExplorer"), { ssr: false, loading: WidgetLoading }),
   "bubble-sort-explorer": dynamic(() => import("./BubbleSortExplorer"), { ssr: false, loading: WidgetLoading }),
+  "integer-line-explorer": dynamic(() => import("./IntegerLineExplorer"), { ssr: false, loading: WidgetLoading }),
+  "equation-balance-explorer": dynamic(() => import("./EquationBalanceExplorer"), { ssr: false, loading: WidgetLoading }),
+  "power-root-explorer": dynamic(() => import("./PowerRootExplorer"), { ssr: false, loading: WidgetLoading }),
+  "proportion-percent-explorer": dynamic(() => import("./ProportionPercentExplorer"), { ssr: false, loading: WidgetLoading }),
+  "quadratic-roots-explorer": dynamic(() => import("./QuadraticRootsExplorer"), { ssr: false, loading: WidgetLoading }),
+  "complex-plane-explorer": dynamic(() => import("./ComplexPlaneExplorer"), { ssr: false, loading: WidgetLoading }),
+  "probability-bar-explorer": dynamic(() => import("./ProbabilityBarExplorer"), { ssr: false, loading: WidgetLoading }),
+  "probability-rules-explorer": dynamic(() => import("./ProbabilityRulesExplorer"), { ssr: false, loading: WidgetLoading }),
+  "binomial-distribution-explorer": dynamic(() => import("./BinomialDistributionExplorer"), { ssr: false, loading: WidgetLoading }),
+  "confidence-interval-explorer": dynamic(() => import("./ConfidenceIntervalExplorer"), { ssr: false, loading: WidgetLoading }),
+  "hypothesis-test-explorer": dynamic(() => import("./HypothesisTestExplorer"), { ssr: false, loading: WidgetLoading }),
 };
 
 export default function InteractiveWidgetRenderer({ widget }: { widget: InteractiveWidget }) {

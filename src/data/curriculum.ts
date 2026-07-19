@@ -74,7 +74,18 @@ export type InteractiveWidget =
   | "venn-diagram-explorer"
   | "truth-table-explorer"
   | "interval-explorer"
-  | "bubble-sort-explorer";
+  | "bubble-sort-explorer"
+  | "integer-line-explorer"
+  | "equation-balance-explorer"
+  | "power-root-explorer"
+  | "proportion-percent-explorer"
+  | "quadratic-roots-explorer"
+  | "complex-plane-explorer"
+  | "probability-bar-explorer"
+  | "probability-rules-explorer"
+  | "binomial-distribution-explorer"
+  | "confidence-interval-explorer"
+  | "hypothesis-test-explorer";
 
 /** A quick one-tap multiple-choice check rendered inline right after a
  * theory section — Brilliant.org-style "learn by doing": instead of reading
@@ -422,6 +433,13 @@ export const fundamental2Topics: Topic[] = [
           problem: "(-6) × (-4)",
           solution: "Sinais iguais → resultado positivo: 6 × 4 = 24.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no ponto de partida e no passo somado abaixo e observe a seta se mover na reta numérica — andar para a direita soma, para a esquerda subtrai.",
+        ],
+        interactiveWidget: "integer-line-explorer",
       },
     ],
     exercises: [
@@ -964,6 +982,13 @@ export const fundamental2Topics: Topic[] = [
             "Subtraia 2x dos dois lados: 3x - 2 = 10. Some 2 dos dois lados: 3x = 12. Divida por 3: x = 4.",
         },
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa em a, b e c abaixo e veja a balança de ax + b = c se ajustar, com cada passo da resolução mostrado ao vivo.",
+        ],
+        interactiveWidget: "equation-balance-explorer",
+      },
     ],
     exercises: [
       {
@@ -1210,6 +1235,13 @@ export const fundamental2Topics: Topic[] = [
           solution: "9 × 9 = 81, então √81 = 9.",
         },
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no lado n abaixo e veja o quadrado crescer quadradinho por quadradinho — a área é n², e voltar da área para o lado é exatamente a raiz quadrada.",
+        ],
+        interactiveWidget: "power-root-explorer",
+      },
     ],
     exercises: [
       {
@@ -1443,6 +1475,13 @@ export const fundamental2Topics: Topic[] = [
           problem: "Calcule 15% de 200.",
           solution: "15% = 15/100 = 0,15. 0,15 × 200 = 30.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa na porcentagem e no total abaixo e observe a barra: a parte destacada em azul é exatamente x% do total.",
+        ],
+        interactiveWidget: "proportion-percent-explorer",
       },
     ],
     exercises: [
@@ -1685,6 +1724,13 @@ export const fundamental2Topics: Topic[] = [
           problem: "x² - 9 = 0",
           solution: "x² = 9, então x = 3 ou x = -3.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa em a, b e c abaixo e veja Δ e as raízes recalcularem ao vivo — repare que Δ < 0 faz as raízes desaparecerem da reta numérica.",
+        ],
+        interactiveWidget: "quadratic-roots-explorer",
       },
     ],
     exercises: [
@@ -2875,6 +2921,13 @@ export const estatisticaIntermediarioTopics: Topic[] = [
           "A probabilidade do evento complementar (o evento 'não acontecer') é: P(não A) = 1 - P(A).",
         ],
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa nos casos favoráveis e possíveis abaixo e veja a barra azul preencher exatamente P(A) do total.",
+        ],
+        interactiveWidget: "probability-bar-explorer",
+      },
     ],
     exercises: [
       {
@@ -3104,6 +3157,13 @@ export const estatisticaIntermediarioTopics: Topic[] = [
         body: [
           "A probabilidade condicional P(A|B) é a probabilidade de A ocorrer, sabendo que B já ocorreu: P(A|B) = P(A e B) / P(B).",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa em P(A), P(B) e P(A∩B) abaixo e veja P(A∪B) e P(A|B) recalcularem — e se A e B continuam independentes.",
+        ],
+        interactiveWidget: "probability-rules-explorer",
       },
     ],
     exercises: [
@@ -3352,6 +3412,13 @@ export const estatisticaIntermediarioTopics: Topic[] = [
         body: [
           "O número esperado de sucessos numa distribuição binomial é E(X) = n×p — o número de tentativas vezes a probabilidade de sucesso em cada uma.",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa em n e p abaixo e veja o formato da distribuição mudar — a barra vermelha marca o valor esperado, n×p.",
+        ],
+        interactiveWidget: "binomial-distribution-explorer",
       },
     ],
     exercises: [
@@ -3799,6 +3866,13 @@ export const estatisticaAvancadoTopics: Topic[] = [
           "O intervalo de confiança é: (média amostral - margem de erro) até (média amostral + margem de erro).",
         ],
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa na média, no desvio padrão, no tamanho da amostra e no nível de confiança abaixo e veja o intervalo se ajustar ao vivo.",
+        ],
+        interactiveWidget: "confidence-interval-explorer",
+      },
     ],
     exercises: [
       {
@@ -4040,6 +4114,13 @@ export const estatisticaAvancadoTopics: Topic[] = [
           problem: "z calculado = 1, valor crítico = 1,96",
           solution: "Como |1| < 1,96, não rejeitamos H0 — não há evidência suficiente de diferença significativa.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no z calculado e no nível de significância abaixo e veja quando ele cai na região vermelha de rejeição.",
+        ],
+        interactiveWidget: "hypothesis-test-explorer",
       },
     ],
     exercises: [
@@ -5521,6 +5602,13 @@ export const medioTopics: Topic[] = [
           problem: "z = 3 + 4i",
           solution: "|z| = √(3² + 4²) = √(9+16) = √25 = 5.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa na parte real e na imaginária abaixo e veja z se mover no plano de Argand — o módulo |z| é a distância do ponto até a origem.",
+        ],
+        interactiveWidget: "complex-plane-explorer",
       },
     ],
     exercises: [

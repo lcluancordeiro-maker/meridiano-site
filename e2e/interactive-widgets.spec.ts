@@ -357,6 +357,67 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
     await challenge.getByRole("button", { name: "Conferir desafio" }).click();
     await expect(challenge.getByText("Desafio concluído! 🎉")).toBeVisible();
   });
+
+  test("integer line explorer recalculates as you move the sliders", async ({ page }) => {
+    await page.goto("/trilha/fundamental-2/numeros-inteiros");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("-4 + 7 = 3")).toBeVisible();
+
+    const startSlider = page.getByRole("slider", { name: "Ponto de partida na reta numérica" });
+    await startSlider.fill("2");
+    await expect(page.getByText("2 + 7 = 9")).toBeVisible();
+  });
+
+  test("equation balance explorer recalculates x as you move the sliders", async ({ page }) => {
+    await page.goto("/trilha/fundamental-2/introducao-algebra");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("2x + 3 = 11 → x = 4")).toBeVisible();
+
+    const cSlider = page.getByRole("slider", { name: "Valor do lado direito da equação" });
+    await cSlider.fill("15");
+    await expect(page.getByText("2x + 3 = 15 → x = 6")).toBeVisible();
+  });
+
+  test("power root explorer recalculates the square as you move the slider", async ({ page }) => {
+    await page.goto("/trilha/fundamental-2/potenciacao-radiciacao");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("4² = 16 · √16 = 4")).toBeVisible();
+
+    const nSlider = page.getByRole("slider", { name: "Lado do quadrado, n" });
+    await nSlider.fill("5");
+    await expect(page.getByText("5² = 25 · √25 = 5")).toBeVisible();
+  });
+
+  test("proportion/percent explorer recalculates the part as you move the sliders", async ({ page }) => {
+    await page.goto("/trilha/fundamental-2/proporcionalidade-porcentagem");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("30% de 120 = 36")).toBeVisible();
+
+    const percentSlider = page.getByRole("slider", { name: "Porcentagem a calcular" });
+    await percentSlider.fill("50");
+    await expect(page.getByText("50% de 120 = 60")).toBeVisible();
+  });
+
+  test("quadratic roots explorer recalculates Δ and the roots as you move the sliders", async ({ page }) => {
+    await page.goto("/trilha/fundamental-2/equacoes-segundo-grau");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("Δ = 1 → duas raízes reais diferentes")).toBeVisible();
+
+    const cSlider = page.getByRole("slider", { name: "Coeficiente c" });
+    await cSlider.fill("10");
+    // a=1, b=-5, c=10: Δ = 25 - 40 = -15 < 0.
+    await expect(page.getByText("Δ = -15 → nenhuma raiz real")).toBeVisible();
+  });
+
+  test("complex plane explorer recalculates the modulus as you move the sliders", async ({ page }) => {
+    await page.goto("/trilha/medio/numeros-complexos");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("z = 3 + 4i · |z| = 5")).toBeVisible();
+
+    const bSlider = page.getByRole("slider", { name: "Parte imaginária de z" });
+    await bSlider.fill("0");
+    await expect(page.getByText("z = 3 + 0i · |z| = 3")).toBeVisible();
+  });
 });
 
 // The normal-distribution explorer lives on a Premium topic
@@ -376,5 +437,12 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
 // The regression-line and confusion-matrix explorers live on Premium
 // topics (Econometria — Iniciante / Machine Learning — Iniciante), same
 // paywall limitation as above. Both were manually verified by temporarily
+// flipping `premium: false` on their levels, confirming the live math,
+// then reverting before commit.
+
+// The probability-bar, probability-rules, binomial-distribution,
+// confidence-interval and hypothesis-test explorers live on Premium
+// topics (Estatística — Intermediário / Avançado), same paywall
+// limitation as above. All five were manually verified by temporarily
 // flipping `premium: false` on their levels, confirming the live math,
 // then reverting before commit.

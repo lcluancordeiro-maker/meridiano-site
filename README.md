@@ -1515,7 +1515,18 @@ unitários e e2e em todo push e pull request.
   `CompoundInterestExplorer.tsx`, `TangentLineExplorer.tsx`,
   `PythagoreanExplorer.tsx`, `SequenceExplorer.tsx`,
   `NormalDistributionExplorer.tsx`, `RegressionLineExplorer.tsx`,
-  `PercentageChangeExplorer.tsx`, `ConfusionMatrixExplorer.tsx`);
+  `PercentageChangeExplorer.tsx`, `ConfusionMatrixExplorer.tsx`,
+  `MatrixExplorer.tsx`, `PrimeFactorizationExplorer.tsx`,
+  `CombinationExplorer.tsx`, `Solid3DExplorer.tsx`, `VectorExplorer.tsx`,
+  `VennDiagramExplorer.tsx`, `TruthTableExplorer.tsx`,
+  `IntervalExplorer.tsx`, `BubbleSortExplorer.tsx`,
+  `IntegerLineExplorer.tsx`, `EquationBalanceExplorer.tsx`,
+  `PowerRootExplorer.tsx`, `ProportionPercentExplorer.tsx`,
+  `QuadraticRootsExplorer.tsx` (Fundamental 2, antes sem nenhum widget),
+  `ComplexPlaneExplorer.tsx` (Números Complexos, Ensino Médio),
+  `ProbabilityBarExplorer.tsx`, `ProbabilityRulesExplorer.tsx`,
+  `BinomialDistributionExplorer.tsx`, `ConfidenceIntervalExplorer.tsx`,
+  `HypothesisTestExplorer.tsx` (Estatística Intermediário/Avançado));
   `InteractiveWidgetRenderer.tsx`
   mapeia o campo `interactiveWidget` de uma `TheorySection` (em
   `src/data/curriculum.ts`) pro componente
