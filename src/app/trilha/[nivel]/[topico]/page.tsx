@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import PracticeSection from "@/components/PracticeSection";
-import FunctionGrapher from "@/components/FunctionGrapher";
+import LazyFunctionGrapher from "@/components/LazyFunctionGrapher";
 import InteractiveWidgetRenderer from "@/components/widgets/InteractiveWidgetRenderer";
 import KnowledgeGraph from "@/components/KnowledgeGraph";
 import TheoryCheckQuestion from "@/components/TheoryCheckQuestion";
@@ -167,7 +167,7 @@ export default async function TopicPage({
                 <p className="mb-4 text-sm text-muted">
                   Mude a expressão abaixo e veja como o gráfico se transforma.
                 </p>
-                <FunctionGrapher initialExpressions={topic.graphExpressions} />
+                <LazyFunctionGrapher initialExpressions={topic.graphExpressions} />
               </div>
             )}
 

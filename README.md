@@ -206,7 +206,17 @@ de aplicativos.
   demanda via `next/dynamic` (chunk próprio por widget, ~2-5KB cada) —
   uma página de tópico só baixa o widget que ela de fato usa, em vez do
   bundle com os 24 juntos que era carregado antes em toda página
-  `/trilha/*/*`, com widget ou sem. Ver `src/components/widgets/`.
+  `/trilha/*/*`, com widget ou sem. Ver `src/components/widgets/`. O
+  mesmo problema existia com `FunctionGrapher` (o gráfico de função que
+  ~10 dos ~230 tópicos mostram via `topic.graphExpressions`) — como
+  `TopicPage` importava ele estaticamente, seu JS ia pra toda página de
+  tópico, mesmo nas ~220 sem gráfico nenhum.
+  `src/components/LazyFunctionGrapher.tsx` é o mesmo padrão de
+  `next/dynamic` + `"use client"` do `InteractiveWidgetRenderer`,
+  isolando FunctionGrapher (~9KB) num chunk carregado só quando o
+  tópico realmente tem `graphExpressions`. A página `/calculadora`
+  continua importando `FunctionGrapher` direto — é a única coisa que
+  ela renderiza, então não há nada pra economizar ali.
 - **História da matemática**: alguns tópicos terminam com uma nota "📜 Um
   pouco de história" contando de onde o assunto veio e por que ele
   importa (o Nilo e a geometria, Al-Khwarizmi e a álgebra, o menino
