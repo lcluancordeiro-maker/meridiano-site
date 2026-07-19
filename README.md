@@ -1228,12 +1228,17 @@ Como funciona hoje:
    `Topic` (`src/data/curriculum.ts`) referencia outros tópicos por
    `{ levelId, topicId }`. `getRelatedTopics(topic)` resolve essas
    referências para os tópicos de verdade (ignorando qualquer id
-   digitado errado). Curada à mão por enquanto para um conjunto piloto
-   de 8 tópicos que atravessam trilhas diferentes — ex: "Função do 1º
-   Grau" ↔ "Geometria Analítica" ↔ "Regressão Linear Simples"
-   (Econometria) ↔ "Fundamentos de Aprendizado Supervisionado"
-   (Machine Learning), e "Progressões" ↔ "Juros Simples"/"Juros
-   Compostos" (Matemática Financeira, PA e PG na prática).
+   digitado errado). Curada à mão, hoje conectando tópicos que
+   atravessam trilhas diferentes — ex: "Função do 1º Grau" ↔ "Geometria
+   Analítica" ↔ "Regressão Linear Simples" (Econometria) ↔
+   "Fundamentos de Aprendizado Supervisionado" (Machine Learning),
+   "Progressões" ↔ "Juros Simples"/"Juros Compostos" (Matemática
+   Financeira, PA e PG na prática), "Probabilidade Básica" ↔ "Operações
+   com Conjuntos" (Lógica e Conjuntos), "Distribuição Binomial" ↔
+   "Distribuição Normal", "Testes de Hipótese" ↔ "Significância dos
+   Coeficientes" (Econometria), e "Função Quadrática" ↔ "Limites e
+   Derivadas" (Ensino Superior) — a mesma curva que vira parábola no
+   Médio reaparece como objeto de derivada no Cálculo.
 2. **Perguntar ao Gauss sobre isso**: um botão que abre o tutor de IA
    global (a bolha do Gauss) já com uma pergunta pré-preenchida
    mencionando o tópico atual. Como o tutor é um componente separado
@@ -1580,10 +1585,13 @@ unitários e e2e em todo push e pull request.
 
 Para adicionar um tópico a uma trilha existente, edite o array de
 tópicos correspondente em `src/data/curriculum.ts` seguindo o formato de
-`Topic` (teoria + exercícios, cada exercício com um `difficulty`). Para
-habilitar um novo nível de ensino, marque `available: true` em `levels`,
-crie o array de tópicos dele e registre-o em `TOPICS_BY_LEVEL`. Depois
-de editar conteúdo, rode `npm run test:e2e` para confirmar que os
+`Topic` (teoria + exercícios, cada exercício com um `difficulty`). A
+ordem dos tópicos dentro do array é a ordem de aprendizado pretendida —
+tópicos fundamentais (ex: pré-requisitos conceituais de outros tópicos
+da mesma trilha) devem vir cedo, não só no fim da lista. Para habilitar
+um novo nível de ensino, marque `available: true` em `levels`, crie o
+array de tópicos dele e registre-o em `TOPICS_BY_LEVEL`. Depois de
+editar conteúdo, rode `npm run test:e2e` para confirmar que os
 gabaritos continuam corretos.
 
 Para adicionar um widget interativo numa seção de teoria, defina
