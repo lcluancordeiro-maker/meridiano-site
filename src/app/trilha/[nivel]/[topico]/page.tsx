@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
@@ -21,6 +22,22 @@ export function generateStaticParams() {
         topico: topic.id,
       }))
     );
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ nivel: string; topico: string }>;
+}): Promise<Metadata> {
+  const { nivel, topico } = await params;
+  const level = getLevel(nivel);
+  const topic = getTopic(nivel, topico);
+  if (!level || !topic) return {};
+  return {
+    title: `${topic.title} — ${level.name}`,
+    description: topic.summary,
+    alternates: { canonical: `/trilha/${level.id}/${topic.id}` },
+  };
 }
 
 export default async function TopicPage({

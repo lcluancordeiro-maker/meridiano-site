@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
@@ -9,6 +10,21 @@ import { getDictionary } from "@/i18n/dictionaries";
 
 export function generateStaticParams() {
   return levels.map((level) => ({ nivel: level.id }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ nivel: string }>;
+}): Promise<Metadata> {
+  const { nivel } = await params;
+  const level = getLevel(nivel);
+  if (!level) return {};
+  return {
+    title: level.name,
+    description: level.description,
+    alternates: { canonical: `/trilha/${level.id}` },
+  };
 }
 
 export default async function LevelPage({

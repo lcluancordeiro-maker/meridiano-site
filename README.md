@@ -499,6 +499,17 @@ de aplicativos.
   configurar as variáveis de ambiente correspondentes. Domínio próprio
   também documentado, mas é um passo manual (DNS/registrador) que só
   você pode fazer. Veja "Preparando para produção" abaixo.
+  Cada página de nível e de tópico (`/trilha/[nivel]` e
+  `/trilha/[nivel]/[topico]`, as ~230 páginas mais indexáveis do site)
+  tem seu próprio `<title>`/descrição/canonical via `generateMetadata`
+  — antes disso, toda página do catálogo herdava o título/descrição
+  genérico do layout raiz, então resultado de busca e preview de link
+  compartilhado ficavam idênticos entre "Frações" e "Limites e
+  Derivadas". O site também não tinha nenhuma imagem de Open
+  Graph/Twitter Card (previews de link em WhatsApp/Slack/Twitter
+  ficavam sem imagem) — `src/app/opengraph-image.tsx` gera uma imagem
+  1200×630 de marca via `next/og` (`ImageResponse`), e o card do
+  Twitter virou `summary_large_image` pra usá-la.
 - **Recursos sociais** (chat, comunidades e lives, via LiveKit Cloud):
   exigem verificação de identidade via Stripe Identity (documento +
   selfie), com consentimento dos responsáveis obrigatório para usuários
