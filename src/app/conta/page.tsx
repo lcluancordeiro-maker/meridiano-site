@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import DeleteAccountForm from "@/components/DeleteAccountForm";
+import PasskeyManager from "@/components/PasskeyManager";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 
@@ -32,6 +33,8 @@ export default async function ContaPage() {
             Baixar meus dados
           </a>
         </section>
+
+        <PasskeyManager />
 
         <section className="mt-8 rounded-xl border border-error bg-error-bg p-5">
           <h2 className="font-display text-lg font-semibold text-error">Excluir minha conta</h2>

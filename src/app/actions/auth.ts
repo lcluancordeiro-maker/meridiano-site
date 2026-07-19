@@ -61,7 +61,7 @@ export async function logout(): Promise<void> {
   redirect("/");
 }
 
-async function startOAuth(provider: "google" | "azure"): Promise<void> {
+async function startOAuth(provider: "google" | "azure" | "github" | "apple"): Promise<void> {
   if (!isSupabaseConfigured) redirect("/entrar");
   const supabase = await createClient();
   if (!supabase) redirect("/entrar");
@@ -82,4 +82,12 @@ export async function signInWithGoogle(): Promise<void> {
 
 export async function signInWithMicrosoft(): Promise<void> {
   await startOAuth("azure");
+}
+
+export async function signInWithGitHub(): Promise<void> {
+  await startOAuth("github");
+}
+
+export async function signInWithApple(): Promise<void> {
+  await startOAuth("apple");
 }

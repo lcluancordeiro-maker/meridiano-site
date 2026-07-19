@@ -5,9 +5,13 @@ test.describe("auth pages (Supabase not configured in this environment)", () => 
     await page.goto("/entrar");
     await expect(page.getByRole("heading", { name: "Entrar" })).toBeVisible();
     await expect(page.getByText("Contas ainda não estão disponíveis")).toBeVisible();
-    // OAuth buttons are gated behind the same isSupabaseConfigured check.
+    // OAuth and biometric-login buttons are gated behind the same
+    // isSupabaseConfigured check.
     await expect(page.getByRole("button", { name: "Continuar com Google" })).toHaveCount(0);
     await expect(page.getByRole("button", { name: "Continuar com Microsoft" })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Continuar com GitHub" })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Continuar com Apple" })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Entrar com Face ID / Touch ID" })).toHaveCount(0);
   });
 
   test("signup page renders and explains accounts aren't available yet", async ({ page }) => {
@@ -16,6 +20,8 @@ test.describe("auth pages (Supabase not configured in this environment)", () => 
     await expect(page.getByText("Contas ainda não estão disponíveis")).toBeVisible();
     await expect(page.getByRole("button", { name: "Continuar com Google" })).toHaveCount(0);
     await expect(page.getByRole("button", { name: "Continuar com Microsoft" })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Continuar com GitHub" })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Continuar com Apple" })).toHaveCount(0);
   });
 
   test("navbar shows an 'Entrar' link when logged out", async ({ page }) => {

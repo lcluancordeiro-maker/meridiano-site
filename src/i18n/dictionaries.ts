@@ -83,8 +83,12 @@ export type Dictionary = {
     enviando: string;
     continuarComGoogle: string;
     continuarComMicrosoft: string;
+    continuarComGitHub: string;
+    continuarComApple: string;
     ouContinueComEmail: string;
     oauthErro: string;
+    entrarComBiometria: string;
+    biometriaErro: string;
   };
   foto: {
     title: string;
@@ -667,8 +671,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       enviando: "Enviando...",
       continuarComGoogle: "Continuar com Google",
       continuarComMicrosoft: "Continuar com Microsoft",
+      continuarComGitHub: "Continuar com GitHub",
+      continuarComApple: "Continuar com Apple",
       ouContinueComEmail: "ou continue com e-mail",
       oauthErro: "Não foi possível concluir o login. Tente novamente.",
+      entrarComBiometria: "Entrar com Face ID / Touch ID",
+      biometriaErro: "Não foi possível entrar com biometria. Tente novamente ou use e-mail/senha.",
     },
     foto: {
       title: "Resolver por foto",
@@ -1071,8 +1079,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       enviando: "Submitting...",
       continuarComGoogle: "Continue with Google",
       continuarComMicrosoft: "Continue with Microsoft",
+      continuarComGitHub: "Continue with GitHub",
+      continuarComApple: "Continue with Apple",
       ouContinueComEmail: "or continue with email",
       oauthErro: "We couldn't complete the login. Please try again.",
+      entrarComBiometria: "Log in with Face ID / Touch ID",
+      biometriaErro: "We couldn't log you in with biometrics. Please try again or use email/password.",
     },
     foto: {
       title: "Photo solver",
@@ -1291,8 +1303,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       enviando: "Enviando...",
       continuarComGoogle: "Continuar con Google",
       continuarComMicrosoft: "Continuar con Microsoft",
+      continuarComGitHub: "Continuar con GitHub",
+      continuarComApple: "Continuar con Apple",
       ouContinueComEmail: "o continúa con correo electrónico",
       oauthErro: "No pudimos completar el inicio de sesión. Inténtalo de nuevo.",
+      entrarComBiometria: "Iniciar sesión con Face ID / Touch ID",
+      biometriaErro: "No pudimos iniciar sesión con datos biométricos. Inténtalo de nuevo o usa correo/contraseña.",
     },
     foto: {
       title: "Resolver por foto",
@@ -1692,8 +1708,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       enviando: "提交中...",
       continuarComGoogle: "使用 Google 继续",
       continuarComMicrosoft: "使用 Microsoft 继续",
+      continuarComGitHub: "使用 GitHub 继续",
+      continuarComApple: "使用 Apple 继续",
       ouContinueComEmail: "或使用电子邮箱继续",
       oauthErro: "登录未能完成,请重试。",
+      entrarComBiometria: "使用 Face ID / Touch ID 登录",
+      biometriaErro: "无法通过生物识别登录,请重试或使用邮箱/密码。",
     },
     foto: {
       title: "拍照解题",
@@ -1912,8 +1932,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       enviando: "Invio in corso...",
       continuarComGoogle: "Continua con Google",
       continuarComMicrosoft: "Continua con Microsoft",
+      continuarComGitHub: "Continua con GitHub",
+      continuarComApple: "Continua con Apple",
       ouContinueComEmail: "oppure continua con l'email",
       oauthErro: "Non è stato possibile completare l'accesso. Riprova.",
+      entrarComBiometria: "Accedi con Face ID / Touch ID",
+      biometriaErro: "Non è stato possibile accedere con i dati biometrici. Riprova oppure usa email/password.",
     },
     foto: {
       title: "Risolvi con foto",
@@ -2131,8 +2155,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       enviando: "제출 중...",
       continuarComGoogle: "Google로 계속하기",
       continuarComMicrosoft: "Microsoft로 계속하기",
+      continuarComGitHub: "GitHub로 계속하기",
+      continuarComApple: "Apple로 계속하기",
       ouContinueComEmail: "또는 이메일로 계속하기",
       oauthErro: "로그인을 완료할 수 없습니다. 다시 시도해 주세요.",
+      entrarComBiometria: "Face ID / Touch ID로 로그인",
+      biometriaErro: "생체 인증으로 로그인할 수 없습니다. 다시 시도하거나 이메일/비밀번호를 사용해 주세요.",
     },
     foto: {
       title: "사진으로 풀기",
@@ -2352,8 +2380,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       enviando: "Wird gesendet...",
       continuarComGoogle: "Mit Google fortfahren",
       continuarComMicrosoft: "Mit Microsoft fortfahren",
+      continuarComGitHub: "Mit GitHub fortfahren",
+      continuarComApple: "Mit Apple fortfahren",
       ouContinueComEmail: "oder mit E-Mail fortfahren",
       oauthErro: "Die Anmeldung konnte nicht abgeschlossen werden. Bitte versuche es erneut.",
+      entrarComBiometria: "Mit Face ID / Touch ID anmelden",
+      biometriaErro: "Die Anmeldung per Biometrie war nicht möglich. Bitte versuche es erneut oder nutze E-Mail/Passwort.",
     },
     foto: {
       title: "Foto-Löser",
@@ -2573,8 +2605,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       enviando: "Envoi en cours...",
       continuarComGoogle: "Continuer avec Google",
       continuarComMicrosoft: "Continuer avec Microsoft",
+      continuarComGitHub: "Continuer avec GitHub",
+      continuarComApple: "Continuer avec Apple",
       ouContinueComEmail: "ou continuer avec l'e-mail",
       oauthErro: "Impossible de terminer la connexion. Veuillez réessayer.",
+      entrarComBiometria: "Se connecter avec Face ID / Touch ID",
+      biometriaErro: "Impossible de se connecter avec la biométrie. Veuillez réessayer ou utiliser e-mail/mot de passe.",
     },
     foto: {
       title: "Résoudre par photo",
@@ -2819,8 +2855,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       enviando: "送信中...",
       continuarComGoogle: "Googleで続ける",
       continuarComMicrosoft: "Microsoftで続ける",
+      continuarComGitHub: "GitHubで続ける",
+      continuarComApple: "Appleで続ける",
       ouContinueComEmail: "またはメールアドレスで続ける",
       oauthErro: "ログインを完了できませんでした。もう一度お試しください。",
+      entrarComBiometria: "Face ID / Touch IDでログイン",
+      biometriaErro: "生体認証でログインできませんでした。もう一度お試しいただくか、メール/パスワードをご使用ください。",
     },
     foto: {
       title: "写真で解く",
@@ -3039,8 +3079,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       enviando: "جارٍ الإرسال...",
       continuarComGoogle: "المتابعة باستخدام Google",
       continuarComMicrosoft: "المتابعة باستخدام Microsoft",
+      continuarComGitHub: "المتابعة باستخدام GitHub",
+      continuarComApple: "المتابعة باستخدام Apple",
       ouContinueComEmail: "أو تابع باستخدام البريد الإلكتروني",
       oauthErro: "تعذّر إكمال تسجيل الدخول. حاول مرة أخرى.",
+      entrarComBiometria: "تسجيل الدخول باستخدام Face ID / Touch ID",
+      biometriaErro: "تعذّر تسجيل الدخول بالقياسات الحيوية. حاول مرة أخرى أو استخدم البريد الإلكتروني/كلمة المرور.",
     },
     foto: {
       title: "الحل بالصورة",
@@ -3260,8 +3304,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       enviando: "Отправка...",
       continuarComGoogle: "Продолжить с Google",
       continuarComMicrosoft: "Продолжить с Microsoft",
+      continuarComGitHub: "Продолжить с GitHub",
+      continuarComApple: "Продолжить с Apple",
       ouContinueComEmail: "или продолжить с эл. почтой",
       oauthErro: "Не удалось завершить вход. Попробуйте снова.",
+      entrarComBiometria: "Войти с помощью Face ID / Touch ID",
+      biometriaErro: "Не удалось войти с помощью биометрии. Попробуйте снова или используйте email/пароль.",
     },
     foto: {
       title: "Решение по фото",

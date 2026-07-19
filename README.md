@@ -417,10 +417,13 @@ de aplicativos.
   (`localStorage`) — funciona sem conta (modo convidado).
 - **Contas (opcional)**: login/cadastro (`/entrar`, `/cadastro`) via
   Supabase Auth sincronizam XP, progresso e conquistas na nuvem entre
-  dispositivos. Além de e-mail/senha, dá pra entrar direto com **Google**
-  ou **Microsoft** — sem precisar criar outra senha. Sem configurar o
-  Supabase, o app roda 100% em modo local — nada quebra. Veja
-  "Configurando contas (Supabase)" e "Login com Google e Microsoft"
+  dispositivos. Além de e-mail/senha, dá pra entrar direto com **Google**,
+  **Microsoft**, **GitHub** ou **Apple** — sem precisar criar outra
+  senha — ou com **Face ID / Touch ID / Windows Hello** (passkey/WebAuthn,
+  em `/entrar`, só aparece em dispositivos com biometria; gerenciar em
+  `/conta`). Sem configurar o Supabase, o app roda 100% em modo local —
+  nada quebra. Veja "Configurando contas (Supabase)", "Login com Google,
+  Microsoft, GitHub e Apple" e "Login biométrico (Face ID / Touch ID)"
   abaixo.
 - **Resolver por foto** (`/foto`, exclusivo para quem tem conta): o
   aluno fotografa um problema de matemática e recebe a solução passo a
@@ -596,30 +599,41 @@ eles substituem os locais (sincronização entre dispositivos); se for o
 primeiro login, o progresso local (de convidado) é enviado para a
 nuvem, sem perda.
 
-### Login com Google e Microsoft
+### Login com Google, Microsoft, GitHub e Apple
 
 Além de e-mail/senha, `/entrar` e `/cadastro` mostram os botões
-"Continuar com Google" e "Continuar com Microsoft" — quem já tem uma
-dessas contas não precisa criar senha nova. Funciona via OAuth do
-Supabase Auth; a conta é criada automaticamente no primeiro login com
-qualquer um dos dois.
+"Continuar com Google", "Continuar com Microsoft", "Continuar com
+GitHub" e "Continuar com Apple" — quem já tem uma dessas contas não
+precisa criar senha nova. Funciona via OAuth do Supabase Auth; a conta
+é criada automaticamente no primeiro login com qualquer um deles.
 
 Para habilitar (com o Supabase já configurado acima):
 
 1. **Google**: crie um OAuth Client ID em
    [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
    (tipo "Web application"). Em **Authorized redirect URIs**, adicione a
-   Callback URL que o Supabase mostra no passo 3.
+   Callback URL que o Supabase mostra no passo 5.
 2. **Microsoft**: registre um app em
    [Azure Portal → App registrations](https://portal.azure.com) e crie
    um client secret. Em **Redirect URI**, use a mesma Callback URL do
    Supabase (plataforma "Web").
-3. No painel do Supabase, em **Authentication → Providers**, habilite
-   **Google** e **Azure** e cole o Client ID/Secret de cada um. O
-   Supabase mostra, em cada provedor, a **Callback URL** a usar nos
-   passos 1 e 2 (algo como
+3. **GitHub**: crie um OAuth App em
+   [GitHub → Settings → Developer settings → OAuth Apps](https://github.com/settings/developers).
+   Em **Authorization callback URL**, use a mesma Callback URL do
+   Supabase.
+4. **Apple**: exige uma conta paga no
+   [Apple Developer Program](https://developer.apple.com/programs/) —
+   crie um **Services ID** (não o App ID), com "Sign in with Apple"
+   habilitado, e uma chave privada (.p8) para gerar o client secret
+   (JWT assinado). É o provedor mais trabalhoso de configurar dos
+   quatro; o [guia do Supabase para Apple](https://supabase.com/docs/guides/auth/social-login/auth-apple)
+   detalha o passo a passo.
+5. No painel do Supabase, em **Authentication → Providers**, habilite
+   **Google**, **Azure**, **GitHub** e **Apple**, e cole o Client
+   ID/Secret de cada um. O Supabase mostra, em cada provedor, a
+   **Callback URL** a usar nos passos 1 a 4 (algo como
    `https://<seu-projeto>.supabase.co/auth/v1/callback`).
-4. Em **Authentication → URL Configuration**, adicione a URL do seu app
+6. Em **Authentication → URL Configuration**, adicione a URL do seu app
    (ex.: `http://localhost:3000` em desenvolvimento, ou o domínio de
    produção) em **Redirect URLs** — é para lá que o Supabase manda o
    usuário de volta depois do login (rota `/auth/callback` no app, que
@@ -627,12 +641,44 @@ Para habilitar (com o Supabase já configurado acima):
 
 Sem esses provedores habilitados, os botões continuam visíveis mas o
 login retorna um erro amigável — nada quebra. `src/app/actions/auth.ts`
-(`signInWithGoogle`/`signInWithMicrosoft`) e
-`src/app/auth/callback/route.ts` concentram toda a lógica.
+(`signInWithGoogle`/`signInWithMicrosoft`/`signInWithGitHub`/`signInWithApple`)
+e `src/app/auth/callback/route.ts` concentram toda a lógica.
 
 > Nesta versão do Next.js, "Middleware" foi renomeado para "Proxy"
 > (arquivo `proxy.ts`, função `proxy`) — é isso que mantém a sessão do
 > Supabase atualizada a cada requisição.
+
+### Login biométrico (Face ID / Touch ID / Windows Hello)
+
+Não existe uma "API do Face ID" para a web — o que o navegador expõe é
+o **WebAuthn** (padrão de passkeys), e é o sistema operacional quem
+decide qual biometria usar como autenticador de plataforma: Face
+ID/Touch ID no macOS/iOS/Safari, Windows Hello no Windows, biometria
+nativa no Android/Chrome. `/entrar` mostra o botão "Entrar com Face
+ID / Touch ID" só quando `navigator.credentials` reporta um
+autenticador de plataforma disponível (`PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()`)
+— em desktops sem biometria, ou navegadores sem suporte, o botão nem
+aparece.
+
+Como funciona:
+
+- **Entrar** (`src/components/PasskeyLoginButton.tsx`, em `/entrar`):
+  chama `supabase.auth.signInWithPasskey()`, que dispara o prompt
+  nativo de biometria do dispositivo e cria a sessão direto — não
+  precisa de servidor próprio nem de `navigator.credentials.get()`
+  manual, o SDK do Supabase cuida da cerimônia WebAuthn inteira.
+- **Cadastrar uma biometria** (`src/components/PasskeyManager.tsx`, em
+  `/conta`, exige estar logado): chama `supabase.auth.registerPasskey()`
+  para registrar o dispositivo atual, e lista/remove passkeys já
+  cadastradas via `supabase.auth.passkey.list()`/`.delete()`.
+
+Isso usa a API de passkeys do `@supabase/supabase-js`
+(`auth.experimental.passkey`, habilitado em `src/lib/supabase/client.ts`)
+— **marcada como experimental** pelo próprio Supabase; a assinatura
+pode mudar em versões futuras do SDK. Pode ser necessário habilitar
+passkeys explicitamente nas configurações do seu projeto Supabase
+(**Authentication → Providers** ou **Authentication → Passkeys**,
+dependendo da versão do painel) antes de funcionar em produção.
 
 ## Configurando resolver por foto
 

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import AuthForm from "@/components/AuthForm";
 import OAuthButtons from "@/components/OAuthButtons";
+import PasskeyLoginButton from "@/components/PasskeyLoginButton";
 import { login } from "@/app/actions/auth";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getServerLocale } from "@/i18n/getServerLocale";
@@ -31,6 +32,9 @@ export default async function EntrarPage({
             {erro === "oauth" && (
               <p className="mb-4 rounded-xl bg-error-bg p-3 text-sm text-error">{auth.oauthErro}</p>
             )}
+            <div className="mb-3">
+              <PasskeyLoginButton label={auth.entrarComBiometria} errorLabel={auth.biometriaErro} />
+            </div>
             <div className="mb-6">
               <OAuthButtons dict={auth} />
             </div>
