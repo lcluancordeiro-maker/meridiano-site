@@ -230,6 +230,14 @@ create table if not exists public.turma_assignments (
   created_at timestamptz not null default now()
 );
 
+-- teacher_user_id/student_user_id (2ª coluna da PK de turma_members, não
+-- coberta pelo índice da PK) e turma_id em turma_assignments são todos
+-- filtrados por RLS/consultas de listagem — sem índice, cada select vira
+-- um full scan à medida que a tabela cresce.
+create index if not exists turmas_teacher_user_id_idx on public.turmas (teacher_user_id);
+create index if not exists turma_members_student_user_id_idx on public.turma_members (student_user_id);
+create index if not exists turma_assignments_turma_id_idx on public.turma_assignments (turma_id);
+
 alter table public.turmas enable row level security;
 alter table public.turma_members enable row level security;
 alter table public.turma_assignments enable row level security;
@@ -425,6 +433,8 @@ create table if not exists public.push_subscriptions (
   created_at timestamptz not null default now()
 );
 
+create index if not exists push_subscriptions_user_id_idx on public.push_subscriptions (user_id);
+
 alter table public.push_subscriptions enable row level security;
 
 drop policy if exists "push_subscriptions_own" on public.push_subscriptions;
@@ -585,6 +595,13 @@ create table if not exists public.dm_messages (
   created_at timestamptz not null default now()
 );
 
+-- user_id é a 2ª coluna da PK composta de conversation_participants (não
+-- coberta pelo índice da PK, que é ordenado por conversation_id
+-- primeiro); dm_messages.conversation_id é filtrado em toda leitura do
+-- histórico de uma conversa.
+create index if not exists conversation_participants_user_id_idx on public.conversation_participants (user_id);
+create index if not exists dm_messages_conversation_id_idx on public.dm_messages (conversation_id);
+
 alter table public.conversations enable row level security;
 alter table public.conversation_participants enable row level security;
 alter table public.dm_messages enable row level security;
@@ -682,6 +699,9 @@ create table if not exists public.community_messages (
   body text not null,
   created_at timestamptz not null default now()
 );
+
+create index if not exists community_members_user_id_idx on public.community_members (user_id);
+create index if not exists community_messages_community_id_idx on public.community_messages (community_id);
 
 alter table public.communities enable row level security;
 alter table public.community_members enable row level security;
@@ -837,6 +857,9 @@ create table if not exists public.live_sessions (
   started_at timestamptz not null default now(),
   ended_at timestamptz
 );
+
+create index if not exists live_sessions_host_id_idx on public.live_sessions (host_id);
+create index if not exists live_sessions_community_id_idx on public.live_sessions (community_id);
 
 alter table public.live_sessions enable row level security;
 
@@ -1146,6 +1169,11 @@ create table if not exists public.message_reports (
   created_at timestamptz not null default now()
 );
 
+-- blocked_id é a 2ª coluna da PK composta (não coberta pelo índice da PK,
+-- ordenado por blocker_id primeiro) — usada para checar "fulano me
+-- bloqueou?" ao renderizar mensagens/chat.
+create index if not exists blocked_users_blocked_id_idx on public.blocked_users (blocked_id);
+
 alter table public.blocked_users enable row level security;
 alter table public.message_reports enable row level security;
 
@@ -1447,14 +1475,34 @@ grant execute on function public.is_admin() to authenticated;
 alter table public.message_reports
   add column if not exists status text not null default 'pending' check (status in ('pending', 'dismissed', 'action_taken')),
   add column if not exists resolved_at timestamptz,
-  add column if not exists resolved_by uuid references auth.users (id);
+  add column if not exists resolved_by uuid references auth.users (id) on delete set null;
 
+-- Para instalações que já tinham resolved_by antes dele ganhar "on delete
+-- set null" (add column if not exists não altera uma coluna existente):
+-- refaz a FK com o mesmo nome padrão do Postgres para uma constraint
+-- inline (<tabela>_<coluna>_fkey).
+alter table public.message_reports drop constraint if exists message_reports_resolved_by_fkey;
+alter table public.message_reports
+  add constraint message_reports_resolved_by_fkey foreign key (resolved_by) references auth.users (id) on delete set null;
+
+-- banned_by fica nulo se a conta do admin que baniu for excluída — preserva
+-- o histórico de moderação (quem foi banido e por quê) em vez de apagar o
+-- banimento junto (cascade) ou impedir a exclusão da conta do admin
+-- (comportamento padrão sem "on delete").
 create table if not exists public.banned_users (
   user_id uuid primary key references auth.users (id) on delete cascade,
-  banned_by uuid not null references auth.users (id),
+  banned_by uuid references auth.users (id) on delete set null,
   reason text,
   created_at timestamptz not null default now()
 );
+
+-- Para instalações que já rodaram este arquivo antes de banned_by virar
+-- opcional (create table if not exists não altera uma tabela existente):
+-- solta o not null e troca a FK por on delete set null.
+alter table public.banned_users alter column banned_by drop not null;
+alter table public.banned_users drop constraint if exists banned_users_banned_by_fkey;
+alter table public.banned_users
+  add constraint banned_users_banned_by_fkey foreign key (banned_by) references auth.users (id) on delete set null;
 
 alter table public.banned_users enable row level security;
 

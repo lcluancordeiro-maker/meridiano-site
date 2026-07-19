@@ -1534,7 +1534,14 @@ unitários e e2e em todo push e pull request.
 - `src/components/DrawingCanvas.tsx` + `QuadroBoard.tsx` — quadro de
   rascunho (canvas livre) e o botão "Resolver com IA", que reaproveita
   `/api/resolver-foto` exportando o desenho como PNG.
-- `supabase/schema.sql` — esquema do banco (tabelas + RLS).
+- `supabase/schema.sql` — esquema do banco (tabelas + RLS). Índices em
+  toda foreign key usada em filtro/RLS (inclusive a 2ª coluna de PKs
+  compostas, que o índice da própria PK não cobre — ex:
+  `conversation_participants.user_id`, `blocked_users.blocked_id`);
+  `message_reports.resolved_by` e `banned_users.banned_by` ficam nulos
+  (`on delete set null`) se a conta do admin/moderador que agiu for
+  excluída, preservando o histórico de moderação em vez de apagá-lo em
+  cascata.
 - `src/i18n/` — seletor de idioma: dicionários, cookie de locale
   (`getServerLocale.ts` para Server Components, `LanguageContext.tsx`
   para Client Components) e `src/components/LanguageSwitcher.tsx`.
