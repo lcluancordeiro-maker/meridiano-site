@@ -1622,6 +1622,12 @@ unitários e e2e em todo push e pull request.
   legibilidade em ambos os temas.
 - `src/lib/mathExpr.ts` — parser/avaliador de expressões matemáticas
   para a calculadora gráfica.
+- `FunctionGrapher.tsx` (`/calculadora` e o gráfico embutido em tópicos
+  via `graphExpressions`) tinha o mesmo problema que os widgets antes do
+  ajuste acima — canvas, grade, eixos e rótulos fixos em cores claras —
+  e foi corrigido do mesmo jeito (variáveis de tema em vez de
+  `bg-white`/`#e4e2f1`/`#898781`/`#635f78`). As curvas em si continuam
+  com cores fixas, como nos widgets.
 - `src/components/PracticeSection.tsx` + `DifficultyPicker.tsx` +
   `ExerciseQuiz.tsx` — seleção de dificuldade e motor de exercícios.
 - `public/manifest.json`, `public/sw.js` — configuração PWA (instalável,

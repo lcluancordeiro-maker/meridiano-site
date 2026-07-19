@@ -256,7 +256,7 @@ export default function FunctionGrapher({
         <svg
           ref={svgRef}
           viewBox={`0 0 ${SIZE} ${SIZE}`}
-          className="h-full w-full touch-none select-none bg-white"
+          className="h-full w-full touch-none select-none bg-surface"
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
@@ -271,7 +271,7 @@ export default function FunctionGrapher({
               x2={toPx(v)}
               y1={0}
               y2={SIZE}
-              stroke="#e4e2f1"
+              stroke="var(--color-border)"
               strokeWidth={1}
             />
           ))}
@@ -282,16 +282,16 @@ export default function FunctionGrapher({
               x2={SIZE}
               y1={toPy(v)}
               y2={toPy(v)}
-              stroke="#e4e2f1"
+              stroke="var(--color-border)"
               strokeWidth={1}
             />
           ))}
 
           {yMin <= 0 && yMax >= 0 && (
-            <line x1={0} x2={SIZE} y1={toPy(0)} y2={toPy(0)} stroke="#898781" strokeWidth={1.5} />
+            <line x1={0} x2={SIZE} y1={toPy(0)} y2={toPy(0)} stroke="var(--color-muted)" strokeWidth={1.5} />
           )}
           {xMin <= 0 && xMax >= 0 && (
-            <line x1={toPx(0)} x2={toPx(0)} y1={0} y2={SIZE} stroke="#898781" strokeWidth={1.5} />
+            <line x1={toPx(0)} x2={toPx(0)} y1={0} y2={SIZE} stroke="var(--color-muted)" strokeWidth={1.5} />
           )}
 
           {originVisible &&
@@ -304,7 +304,7 @@ export default function FunctionGrapher({
                   y={toPy(0) + 14}
                   fontSize={11}
                   textAnchor="middle"
-                  fill="#635f78"
+                  fill="var(--color-muted)"
                 >
                   {formatTick(v)}
                 </text>
@@ -313,7 +313,7 @@ export default function FunctionGrapher({
             yTicks
               .filter((v) => v >= yMin + (yMax - yMin) * 0.06 && v <= yMax - (yMax - yMin) * 0.03)
               .map((v) => (
-                <text key={`ty${v}`} x={toPx(0) + 6} y={toPy(v) + 4} fontSize={11} fill="#635f78">
+                <text key={`ty${v}`} x={toPx(0) + 6} y={toPy(v) + 4} fontSize={11} fill="var(--color-muted)">
                   {formatTick(v)}
                 </text>
               ))}
