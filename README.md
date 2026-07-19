@@ -534,6 +534,21 @@ npm run dev
 
 Abra [http://localhost:3000](http://localhost:3000).
 
+**Sobre o `overrides` de `postcss` no `package.json`**: o Next.js
+16.2.10 (a versão estável mais recente no momento) vendoriza sua
+própria cópia interna de `postcss@8.4.31`, que tem um advisory
+moderado de XSS ([GHSA-qx2v-qp2m-jg93](https://github.com/advisories/GHSA-qx2v-qp2m-jg93)).
+`npm audit fix --force` "resolveria" isso rebaixando o Next inteiro
+pra uma canary de 2020 — claramente errado. Em vez disso, um
+`overrides` força postcss `^8.5.18` em toda a árvore, inclusive dentro
+de `node_modules/next` — o mesmo postcss que o projeto já usa direto
+via `@tailwindcss/postcss`, então não é uma versão não testada.
+`npm audit` volta a reportar zero vulnerabilidades depois disso; build
+de produção e suite completa verificados sem regressão. Revisitar
+quando uma versão estável do Next incorporar o postcss corrigido (o
+fix já existe nas builds `canary`/`preview` do Next 16.3, só ainda não
+foi promovido a `latest`).
+
 ## Configurando contas (Supabase)
 
 Contas são opcionais — o app funciona normalmente sem elas. Para
