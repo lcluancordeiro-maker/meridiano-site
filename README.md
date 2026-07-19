@@ -30,9 +30,13 @@ de aplicativos.
   (parábola, `sin(x)`, reta, vetores).
 - **Estatística** — trilha independente com 3 níveis (Iniciante:
   medidas de tendência central, medidas de dispersão (amplitude,
-  variância, desvio padrão) e agora também "Gráficos e Distribuição de
+  variância, desvio padrão), "Gráficos e Distribuição de
   Frequências" — tabelas de frequência absoluta/relativa/acumulada e
-  leitura de gráficos de barras e de setores; Intermediário:
+  leitura de gráficos de barras e de setores — e agora também
+  "Amostragem e Coleta de Dados" — população vs. amostra, tipos de
+  amostragem (aleatória simples, sistemática, estratificada, por
+  conveniência) e como o tamanho da amostra afeta o erro de amostragem;
+  Intermediário:
   probabilidade básica, regras de probabilidade e agora também
   "Distribuição Binomial" — combinações C(n,k), a fórmula P(X=k) e o
   valor esperado
@@ -53,9 +57,11 @@ de aplicativos.
   OU e NÃO em pseudocódigo, ligado à trilha de matemática Lógica e
   Conjuntos), "Estruturas de Repetição" (Intermediário: laços 'para'/'enquanto',
   repetições aninhadas, "Funções e Modularização" — parâmetros,
-  retorno, escopo de variáveis e composição de funções — e agora
-  também "Busca e Ordenação Básica" — busca linear e o bubble sort,
-  contando comparações e passagens), "Orientação a Objetos" (Avançado,
+  retorno, escopo de variáveis e composição de funções —, "Busca e
+  Ordenação Básica" — busca linear e o bubble sort, contando
+  comparações e passagens — e agora também "Dicionários e Estruturas
+  Chave-Valor" — busca por chave em O(1) contra a busca sequencial em
+  O(n) de uma lista, e quando usar cada estrutura), "Orientação a Objetos" (Avançado,
   Premium: classes, atributos, métodos, encapsulamento, "Estruturas de
   Dados: Pilhas e Filas" — LIFO/FIFO, quando usar cada uma — e agora
   também "Recursão" — o caso base, como as chamadas desempilham, e
@@ -64,9 +70,12 @@ de aplicativos.
   (Machine Learning — Introdução, Premium: treino/teste, overfitting,
   acurácia e matriz de confusão, "Classificação: Matriz de Confusão,
   Precisão e Revocação" — por que acurácia sozinha engana em classes
-  desbalanceadas, e o F1-score — e agora também "Árvores de Decisão" —
+  desbalanceadas, e o F1-score —, "Árvores de Decisão" —
   nós/ramos/folhas, impureza, profundidade máxima e como ela se
-  relaciona com overfitting) — todos ensinados com pseudocódigo
+  relaciona com overfitting — e agora também "Validação Cruzada
+  (k-fold)" — por que um único split treino/teste depende de sorte, como
+  o k-fold divide os dados em k partes alternando qual serve de teste, e
+  a média das k rodadas como métrica mais confiável) — todos ensinados com pseudocódigo
   (independente de linguagem) já que o app não executa código de
   verdade; os exercícios pedem pra prever o valor final de variáveis
   (ou calcular métricas) a partir de um enunciado, não pra escrever
@@ -111,9 +120,13 @@ de aplicativos.
   interpretar o coeficiente de determinação (R²) —, "Regressão
   Múltipla e Multicolinearidade": modelos com várias variáveis
   explicativas, R² ajustado e os cuidados com variáveis correlacionadas
-  entre si — e agora também "Significância dos Coeficientes (Teste
+  entre si —, "Significância dos Coeficientes (Teste
   t)": a estatística t = β̂/erro-padrão, o valor crítico ≈2 e por que
-  um coeficiente "não significante" não prova ausência de relação.
+  um coeficiente "não significante" não prova ausência de relação — e
+  agora também "Variáveis Dummy (Binárias)": como indicadoras 0/1
+  incluem características categóricas num modelo numérico, a
+  interpretação do coeficiente da dummy como deslocamento do intercepto,
+  e a "armadilha da dummy" (usar k-1 dummies para k categorias).
 - Fundamental I ainda aparece como "em breve" — a estrutura de dados
   (`src/data/curriculum.ts`) já suporta adicionar novos níveis e
   tópicos sem mudar a arquitetura.
@@ -1542,7 +1555,15 @@ unitários e e2e em todo push e pull request.
   `StackQueueExplorer.tsx`, `RecursionExplorer.tsx` (Programação
   Avançado), `OverfittingExplorer.tsx`, `DecisionTreeExplorer.tsx`
   (Machine Learning Iniciante), `SacScheduleExplorer.tsx`,
-  `PresentValueExplorer.tsx` (Matemática Financeira Avançado));
+  `PresentValueExplorer.tsx` (Matemática Financeira Avançado),
+  `ArgumentValidityExplorer.tsx` (Lógica e Conjuntos — Modus Ponens/Tollens
+  e as duas falácias correspondentes), `SamplingExplorer.tsx` (Estatística
+  Iniciante — novo tópico "Amostragem e Coleta de Dados"),
+  `DictionaryExplorer.tsx` (Programação Intermediário — novo tópico
+  "Dicionários e Estruturas Chave-Valor"), `CrossValidationExplorer.tsx`
+  (Machine Learning Iniciante — novo tópico "Validação Cruzada (k-fold)"),
+  `DummyVariableExplorer.tsx` (Econometria Iniciante — novo tópico
+  "Variáveis Dummy (Binárias)"));
   `InteractiveWidgetRenderer.tsx`
   mapeia o campo `interactiveWidget` de uma `TheorySection` (em
   `src/data/curriculum.ts`) pro componente

@@ -71,6 +71,11 @@ const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
   "decision-tree-explorer": dynamic(() => import("./DecisionTreeExplorer"), { ssr: false, loading: WidgetLoading }),
   "sac-schedule-explorer": dynamic(() => import("./SacScheduleExplorer"), { ssr: false, loading: WidgetLoading }),
   "present-value-explorer": dynamic(() => import("./PresentValueExplorer"), { ssr: false, loading: WidgetLoading }),
+  "argument-validity-explorer": dynamic(() => import("./ArgumentValidityExplorer"), { ssr: false, loading: WidgetLoading }),
+  "sampling-explorer": dynamic(() => import("./SamplingExplorer"), { ssr: false, loading: WidgetLoading }),
+  "dictionary-explorer": dynamic(() => import("./DictionaryExplorer"), { ssr: false, loading: WidgetLoading }),
+  "cross-validation-explorer": dynamic(() => import("./CrossValidationExplorer"), { ssr: false, loading: WidgetLoading }),
+  "dummy-variable-explorer": dynamic(() => import("./DummyVariableExplorer"), { ssr: false, loading: WidgetLoading }),
 };
 
 export default function InteractiveWidgetRenderer({ widget }: { widget: InteractiveWidget }) {

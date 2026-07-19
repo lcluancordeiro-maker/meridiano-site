@@ -514,7 +514,48 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
     await yearsSlider.fill("2");
     await expect(page.getByText("R$ 1000 → corrigido R$ 1210,00")).toBeVisible();
   });
+
+  test("argument validity explorer switches between valid rules and fallacies", async ({ page }) => {
+    await page.goto("/trilha/logica-e-conjuntos/argumentos-e-validade");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("Modus Ponens: p → q, p ⊢ q")).toBeVisible();
+    await expect(page.getByText("Válido", { exact: true })).toBeVisible();
+
+    await page.getByRole("button", { name: "Afirmar o Consequente" }).click();
+    await expect(page.getByText("Afirmar o Consequente: p → q, q ⊢ p")).toBeVisible();
+    await expect(page.getByText("Inválido (falácia)")).toBeVisible();
+  });
+
+  test("sampling explorer converges the sample mean toward the population mean as n changes", async ({ page }) => {
+    await page.goto("/trilha/estatistica-iniciante/amostragem-e-coleta-de-dados");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(page.getByText("Amostra (n=3): média = 45 · população: média = 45 · erro = 0")).toBeVisible();
+
+    const nSlider = page.getByRole("slider", { name: "Tamanho da amostra (n)" });
+    await nSlider.fill("1");
+    await expect(page.getByText("Amostra (n=1): média = 50 · população: média = 45 · erro = 5")).toBeVisible();
+  });
+
+  test("dictionary explorer compares O(1) direct access with O(n) sequential search", async ({ page }) => {
+    await page.goto("/trilha/programacao-intermediario/dicionarios-e-estruturas-chave-valor");
+    await expect(page.getByText("Explore ao vivo")).toBeVisible();
+    await expect(
+      page.getByText('estoque["banana"] = 7 · dicionário: 1 comparação (O(1)) · lista: 2 comparações (O(n))')
+    ).toBeVisible();
+
+    await page.getByRole("button", { name: "uva" }).click();
+    await expect(
+      page.getByText('estoque["uva"] = 12 · dicionário: 1 comparação (O(1)) · lista: 4 comparações (O(n))')
+    ).toBeVisible();
+  });
 });
+
+// The cross-validation explorer (Machine Learning — Iniciante) and the
+// dummy-variable explorer (Econometria — Iniciante) live on Premium
+// topics, same paywall limitation as above. Both were manually verified
+// by temporarily flipping `premium: false` on their levels, confirming
+// the live math (fold cycling / k changes, and the salário calculation
+// for both values of the urbano dummy), then reverting before commit.
 
 // The normal-distribution explorer lives on a Premium topic
 // (Estatística — Avançado), which shows a paywall instead of theory in
