@@ -114,7 +114,8 @@ export type InteractiveWidget =
   | "sampling-explorer"
   | "dictionary-explorer"
   | "cross-validation-explorer"
-  | "dummy-variable-explorer";
+  | "dummy-variable-explorer"
+  | "place-value-explorer";
 
 /** A quick one-tap multiple-choice check rendered inline right after a
  * theory section — Brilliant.org-style "learn by doing": instead of reading
@@ -477,6 +478,13 @@ export const fundamental1Topics: Topic[] = [
           problem: "Qual é o antecessor e o sucessor de 199?",
           solution: "Antecessor: 198. Sucessor: 200.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa nos algarismos de milhar, centena, dezena e unidade abaixo e veja o número montado mudar, junto com sua decomposição.",
+        ],
+        interactiveWidget: "place-value-explorer",
       },
     ],
     exercises: [

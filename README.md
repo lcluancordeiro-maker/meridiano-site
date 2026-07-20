@@ -27,7 +27,10 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   tabuada, frações simples (metade, terço, quarto) e medidas de
   comprimento/tempo/dinheiro do cotidiano, sem álgebra. Reaproveita os
   widgets `integer-line-explorer` e `fraction-visualizer` já usados no
-  Fundamental II.
+  Fundamental II, e estreia o `place-value-explorer`
+  (`PlaceValueExplorer.tsx`): sliders de milhar/centena/dezena/unidade
+  que montam um número ao vivo, com a decomposição (ex: "3.426 = 3000 +
+  400 + 20 + 6") e uma barra de blocos preenchidos por casa.
 - **Ensino Fundamental II** (7 tópicos: números inteiros, frações,
   álgebra, potenciação/radiciação, proporcionalidade/porcentagem,
   equações do 2º grau, geometria plana), cada um com 24 exercícios
