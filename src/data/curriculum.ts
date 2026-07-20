@@ -115,7 +115,9 @@ export type InteractiveWidget =
   | "dictionary-explorer"
   | "cross-validation-explorer"
   | "dummy-variable-explorer"
-  | "place-value-explorer";
+  | "place-value-explorer"
+  | "multiplication-array-explorer"
+  | "rectangle-perimeter-explorer";
 
 /** A quick one-tap multiple-choice check rendered inline right after a
  * theory section — Brilliant.org-style "learn by doing": instead of reading
@@ -908,6 +910,13 @@ export const fundamental1Topics: Topic[] = [
           solution: "72 ÷ 9 = 8 e 72 ÷ 8 = 9.",
         },
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no número de fileiras e de colunas abaixo e veja a grade e a multiplicação mudarem juntas.",
+        ],
+        interactiveWidget: "multiplication-array-explorer",
+      },
     ],
     exercises: [
       {
@@ -1343,6 +1352,13 @@ export const fundamental1Topics: Topic[] = [
           problem: "Uma caneta custa R$3 e um caderno custa R$8. Quanto custam os dois juntos?",
           solution: "R$3 + R$8 = R$11.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no comprimento e na largura abaixo e veja o retângulo e o cálculo do perímetro mudarem juntos.",
+        ],
+        interactiveWidget: "rectangle-perimeter-explorer",
       },
     ],
     exercises: [

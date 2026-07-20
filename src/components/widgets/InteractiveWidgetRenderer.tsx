@@ -77,6 +77,8 @@ const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
   "cross-validation-explorer": dynamic(() => import("./CrossValidationExplorer"), { ssr: false, loading: WidgetLoading }),
   "dummy-variable-explorer": dynamic(() => import("./DummyVariableExplorer"), { ssr: false, loading: WidgetLoading }),
   "place-value-explorer": dynamic(() => import("./PlaceValueExplorer"), { ssr: false, loading: WidgetLoading }),
+  "multiplication-array-explorer": dynamic(() => import("./MultiplicationArrayExplorer"), { ssr: false, loading: WidgetLoading }),
+  "rectangle-perimeter-explorer": dynamic(() => import("./RectanglePerimeterExplorer"), { ssr: false, loading: WidgetLoading }),
 };
 
 export default function InteractiveWidgetRenderer({ widget }: { widget: InteractiveWidget }) {

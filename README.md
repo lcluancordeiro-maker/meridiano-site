@@ -27,10 +27,17 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   tabuada, frações simples (metade, terço, quarto) e medidas de
   comprimento/tempo/dinheiro do cotidiano, sem álgebra. Reaproveita os
   widgets `integer-line-explorer` e `fraction-visualizer` já usados no
-  Fundamental II, e estreia o `place-value-explorer`
-  (`PlaceValueExplorer.tsx`): sliders de milhar/centena/dezena/unidade
+  Fundamental II, e estreia três widgets novos: `place-value-explorer`
+  (`PlaceValueExplorer.tsx`) — sliders de milhar/centena/dezena/unidade
   que montam um número ao vivo, com a decomposição (ex: "3.426 = 3000 +
-  400 + 20 + 6") e uma barra de blocos preenchidos por casa.
+  400 + 20 + 6") e uma barra de blocos preenchidos por casa —,
+  `multiplication-array-explorer` (`MultiplicationArrayExplorer.tsx`)
+  — uma grade de fileiras × colunas que mostra a multiplicação como
+  soma repetida em blocos — e `rectangle-perimeter-explorer`
+  (`RectanglePerimeterExplorer.tsx`) — um retângulo desenhado à escala
+  a partir de comprimento e largura, com o cálculo do perímetro ao
+  vivo. Todos os 5 tópicos do Fundamental I agora têm "Explore ao
+  vivo".
 - **Ensino Fundamental II** (7 tópicos: números inteiros, frações,
   álgebra, potenciação/radiciação, proporcionalidade/porcentagem,
   equações do 2º grau, geometria plana), cada um com 24 exercícios
