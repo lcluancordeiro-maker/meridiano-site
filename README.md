@@ -20,24 +20,34 @@ idioma etc.), veja [docs/features.md](docs/features.md).
 
 ## Estado atual
 
-- **Ensino Fundamental I** (5 tópicos: "Números Naturais e Valor
-  Posicional", "Adição e Subtração", "Multiplicação e Divisão",
-  "Frações do Dia a Dia" e "Formas Geométricas e Medidas"), voltado
-  para os anos iniciais (1º-5º ano) — números inteiros positivos,
-  tabuada, frações simples (metade, terço, quarto) e medidas de
-  comprimento/tempo/dinheiro do cotidiano, sem álgebra. Reaproveita os
-  widgets `integer-line-explorer` e `fraction-visualizer` já usados no
-  Fundamental II, e estreia três widgets novos: `place-value-explorer`
-  (`PlaceValueExplorer.tsx`) — sliders de milhar/centena/dezena/unidade
-  que montam um número ao vivo, com a decomposição (ex: "3.426 = 3000 +
-  400 + 20 + 6") e uma barra de blocos preenchidos por casa —,
-  `multiplication-array-explorer` (`MultiplicationArrayExplorer.tsx`)
-  — uma grade de fileiras × colunas que mostra a multiplicação como
-  soma repetida em blocos — e `rectangle-perimeter-explorer`
-  (`RectanglePerimeterExplorer.tsx`) — um retângulo desenhado à escala
-  a partir de comprimento e largura, com o cálculo do perímetro ao
-  vivo. Todos os 5 tópicos do Fundamental I agora têm "Explore ao
-  vivo".
+- **Ensino Fundamental I** (10 tópicos em 2 capítulos, voltado para os
+  anos iniciais — 1º-5º ano, sem álgebra): capítulo "Números" —
+  "Números Naturais e Valor Posicional", "Arredondamento de Números",
+  "Adição e Subtração", "Adição e Subtração com Números Maiores",
+  "Multiplicação e Divisão" e "Divisão com Resto" —; capítulo
+  "Frações, Formas e Medidas" — "Frações do Dia a Dia", "Frações
+  Equivalentes e Comparação", "Formas Geométricas e Medidas" e "Área
+  de Figuras Planas". Os 5 tópicos originais cobrem números inteiros
+  positivos, tabuada e medidas do cotidiano; o segundo nível de tópicos
+  aprofunda cada um deles — arredondamento e estimativa, contas com
+  números de 4-5 algarismos, quociente e resto, frações equivalentes e
+  soma com denominadores diferentes, e área (complementando o
+  perímetro já visto). Reaproveita os widgets `integer-line-explorer`
+  e `fraction-visualizer` já usados no Fundamental II, e estreia três
+  widgets novos: `place-value-explorer` (`PlaceValueExplorer.tsx`) —
+  sliders de milhar/centena/dezena/unidade que montam um número ao
+  vivo, com a decomposição (ex: "3.426 = 3000 + 400 + 20 + 6") e uma
+  barra de blocos preenchidos por casa —, `multiplication-array-explorer`
+  (`MultiplicationArrayExplorer.tsx`) — uma grade de fileiras ×
+  colunas que mostra a multiplicação como soma repetida em blocos — e
+  `rectangle-perimeter-explorer` (`RectanglePerimeterExplorer.tsx`) —
+  um retângulo desenhado à escala a partir de comprimento e largura,
+  com o cálculo do perímetro ao vivo (os 5 tópicos originais têm
+  "Explore ao vivo"; o segundo nível ainda não). Ao adicionar esses
+  tópicos, veio à tona que `fundamental1Topics` nunca tinha sido
+  registrado em `e2e/exercises-correctness.spec.ts` — corrigido, o que
+  passou a cobrir automaticamente todos os exercícios do Fundamental I
+  (antes só verificados manualmente).
 - **Ensino Fundamental II** (7 tópicos: números inteiros, frações,
   álgebra, potenciação/radiciação, proporcionalidade/porcentagem,
   equações do 2º grau, geometria plana), cada um com 24 exercícios

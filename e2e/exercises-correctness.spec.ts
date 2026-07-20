@@ -3,6 +3,7 @@ import {
   DIFFICULTY_LABELS,
   DIFFICULTY_ORDER,
   estatisticaInicianteTopics,
+  fundamental1Topics,
   fundamental2Topics,
   logicaEConjuntosTopics,
   matematicaFinanceiraInicianteTopics,
@@ -33,6 +34,7 @@ import {
  * that *is* testable here (the paywall itself renders).
  */
 const TRACKS: { levelId: string; topicId: string; exercises: Exercise[] }[] = [
+  ...fundamental1Topics.map((t) => ({ levelId: "fundamental-1", topicId: t.id, exercises: t.exercises })),
   ...fundamental2Topics.map((t) => ({ levelId: "fundamental-2", topicId: t.id, exercises: t.exercises })),
   ...medioTopics.map((t) => ({ levelId: "medio", topicId: t.id, exercises: t.exercises })),
   ...estatisticaInicianteTopics.map((t) => ({
