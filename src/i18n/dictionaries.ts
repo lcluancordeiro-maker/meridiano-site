@@ -122,6 +122,7 @@ export type Dictionary = {
     corAzul: string;
     corVermelho: string;
     corVerde: string;
+    corBranco: string;
   };
   solution: {
     enunciado: string;
@@ -711,6 +712,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corAzul: "Cor Azul",
       corVermelho: "Cor Vermelho",
       corVerde: "Cor Verde",
+      corBranco: "Cor Branco",
     },
     solution: {
       enunciado: "Enunciado",
@@ -1119,6 +1121,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corAzul: "Blue color",
       corVermelho: "Red color",
       corVerde: "Green color",
+      corBranco: "White color",
     },
     solution: {
       enunciado: "Problem",
@@ -1343,6 +1346,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corAzul: "Color azul",
       corVermelho: "Color rojo",
       corVerde: "Color verde",
+      corBranco: "Color blanco",
     },
     solution: {
       enunciado: "Enunciado",
@@ -1747,6 +1751,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corAzul: "蓝色",
       corVermelho: "红色",
       corVerde: "绿色",
+      corBranco: "白色",
     },
     solution: {
       enunciado: "题目",
@@ -1972,6 +1977,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corAzul: "Colore blu",
       corVermelho: "Colore rosso",
       corVerde: "Colore verde",
+      corBranco: "Colore bianco",
     },
     solution: {
       enunciado: "Testo del problema",
@@ -2195,6 +2201,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corAzul: "파란색",
       corVermelho: "빨간색",
       corVerde: "초록색",
+      corBranco: "흰색",
     },
     solution: {
       enunciado: "문제",
@@ -2420,6 +2427,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corAzul: "Farbe Blau",
       corVermelho: "Farbe Rot",
       corVerde: "Farbe Grün",
+      corBranco: "Farbe Weiß",
     },
     solution: {
       enunciado: "Aufgabenstellung",
@@ -2645,6 +2653,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corAzul: "Couleur bleue",
       corVermelho: "Couleur rouge",
       corVerde: "Couleur verte",
+      corBranco: "Couleur blanche",
     },
     solution: {
       enunciado: "Énoncé",
@@ -2895,6 +2904,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corAzul: "青色",
       corVermelho: "赤色",
       corVerde: "緑色",
+      corBranco: "白色",
     },
     solution: {
       enunciado: "問題文",
@@ -3119,6 +3129,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corAzul: "اللون الأزرق",
       corVermelho: "اللون الأحمر",
       corVerde: "اللون الأخضر",
+      corBranco: "اللون الأبيض",
     },
     solution: {
       enunciado: "نص المسألة",
@@ -3344,6 +3355,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corAzul: "Синий цвет",
       corVermelho: "Красный цвет",
       corVerde: "Зелёный цвет",
+      corBranco: "Белый цвет",
     },
     solution: {
       enunciado: "Условие",

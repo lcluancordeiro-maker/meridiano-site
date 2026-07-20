@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import DrawingCanvas, { type DrawingCanvasHandle, type Tool } from "@/components/DrawingCanvas";
 import SolutionDisplay from "@/components/SolutionDisplay";
 import type { PhotoSolution } from "@/lib/photoSolve";
 import { errorMessageFor } from "@/lib/photoSolveErrors";
+import { themeStore } from "@/lib/theme";
 import { useTranslation } from "@/i18n/LanguageContext";
 
 const AUTO_ANALYZE_DEBOUNCE_MS = 2000;
@@ -14,11 +15,19 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
   const { dict } = useTranslation();
   const { quadro } = dict;
 
+  // Matches the canvas's own paper color (light paper + dark ink vs. dark
+  // "chalkboard" + light chalk) — see DrawingCanvas.tsx's paperColor.
+  const isDark = useSyncExternalStore(themeStore.subscribe, themeStore.getSnapshot, themeStore.getServerSnapshot);
+
+  // Swatches are picked by id, not by raw hex — the "default" swatch's
+  // actual color is derived from the current theme at render time, so it
+  // never needs a hardcoded "which ink was the default" comparison to
+  // re-sync when the theme changes.
   const COLORS = [
-    { label: quadro.corPreto, value: "#1a1a1a" },
-    { label: quadro.corAzul, value: "#2a78d6" },
-    { label: quadro.corVermelho, value: "#d63b3b" },
-    { label: quadro.corVerde, value: "#1baf7a" },
+    { id: "default", label: isDark ? quadro.corBranco : quadro.corPreto, value: isDark ? "#f1f0f8" : "#1a1a1a" },
+    { id: "azul", label: quadro.corAzul, value: "#2a78d6" },
+    { id: "vermelho", label: quadro.corVermelho, value: "#d63b3b" },
+    { id: "verde", label: quadro.corVerde, value: "#1baf7a" },
   ];
 
   const LINE_WIDTHS = [
@@ -29,7 +38,8 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
 
   const canvasRef = useRef<DrawingCanvasHandle>(null);
   const autoTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [color, setColor] = useState(COLORS[0].value);
+  const [colorId, setColorId] = useState("default");
+  const color = COLORS.find((c) => c.id === colorId)?.value ?? COLORS[0].value;
   const [lineWidth, setLineWidth] = useState(LINE_WIDTHS[1].value);
   const [tool, setTool] = useState<Tool>("pen");
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
@@ -42,8 +52,8 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
     statusRef.current = status;
   }, [status]);
 
-  function selectColor(value: string) {
-    setColor(value);
+  function selectColor(id: string) {
+    setColorId(id);
     setTool("pen");
   }
 
@@ -112,15 +122,15 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
         <div className="flex items-center gap-2">
           {COLORS.map((c) => (
             <button
-              key={c.value}
+              key={c.id}
               type="button"
               aria-label={c.label}
-              onClick={() => selectColor(c.value)}
+              onClick={() => selectColor(c.id)}
               className="h-7 w-7 rounded-full border-2 transition-transform"
               style={{
                 backgroundColor: c.value,
-                borderColor: tool === "pen" && color === c.value ? "var(--color-primary)" : "transparent",
-                transform: tool === "pen" && color === c.value ? "scale(1.15)" : "scale(1)",
+                borderColor: tool === "pen" && colorId === c.id ? "var(--color-primary)" : "transparent",
+                transform: tool === "pen" && colorId === c.id ? "scale(1.15)" : "scale(1)",
               }}
             />
           ))}

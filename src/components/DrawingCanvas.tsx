@@ -16,6 +16,8 @@ type StrokePoint = { x: number; y: number; pressure: number };
 const RESOLUTION_WIDTH = 1200;
 const RESOLUTION_HEIGHT = 800;
 const MAX_UNDO_STEPS = 30;
+const LIGHT_PAPER_COLOR = "#ffffff";
+const DARK_PAPER_COLOR = "#1c1930";
 
 const DrawingCanvas = forwardRef<
   DrawingCanvasHandle,
@@ -25,15 +27,24 @@ const DrawingCanvas = forwardRef<
     const undoStack = useRef<ImageData[]>([]);
     const activePointer = useRef<{ id: number; type: string } | null>(null);
     const strokePoints = useRef<StrokePoint[]>([]);
+    /** The "paper" color, matching the site theme at the moment the canvas
+     * was mounted — used for the initial fill, clear() and the eraser, so
+     * erasing gives back the same color as the untouched background instead
+     * of always punching a white hole through a dark-mode board. Fixed for
+     * the component's lifetime: toggling the theme mid-drawing doesn't
+     * retroactively repaint already-drawn strokes. */
+    const paperColor = useRef(LIGHT_PAPER_COLOR);
 
     useEffect(() => {
       const canvas = canvasRef.current;
       if (!canvas) return;
+      paperColor.current =
+        document.documentElement.getAttribute("data-theme") === "dark" ? DARK_PAPER_COLOR : LIGHT_PAPER_COLOR;
       canvas.width = RESOLUTION_WIDTH;
       canvas.height = RESOLUTION_HEIGHT;
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
-      ctx.fillStyle = "#ffffff";
+      ctx.fillStyle = paperColor.current;
       ctx.fillRect(0, 0, RESOLUTION_WIDTH, RESOLUTION_HEIGHT);
     }, []);
 
@@ -62,7 +73,7 @@ const DrawingCanvas = forwardRef<
         const ctx = getContext();
         if (!canvas || !ctx) return;
         pushUndoSnapshot();
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = paperColor.current;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       },
       undo() {
@@ -92,7 +103,7 @@ const DrawingCanvas = forwardRef<
       if (!ctx) return;
       ctx.beginPath();
       ctx.arc(point.x, point.y, pressureToWidth(point.pressure, lineWidth) / 2, 0, Math.PI * 2);
-      ctx.fillStyle = tool === "eraser" ? "#ffffff" : color;
+      ctx.fillStyle = tool === "eraser" ? paperColor.current : color;
       ctx.fill();
     }
 
@@ -108,7 +119,7 @@ const DrawingCanvas = forwardRef<
 
       const curr = points[points.length - 2];
       const next = points[points.length - 1];
-      ctx.strokeStyle = tool === "eraser" ? "#ffffff" : color;
+      ctx.strokeStyle = tool === "eraser" ? paperColor.current : color;
       ctx.lineWidth = pressureToWidth(curr.pressure, lineWidth);
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
@@ -193,7 +204,7 @@ const DrawingCanvas = forwardRef<
         onPointerCancel={endStroke}
         role="img"
         aria-label={ariaLabel}
-        className="w-full touch-none rounded-xl border border-border bg-white"
+        className="w-full touch-none rounded-xl border border-border bg-surface"
         style={{ aspectRatio: `${RESOLUTION_WIDTH} / ${RESOLUTION_HEIGHT}` }}
       />
     );

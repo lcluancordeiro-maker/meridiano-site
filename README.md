@@ -467,7 +467,14 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   encosta. Reconhecimento de escrita à mão *durante* o traço
   (convertendo os traços em equação em tempo real, sem round-trip pra
   API) continua sendo um item futuro maior — hoje a IA sempre analisa
-  uma imagem estática do quadro.
+  uma imagem estática do quadro. O quadro acompanha o tema do site: no
+  modo escuro vira um quadro-negro de verdade (fundo escuro, giz claro
+  no lugar de tinta preta) em vez de forçar um retângulo branco —
+  `paperColor` em `DrawingCanvas.tsx` é fixado no tema vigente no
+  momento em que o quadro é montado (a borracha "apaga" de volta pra
+  essa cor, não sempre branco), e a cor de tinta padrão em
+  `QuadroBoard.tsx` segue o mesmo tema via `src/lib/theme.ts` (o mesmo
+  store compartilhado por trás do `ThemeToggle`).
 - **Modo escuro**: alternância clara/escura no menu, com detecção da
   preferência do sistema e persistência em `localStorage`. Sem "flash"
   de tema errado ao carregar a página (script inline aplicado antes da
