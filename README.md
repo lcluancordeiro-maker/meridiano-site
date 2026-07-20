@@ -20,6 +20,14 @@ idioma etc.), veja [docs/features.md](docs/features.md).
 
 ## Estado atual
 
+- **Ensino Fundamental I** (5 tópicos: "Números Naturais e Valor
+  Posicional", "Adição e Subtração", "Multiplicação e Divisão",
+  "Frações do Dia a Dia" e "Formas Geométricas e Medidas"), voltado
+  para os anos iniciais (1º-5º ano) — números inteiros positivos,
+  tabuada, frações simples (metade, terço, quarto) e medidas de
+  comprimento/tempo/dinheiro do cotidiano, sem álgebra. Reaproveita os
+  widgets `integer-line-explorer` e `fraction-visualizer` já usados no
+  Fundamental II.
 - **Ensino Fundamental II** (7 tópicos: números inteiros, frações,
   álgebra, potenciação/radiciação, proporcionalidade/porcentagem,
   equações do 2º grau, geometria plana), cada um com 24 exercícios
@@ -136,9 +144,6 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   incluem características categóricas num modelo numérico, a
   interpretação do coeficiente da dummy como deslocamento do intercepto,
   e a "armadilha da dummy" (usar k-1 dummies para k categorias).
-- Fundamental I ainda aparece como "em breve" — a estrutura de dados
-  (`src/data/curriculum.ts`) já suporta adicionar novos níveis e
-  tópicos sem mudar a arquitetura.
 - **Calculadora gráfica** (`/calculadora`) com parser de expressões
   próprio (sem `eval`), zoom e navegação por arraste.
 - **Desafio do Dia** (na home, inspirado no Brilliant.org): um problema em
