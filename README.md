@@ -353,7 +353,7 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   cada uma com vida, principais contribuições e links de volta para os
   tópicos do app onde suas ideias aparecem (mesmo espírito do grafo de
   conhecimento). Campo `historicalNote` opcional em `Topic`
-  (`curriculum.ts`) + `src/data/mathematicians.ts`; páginas estáticas
+  (`src/data/curriculum/types.ts`) + `src/data/mathematicians.ts`; páginas estáticas
   incluídas no sitemap. Piloto: 5 notas (Frações, Geometria Plana,
   Função Quadrática, Geometria Analítica e Progressões).
 - **Liga semanal** (`/liga`, requer conta): ranking amistoso e opt-in do
@@ -371,7 +371,7 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   ("primeiro, qual relação usamos?" → "quanto vale 9² + 12²?" → …). O
   painel é um andaime opcional: nunca bloqueia o campo de resposta
   final, que continua sendo a única parte que vale XP. Campo `steps`
-  opcional em `Exercise` (`src/data/curriculum.ts`), renderizado por
+  opcional em `Exercise` (`src/data/curriculum/types.ts`), renderizado por
   `GuidedSteps.tsx`. Piloto: 3 exercícios (2 em Geometria Plana, 1 em
   Descontos e Acréscimos).
 - **"Continue de onde parou"**: a home mostra, logo abaixo do CTA
@@ -418,7 +418,7 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   "Sequências e Números Complexos") — os demais tópicos e trilhas
   continuam sem `chapters`, renderizando como lista plana, sem nenhuma
   mudança de comportamento. Campo opcional `chapters` em `Level`
-  (`src/data/curriculum.ts`), `useChapterCompletion.ts` soma o
+  (`src/data/curriculum/types.ts`), `useChapterCompletion.ts` soma o
   progresso do capítulo, e `curriculum.test.ts` garante que, quando
   definidos, os capítulos cobrem cada tópico da trilha exatamente uma
   vez (sem lacunas nem duplicatas).
@@ -438,7 +438,7 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   acabou de ser lido. É um check de compreensão, não um exercício
   valendo nota: não dá XP nem entra no progresso. O campo
   `checkQuestion` é opcional em qualquer `TheorySection`
-  (`src/data/curriculum.ts`), renderizado por
+  (`src/data/curriculum/types.ts`), renderizado por
   `TheoryCheckQuestion.tsx`. Piloto atual: 10 perguntas em 4 tópicos
   gratuitos — Função do 1º Grau, Frações, Medidas de Tendência Central
   e Descontos e Acréscimos Percentuais.
@@ -739,8 +739,21 @@ unitários e e2e em todo push e pull request.
 
 ## Estrutura
 
-- `src/data/curriculum.ts` — conteúdo: níveis, tópicos, teoria e
-  exercícios (com campo `difficulty`).
+- `src/data/curriculum/` — conteúdo: níveis, tópicos, teoria e
+  exercícios (com campo `difficulty`). Era um único arquivo
+  `curriculum.ts` de ~24 mil linhas; foi dividido em `types.ts` (os
+  tipos: `Topic`, `Exercise`, `Level` etc.), `levels.ts` (o array
+  `levels`), um arquivo por trilha em `topics/` (`fundamental1.ts`,
+  `medio.ts`, `algebra-linear.ts` etc. — um `xTopics: Topic[]` cada) e
+  `index.ts` (re-exporta tudo, mais `TOPICS_BY_LEVEL`/`getLevel`/
+  `getTopicsForLevel`/`getTopic`/`getRelatedTopics`). Todo import
+  existente (`@/data/curriculum` ou `./curriculum` a partir de
+  `src/data/`) continua funcionando sem mudança nenhuma — TypeScript/
+  Next.js resolvem uma pasta com `index.ts` exatamente como resolviam
+  o arquivo antes. Cada trilha agora é um arquivo de ~500-2200 linhas
+  em vez de uma fatia de um arquivo gigante, o que reduz conflito de
+  merge e deixa a IDE/o code review mais rápidos ao mexer em uma
+  trilha por vez.
 - `src/lib/progress.ts` — progresso por tópico e dificuldade no
   `localStorage`.
 - `src/lib/gamification.ts` — XP, streak e badges.
@@ -798,7 +811,7 @@ unitários e e2e em todo push e pull request.
   `IntermediateValueExplorer.tsx` (Análise Real, nova trilha));
   `InteractiveWidgetRenderer.tsx`
   mapeia o campo `interactiveWidget` de uma `TheorySection` (em
-  `src/data/curriculum.ts`) pro componente
+  `src/data/curriculum/types.ts`) pro componente
   certo, renderizado pelo `TopicPage`. Todos os widgets usam apenas as
   variáveis de tema (`var(--color-foreground)`, `var(--color-muted)`,
   `var(--color-border)`, `bg-surface`) para fundo, texto e linhas do SVG,
@@ -885,7 +898,8 @@ unitários e e2e em todo push e pull request.
 ## Adicionando conteúdo
 
 Para adicionar um tópico a uma trilha existente, edite o array de
-tópicos correspondente em `src/data/curriculum.ts` seguindo o formato de
+tópicos correspondente em `src/data/curriculum/topics/` (um arquivo por
+trilha) seguindo o formato de
 `Topic` (teoria + exercícios, cada exercício com um `difficulty`). A
 ordem dos tópicos dentro do array é a ordem de aprendizado pretendida —
 tópicos fundamentais (ex: pré-requisitos conceituais de outros tópicos
@@ -899,7 +913,7 @@ Para adicionar um widget interativo numa seção de teoria, defina
 `interactiveWidget: "slope-explorer" | "two-point-explorer"` nela; para
 criar um widget novo, adicione o componente em `src/components/widgets/`,
 registre-o em `InteractiveWidgetRenderer.tsx` e inclua o nome no tipo
-`InteractiveWidget` (`src/data/curriculum.ts`).
+`InteractiveWidget` (`src/data/curriculum/types.ts`).
 
 ## Stack
 
