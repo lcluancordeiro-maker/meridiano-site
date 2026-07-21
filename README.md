@@ -63,18 +63,23 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   equações do 2º grau, geometria plana), cada um com 24 exercícios
   divididos em 4 níveis de dificuldade (Fácil/Médio/Difícil/Olimpíada),
   escolhidos livremente pelo aluno.
-- **Ensino Médio** — 7 tópicos: "Função do 1º Grau" (coeficientes,
+- **Ensino Médio** — 8 tópicos: "Função do 1º Grau" (coeficientes,
   raiz, gráfico), "Função Quadrática" (vértice, concavidade, gráfico em
   parábola), "Trigonometria no Triângulo Retângulo" (seno, cosseno,
   tangente, Teorema de Pitágoras), "Geometria Analítica" (distância
   entre pontos, ponto médio, coeficiente angular, equação da reta),
   "Progressões Aritméticas e Geométricas" (termo geral, soma de PA/PG),
   "Números Complexos" (a unidade imaginária i, soma, multiplicação,
-  módulo e o conjugado) e agora também "Vetores" (módulo, soma,
-  subtração, produto escalar e perpendicularidade — junta-se ao
-  capítulo "Geometria e Trigonometria") — todos em 4 níveis de
-  dificuldade, com gráfico interativo embutido onde faz sentido
-  (parábola, `sin(x)`, reta, vetores).
+  módulo e o conjugado), "Vetores" (módulo, soma,
+  subtração, produto escalar e perpendicularidade) e agora também
+  "Trigonometria em Triângulos Quaisquer" — a área de um triângulo
+  qualquer (Área = ½×a×b×sen(C)), a Lei dos Cossenos (generaliza
+  Pitágoras: c²=a²+b²-2ab×cos(C)) e a Lei dos Senos
+  (a/sen(A)=b/sen(B)=c/sen(C)=2R), com o widget `TriangleAreaExplorer`
+  desenhando o triângulo à escala a partir de dois lados e o ângulo
+  entre eles (todos juntos no capítulo "Geometria e Trigonometria") —
+  todos os 8 tópicos em 4 níveis de dificuldade, com gráfico interativo
+  embutido onde faz sentido (parábola, `sin(x)`, reta, vetores).
 - **Estatística** — trilha independente com 3 níveis (Iniciante:
   medidas de tendência central, medidas de dispersão (amplitude,
   variância, desvio padrão), "Gráficos e Distribuição de

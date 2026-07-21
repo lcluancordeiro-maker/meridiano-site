@@ -83,6 +83,7 @@ const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
   "column-addition-explorer": dynamic(() => import("./ColumnAdditionExplorer"), { ssr: false, loading: WidgetLoading }),
   "division-remainder-explorer": dynamic(() => import("./DivisionRemainderExplorer"), { ssr: false, loading: WidgetLoading }),
   "equivalent-fractions-explorer": dynamic(() => import("./EquivalentFractionsExplorer"), { ssr: false, loading: WidgetLoading }),
+  "triangle-area-explorer": dynamic(() => import("./TriangleAreaExplorer"), { ssr: false, loading: WidgetLoading }),
 };
 
 export default function InteractiveWidgetRenderer({ widget }: { widget: InteractiveWidget }) {

@@ -121,7 +121,8 @@ export type InteractiveWidget =
   | "rounding-explorer"
   | "column-addition-explorer"
   | "division-remainder-explorer"
-  | "equivalent-fractions-explorer";
+  | "equivalent-fractions-explorer"
+  | "triangle-area-explorer";
 
 /** A quick one-tap multiple-choice check rendered inline right after a
  * theory section — Brilliant.org-style "learn by doing": instead of reading
@@ -266,7 +267,12 @@ export const levels: Level[] = [
       { title: "Funções", topicIds: ["funcao-primeiro-grau", "funcao-quadratica"] },
       {
         title: "Geometria e Trigonometria",
-        topicIds: ["trigonometria-triangulo-retangulo", "geometria-analitica", "vetores"],
+        topicIds: [
+          "trigonometria-triangulo-retangulo",
+          "trigonometria-em-triangulos-quaisquer",
+          "geometria-analitica",
+          "vetores",
+        ],
       },
       { title: "Sequências e Números Complexos", topicIds: ["progressoes", "numeros-complexos"] },
     ],
@@ -7972,6 +7978,220 @@ export const medioTopics: Topic[] = [
         answer: "15",
         explanation: "17² - 8² = 289 - 64 = 225. √225 = 15.",
         commonMistakeHint: "Use o Teorema de Pitágoras isolando o cateto desconhecido: cateto² = hipotenusa² - outroCateto².",
+      },
+    ],
+  },
+  {
+    id: "trigonometria-em-triangulos-quaisquer",
+    title: "Trigonometria em Triângulos Quaisquer",
+    summary: "Vá além do triângulo retângulo: calcule a área, os lados e os ângulos de qualquer triângulo com a Lei dos Senos, a Lei dos Cossenos e a fórmula trigonométrica da área.",
+    minutes: 20,
+    relatedTopics: [{ levelId: "medio", topicId: "trigonometria-triangulo-retangulo" }],
+    theory: [
+      {
+        heading: "Área de um triângulo qualquer",
+        body: [
+          "Conhecendo dois lados a e b de um triângulo e o ângulo C entre eles, a área é dada por Área = ½ × a × b × sen(C) — sem precisar da altura do triângulo.",
+        ],
+        example: {
+          problem: "a = 6, b = 8, C = 30° (sen(30°) = 0,5)",
+          solution: "Área = ½ × 6 × 8 × 0,5 = 12.",
+        },
+      },
+      {
+        heading: "Lei dos Cossenos",
+        body: [
+          "A Lei dos Cossenos generaliza o Teorema de Pitágoras para qualquer triângulo: c² = a² + b² - 2ab×cos(C), onde c é o lado oposto ao ângulo C. Use-a quando conhecer dois lados e o ângulo entre eles (ou os três lados).",
+        ],
+        example: {
+          problem: "a = 5, b = 8, C = 60° (cos(60°) = 0,5)",
+          solution: "c² = 25 + 64 - 2×5×8×0,5 = 89 - 40 = 49. Logo, c = 7.",
+        },
+      },
+      {
+        heading: "Lei dos Senos",
+        body: [
+          "A Lei dos Senos relaciona cada lado ao seno do ângulo oposto a ele: a/sen(A) = b/sen(B) = c/sen(C) = 2R, onde R é o raio da circunferência circunscrita ao triângulo. Use-a quando conhecer um lado e o ângulo oposto a ele, junto com outro lado ou ângulo.",
+        ],
+        example: {
+          problem: "a = 10, A = 30° (sen=0,5), B = 90° (sen=1)",
+          solution: "b = a×sen(B)/sen(A) = 10×1/0,5 = 20.",
+        },
+      },
+      {
+        heading: "Qual lei usar",
+        body: [
+          "Lei dos Cossenos: quando você conhece dois lados e o ângulo entre eles, ou os três lados. Lei dos Senos: quando você conhece um lado e o ângulo oposto a ele, mais outro lado ou ângulo.",
+        ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa nos dois lados e no ângulo entre eles abaixo e veja o triângulo e a área recalcularem juntos.",
+        ],
+        interactiveWidget: "triangle-area-explorer",
+      },
+    ],
+    exercises: [
+      {
+        id: "f1",
+        prompt: "Um triângulo tem lados a=6 e b=8, com ângulo C=30° entre eles. Sabendo que sen(30°)=0,5, qual é a área do triângulo? (Área = ½×a×b×sen(C))",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "12",
+        explanation: "Área = ½×6×8×0,5 = 12.",
+      },
+      {
+        id: "f2",
+        prompt: "Um triângulo tem lados a=10 e b=4, com ângulo C=90° entre eles (sen(90°)=1). Qual é a área?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "20",
+        explanation: "Área = ½×10×4×1 = 20.",
+      },
+      {
+        id: "f3",
+        prompt: "Um triângulo tem lados a=4 e b=6, com ângulo C=30° entre eles. Qual é a área?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "6",
+        explanation: "Área = ½×4×6×0,5 = 6.",
+      },
+      {
+        id: "f4",
+        prompt: "Um triângulo tem lados a=8 e b=8, com ângulo C=90° entre eles. Qual é a área?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "32",
+        explanation: "Área = ½×8×8×1 = 32.",
+      },
+      {
+        id: "f5",
+        prompt: "Um triângulo tem lados a=12 e b=5, com ângulo C=30° entre eles. Qual é a área?",
+        type: "numeric",
+        difficulty: "facil",
+        answer: "15",
+        explanation: "Área = ½×12×5×0,5 = 15.",
+      },
+      {
+        id: "m1",
+        prompt: "Um triângulo tem lados a=10 e b=6, com ângulo C=150° entre eles (sen(150°)=0,5). Qual é a área?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "15",
+        explanation: "Área = ½×10×6×0,5 = 15.",
+      },
+      {
+        id: "m2",
+        prompt: "Pela Lei dos Senos, um triângulo tem lado a=10 oposto ao ângulo A=30° (sen=0,5), e lado b oposto ao ângulo B=90° (sen=1). Qual é o valor de b?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "20",
+        explanation: "b = a×sen(B)/sen(A) = 10×1/0,5 = 20.",
+      },
+      {
+        id: "m3",
+        prompt: "No mesmo triângulo, qual é o valor de 2R (o dobro do raio da circunferência circunscrita), sabendo que 2R = a/sen(A)?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "20",
+        explanation: "2R = 10/0,5 = 20.",
+      },
+      {
+        id: "m4",
+        prompt: "Um triângulo tem lado a=6 oposto a A=30° (sen=0,5) e lado c oposto a C=90° (sen=1). Qual é o valor de c?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "12",
+        explanation: "c = a×sen(C)/sen(A) = 6×1/0,5 = 12.",
+      },
+      {
+        id: "m5",
+        prompt: "Um triângulo tem lados a=5 e b=8, com ângulo C=60° entre eles (sen(60°)≈0,87). Qual é a área, aproximadamente? (arredonde para o inteiro mais próximo)",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "17",
+        explanation: "Área = ½×5×8×0,87 ≈ 20×0,866 ≈ 17,32, que arredonda para 17.",
+      },
+      {
+        id: "d1",
+        prompt: "Um triângulo tem lados a=5 e b=8, com ângulo C=60° entre eles (cos(60°)=0,5). Pela Lei dos Cossenos (c²=a²+b²-2ab×cos(C)), qual é o valor de c?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "7",
+        explanation: "c² = 25+64-2×5×8×0,5 = 89-40 = 49. c = 7.",
+      },
+      {
+        id: "d2",
+        prompt: "Um triângulo tem lados a=3 e b=8, com ângulo C=60° entre eles. Qual é o valor de c (Lei dos Cossenos)?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "7",
+        explanation: "c² = 9+64-2×3×8×0,5 = 73-24 = 49. c = 7.",
+      },
+      {
+        id: "d3",
+        prompt: "Um triângulo tem lados a=3 e b=5, com ângulo C=120° entre eles (cos(120°)=-0,5). Qual é o valor de c?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "7",
+        explanation: "c² = 9+25-2×3×5×(-0,5) = 34+15 = 49. c = 7.",
+      },
+      {
+        id: "d4",
+        prompt: "Um triângulo tem lados a=7 e b=8, com ângulo C=120° entre eles. Qual é o valor de c?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "13",
+        explanation: "c² = 49+64-2×7×8×(-0,5) = 113+56 = 169. c = 13.",
+      },
+      {
+        id: "d5",
+        prompt: "Um triângulo tem lados a=3 e b=4, com ângulo C=90° entre eles (cos(90°)=0). Qual é o valor de c? (esse é exatamente o Teorema de Pitágoras)",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "5",
+        explanation: "c² = 9+16-0 = 25. c = 5.",
+      },
+      {
+        id: "o1",
+        prompt: "Um triângulo tem lados a=5 e b=8, com ângulo C=60° entre eles. Sabendo (do exercício anterior) que c=7, qual é a área do triângulo pela fórmula ½×a×b×sen(C), com sen(60°)≈0,87? (arredonde para o inteiro mais próximo)",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "17",
+        explanation: "Área = ½×5×8×0,87 ≈ 20×0,866 ≈ 17,32, que arredonda para 17.",
+      },
+      {
+        id: "o2",
+        prompt: "Um triângulo tem lados a=7 e b=8, com ângulo C=120° entre eles (sen(120°)≈0,87). Qual é a área, aproximadamente? (arredonde para o inteiro mais próximo)",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "24",
+        explanation: "Área = ½×7×8×0,87 ≈ 28×0,866 ≈ 24,25, que arredonda para 24.",
+      },
+      {
+        id: "o3",
+        prompt: "Um triângulo tem ângulo A=30° oposto ao lado a=6, e ângulo B=150° oposto ao lado b (sen(150°)=sen(30°)=0,5). Qual é o valor de b?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "6",
+        explanation: "Como sen(A)=sen(B)=0,5, temos b = a×sen(B)/sen(A) = 6×0,5/0,5 = 6.",
+      },
+      {
+        id: "o4",
+        prompt: "Um triângulo retângulo (C=90°) tem catetos a=6 e b=8. Usando a Lei dos Cossenos com cos(90°)=0, qual é a hipotenusa c?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "10",
+        explanation: "c² = 36+64-0 = 100. c = 10 (a Lei dos Cossenos reduz ao Teorema de Pitágoras quando C=90°).",
+      },
+      {
+        id: "o5",
+        prompt: "Um triângulo tem lados a=9 e b=9 (isósceles), com ângulo C=60° entre eles. Pela Lei dos Cossenos, qual é o valor de c?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "9",
+        explanation: "c² = 81+81-2×9×9×0,5 = 162-81 = 81. c = 9 — com duas laterais iguais e 60° entre elas, o triângulo é na verdade equilátero.",
       },
     ],
   },
