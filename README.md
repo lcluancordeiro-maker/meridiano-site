@@ -179,6 +179,58 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   (um argumento pode ter forma inválida e ainda assim chegar numa
   conclusão verdadeira por coincidência, e vice-versa). 4 tópicos, 20
   exercícios cada.
+- **Álgebra Linear** (Premium, nova trilha): "Matrizes e Operações" —
+  soma/subtração, multiplicação por escalar, multiplicação de matrizes
+  (com a ressalva de que não é comutativa) e transposta —, com o widget
+  `MatrixOperationsExplorer` mostrando k×A e Aᵀ recalculados ao vivo a
+  partir de 4 sliders da matriz A e 1 do escalar k —, "Determinantes" —
+  a fórmula ad-bc para 2×2, a regra de Sarrus para 3×3 e propriedades
+  (det(AB)=det(A)×det(B), troca de linhas troca o sinal, det=0 significa
+  matriz singular) —, reaproveitando o widget `matrix-explorer` já
+  existente (seu foco já era o determinante de uma 2×2) —, "Sistemas
+  Lineares" — a forma matricial Ax=b, classificação por determinante
+  (única solução, sem solução, infinitas soluções) e a regra de Cramer
+  (x=Dx/D, y=Dy/D) —, com o widget `LinearSystemExplorer` desenhando
+  duas retas a partir de sliders de inclinação/intercepto e apontando o
+  ponto de interseção (ou identificando retas paralelas/coincidentes)
+  — e "Transformações Lineares e Autovalores/Autovetores" — T(v)=Av,
+  a equação característica λ²-traço(A)×λ+det(A)=0 para 2×2, e a relação
+  λ₁+λ₂=traço(A), λ₁×λ₂=det(A) —, com o widget `EigenvectorExplorer`
+  desenhando v e Av a partir de sliders da matriz e do vetor, destacando
+  quando eles ficam paralelos (v é autovetor). 4 tópicos, 20 exercícios
+  cada — os exercícios usam sempre uma pergunta sobre um único elemento
+  ou escalar (nunca a matriz inteira como resposta), pelo mesmo motivo
+  documentado desde "Matrizes e Sistemas Lineares" (UNESP): comparação
+  exata de string não lida bem com formatação de matriz.
+- **Análise Real** (Premium, nova trilha): "Supremo, Ínfimo e
+  Completude dos Reais" — cotas superior/inferior, supremo/ínfimo (a
+  menor cota superior/maior cota inferior, que não precisa pertencer ao
+  conjunto), a diferença entre máximo/mínimo e supremo/ínfimo, e o
+  Axioma da Completude que distingue R de Q (o clássico {x∈Q : x²<2}
+  sem supremo racional) —, com o widget `SupremumExplorer` marcando um
+  candidato a cota superior numa reta numérica e indicando se ele é só
+  uma cota superior ou exatamente o supremo —, "Sequências e
+  Convergência" — a definição ε-N de limite de sequência, como achar N
+  para um ε dado (aₙ=1/n → N=⌈1/ε⌉) e o Teorema da Sequência Monótona
+  (monótona + limitada ⟹ converge) —, com o widget
+  `SequenceConvergenceExplorer` plotando os 15 primeiros termos de
+  aₙ=1/n e colorindo de verde os que caem dentro da faixa ε ao redor do
+  limite —, "Limite de Funções via ε-δ" — a definição ε-δ, como achar
+  δ=ε/|m| para uma reta f(x)=mx+b, limites laterais divergentes (por
+  que |x|/x não tem limite em 0) e as propriedades operatórias
+  (soma/produto/quociente de limites) —, com o widget
+  `EpsilonDeltaExplorer` desenhando a faixa ε ao redor de L e a faixa δ
+  correspondente ao redor de a sobre o gráfico de f(x)=mx — e
+  "Continuidade e Teorema do Valor Intermediário" — as três condições
+  de continuidade, os três tipos de descontinuidade (removível, salto,
+  essencial) e o TVI (f contínua e sinais opostos nos extremos ⟹ raiz
+  garantida no intervalo) —, com o widget `IntermediateValueExplorer`
+  desenhando f(x)=x³-3x+1 e destacando em verde f(a) e f(b) quando têm
+  sinais opostos. 4 tópicos, 20 exercícios cada — por ser um assunto
+  tradicionalmente baseado em demonstração, os exercícios foram
+  adaptados para o formato de resposta exata do quiz: cálculos
+  numéricos com resposta única bem definida (ex: o menor N para um ε
+  dado) ou múltipla escolha conceitual, nunca uma demonstração aberta.
 - **Econometria** (Premium): "Regressão Linear Simples" — estimar
   β0/β1 a partir de covariância e variância, prever valores e
   interpretar o coeficiente de determinação (R²) —, "Regressão
@@ -678,8 +730,9 @@ assinante neste ambiente de teste — o professor veria o paywall, não o
 exercício. Ao adicionar conteúdo a uma trilha Premium, vale a pena
 verificar manualmente rodando os testes com `premium: false`
 temporário no nível em questão (revertendo antes de commitar) — foi
-assim que "Regras de Probabilidade" e "Intervalos de Confiança" foram
-conferidos.
+assim que "Regras de Probabilidade", "Intervalos de Confiança" e as
+160 questões das novas trilhas Álgebra Linear e Análise Real foram
+conferidas.
 
 O CI (`.github/workflows/ci.yml`) roda lint, checagem de tipos, testes
 unitários e e2e em todo push e pull request.
@@ -736,7 +789,13 @@ unitários e e2e em todo push e pull request.
   "Dicionários e Estruturas Chave-Valor"), `CrossValidationExplorer.tsx`
   (Machine Learning Iniciante — novo tópico "Validação Cruzada (k-fold)"),
   `DummyVariableExplorer.tsx` (Econometria Iniciante — novo tópico
-  "Variáveis Dummy (Binárias)"));
+  "Variáveis Dummy (Binárias)"), `TriangleAreaExplorer.tsx`,
+  `CircularSectorExplorer.tsx` (Ensino Médio — novos tópicos de
+  trigonometria/círculo), `MatrixOperationsExplorer.tsx`,
+  `LinearSystemExplorer.tsx`, `EigenvectorExplorer.tsx` (Álgebra
+  Linear, nova trilha), `SupremumExplorer.tsx`,
+  `SequenceConvergenceExplorer.tsx`, `EpsilonDeltaExplorer.tsx`,
+  `IntermediateValueExplorer.tsx` (Análise Real, nova trilha));
   `InteractiveWidgetRenderer.tsx`
   mapeia o campo `interactiveWidget` de uma `TheorySection` (em
   `src/data/curriculum.ts`) pro componente

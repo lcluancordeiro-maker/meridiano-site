@@ -85,6 +85,13 @@ const WIDGETS: Record<InteractiveWidget, React.ComponentType> = {
   "equivalent-fractions-explorer": dynamic(() => import("./EquivalentFractionsExplorer"), { ssr: false, loading: WidgetLoading }),
   "triangle-area-explorer": dynamic(() => import("./TriangleAreaExplorer"), { ssr: false, loading: WidgetLoading }),
   "circular-sector-explorer": dynamic(() => import("./CircularSectorExplorer"), { ssr: false, loading: WidgetLoading }),
+  "matrix-operations-explorer": dynamic(() => import("./MatrixOperationsExplorer"), { ssr: false, loading: WidgetLoading }),
+  "linear-system-explorer": dynamic(() => import("./LinearSystemExplorer"), { ssr: false, loading: WidgetLoading }),
+  "eigenvector-explorer": dynamic(() => import("./EigenvectorExplorer"), { ssr: false, loading: WidgetLoading }),
+  "supremum-explorer": dynamic(() => import("./SupremumExplorer"), { ssr: false, loading: WidgetLoading }),
+  "sequence-convergence-explorer": dynamic(() => import("./SequenceConvergenceExplorer"), { ssr: false, loading: WidgetLoading }),
+  "epsilon-delta-explorer": dynamic(() => import("./EpsilonDeltaExplorer"), { ssr: false, loading: WidgetLoading }),
+  "intermediate-value-explorer": dynamic(() => import("./IntermediateValueExplorer"), { ssr: false, loading: WidgetLoading }),
 };
 
 export default function InteractiveWidgetRenderer({ widget }: { widget: InteractiveWidget }) {
