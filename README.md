@@ -42,12 +42,22 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   colunas que mostra a multiplicação como soma repetida em blocos — e
   `rectangle-perimeter-explorer` (`RectanglePerimeterExplorer.tsx`) —
   um retângulo desenhado à escala a partir de comprimento e largura,
-  com o cálculo do perímetro ao vivo (os 5 tópicos originais têm
-  "Explore ao vivo"; o segundo nível ainda não). Ao adicionar esses
-  tópicos, veio à tona que `fundamental1Topics` nunca tinha sido
-  registrado em `e2e/exercises-correctness.spec.ts` — corrigido, o que
-  passou a cobrir automaticamente todos os exercícios do Fundamental I
-  (antes só verificados manualmente).
+  com o cálculo do perímetro ao vivo. Os 5 tópicos do segundo nível
+  também têm "Explore ao vivo" agora: `rounding-explorer`
+  (`RoundingExplorer.tsx`, reta numérica que mostra para qual dezena/
+  centena/milhar um número arredonda), `column-addition-explorer`
+  (`ColumnAdditionExplorer.tsx`, refaz a soma coluna por coluna
+  explicando cada "vai um"), `division-remainder-explorer`
+  (`DivisionRemainderExplorer.tsx`, agrupa bolinhas de acordo com o
+  divisor e destaca o resto à parte) e `equivalent-fractions-explorer`
+  (`EquivalentFractionsExplorer.tsx`, duas barras de fração lado a
+  lado provando a equivalência) — o quinto, "Área de Figuras Planas",
+  reaproveita o `multiplication-array-explorer` (a mesma grade
+  fileiras × colunas prova tanto multiplicação quanto área). Ao
+  adicionar o conteúdo original, veio à tona que `fundamental1Topics`
+  nunca tinha sido registrado em `e2e/exercises-correctness.spec.ts`
+  — corrigido, o que passou a cobrir automaticamente todos os
+  exercícios do Fundamental I (antes só verificados manualmente).
 - **Ensino Fundamental II** (7 tópicos: números inteiros, frações,
   álgebra, potenciação/radiciação, proporcionalidade/porcentagem,
   equações do 2º grau, geometria plana), cada um com 24 exercícios

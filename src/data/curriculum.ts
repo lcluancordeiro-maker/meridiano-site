@@ -117,7 +117,11 @@ export type InteractiveWidget =
   | "dummy-variable-explorer"
   | "place-value-explorer"
   | "multiplication-array-explorer"
-  | "rectangle-perimeter-explorer";
+  | "rectangle-perimeter-explorer"
+  | "rounding-explorer"
+  | "column-addition-explorer"
+  | "division-remainder-explorer"
+  | "equivalent-fractions-explorer";
 
 /** A quick one-tap multiple-choice check rendered inline right after a
  * theory section — Brilliant.org-style "learn by doing": instead of reading
@@ -715,6 +719,13 @@ export const fundamental1Topics: Topic[] = [
           solution: "346 vira 300 e 273 vira 300. Estimativa: 300 + 300 = 600 (o valor exato é 619, bem próximo).",
         },
       },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no número e escolha a casa (dezena, centena ou milhar) abaixo, e veja para qual número ele arredonda na reta numérica.",
+        ],
+        interactiveWidget: "rounding-explorer",
+      },
     ],
     exercises: [
       {
@@ -1126,6 +1137,13 @@ export const fundamental1Topics: Topic[] = [
         body: [
           "Alguns problemas pedem mais de uma operação em sequência — por exemplo, somar duas quantias e depois subtrair uma despesa. Resolva uma etapa de cada vez, na ordem em que aparecem no enunciado.",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa nos dois números abaixo e veja a soma se refazer coluna por coluna, com cada 'vai um' explicado.",
+        ],
+        interactiveWidget: "column-addition-explorer",
       },
     ],
     exercises: [
@@ -1542,6 +1560,13 @@ export const fundamental1Topics: Topic[] = [
         body: [
           "Em muitos problemas do dia a dia, o resto tem um significado prático — por exemplo, quantos itens sobram depois de formar grupos completos, ou se é preciso mais um grupo (incompleto) para acomodar o resto.",
         ],
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no dividendo e no divisor abaixo e veja os grupos completos se formarem, com o resto destacado à parte.",
+        ],
+        interactiveWidget: "division-remainder-explorer",
       },
     ],
     exercises: [
@@ -1983,6 +2008,13 @@ export const fundamental1Topics: Topic[] = [
           problem: "1/2 + 1/4",
           solution: "1/2 = 2/4. Então 2/4 + 1/4 = 3/4.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa na fração original e no multiplicador abaixo e veja as duas barras mostrarem a mesma proporção preenchida, com denominadores diferentes.",
+        ],
+        interactiveWidget: "equivalent-fractions-explorer",
       },
     ],
     exercises: [
@@ -2429,6 +2461,13 @@ export const fundamental1Topics: Topic[] = [
           problem: "Retângulo de comprimento 4 e largura 6",
           solution: "Perímetro = 2×(4+6) = 20. Área = 4×6 = 24 — números diferentes, para a mesma figura.",
         },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "A grade abaixo é a mesma ideia da área de um retângulo: cada quadradinho é 1 unidade de área, e o total é fileiras × colunas — mexa nos dois valores e veja a contagem mudar.",
+        ],
+        interactiveWidget: "multiplication-array-explorer",
       },
     ],
     exercises: [
