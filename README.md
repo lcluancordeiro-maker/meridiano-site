@@ -84,13 +84,17 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   amostragem (aleatória simples, sistemática, estratificada, por
   conveniência) e como o tamanho da amostra afeta o erro de amostragem;
   Intermediário:
-  probabilidade básica, regras de probabilidade e agora também
-  "Distribuição Binomial" — combinações C(n,k), a fórmula P(X=k) e o
-  valor esperado
-  n×p; Avançado: distribuição normal e escore-z, intervalos de
-  confiança e "Testes de Hipótese" — H0/H1, estatística de teste z,
-  valor crítico e a regra de decisão de rejeitar ou não a hipótese
-  nula). Os 5 tópicos mais antigos da trilha (Medidas de Tendência
+  probabilidade básica, regras de probabilidade, "Distribuição
+  Binomial" — combinações C(n,k), a fórmula P(X=k) e o valor esperado
+  n×p — e agora também "Probabilidade Condicional e Independência" —
+  P(A|B) = P(A∩B)/P(B), como verificar independência (P(A∩B)=P(A)×P(B))
+  e a regra do produto para eventos dependentes; Avançado: distribuição
+  normal e escore-z, intervalos de confiança, "Testes de Hipótese" —
+  H0/H1, estatística de teste z, valor crítico e a regra de decisão de
+  rejeitar ou não a hipótese nula — e agora também "Teste Qui-Quadrado"
+  — comparar observado com esperado por categoria, χ² = Σ(O-E)²/E, e a
+  ideia de valor crítico para decidir se a diferença é só ruído
+  amostral). Os 5 tópicos mais antigos da trilha (Medidas de Tendência
   Central, Probabilidade Básica, Regras de Probabilidade, Distribuição
   Normal e Intervalos de Confiança) tinham só o nível Médio — ganharam
   agora Fácil, Difícil e Olimpíada também (mais 18 exercícios cada),
@@ -110,10 +114,12 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   Chave-Valor" — busca por chave em O(1) contra a busca sequencial em
   O(n) de uma lista, e quando usar cada estrutura), "Orientação a Objetos" (Avançado,
   Premium: classes, atributos, métodos, encapsulamento, "Estruturas de
-  Dados: Pilhas e Filas" — LIFO/FIFO, quando usar cada uma — e agora
-  também "Recursão" — o caso base, como as chamadas desempilham, e
-  fatorial/fibonacci como exemplos clássicos) e "Fundamentos de
-  Aprendizado Supervisionado"
+  Dados: Pilhas e Filas" — LIFO/FIFO, quando usar cada uma —,
+  "Recursão" — o caso base, como as chamadas desempilham, e
+  fatorial/fibonacci como exemplos clássicos — e agora também "Herança
+  e Polimorfismo" — classe pai/filha, sobrescrita de método (override)
+  e como objetos diferentes respondem de formas diferentes ao mesmo
+  método) e "Fundamentos de Aprendizado Supervisionado"
   (Machine Learning — Introdução, Premium: treino/teste, overfitting,
   acurácia e matriz de confusão, "Classificação: Matriz de Confusão,
   Precisão e Revocação" — por que acurácia sozinha engana em classes
@@ -546,17 +552,22 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   detalhes de RLS.
 - **Matemática Financeira** — trilha independente com 2 níveis:
   Iniciante, grátis ("Juros Simples", "Descontos e Acréscimos
-  Percentuais" — fator multiplicativo, aumentos/descontos sucessivos —
-  e agora também "Inflação e Correção Monetária" — corrigir valores
-  pela inflação com juros compostos, poder de compra e inflação
-  acumulada em vários períodos) e Avançado, Premium ("Juros
+  Percentuais" — fator multiplicativo, aumentos/descontos sucessivos —,
+  "Inflação e Correção Monetária" — corrigir valores pela inflação com
+  juros compostos, poder de compra e inflação acumulada em vários
+  períodos — e agora também "Câmbio e Conversão de Moedas" —
+  multiplicar/dividir por uma taxa de câmbio para converter entre
+  reais, dólares e euros) e Avançado, Premium ("Juros
   Compostos", com gráfico interativo de
   crescimento exponencial, "Financiamentos: Price e SAC", comparando
-  amortização constante com parcelas fixas, e agora também "Valor
+  amortização constante com parcelas fixas, "Valor
   Presente e Valor Futuro" — trazer uma quantia a valor de hoje ou
   projetá-la no futuro, e o valor futuro/presente de uma série de
   depósitos ou parcelas iguais, a base matemática por trás das
-  prestações da Tabela Price).
+  prestações da Tabela Price — e agora também "Taxas Equivalentes:
+  Nominal e Efetiva" — converter uma taxa de juros compostos entre
+  períodos diferentes (semestral ↔ anual, via (1+i)² ou √(1+i)) e a
+  diferença entre taxa nominal simples e taxa efetiva composta).
 - **App para desktop e smartphone**: além de já ser um PWA instalável
   (veja abaixo), a navegação agora é totalmente responsiva — em telas
   estreitas o menu do topo vira um botão de hambúrguer que abre um
