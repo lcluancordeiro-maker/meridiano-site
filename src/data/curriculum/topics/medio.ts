@@ -971,11 +971,11 @@ export const medioTopics: Topic[] = [
       },
       {
         id: "o3",
-        prompt: "Um triângulo tem ângulo A=30° oposto ao lado a=6, e ângulo B=150° oposto ao lado b (sen(150°)=sen(30°)=0,5). Qual é o valor de b?",
+        prompt: "Um triângulo tem ângulo A=30° oposto ao lado a=6, e ângulo B=90° oposto ao lado b (sen(30°)=0,5, sen(90°)=1). Qual é o valor de b?",
         type: "numeric",
         difficulty: "olimpiada",
-        answer: "6",
-        explanation: "Como sen(A)=sen(B)=0,5, temos b = a×sen(B)/sen(A) = 6×0,5/0,5 = 6.",
+        answer: "12",
+        explanation: "Pela Lei dos Senos: b = a×sen(B)/sen(A) = 6×1/0,5 = 12.",
       },
       {
         id: "o4",
