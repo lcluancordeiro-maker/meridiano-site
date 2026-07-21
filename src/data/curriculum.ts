@@ -122,7 +122,8 @@ export type InteractiveWidget =
   | "column-addition-explorer"
   | "division-remainder-explorer"
   | "equivalent-fractions-explorer"
-  | "triangle-area-explorer";
+  | "triangle-area-explorer"
+  | "circular-sector-explorer";
 
 /** A quick one-tap multiple-choice check rendered inline right after a
  * theory section — Brilliant.org-style "learn by doing": instead of reading
@@ -270,6 +271,7 @@ export const levels: Level[] = [
         topicIds: [
           "trigonometria-triangulo-retangulo",
           "trigonometria-em-triangulos-quaisquer",
+          "setores-circulares-e-poligonos-regulares",
           "geometria-analitica",
           "vetores",
         ],
@@ -9104,6 +9106,230 @@ export const medioTopics: Topic[] = [
         difficulty: "olimpiada",
         answer: "0,5",
         explanation: "cos(60°) = 0,5.",
+      },
+    ],
+  },
+  {
+    id: "setores-circulares-e-poligonos-regulares",
+    title: "Setores Circulares e Polígonos Regulares",
+    summary: "Calcule a área e o arco de uma 'fatia' de círculo, e a área de um polígono regular a partir do seu apótema.",
+    minutes: 18,
+    relatedTopics: [{ levelId: "medio", topicId: "trigonometria-triangulo-retangulo" }],
+    theory: [
+      {
+        heading: "Revisão: circunferência e círculo",
+        body: [
+          "O comprimento de uma circunferência de raio r é C = 2πr. A área do círculo completo é A = πr².",
+        ],
+      },
+      {
+        heading: "Setor circular: uma 'fatia' do círculo",
+        body: [
+          "Um setor circular é a região entre dois raios e o arco entre eles, correspondente a um ângulo central θ. A área do setor é a mesma fração do círculo completo que θ é de 360°: Área do setor = (θ/360°) × πr².",
+        ],
+        example: {
+          problem: "r = 6, θ = 60°",
+          solution: "Área do círculo completo = π×6² = 36π. Setor: (60/360)×36π = 6π.",
+        },
+      },
+      {
+        heading: "Comprimento do arco",
+        body: [
+          "Da mesma forma, o comprimento do arco é a mesma fração da circunferência completa: Comprimento do arco = (θ/360°) × 2πr.",
+        ],
+        example: {
+          problem: "r = 6, θ = 60°",
+          solution: "Circunferência completa = 2π×6 = 12π. Arco: (60/360)×12π = 2π.",
+        },
+      },
+      {
+        heading: "Área de um polígono regular",
+        body: [
+          "Um polígono regular pode ser dividido em triângulos isósceles a partir do centro. A soma das áreas desses triângulos dá: Área = (perímetro × apótema) / 2, onde o apótema é a distância do centro até o meio de um lado.",
+        ],
+        example: {
+          problem: "Hexágono regular com perímetro 24 e apótema 4",
+          solution: "Área = (24×4)/2 = 48.",
+        },
+      },
+      {
+        heading: "Explore ao vivo",
+        body: [
+          "Mexa no raio e no ângulo abaixo e veja o setor circular, sua área e o comprimento do arco recalcularem juntos.",
+        ],
+        interactiveWidget: "circular-sector-explorer",
+      },
+    ],
+    exercises: [
+      {
+        id: "f1",
+        prompt: "Um setor circular tem raio 6 e ângulo central 60°. Qual é a área do setor, em termos de π? (área do círculo completo = πr²=36π)",
+        type: "multiple-choice",
+        difficulty: "facil",
+        options: ["3π", "6π", "9π", "12π"],
+        answer: "6π",
+        explanation: "Setor = (60/360)×36π = 6π.",
+      },
+      {
+        id: "f2",
+        prompt: "Um setor circular tem raio 4 e ângulo central 90°. Qual é a área do setor, em termos de π?",
+        type: "multiple-choice",
+        difficulty: "facil",
+        options: ["2π", "4π", "6π", "8π"],
+        answer: "4π",
+        explanation: "Círculo completo = π×4²=16π. Setor = (90/360)×16π = 4π.",
+      },
+      {
+        id: "f3",
+        prompt: "Um setor circular tem raio 10 e ângulo central 180° (meio círculo). Qual é a área do setor, em termos de π?",
+        type: "multiple-choice",
+        difficulty: "facil",
+        options: ["25π", "50π", "75π", "100π"],
+        answer: "50π",
+        explanation: "Círculo completo = π×10²=100π. Metade: 50π.",
+      },
+      {
+        id: "f4",
+        prompt: "Um setor circular tem raio 3 e ângulo central 120°. Qual é a área do setor, em termos de π?",
+        type: "multiple-choice",
+        difficulty: "facil",
+        options: ["1π", "3π", "6π", "9π"],
+        answer: "3π",
+        explanation: "Círculo completo = π×3²=9π. Setor = (120/360)×9π = 3π.",
+      },
+      {
+        id: "f5",
+        prompt: "Um setor circular tem raio 12 e ângulo central 30°. Qual é a área do setor, em termos de π?",
+        type: "multiple-choice",
+        difficulty: "facil",
+        options: ["6π", "12π", "24π", "36π"],
+        answer: "12π",
+        explanation: "Círculo completo = π×12²=144π. Setor = (30/360)×144π = 12π.",
+      },
+      {
+        id: "m1",
+        prompt: "Um setor circular tem raio 6 e ângulo central 60°. Qual é o comprimento do arco, em termos de π? (circunferência completa = 2πr=12π)",
+        type: "multiple-choice",
+        difficulty: "medio",
+        options: ["1π", "2π", "3π", "4π"],
+        answer: "2π",
+        explanation: "Arco = (60/360)×12π = 2π.",
+      },
+      {
+        id: "m2",
+        prompt: "Um setor circular tem raio 9 e ângulo central 40°. Qual é o comprimento do arco, em termos de π?",
+        type: "multiple-choice",
+        difficulty: "medio",
+        options: ["1π", "2π", "3π", "4π"],
+        answer: "2π",
+        explanation: "Circunferência completa = 2π×9=18π. Arco = (40/360)×18π = 2π.",
+      },
+      {
+        id: "m3",
+        prompt: "Um setor circular tem raio 8 e ângulo central 45°. Qual é a área do setor, em termos de π?",
+        type: "multiple-choice",
+        difficulty: "medio",
+        options: ["4π", "8π", "16π", "32π"],
+        answer: "8π",
+        explanation: "Círculo completo = π×8²=64π. Setor = (45/360)×64π = 8π.",
+      },
+      {
+        id: "m4",
+        prompt: "Um hexágono regular tem perímetro 24 e apótema 4. Qual é a área do hexágono? (Área = perímetro × apótema ÷ 2)",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "48",
+        explanation: "Área = (24×4)/2 = 48.",
+      },
+      {
+        id: "m5",
+        prompt: "Um pentágono regular tem perímetro 40 e apótema 3. Qual é a área do pentágono?",
+        type: "numeric",
+        difficulty: "medio",
+        answer: "60",
+        explanation: "Área = (40×3)/2 = 60.",
+      },
+      {
+        id: "d1",
+        prompt: "Um setor circular tem área 9π e raio 6 (área do círculo completo = 36π). Qual é o ângulo central desse setor, em graus? (dica: 9π/36π = ângulo/360°)",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "90",
+        explanation: "9/36 = 1/4. Ângulo = 360/4 = 90°.",
+      },
+      {
+        id: "d2",
+        prompt: "Um setor circular tem comprimento de arco 3π e raio 9 (circunferência completa = 18π). Qual é o ângulo central, em graus?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "60",
+        explanation: "3/18 = 1/6. Ângulo = 360/6 = 60°.",
+      },
+      {
+        id: "d3",
+        prompt: "Um octógono regular tem lado 5 (perímetro = 8×lado) e apótema 6. Qual é a área do octógono?",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "120",
+        explanation: "Perímetro = 8×5=40. Área = (40×6)/2 = 120.",
+      },
+      {
+        id: "d4",
+        prompt: "Um setor circular tem raio 10 e ângulo central 72°. Qual é a área do setor, em termos de π?",
+        type: "multiple-choice",
+        difficulty: "dificil",
+        options: ["10π", "20π", "30π", "40π"],
+        answer: "20π",
+        explanation: "Círculo completo = π×10²=100π. Setor = (72/360)×100π = 20π.",
+      },
+      {
+        id: "d5",
+        prompt: "Um polígono regular tem perímetro 60 e área 150. Qual é o seu apótema? (dica: área = perímetro×apótema/2)",
+        type: "numeric",
+        difficulty: "dificil",
+        answer: "5",
+        explanation: "150 = 60×apótema/2 → 150 = 30×apótema → apótema = 5.",
+      },
+      {
+        id: "o1",
+        prompt: "Um setor circular tem ângulo central 90° e área 25π. Qual é o raio do círculo? (dica: 25π = (90/360)×πr² = πr²/4)",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "10",
+        explanation: "πr²/4 = 25π → r² = 100 → r = 10.",
+      },
+      {
+        id: "o2",
+        prompt: "Um setor circular com ângulo central θ tem área igual a exatamente 1/8 da área do círculo completo. Qual é o valor de θ, em graus?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "45",
+        explanation: "1/8 de 360° = 45°.",
+      },
+      {
+        id: "o3",
+        prompt: "Um dodecágono regular (12 lados) tem lado 4 (perímetro = 12×lado) e apótema 7,5. Qual é a área do dodecágono?",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "180",
+        explanation: "Perímetro = 12×4=48. Área = (48×7,5)/2 = 180.",
+      },
+      {
+        id: "o4",
+        prompt: "Um setor circular tem raio 6 e área 12π. Sabendo que a área do círculo completo é 36π, que fração do círculo esse setor representa?",
+        type: "multiple-choice",
+        difficulty: "olimpiada",
+        options: ["1/3", "1/4", "1/2", "2/3"],
+        answer: "1/3",
+        explanation: "12π/36π = 1/3.",
+      },
+      {
+        id: "o5",
+        prompt: "Dois setores circulares têm o mesmo ângulo central de 90°, mas raios diferentes: 4 e 8. Qual é a razão entre as áreas dos setores (maior/menor)? (dica: a área do setor é proporcional ao quadrado do raio)",
+        type: "numeric",
+        difficulty: "olimpiada",
+        answer: "4",
+        explanation: "(8/4)² = 4 — a área cresce com o quadrado do raio, então dobrar o raio quadruplica a área.",
       },
     ],
   },
