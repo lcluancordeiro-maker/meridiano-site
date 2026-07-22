@@ -546,3 +546,89 @@ projeto grande; em vez de tentar tudo junto, aprofundamos uma seção por
 vez conforme dá tempo — `chat` já tem tradução real em Français (`fr`)
 como primeiro passo, e o resto do inglês compartilhado continua
 funcionando normalmente enquanto isso avança aos poucos.
+
+## Auditoria do stack social (chat, comunidades, lives) — recomendação
+
+Este é um registro escrito, não uma decisão tomada nem uma remoção de
+código. O pedido original era "auditar" o stack social (chat 1:1/grupo,
+comunidades, lives) e sinalizar se vale a pena manter/expandir — mas uma
+auditoria de verdade precisa de dados de uso reais, e até este momento
+(a analytics de produto, ver seção acima e
+[README](../README.md#estado-atual), acabou de ser criada) não existe
+histórico algum para analisar. O que segue é o raciocínio qualitativo
+disponível hoje, mais o plano concreto para transformar isso numa
+decisão baseada em dados assim que houver uso real para medir.
+
+### O que esse stack custa hoje
+
+- **Complexidade de código**: `chat`/`communities`/`lives` somam várias
+  tabelas (`dm_messages`, `group_conversations`, `communities`,
+  `community_members`, `live_sessions`, `message_reports`,
+  `blocked_users`), várias RPCs `security definer`, canais Realtime do
+  Supabase, e o fluxo de verificação de identidade + consentimento dos
+  responsáveis (Stripe Identity) que existe **por causa** desse stack —
+  nada mais no app exige verificar identidade. É a parte mais grande e
+  mais sensível da base de código (ver
+  [docs/setup.md](./setup.md#configurando-verificação-de-identidade-e-consentimento-dos-responsáveis)).
+- **Custo externo real**: lives usam LiveKit Cloud, que cobra por
+  minuto de uso — é o único recurso do app com custo variável ligado
+  diretamente a quanto as pessoas o usam (diferente de Supabase/Stripe,
+  que têm planos mais previsíveis nesta escala).
+- **Superfície de risco/moderação**: qualquer produto com chat entre
+  usuários (ainda mais com possíveis menores de idade, daí o
+  consentimento parental) carrega risco de abuso/conteúdo impróprio.
+  Isso já foi endereçado com um painel de moderação real (denúncias,
+  bloqueio, remoção — ver "Sobre a moderação" acima), mas esse painel
+  também é trabalho de manutenção contínuo, não um custo que se paga
+  uma vez.
+- **Manutenção de testes**: `e2e/chat`-adjacentes, `moderation*.spec.ts`
+  etc. rodam a cada push, com o custo de tempo de CI que isso implica.
+
+### O que esse stack pode valer
+
+- É o recurso que mais diferencia o app de Brilliant/Khan/Photomath —
+  nenhum concorrente direto tem comunidade + chat + aulas ao vivo
+  dentro do próprio app de matemática. Se for usado, é um fosso
+  competitivo real (rede social de estudo, não só conteúdo).
+  Duolingo tem algo parecido (clubes/ligas) e é justamente a parte do
+  produto deles associada a maior retenção de longo prazo.
+- Mesmo sem uso pesado, comunidades/turmas dão um motivo pra abrir o
+  app fora do momento de "preciso estudar agora" (hábito, notificação
+  social), que é diferente do gancho de "tenho uma prova".
+
+### O problema: ainda não sabemos qual dos dois é verdade
+
+Nenhum desses dois lados tem números por trás hoje. `analytics_events`
+(painel em `/admin/analytics`) só rastreia 4 eventos de funil de estudo
+(`signup`, `exercicio_concluido`, `gauss_mensagem`, `foto_resolvida`) —
+nenhum deles mede uso do chat, comunidades ou lives.
+
+### Recomendação concreta
+
+1. **Curto prazo (próxima rodada de trabalho, não incluída aqui por
+   escopo)**: instrumentar 3 eventos análogos aos que já existem —
+   primeira mensagem de chat enviada, primeira comunidade
+   criada/entrada, primeira live assistida — reaproveitando
+   `trackFirstTimeEvent()` de `src/lib/analytics/trackEvent.ts` nos
+   mesmos pontos onde `ChatThread.tsx`/`src/app/actions/communities.ts`/
+   `LiveRoom.tsx` já fazem a ação real. Isso é aditivo (não remove nada)
+   e é o que faltava pra fechar o ciclo desta auditoria.
+2. **Depois de ~4-6 semanas de dados reais** em `/admin/analytics`,
+   revisitar esta decisão com números: se `chat_mensagem`/
+   `comunidade_entrou`/`live_assistida` ficarem consistentemente perto
+   de zero enquanto os eventos de estudo (`exercicio_concluido`,
+   `gauss_mensagem`) crescem normalmente, isso é sinal de que o stack
+   social não está sendo descoberto/usado — e aí vale considerar
+   simplificar (por exemplo, lives primeiro, por ser o item de maior
+   custo externo e menor uso esperado numa base pequena) antes de
+   comunidades, e chat por último, já que é o mais barato de manter e o
+   que menos depende de "massa crítica" de usuários pra funcionar (só
+   precisa de duas pessoas).
+3. Se os números mostrarem uso real, a recomendação se inverte: vale
+   investir mais (gravação/replay de lives, chat de texto durante a
+   transmissão, notificações melhores de atividade em comunidades) em
+   vez de cortar.
+
+Nenhuma dessas ações (instrumentar, ou eventualmente simplificar) foi
+executada como parte deste item — é uma decisão do time, com dados,
+quando houver dados.

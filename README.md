@@ -828,7 +828,10 @@ nativo (iOS/Android) via Capacitor, veja
   social. Hospedar uma live é Premium; assistir é grátis para qualquer
   verificado. Veja "Configurando verificação de identidade e
   consentimento dos responsáveis" em docs/setup.md, e "Sobre o chat",
-  "Sobre as comunidades" e "Sobre as lives" em docs/features.md.
+  "Sobre as comunidades" e "Sobre as lives" em docs/features.md. Vale a
+  pena manter/expandir esse stack? Ver "Auditoria do stack social" em
+  docs/features.md — ainda sem dados de uso reais pra decidir, só um
+  plano de como chegar lá com a analytics de produto recém-criada.
 
 ## Rodando localmente
 
