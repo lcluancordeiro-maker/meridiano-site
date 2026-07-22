@@ -413,6 +413,21 @@ nativo (iOS/Android) via Capacitor, veja
   voz já usa (`LOCALE_TO_SPEECH_LANG`, agora exportado de
   `useSpeechRecognition.ts` e reaproveitado pelo novo
   `useSpeechSynthesis.ts`). `src/components/TheoryNarration.tsx`.
+- **Plano de estudos por objetivo** (`/plano-de-estudos`): em vez de só
+  navegar as trilhas de vestibular avulsamente, o aluno escolhe um
+  objetivo — um por trilha de vestibular disponível, todos no formato
+  "{ENEM, UERJ, ...} em 8 semanas" — e recebe um plano semana a semana.
+  Cada trilha de vestibular tem só 3 simulados, mas cada um cobre os 4
+  níveis de dificuldade, então o plano na verdade distribui os 12 itens
+  (3 tópicos × 4 níveis) ao longo das 8 semanas, em vez de listar só 3
+  tópicos soltos — bem mais prático de seguir dia a dia. Uma barra de
+  progresso e um CTA "Continuar" apontam pro próximo item não
+  concluído, e cada item já feito aparece riscado com ✅ (mesmo dado de
+  `topic_progress`/localStorage que o resto do app usa — nenhum estado
+  novo). Trilhas Premium continuam listadas como objetivo (com badge
+  "Premium"); o paywall de sempre aparece só quando o aluno de fato
+  clica num tópico. `src/lib/studyPlan.ts` (`buildStudyPlan`, testado
+  isoladamente) + `src/components/StudyPlanView.tsx`.
 - **"Continue de onde parou"**: a home mostra, logo abaixo do CTA
   principal, um card apontando para o último tópico em que o aluno
   respondeu algo — no espírito do Brilliant.org de retomar o curso
