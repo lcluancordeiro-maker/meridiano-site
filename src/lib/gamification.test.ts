@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   BADGES,
   DIFFICULTY_XP,
+  MAX_STREAK_FREEZES,
   __resetGamificationForTests,
   getGamificationSnapshot,
   levelFromXp,
@@ -151,6 +152,44 @@ describe("streak", () => {
     recordTopicCompletion("fundamental-2", "fracoes", "medio", 5, 6);
     vi.useRealTimers();
     expect(getGamificationSnapshot().streak.current).toBe(1);
+  });
+});
+
+describe("streak freezes", () => {
+  const base = new Date("2026-01-01T12:00:00Z");
+
+  function studyOnDay(dayOffset: number) {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(base.getTime() + dayOffset * 86400000));
+    recordTopicCompletion("fundamental-2", "numeros-inteiros", "medio", 5, 6);
+    vi.useRealTimers();
+  }
+
+  it("earns a freeze after a 7-day streak", () => {
+    for (let day = 0; day < 7; day++) studyOnDay(day);
+    expect(getGamificationSnapshot().streak.current).toBe(7);
+    expect(getGamificationSnapshot().streak.freezes).toBe(1);
+  });
+
+  it("caps banked freezes at MAX_STREAK_FREEZES", () => {
+    for (let day = 0; day < 21; day++) studyOnDay(day); // three 7-day milestones, no freeze spent
+    expect(getGamificationSnapshot().streak.freezes).toBe(MAX_STREAK_FREEZES);
+  });
+
+  it("consumes a banked freeze to bridge a 2-day gap, extending the streak", () => {
+    for (let day = 0; day < 7; day++) studyOnDay(day); // streak = 7, freezes = 1
+    studyOnDay(8); // day 7 skipped (2-day gap from day 6)
+    const state = getGamificationSnapshot();
+    expect(state.streak.current).toBe(8);
+    expect(state.streak.freezes).toBe(0);
+  });
+
+  it("resets the streak on a 2-day gap when no freeze is banked", () => {
+    studyOnDay(0);
+    studyOnDay(3); // 2-day gap, no freeze banked yet
+    const state = getGamificationSnapshot();
+    expect(state.streak.current).toBe(1);
+    expect(state.streak.freezes).toBe(0);
   });
 });
 

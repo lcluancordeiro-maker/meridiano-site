@@ -638,6 +638,16 @@ nativo (iOS/Android) via Capacitor, veja
   simulados) ficaram de fora por não se encaixarem no formato do app.
 - **Gamificação**: XP por resposta certa (escalado por dificuldade),
   níveis, sequência (streak) diária e conquistas.
+- **Streak freeze**: a cada 7 dias seguidos de sequência, o aluno ganha
+  automaticamente um "congelamento" (até 2 acumulados). Se um dia for
+  perdido, um congelamento banked é consumido para preservar a
+  sequência em vez de zerá-la — mesma lógica de "streak freeze" do
+  Duolingo. Faltar 2+ dias sem congelamento disponível ainda reseta a
+  sequência para 1. Implementado em `src/lib/gamification.ts`
+  (`updateStreak`, `MAX_STREAK_FREEZES`), sincronizado na nuvem via a
+  coluna `streak_freezes` de `gamification_state`, e o contador aparece
+  no card de sequência do dashboard de progresso (`/progresso`) quando
+  há pelo menos 1 banked.
 - **Micro-animações**: o feedback de resposta (quiz, revisão, Desafio do
   Dia e checks de teoria) entra com um slide-in curto, os chips de XP e a
   tela de resultado ganham um "pop" celebratório, e os botões de opção

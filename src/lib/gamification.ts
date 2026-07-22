@@ -59,6 +59,10 @@ export type GamificationState = {
     current: number;
     longest: number;
     lastActiveDate: string | null;
+    /** Banked "skip a missed day" tokens — earned automatically every 7
+     * consecutive days (see updateStreak), capped at MAX_STREAK_FREEZES so
+     * they stay a forgiveness mechanic, not an unlimited safety net. */
+    freezes: number;
   };
   unlockedBadges: string[];
   completedTopics: string[];
@@ -67,6 +71,7 @@ export type GamificationState = {
 
 const STORAGE_KEY = "meridiano-math-gamification";
 export const XP_TOPIC_COMPLETION_BONUS = 50;
+export const MAX_STREAK_FREEZES = 2;
 export const DIFFICULTY_XP: Record<Difficulty, number> = {
   facil: 5,
   medio: 10,
@@ -77,7 +82,7 @@ export const DIFFICULTY_XP: Record<Difficulty, number> = {
 function emptyState(): GamificationState {
   return {
     xp: 0,
-    streak: { current: 0, longest: 0, lastActiveDate: null },
+    streak: { current: 0, longest: 0, lastActiveDate: null, freezes: 0 },
     unlockedBadges: [],
     completedTopics: [],
     xpLog: {},
@@ -91,10 +96,15 @@ function todayStr(d = new Date()): string {
   return `${y}-${m}-${day}`;
 }
 
-function yesterdayStr(): string {
-  const d = new Date();
-  d.setDate(d.getDate() - 1);
-  return todayStr(d);
+/** Whole calendar days between a stored "YYYY-MM-DD" date and today (local
+ * time) — null if there's no prior date yet (brand-new streak). */
+function daysSince(dateStr: string | null): number | null {
+  if (!dateStr) return null;
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const then = new Date(y, m - 1, d);
+  const now = new Date();
+  const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.round((todayMidnight.getTime() - then.getTime()) / 86_400_000);
 }
 
 function readState(): GamificationState {
@@ -102,7 +112,11 @@ function readState(): GamificationState {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return emptyState();
-    return { ...emptyState(), ...(JSON.parse(raw) as GamificationState) };
+    const parsed = JSON.parse(raw) as GamificationState;
+    // Top-level spread alone wouldn't backfill `streak.freezes` for state
+    // saved before that field existed — `parsed.streak` would just
+    // overwrite emptyState()'s streak wholesale, leaving freezes undefined.
+    return { ...emptyState(), ...parsed, streak: { ...emptyState().streak, ...parsed.streak } };
   } catch {
     return emptyState();
   }
@@ -150,7 +164,15 @@ function unlockBadge(state: GamificationState, badgeId: string) {
 function updateStreak(state: GamificationState) {
   const today = todayStr();
   if (state.streak.lastActiveDate === today) return;
-  if (state.streak.lastActiveDate === yesterdayStr()) {
+
+  const gap = daysSince(state.streak.lastActiveDate);
+  if (gap === 1) {
+    state.streak.current += 1;
+  } else if (gap === 2 && state.streak.freezes > 0) {
+    // Exactly one day missed, and a banked freeze bridges it — the streak
+    // continues as if that day had happened, same spirit as Duolingo's
+    // streak freeze.
+    state.streak.freezes -= 1;
     state.streak.current += 1;
   } else {
     state.streak.current = 1;
@@ -160,6 +182,9 @@ function updateStreak(state: GamificationState) {
 
   if (state.streak.current >= 3) unlockBadge(state, "streak-3");
   if (state.streak.current >= 7) unlockBadge(state, "streak-7");
+  if (state.streak.current > 0 && state.streak.current % 7 === 0) {
+    state.streak.freezes = Math.min(MAX_STREAK_FREEZES, state.streak.freezes + 1);
+  }
 }
 
 function addXp(state: GamificationState, amount: number) {

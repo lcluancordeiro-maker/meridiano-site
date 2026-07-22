@@ -105,6 +105,7 @@ create table if not exists public.gamification_state (
   streak_current integer not null default 0,
   streak_longest integer not null default 0,
   streak_last_active_date date,
+  streak_freezes integer not null default 0,
   unlocked_badges jsonb not null default '[]'::jsonb,
   completed_topics jsonb not null default '[]'::jsonb,
   xp_log jsonb not null default '{}'::jsonb,

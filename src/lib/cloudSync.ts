@@ -34,6 +34,7 @@ type GamificationRow = {
   streak_current: number;
   streak_longest: number;
   streak_last_active_date: string | null;
+  streak_freezes: number;
   unlocked_badges: string[];
   completed_topics: string[];
   xp_log: Record<string, number>;
@@ -100,6 +101,7 @@ async function pushGamification(userId: string) {
     streak_current: state.streak.current,
     streak_longest: state.streak.longest,
     streak_last_active_date: state.streak.lastActiveDate,
+    streak_freezes: state.streak.freezes,
     unlocked_badges: state.unlockedBadges,
     completed_topics: state.completedTopics,
     xp_log: state.xpLog,
@@ -161,6 +163,7 @@ async function syncOnLogin(userId: string) {
           current: row.streak_current,
           longest: row.streak_longest,
           lastActiveDate: row.streak_last_active_date,
+          freezes: row.streak_freezes ?? 0,
         },
         unlockedBadges: row.unlocked_badges ?? [],
         completedTopics: row.completed_topics ?? [],

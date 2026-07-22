@@ -9,7 +9,7 @@ import {
 
 const SERVER_SNAPSHOT: GamificationState = {
   xp: 0,
-  streak: { current: 0, longest: 0, lastActiveDate: null },
+  streak: { current: 0, longest: 0, lastActiveDate: null, freezes: 0 },
   unlockedBadges: [],
   completedTopics: [],
   xpLog: {},

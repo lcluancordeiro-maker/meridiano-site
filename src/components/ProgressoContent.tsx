@@ -123,12 +123,17 @@ export default function ProgressoContent() {
           value={`${gamification.streak.current} ${
             gamification.streak.current === 1 ? t.statStreakDaySingular : t.statStreakDayPlural
           }`}
-          subtext={t.statStreakRecord
-            .replace("{count}", String(gamification.streak.longest))
-            .replace(
-              "{unit}",
-              gamification.streak.longest === 1 ? t.statStreakDaySingular : t.statStreakDayPlural
-            )}
+          subtext={
+            t.statStreakRecord
+              .replace("{count}", String(gamification.streak.longest))
+              .replace(
+                "{unit}",
+                gamification.streak.longest === 1 ? t.statStreakDaySingular : t.statStreakDayPlural
+              ) +
+            (gamification.streak.freezes > 0
+              ? ` · ❄️ ${gamification.streak.freezes} congelamento${gamification.streak.freezes === 1 ? "" : "s"}`
+              : "")
+          }
         />
         <StatTile icon="✨" label={t.statXpTotal} value={String(gamification.xp)} />
       </div>
