@@ -229,6 +229,11 @@ export type Dictionary = {
     performanceHeading: string;
     notAttemptedLabel: string;
     studentColumnLabel: string;
+    aiUsageHeading: string;
+    tutorMessagesLabel: string;
+    photosResolvedLabel: string;
+    lastActiveLabel: string;
+    neverUsedAi: string;
   };
   pwa: {
     installTitle: string;
@@ -850,6 +855,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       performanceHeading: "Desempenho por atribuição",
       notAttemptedLabel: "Ainda não tentou",
       studentColumnLabel: "Aluno",
+    aiUsageHeading: "Uso de IA pelos alunos",
+    tutorMessagesLabel: "Mensagens ao Gauss",
+    photosResolvedLabel: "Fotos resolvidas",
+    lastActiveLabel: "Última atividade de IA",
+    neverUsedAi: "Ainda não usou",
     },
     pwa: {
       installTitle: "Instalar o app",
@@ -1290,6 +1300,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       performanceHeading: "Performance by assignment",
       notAttemptedLabel: "Not attempted yet",
       studentColumnLabel: "Student",
+    aiUsageHeading: "AI usage by students",
+    tutorMessagesLabel: "Messages to Gauss",
+    photosResolvedLabel: "Photos solved",
+    lastActiveLabel: "Last AI activity",
+    neverUsedAi: "Not used yet",
     },
     pwa: {
       installTitle: "Install the app",
@@ -1546,6 +1561,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       performanceHeading: "Desempeño por tarea",
       notAttemptedLabel: "Aún no lo intentó",
       studentColumnLabel: "Estudiante",
+    aiUsageHeading: "Uso de IA por los estudiantes",
+    tutorMessagesLabel: "Mensajes a Gauss",
+    photosResolvedLabel: "Fotos resueltas",
+    lastActiveLabel: "Última actividad de IA",
+    neverUsedAi: "Todavía no usó",
     },
     pwa: {
       installTitle: "Instalar la app",
@@ -1982,6 +2002,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       performanceHeading: "按任务的表现",
       notAttemptedLabel: "尚未尝试",
       studentColumnLabel: "学生",
+    aiUsageHeading: "学生的AI使用情况",
+    tutorMessagesLabel: "发给高斯的消息",
+    photosResolvedLabel: "已解决的照片",
+    lastActiveLabel: "最近一次AI活动",
+    neverUsedAi: "尚未使用",
     },
     pwa: {
       installTitle: "安装应用",
@@ -2439,6 +2464,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       performanceHeading: "Rendimento per compito",
       notAttemptedLabel: "Non ancora tentato",
       studentColumnLabel: "Studente",
+    aiUsageHeading: "Uso dell'IA da parte degli studenti",
+    tutorMessagesLabel: "Messaggi a Gauss",
+    photosResolvedLabel: "Foto risolte",
+    lastActiveLabel: "Ultima attività IA",
+    neverUsedAi: "Non ancora usato",
     },
     pwa: {
       installTitle: "Installa l'app",
@@ -2894,6 +2924,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       performanceHeading: "과제별 성과",
       notAttemptedLabel: "아직 시도하지 않음",
       studentColumnLabel: "학생",
+    aiUsageHeading: "학생들의 AI 사용",
+    tutorMessagesLabel: "가우스에게 보낸 메시지",
+    photosResolvedLabel: "해결한 사진",
+    lastActiveLabel: "마지막 AI 활동",
+    neverUsedAi: "아직 사용 안 함",
     },
     pwa: {
       installTitle: "앱 설치",
@@ -3351,6 +3386,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       performanceHeading: "Leistung nach Aufgabe",
       notAttemptedLabel: "Noch nicht versucht",
       studentColumnLabel: "Schüler",
+    aiUsageHeading: "KI-Nutzung der Schüler",
+    tutorMessagesLabel: "Nachrichten an Gauss",
+    photosResolvedLabel: "Gelöste Fotos",
+    lastActiveLabel: "Letzte KI-Aktivität",
+    neverUsedAi: "Noch nicht genutzt",
     },
     pwa: {
       installTitle: "App installieren",
@@ -3808,6 +3848,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       performanceHeading: "Performance par devoir",
       notAttemptedLabel: "Pas encore tenté",
       studentColumnLabel: "Élève",
+    aiUsageHeading: "Utilisation de l'IA par les élèves",
+    tutorMessagesLabel: "Messages à Gauss",
+    photosResolvedLabel: "Photos résolues",
+    lastActiveLabel: "Dernière activité IA",
+    neverUsedAi: "Pas encore utilisé",
     },
     pwa: {
       installTitle: "Installer l'application",
@@ -4262,6 +4307,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       performanceHeading: "課題別の成績",
       notAttemptedLabel: "まだ挑戦していません",
       studentColumnLabel: "生徒",
+    aiUsageHeading: "生徒によるAIの利用状況",
+    tutorMessagesLabel: "ガウスへのメッセージ",
+    photosResolvedLabel: "解いた写真",
+    lastActiveLabel: "直近のAI利用",
+    neverUsedAi: "まだ利用なし",
     },
     pwa: {
       installTitle: "アプリをインストール",
@@ -4718,6 +4768,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       performanceHeading: "الأداء حسب المهمة",
       notAttemptedLabel: "لم تتم المحاولة بعد",
       studentColumnLabel: "الطالب",
+    aiUsageHeading: "استخدام الطلاب للذكاء الاصطناعي",
+    tutorMessagesLabel: "رسائل إلى غاوس",
+    photosResolvedLabel: "الصور المحلولة",
+    lastActiveLabel: "آخر نشاط للذكاء الاصطناعي",
+    neverUsedAi: "لم يُستخدم بعد",
     },
     pwa: {
       installTitle: "تثبيت التطبيق",
@@ -5175,6 +5230,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
       performanceHeading: "Успеваемость по заданию",
       notAttemptedLabel: "Ещё не пробовал(а)",
       studentColumnLabel: "Ученик",
+    aiUsageHeading: "Использование ИИ учениками",
+    tutorMessagesLabel: "Сообщения Гауссу",
+    photosResolvedLabel: "Решённые фото",
+    lastActiveLabel: "Последняя активность ИИ",
+    neverUsedAi: "Ещё не использовал",
     },
     pwa: {
       installTitle: "Установить приложение",
@@ -5626,7 +5686,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "shareCodeHint": "अपने छात्रों के साथ यह कोड शेयर करें ताकि वे कक्षा में शामिल हो सकें।",
       "performanceHeading": "असाइनमेंट के हिसाब से प्रदर्शन",
       "notAttemptedLabel": "अभी कोशिश नहीं की",
-      "studentColumnLabel": "छात्र"
+      "studentColumnLabel": "छात्र",
+    aiUsageHeading: "छात्रों द्वारा AI का उपयोग",
+    tutorMessagesLabel: "गॉस को भेजे गए संदेश",
+    photosResolvedLabel: "हल की गई फ़ोटो",
+    lastActiveLabel: "आखिरी AI गतिविधि",
+    neverUsedAi: "अभी तक उपयोग नहीं किया",
     },
     "pwa": {
       "installTitle": "ऐप इंस्टॉल करें",
@@ -6078,7 +6143,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "shareCodeHint": "Chia sẻ mã này với học sinh của bạn để họ tham gia lớp học.",
       "performanceHeading": "Kết quả theo bài tập",
       "notAttemptedLabel": "Chưa làm",
-      "studentColumnLabel": "Học sinh"
+      "studentColumnLabel": "Học sinh",
+    aiUsageHeading: "Mức sử dụng AI của học sinh",
+    tutorMessagesLabel: "Tin nhắn gửi Gauss",
+    photosResolvedLabel: "Ảnh đã giải",
+    lastActiveLabel: "Hoạt động AI gần nhất",
+    neverUsedAi: "Chưa sử dụng",
     },
     "pwa": {
       "installTitle": "Cài đặt ứng dụng",
@@ -6530,7 +6600,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "shareCodeHint": "Udostępnij ten kod swoim uczniom, aby mogli dołączyć do klasy.",
       "performanceHeading": "Wyniki według zadania",
       "notAttemptedLabel": "Jeszcze nie podjęto próby",
-      "studentColumnLabel": "Uczeń"
+      "studentColumnLabel": "Uczeń",
+    aiUsageHeading: "Korzystanie z AI przez uczniów",
+    tutorMessagesLabel: "Wiadomości do Gaussa",
+    photosResolvedLabel: "Rozwiązane zdjęcia",
+    lastActiveLabel: "Ostatnia aktywność AI",
+    neverUsedAi: "Jeszcze nie korzystał",
     },
     "pwa": {
       "installTitle": "Zainstaluj aplikację",
@@ -6982,7 +7057,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "shareCodeHint": "Öğrencilerinin sınıfa katılabilmesi için bu kodu onlarla paylaş.",
       "performanceHeading": "Göreve göre performans",
       "notAttemptedLabel": "Henüz denemedi",
-      "studentColumnLabel": "Öğrenci"
+      "studentColumnLabel": "Öğrenci",
+    aiUsageHeading: "Öğrencilerin yapay zeka kullanımı",
+    tutorMessagesLabel: "Gauss'a gönderilen mesajlar",
+    photosResolvedLabel: "Çözülen fotoğraflar",
+    lastActiveLabel: "Son yapay zeka etkinliği",
+    neverUsedAi: "Henüz kullanmadı",
     },
     "pwa": {
       "installTitle": "Uygulamayı yükle",

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import CreateAssignmentForm from "@/components/CreateAssignmentForm";
 import TurmaPerformanceMatrix from "@/components/TurmaPerformanceMatrix";
+import TurmaAiUsage from "@/components/TurmaAiUsage";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getLevel, getTopic, DIFFICULTY_LABELS, type Difficulty } from "@/data/curriculum";
@@ -10,6 +11,13 @@ import { getDictionary } from "@/i18n/dictionaries";
 
 type RosterRow = { student_user_id: string; display_name: string | null; xp: number; streak_current: number };
 type AssignmentRow = { id: string; level_id: string; topic_id: string; difficulty: Difficulty };
+type AiUsageRow = {
+  student_user_id: string;
+  display_name: string | null;
+  tutor_messages: number;
+  photos_resolved: number;
+  last_ai_activity: string | null;
+};
 
 export default async function TurmaDetailPage({
   params,
@@ -80,6 +88,10 @@ export default async function TurmaDetailPage({
     ? (await supabase.rpc("get_turma_roster", { p_turma_id: turmaId })).data
     : null;
 
+  const aiUsage = isTeacher
+    ? (await supabase.rpc("get_turma_ai_usage", { p_turma_id: turmaId })).data
+    : null;
+
   const progressByAssignment: Record<string, { student_user_id: string; score: number | null; total: number | null; completed: boolean | null }[]> = {};
   if (isTeacher && assignments && assignments.length > 0) {
     const progressResults = await Promise.all(
@@ -136,6 +148,20 @@ export default async function TurmaDetailPage({
             ) : (
               <p className="mt-3 text-sm text-muted">{dict.noStudents}</p>
             )}
+          </section>
+        )}
+
+        {isTeacher && aiUsage && (aiUsage as AiUsageRow[]).length > 0 && (
+          <section className="mt-10">
+            <h2 className="font-display text-lg font-semibold text-foreground">{dict.aiUsageHeading}</h2>
+            <TurmaAiUsage
+              rows={aiUsage as AiUsageRow[]}
+              tutorMessagesLabel={dict.tutorMessagesLabel}
+              photosResolvedLabel={dict.photosResolvedLabel}
+              lastActiveLabel={dict.lastActiveLabel}
+              neverUsedAi={dict.neverUsedAi}
+              locale={locale}
+            />
           </section>
         )}
 

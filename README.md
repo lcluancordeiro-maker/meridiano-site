@@ -696,8 +696,12 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   professor recebe um código de acesso pra compartilhar com os alunos,
   vê o XP/sequência de cada um e atribui tarefas (nível + tópico +
   dificuldade); os alunos veem as tarefas atribuídas com um link direto
-  pra praticar. Veja "Sobre as turmas" em docs/features.md para os
-  detalhes de RLS.
+  pra praticar. O professor também vê o uso de IA de cada aluno —
+  mensagens enviadas ao Gauss e fotos resolvidas (soma de todo o
+  histórico, mais a data da última atividade), via `get_turma_ai_usage`
+  (reaproveita os mesmos contadores diários de cota já existentes em
+  `tutor_usage`/`photo_solve_usage`, sem tabela nova). Veja "Sobre as
+  turmas" em docs/features.md para os detalhes de RLS.
 - **Matemática Financeira** — trilha independente com 2 níveis:
   Iniciante, grátis ("Juros Simples", "Descontos e Acréscimos
   Percentuais" — fator multiplicativo, aumentos/descontos sucessivos —,
@@ -1005,7 +1009,10 @@ unitários e e2e em todo push e pull request.
 - `src/app/turmas/` — lista de turmas e detalhe (roster do professor +
   tarefas atribuídas); `src/app/actions/turmas.ts` — criar turma, entrar
   por código, atribuir tarefa; `src/lib/turmaCode.ts` — gerador do
-  código de acesso.
+  código de acesso. `src/components/TurmaAiUsage.tsx` (usando a RPC
+  `get_turma_ai_usage`) mostra o uso de IA (mensagens ao Gauss + fotos
+  resolvidas) de cada aluno, mesmo padrão de RPC "security definer +
+  checa `teacher_user_id = auth.uid()`" de `get_turma_roster`.
 - `src/components/MobileNavMenu.tsx` — menu de navegação responsivo
   (hambúrguer em telas estreitas, barra horizontal em telas largas),
   usado pelo `Navbar.tsx`.

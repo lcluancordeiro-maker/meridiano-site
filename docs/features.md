@@ -259,11 +259,12 @@ de uma tarefa) exigiria que o professor lesse linhas de
 `topic_progress`/`gamification_state` de outros usuários, o que a RLS
 dessas tabelas bloqueia por padrão (cada usuário só lê a própria
 linha). Em vez de afrouxar a RLS dessas tabelas — o que abriria uma
-brecha maior do que o necessário — três funções `security definer` em
+brecha maior do que o necessário — funções `security definer` em
 `supabase/schema.sql` fazem exatamente essa checagem pontual
 (confirmam que quem está chamando é o professor daquela turma
 específica antes de retornar qualquer linha): `join_turma_by_code`,
-`get_turma_roster` e `get_turma_assignment_progress`.
+`get_turma_roster`, `get_turma_assignment_progress` e
+`get_turma_ai_usage`.
 
 **Desempenho por atribuição**: a página da turma (para o professor)
 mostra uma tabela aluno × tarefa — cada célula é a nota daquela tarefa
@@ -276,6 +277,18 @@ código novo foi chamá-la uma vez por tarefa (em paralelo, via
 assim que um professor identifica rapidamente que um aluno específico
 está com dificuldade num tópico específico, em vez de só ver XP/
 sequência agregados.
+
+**Uso de IA pelos alunos**: o professor também vê, por aluno, quantas
+mensagens ele trocou com o tutor Gauss e quantos problemas resolveu por
+foto/quadro (soma de todo o histórico, mais a data da última
+atividade) — `get_turma_ai_usage` reaproveita os contadores diários que
+já existiam para limitar cota (`tutor_usage`/`photo_solve_usage`), sem
+precisar de tabela nova nem de mudar a cota em si. Importante: isso
+expõe só *quantidade e data* de uso, nunca o *conteúdo* das conversas ou
+das fotos — as tabelas de conteúdo completo (`gauss_conversations`/
+`gauss_messages`/`photo_solve_history`, usadas em `/historico`)
+continuam com RLS restrita ao próprio aluno; o professor não tem, e não
+deveria ter, acesso a elas.
 
 ## Sobre a integração de conhecimento (o "neurônio")
 

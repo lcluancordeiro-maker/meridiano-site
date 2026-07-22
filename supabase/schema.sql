@@ -419,6 +419,49 @@ $$;
 
 grant execute on function public.get_turma_assignment_progress(uuid, text, text, text) to authenticated;
 
+-- Uso de IA (tutor Gauss + resolver por foto) por aluno de uma turma, só
+-- pro professor dono dela — reaproveita os mesmos contadores diários que
+-- já existem para limitar cota (tutor_usage/photo_solve_usage), em vez de
+-- criar uma tabela de analytics separada. Soma todo o histórico de cada
+-- aluno (não só o dia de hoje), já que o objetivo aqui é visibilidade de
+-- uso ao longo do tempo, não o controle de cota.
+create or replace function public.get_turma_ai_usage(p_turma_id uuid)
+returns table (
+  student_user_id uuid,
+  display_name text,
+  tutor_messages integer,
+  photos_resolved integer,
+  last_ai_activity date
+)
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if not exists (
+    select 1 from public.turmas where id = p_turma_id and teacher_user_id = auth.uid()
+  ) then
+    raise exception 'not_authorized';
+  end if;
+
+  return query
+    select
+      tm.student_user_id,
+      pr.display_name,
+      coalesce((select sum(tu.count) from public.tutor_usage tu where tu.user_id = tm.student_user_id), 0)::integer,
+      coalesce((select sum(pu.count) from public.photo_solve_usage pu where pu.user_id = tm.student_user_id), 0)::integer,
+      greatest(
+        (select max(tu.usage_date) from public.tutor_usage tu where tu.user_id = tm.student_user_id),
+        (select max(pu.usage_date) from public.photo_solve_usage pu where pu.user_id = tm.student_user_id)
+      )
+    from public.turma_members tm
+    left join public.profiles pr on pr.id = tm.student_user_id
+    where tm.turma_id = p_turma_id
+    order by tm.joined_at asc;
+end;
+$$;
+
+grant execute on function public.get_turma_ai_usage(uuid) to authenticated;
+
 -- ---------------------------------------------------------------------
 -- push_subscriptions: endpoints de Web Push por usuário, usados para
 -- lembretes de sequência (streak). Um usuário pode ter várias (um por
