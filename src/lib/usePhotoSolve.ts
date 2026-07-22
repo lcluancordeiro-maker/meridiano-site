@@ -18,14 +18,14 @@ export function usePhotoSolve(dict: Dictionary, locale: Locale) {
   const [generatingSimilar, setGeneratingSimilar] = useState(false);
 
   const resolve = useCallback(
-    async (image: Blob, filename: string) => {
+    async (images: { blob: Blob; filename: string }[]) => {
       setStatus("loading");
       setErrorText(null);
       setSolution(null);
 
       try {
         const formData = new FormData();
-        formData.append("image", image, filename);
+        images.forEach(({ blob, filename }) => formData.append("image", blob, filename));
         formData.append("locale", locale);
 
         const res = await fetch("/api/resolver-foto", { method: "POST", body: formData });

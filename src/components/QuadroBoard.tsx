@@ -87,7 +87,7 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
       fail("missing_image");
       return;
     }
-    await resolve(blob, "quadro.png");
+    await resolve([{ blob, filename: "quadro.png" }]);
   }, [resolve, fail]);
 
   const handleStrokeEnd = useCallback(() => {

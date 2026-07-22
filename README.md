@@ -506,6 +506,20 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   "gerando" (`generatingSimilar`) fica separado do estado principal do
   `usePhotoSolve`, então a solução antiga continua na tela (com o botão
   desabilitado) enquanto a nova é gerada, em vez de sumir a UI.
+- **Resolver por foto aceita múltiplas fotos por problema**: em `/foto` dá
+  pra selecionar/arrastar até 4 fotos de uma vez (uma grade de miniaturas
+  com botão de remover cada uma, e um slot "Adicionar outra foto" enquanto
+  não atingir o limite) — útil quando o enunciado continua em outra
+  página ou quando uma foto mostra o enunciado e outra a tentativa de
+  resolução do aluno. `usePhotoSolve.resolve()` agora recebe uma lista de
+  imagens em vez de uma única, e a rota `/api/resolver-foto` manda todas
+  como blocos de imagem numa única mensagem pro Claude, com o prompt
+  avisando que podem ser páginas/partes do mesmo problema. A validação do
+  lote (tipo, tamanho, quantidade) vive em `src/lib/photoImageLimits.ts`,
+  compartilhada entre cliente (feedback antes de enviar) e servidor
+  (checagem definitiva). O quadro de rascunho (`/quadro`) continua
+  enviando uma única imagem (o PNG exportado do desenho), só que agora
+  como uma lista de um item — mesma função, sem mudança de UI lá.
 - **Preparatório para Vestibulares**: simulados no estilo real de cada
   prova — ENEM (grátis: questões contextualizadas, múltipla escolha),
   UERJ (Premium: estilo discursivo/interdisciplinar), UNESP (Premium:
@@ -917,6 +931,13 @@ unitários e e2e em todo push e pull request.
   status/erro/solução), eliminando a duplicação que existia entre os
   dois fluxos de "resolver por foto". Também expõe `generateSimilar`/
   `generatingSimilar` pro botão "Praticar um exercício parecido".
+  `resolve()` recebe uma lista de `{ blob, filename }` (não uma imagem
+  única) pra suportar múltiplas fotos por problema.
+- `src/lib/photoImageLimits.ts` — `MAX_IMAGES` (4) e
+  `validateImageBatch()`, compartilhados entre `PhotoSolver.tsx` (feedback
+  antes de enviar) e `resolver-foto/route.ts` (checagem definitiva), pra
+  não duplicar as regras de tipo/tamanho/quantidade de fotos em dois
+  lugares.
 - `src/lib/photoSolveSchema.ts` — o JSON schema `PHOTO_SOLUTION_SCHEMA`
   usado tanto por `resolver-foto/route.ts` quanto por
   `exercicio-parecido/route.ts`, extraído pra um só lugar já que as duas

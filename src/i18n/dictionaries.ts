@@ -100,6 +100,9 @@ export type Dictionary = {
     tirarFoto: string;
     formatoInfo: string;
     arrasteAqui: string;
+    maxFotosInfo: string;
+    adicionarFoto: string;
+    removerFoto: string;
     resolver: string;
     analisando: string;
     trocarFoto: string;
@@ -152,6 +155,7 @@ export type Dictionary = {
     unauthorized: string;
     anthropicNotConfigured: string;
     aiError: string;
+    tooManyImages: string;
     generic: string;
   };
   theme: {
@@ -704,6 +708,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tirarFoto: "Tirar foto ou escolher da galeria",
       formatoInfo: "JPEG, PNG, GIF ou WEBP — até 8MB",
       arrasteAqui: "ou arraste uma foto aqui",
+      maxFotosInfo: "Até 4 fotos por problema — útil quando o enunciado continua em outra página.",
+      adicionarFoto: "Adicionar outra foto",
+      removerFoto: "Remover foto",
       resolver: "Resolver",
       analisando: "Analisando...",
       trocarFoto: "Trocar foto",
@@ -757,6 +764,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       unauthorized: "Sua sessão expirou. Entre novamente para continuar.",
       anthropicNotConfigured: "Essa funcionalidade ainda não está disponível.",
       aiError: "Não foi possível analisar a imagem agora. Tente novamente em instantes.",
+      tooManyImages: "Você pode enviar no máximo 4 fotos por vez.",
       generic: "Algo deu errado ao processar a imagem. Tente novamente.",
     },
     theme: {
@@ -1128,6 +1136,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tirarFoto: "Take a photo or choose from gallery",
       formatoInfo: "JPEG, PNG, GIF or WEBP — up to 8MB",
       arrasteAqui: "or drag a photo here",
+      maxFotosInfo: "Up to 4 photos per problem — handy when the problem continues on another page.",
+      adicionarFoto: "Add another photo",
+      removerFoto: "Remove photo",
       resolver: "Solve",
       analisando: "Analyzing...",
       trocarFoto: "Change photo",
@@ -1181,6 +1192,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       unauthorized: "Your session expired. Log in again to continue.",
       anthropicNotConfigured: "This feature isn't available yet.",
       aiError: "Couldn't analyze the image right now. Try again in a moment.",
+      tooManyImages: "You can send at most 4 photos at a time.",
       generic: "Something went wrong processing the image. Try again.",
     },
     theme: {
@@ -1368,6 +1380,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tirarFoto: "Tomar foto o elegir de la galería",
       formatoInfo: "JPEG, PNG, GIF o WEBP — hasta 8MB",
       arrasteAqui: "o arrastra una foto aquí",
+      maxFotosInfo: "Hasta 4 fotos por problema — útil cuando el enunciado continúa en otra página.",
+      adicionarFoto: "Añadir otra foto",
+      removerFoto: "Quitar foto",
       resolver: "Resolver",
       analisando: "Analizando...",
       trocarFoto: "Cambiar foto",
@@ -1421,6 +1436,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       unauthorized: "Tu sesión expiró. Inicia sesión de nuevo para continuar.",
       anthropicNotConfigured: "Esta función todavía no está disponible.",
       aiError: "No se pudo analizar la imagen ahora. Intenta de nuevo en un momento.",
+      tooManyImages: "Puedes enviar como máximo 4 fotos a la vez.",
       generic: "Algo salió mal al procesar la imagen. Intenta de nuevo.",
     },
     theme: {
@@ -1789,6 +1805,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tirarFoto: "拍照或从相册选择",
       formatoInfo: "支持 JPEG、PNG、GIF 或 WEBP——最大 8MB",
       arrasteAqui: "或将照片拖到此处",
+      maxFotosInfo: "每个问题最多4张照片——当题目在另一页继续时很有用。",
+      adicionarFoto: "添加另一张照片",
+      removerFoto: "移除照片",
       resolver: "解答",
       analisando: "分析中...",
       trocarFoto: "更换照片",
@@ -1841,6 +1860,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       unauthorized: "你的登录已过期,请重新登录以继续。",
       anthropicNotConfigured: "此功能暂不可用。",
       aiError: "现在无法分析图片,请稍后再试。",
+      tooManyImages: "一次最多只能发送4张照片。",
       generic: "处理图片时出了点问题,请重试。",
     },
     theme: {
@@ -2229,6 +2249,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tirarFoto: "Scatta una foto o scegli dalla galleria",
       formatoInfo: "JPEG, PNG, GIF o WEBP — fino a 8MB",
       arrasteAqui: "oppure trascina una foto qui",
+      maxFotosInfo: "Fino a 4 foto per problema — utile quando l'enunciato continua in un'altra pagina.",
+      adicionarFoto: "Aggiungi un'altra foto",
+      removerFoto: "Rimuovi foto",
       resolver: "Risolvi",
       analisando: "Analisi in corso...",
       trocarFoto: "Cambia foto",
@@ -2282,6 +2305,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       unauthorized: "La tua sessione è scaduta. Accedi di nuovo per continuare.",
       anthropicNotConfigured: "Questa funzione non è ancora disponibile.",
       aiError: "Non è stato possibile analizzare l'immagine ora. Riprova tra poco.",
+      tooManyImages: "Puoi inviare al massimo 4 foto alla volta.",
       generic: "Qualcosa è andato storto durante l'elaborazione dell'immagine. Riprova.",
     },
     theme: {
@@ -2668,6 +2692,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tirarFoto: "사진 찍기 또는 갤러리에서 선택",
       formatoInfo: "JPEG, PNG, GIF 또는 WEBP — 최대 8MB",
       arrasteAqui: "또는 사진을 여기로 끌어다 놓으세요",
+      maxFotosInfo: "문제당 최대 4장의 사진 — 문제가 다른 페이지에 이어질 때 유용합니다.",
+      adicionarFoto: "사진 추가하기",
+      removerFoto: "사진 제거",
       resolver: "풀이 보기",
       analisando: "분석 중...",
       trocarFoto: "사진 바꾸기",
@@ -2721,6 +2748,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       unauthorized: "세션이 만료되었습니다. 계속하려면 다시 로그인해 주세요.",
       anthropicNotConfigured: "이 기능은 아직 사용할 수 없습니다.",
       aiError: "지금은 이미지를 분석할 수 없습니다. 잠시 후 다시 시도해 주세요.",
+      tooManyImages: "한 번에 최대 4장의 사진만 보낼 수 있습니다.",
       generic: "이미지를 처리하는 중 문제가 발생했습니다. 다시 시도해 주세요.",
     },
     theme: {
@@ -3109,6 +3137,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tirarFoto: "Foto aufnehmen oder aus der Galerie wählen",
       formatoInfo: "JPEG, PNG, GIF oder WEBP — bis zu 8MB",
       arrasteAqui: "oder ziehe ein Foto hierher",
+      maxFotosInfo: "Bis zu 4 Fotos pro Aufgabe — praktisch, wenn sich die Aufgabe auf einer anderen Seite fortsetzt.",
+      adicionarFoto: "Weiteres Foto hinzufügen",
+      removerFoto: "Foto entfernen",
       resolver: "Lösen",
       analisando: "Wird analysiert...",
       trocarFoto: "Foto ändern",
@@ -3162,6 +3193,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       unauthorized: "Deine Sitzung ist abgelaufen. Melde dich erneut an, um fortzufahren.",
       anthropicNotConfigured: "Diese Funktion ist noch nicht verfügbar.",
       aiError: "Das Bild konnte gerade nicht analysiert werden. Versuche es gleich noch einmal.",
+      tooManyImages: "Du kannst höchstens 4 Fotos auf einmal senden.",
       generic: "Bei der Verarbeitung des Bildes ist etwas schiefgelaufen. Versuche es erneut.",
     },
     theme: {
@@ -3550,6 +3582,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tirarFoto: "Prendre une photo ou choisir dans la galerie",
       formatoInfo: "JPEG, PNG, GIF ou WEBP — jusqu'à 8 Mo",
       arrasteAqui: "ou glisse une photo ici",
+      maxFotosInfo: "Jusqu'à 4 photos par problème — utile quand l'énoncé continue sur une autre page.",
+      adicionarFoto: "Ajouter une autre photo",
+      removerFoto: "Retirer la photo",
       resolver: "Résoudre",
       analisando: "Analyse en cours...",
       trocarFoto: "Changer de photo",
@@ -3603,6 +3638,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       unauthorized: "Votre session a expiré. Reconnectez-vous pour continuer.",
       anthropicNotConfigured: "Cette fonctionnalité n'est pas encore disponible.",
       aiError: "Impossible d'analyser l'image pour le moment. Réessayez dans un instant.",
+      tooManyImages: "Vous pouvez envoyer 4 photos maximum à la fois.",
       generic: "Une erreur s'est produite lors du traitement de l'image. Réessayez.",
     },
     theme: {
@@ -3988,6 +4024,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tirarFoto: "写真を撮る、またはギャラリーから選択",
       formatoInfo: "JPEG、PNG、GIF、WEBP対応 — 最大8MB",
       arrasteAqui: "または写真をここにドラッグ",
+      maxFotosInfo: "問題ごとに最大4枚まで — 問題が別のページに続く場合に便利です。",
+      adicionarFoto: "別の写真を追加",
+      removerFoto: "写真を削除",
       resolver: "解く",
       analisando: "分析中...",
       trocarFoto: "写真を変更",
@@ -4041,6 +4080,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       unauthorized: "セッションの有効期限が切れました。続けるには再度ログインしてください。",
       anthropicNotConfigured: "この機能はまだご利用いただけません。",
       aiError: "現在画像を分析できません。しばらくしてからもう一度お試しください。",
+      tooManyImages: "一度に送信できる写真は最大4枚です。",
       generic: "画像の処理中に問題が発生しました。もう一度お試しください。",
     },
     theme: {
@@ -4428,6 +4468,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tirarFoto: "التقط صورة أو اخترها من المعرض",
       formatoInfo: "JPEG أو PNG أو GIF أو WEBP — حتى 8 ميجابايت",
       arrasteAqui: "أو اسحب صورة إلى هنا",
+      maxFotosInfo: "حتى 4 صور لكل مسألة — مفيد عندما يستمر السؤال في صفحة أخرى.",
+      adicionarFoto: "إضافة صورة أخرى",
+      removerFoto: "إزالة الصورة",
       resolver: "حل",
       analisando: "جارٍ التحليل...",
       trocarFoto: "تغيير الصورة",
@@ -4481,6 +4524,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       unauthorized: "انتهت صلاحية جلستك. سجّل الدخول مرة أخرى للمتابعة.",
       anthropicNotConfigured: "هذه الميزة غير متاحة بعد.",
       aiError: "تعذّر تحليل الصورة الآن. حاول مرة أخرى بعد قليل.",
+      tooManyImages: "يمكنك إرسال 4 صور كحد أقصى في المرة الواحدة.",
       generic: "حدث خطأ ما أثناء معالجة الصورة. حاول مرة أخرى.",
     },
     theme: {
@@ -4869,6 +4913,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tirarFoto: "Сделать фото или выбрать из галереи",
       formatoInfo: "JPEG, PNG, GIF или WEBP — до 8 МБ",
       arrasteAqui: "или перетащите фото сюда",
+      maxFotosInfo: "До 4 фото на одну задачу — удобно, если условие продолжается на другой странице.",
+      adicionarFoto: "Добавить ещё фото",
+      removerFoto: "Удалить фото",
       resolver: "Решить",
       analisando: "Анализируем...",
       trocarFoto: "Сменить фото",
@@ -4922,6 +4969,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       unauthorized: "Ваша сессия истекла. Войдите снова, чтобы продолжить.",
       anthropicNotConfigured: "Эта функция пока недоступна.",
       aiError: "Не удалось проанализировать изображение сейчас. Попробуйте снова через минуту.",
+      tooManyImages: "За раз можно отправить не более 4 фото.",
       generic: "При обработке изображения что-то пошло не так. Попробуйте снова.",
     },
     theme: {
@@ -5306,6 +5354,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "tirarFoto": "फोटो लें या गैलरी से चुनें",
       "formatoInfo": "JPEG, PNG, GIF या WEBP — 8MB तक",
       arrasteAqui: "या यहाँ फ़ोटो खींचकर लाएं",
+      maxFotosInfo: "हर समस्या के लिए अधिकतम 4 फ़ोटो — उपयोगी जब सवाल दूसरे पेज पर जारी रहता है।",
+      adicionarFoto: "एक और फ़ोटो जोड़ें",
+      removerFoto: "फ़ोटो हटाएं",
       "resolver": "हल करें",
       "analisando": "जांचा जा रहा है...",
       "trocarFoto": "फोटो बदलें"
@@ -5358,6 +5409,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "unauthorized": "आपका सेशन खत्म हो गया है। जारी रखने के लिए फिर से लॉग इन करें।",
       "anthropicNotConfigured": "यह सुविधा अभी उपलब्ध नहीं है।",
       "aiError": "अभी इमेज को जांचा नहीं जा सका। कुछ देर बाद फिर कोशिश करें।",
+      tooManyImages: "आप एक बार में अधिकतम 4 फ़ोटो भेज सकते हैं।",
       "generic": "इमेज प्रोसेस करने में कुछ गड़बड़ हो गई। फिर से कोशिश करें।"
     },
     "theme": {
@@ -5742,6 +5794,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "tirarFoto": "Chụp ảnh hoặc chọn từ thư viện",
       "formatoInfo": "JPEG, PNG, GIF hoặc WEBP — tối đa 8MB",
       arrasteAqui: "hoặc kéo một bức ảnh vào đây",
+      maxFotosInfo: "Tối đa 4 ảnh cho mỗi bài toán — hữu ích khi đề bài tiếp tục ở trang khác.",
+      adicionarFoto: "Thêm ảnh khác",
+      removerFoto: "Xóa ảnh",
       "resolver": "Giải",
       "analisando": "Đang phân tích...",
       "trocarFoto": "Đổi ảnh"
@@ -5794,6 +5849,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "unauthorized": "Phiên đăng nhập của bạn đã hết hạn. Đăng nhập lại để tiếp tục.",
       "anthropicNotConfigured": "Tính năng này chưa khả dụng.",
       "aiError": "Không thể phân tích ảnh lúc này. Hãy thử lại sau ít phút.",
+      tooManyImages: "Bạn chỉ có thể gửi tối đa 4 ảnh mỗi lần.",
       "generic": "Đã có lỗi xảy ra khi xử lý ảnh. Hãy thử lại."
     },
     "theme": {
@@ -6178,6 +6234,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "tirarFoto": "Zrób zdjęcie lub wybierz z galerii",
       "formatoInfo": "JPEG, PNG, GIF lub WEBP — maks. 8 MB",
       arrasteAqui: "albo przeciągnij tutaj zdjęcie",
+      maxFotosInfo: "Do 4 zdjęć na zadanie — przydatne, gdy treść kontynuuje się na innej stronie.",
+      adicionarFoto: "Dodaj kolejne zdjęcie",
+      removerFoto: "Usuń zdjęcie",
       "resolver": "Rozwiąż",
       "analisando": "Analizowanie...",
       "trocarFoto": "Zmień zdjęcie"
@@ -6230,6 +6289,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "unauthorized": "Twoja sesja wygasła. Zaloguj się ponownie, aby kontynuować.",
       "anthropicNotConfigured": "Ta funkcja nie jest jeszcze dostępna.",
       "aiError": "Nie udało się teraz przeanalizować obrazu. Spróbuj ponownie za chwilę.",
+      tooManyImages: "Możesz wysłać maksymalnie 4 zdjęcia naraz.",
       "generic": "Coś poszło nie tak podczas przetwarzania obrazu. Spróbuj ponownie."
     },
     "theme": {
@@ -6614,6 +6674,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "tirarFoto": "Fotoğraf çek veya galeriden seç",
       "formatoInfo": "JPEG, PNG, GIF veya WEBP — 8MB'a kadar",
       arrasteAqui: "ya da bir fotoğrafı buraya sürükle",
+      maxFotosInfo: "Soru başına en fazla 4 fotoğraf — sorunun başka bir sayfada devam ettiği durumlarda kullanışlıdır.",
+      adicionarFoto: "Başka bir fotoğraf ekle",
+      removerFoto: "Fotoğrafı kaldır",
       "resolver": "Çöz",
       "analisando": "Analiz ediliyor...",
       "trocarFoto": "Fotoğrafı değiştir"
@@ -6666,6 +6729,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "unauthorized": "Oturumun sona erdi. Devam etmek için tekrar giriş yap.",
       "anthropicNotConfigured": "Bu özellik henüz kullanılamıyor.",
       "aiError": "Görsel şu anda analiz edilemedi. Birazdan tekrar dene.",
+      tooManyImages: "Bir seferde en fazla 4 fotoğraf gönderebilirsiniz.",
       "generic": "Görsel işlenirken bir şeyler ters gitti. Tekrar dene."
     },
     "theme": {

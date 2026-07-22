@@ -4,6 +4,7 @@ const CODE_TO_KEY: Record<string, keyof Dictionary["errors"]> = {
   unsupported_type: "unsupportedType",
   image_too_large: "imageTooLarge",
   missing_image: "missingImage",
+  too_many_images: "tooManyImages",
   daily_limit_exceeded: "dailyLimitExceeded",
   unauthorized: "unauthorized",
   anthropic_not_configured: "anthropicNotConfigured",

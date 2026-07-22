@@ -7,13 +7,12 @@ import { isPremiumUser } from "@/lib/entitlements";
 import { localeToLanguageName } from "@/lib/localeLanguageName";
 import { isLocale, type Locale } from "@/i18n/config";
 import { PHOTO_SOLUTION_SCHEMA } from "@/lib/photoSolveSchema";
+import { validateImageBatch } from "@/lib/photoImageLimits";
 
 export const runtime = "nodejs";
 
 const FREE_DAILY_LIMIT = 5;
 const PREMIUM_DAILY_LIMIT = 30;
-const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
-const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/gif", "image/webp"]);
 type AllowedMediaType = "image/jpeg" | "image/png" | "image/gif" | "image/webp";
 
 function buildSystemPrompt(locale: Locale): string {
@@ -31,6 +30,13 @@ Se a foto não tiver um problema de matemática legível, responda ainda assim
 com "enunciado" vazio e um único passo explicando o que está faltando (ex:
 "Não consegui identificar um problema de matemática nessa foto — tente
 tirar a foto mais de perto, com boa iluminação.").
+
+Às vezes o aluno envia mais de uma foto do mesmo problema — por exemplo,
+quando o enunciado continua em outra página, ou uma foto mostra o
+enunciado e outra mostra uma tentativa de resolução feita à mão. Trate
+todas as fotos enviadas como parte de um único problema, a menos que
+mostrem claramente problemas diferentes e sem relação — nesse caso,
+resolva o primeiro problema legível e mencione isso no primeiro passo.
 
 Responda sempre em ${languageName}.`;
 }
@@ -57,15 +63,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "invalid_form_data" }, { status: 400 });
   }
 
-  const file = formData.get("image");
-  if (!(file instanceof File)) {
-    return NextResponse.json({ error: "missing_image" }, { status: 400 });
-  }
-  if (!ALLOWED_TYPES.has(file.type)) {
-    return NextResponse.json({ error: "unsupported_type" }, { status: 400 });
-  }
-  if (file.size > MAX_IMAGE_BYTES) {
-    return NextResponse.json({ error: "image_too_large" }, { status: 400 });
+  const files = formData.getAll("image").filter((entry): entry is File => entry instanceof File);
+  const validationError = validateImageBatch(files);
+  if (validationError) {
+    return NextResponse.json({ error: validationError }, { status: 400 });
   }
 
   const localeField = formData.get("locale");
@@ -79,8 +80,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "daily_limit_exceeded" }, { status: 429 });
   }
 
-  const bytes = await file.arrayBuffer();
-  const base64 = Buffer.from(bytes).toString("base64");
+  const imageBlocks = await Promise.all(
+    files.map(async (file) => {
+      const bytes = await file.arrayBuffer();
+      const base64 = Buffer.from(bytes).toString("base64");
+      return {
+        type: "image" as const,
+        source: {
+          type: "base64" as const,
+          media_type: file.type as AllowedMediaType,
+          data: base64,
+        },
+      };
+    })
+  );
+  const promptText =
+    files.length > 1
+      ? "Resolva o problema de matemática nestas fotos."
+      : "Resolva o problema de matemática nesta foto.";
 
   const client = new Anthropic();
   let response;
@@ -96,17 +113,7 @@ export async function POST(request: Request) {
       messages: [
         {
           role: "user",
-          content: [
-            {
-              type: "image",
-              source: {
-                type: "base64",
-                media_type: file.type as AllowedMediaType,
-                data: base64,
-              },
-            },
-            { type: "text", text: "Resolva o problema de matemática nesta foto." },
-          ],
+          content: [...imageBlocks, { type: "text", text: promptText }],
         },
       ],
     });
