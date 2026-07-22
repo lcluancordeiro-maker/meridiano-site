@@ -655,6 +655,19 @@ nativo (iOS/Android) via Capacitor, veja
   combinação (nível, tópico, dificuldade). Não cria tabela nova: só lê
   os mesmos dados que `ReviewSession.tsx`, `weakSpots.ts` e
   `adaptiveDifficulty.ts` já liam separadamente.
+- **Teste de nivelamento** (`/diagnostico`): a recomendação acima
+  (`unifiedRecommendations.ts`) só funciona depois que o aluno já tem
+  algum histórico — para quem está começando uma trilha do zero, esse
+  teste rápido (8 perguntas: uma fácil e uma média dos 4 primeiros
+  tópicos, `src/lib/diagnostic.ts`) sugere por onde começar em vez de
+  sempre mandar pro topo. `computePlacement()` acha a "fronteira" de
+  competência — o primeiro tópico amostrado onde errou a fácil (começa
+  ali, fácil) ou passou na fácil mas errou a média (começa ali, médio);
+  acertando tudo, sugere pular pro tópico seguinte ao da amostra (ou,
+  se a amostra já cobriu a trilha inteira, o último tópico no nível
+  difícil). Função pura, testada isoladamente; a trilha continua
+  igualzinha de qualquer forma — é só um atalho pra decidir o ponto de
+  partida.
 - Progresso e gamificação salvos localmente no navegador
   (`localStorage`) — funciona sem conta (modo convidado).
 - **Contas (opcional)**: login/cadastro (`/entrar`, `/cadastro`) via
