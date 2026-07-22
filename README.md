@@ -459,6 +459,14 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   segurança contra erros sutis em conteúdo gerado com ajuda de IA em
   escala — mais barato e contínuo do que só auditorias manuais pontuais.
   `ReportContentButton.tsx` é o mesmo componente nos dois lugares.
+- **Certificado de conclusão de trilha**: quando todos os tópicos de uma
+  trilha têm as 4 dificuldades concluídas (`src/lib/levelCompletion.ts`,
+  mesma regra do "✓" no skill tree), a página da trilha mostra um card
+  "Trilha completa!" (`LevelCertificateCta.tsx`) com um link para baixar um
+  certificado em PNG. `/certificado/[levelId]` (route handler com
+  `next/og`/`ImageResponse`, igual `opengraph-image.tsx`) confere a
+  conclusão de novo no servidor via `topic_progress` antes de gerar a
+  imagem — exige login e retorna 403 se a trilha não estiver completa.
 - **Tutor de IA (Gauss)**: um chat flutuante (canto inferior esquerdo,
   disponível em qualquer página), inspirado no "Koji" do Brilliant.org.
   Gauss usa o método socrático — faz perguntas e dá pistas em vez de
@@ -1075,6 +1083,12 @@ unitários e e2e em todo push e pull request.
   (`send-streak-reminders`, protegida por `CRON_SECRET` e disparada por
   um agendador externo); `public/sw.js` — listeners `push` e
   `notificationclick`.
+- `src/lib/levelCompletion.ts` — `isLevelComplete()`, a mesma regra de
+  "todas as 4 dificuldades concluídas em todo tópico" do skill tree, só
+  que agregada pra trilha inteira; `src/components/LevelCertificateCta.tsx`
+  — card "Trilha completa!" na página da trilha; `src/app/certificado/
+  [levelId]/route.tsx` — gera o PNG do certificado (`next/og`), conferindo
+  a conclusão de novo no servidor via `topic_progress`.
 - `.github/workflows/ci.yml` — lint, checagem de tipos, testes
   unitários e e2e em todo push/PR.
 - `e2e/` — testes end-to-end (Playwright).

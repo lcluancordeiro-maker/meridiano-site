@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import SkillPath from "@/components/SkillPath";
+import LevelCertificateCta from "@/components/LevelCertificateCta";
 import { getLevel, getTopicsForLevel, levels } from "@/data/curriculum";
 import { isPremiumUser } from "@/lib/entitlements";
 import { getServerLocale } from "@/i18n/getServerLocale";
@@ -66,6 +67,8 @@ export default async function LevelPage({
         )}
 
         <SkillPath levelId={level.id} topics={topics} chapters={level.chapters} />
+
+        <LevelCertificateCta levelId={level.id} levelName={level.name} topics={topics} />
       </div>
     </div>
   );
