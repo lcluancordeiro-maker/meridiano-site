@@ -1878,3 +1878,141 @@ drop policy if exists "analytics_events_select_admin" on public.analytics_events
 create policy "analytics_events_select_admin"
   on public.analytics_events for select
   using (public.is_admin());
+
+-- ---------------------------------------------------------------------
+-- Leaderboard de turma: a mesma ideia de get_weekly_leaderboard(), só que
+-- escopada aos colegas de uma turma em vez do opt-in global anônimo —
+-- quem já está numa turma se conhece, então mostrar nome + XP pros
+-- colegas não é o mesmo tipo de exposição que a liga global (por isso
+-- não exige leaderboard_opt_in aqui). Retorna todo membro da turma, 0 XP
+-- incluso, ao contrário da liga global que só lista quem pontuou.
+-- ---------------------------------------------------------------------
+create or replace function public.get_turma_leaderboard(p_turma_id uuid)
+returns table (display_name text, weekly_xp integer, rank bigint)
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if not exists (
+    select 1 from public.turma_members where turma_id = p_turma_id and student_user_id = auth.uid()
+  ) then
+    raise exception 'not_authorized';
+  end if;
+
+  return query
+    with weekly as (
+      select
+        coalesce(nullif(trim(p.display_name), ''), 'Estudante') as display_name,
+        coalesce((
+          select sum((entry.value)::integer)
+          from jsonb_each_text(coalesce(g.xp_log, '{}'::jsonb)) as entry(key, value)
+          where entry.key::date >= date_trunc('week', now())::date
+        ), 0)::integer as weekly_xp
+      from public.turma_members tm
+      join public.profiles p on p.id = tm.student_user_id
+      left join public.gamification_state g on g.user_id = tm.student_user_id
+      where tm.turma_id = p_turma_id
+    )
+    select w.display_name, w.weekly_xp, rank() over (order by w.weekly_xp desc) as rank
+    from weekly w
+    order by w.weekly_xp desc, w.display_name;
+end;
+$$;
+
+grant execute on function public.get_turma_leaderboard(uuid) to authenticated;
+
+-- ---------------------------------------------------------------------
+-- Liga de amigos: pra quem não está numa turma, um jeito leve de ter um
+-- ranking restrito em vez do global anônimo — convite por e-mail
+-- (find_user_by_email(), já usado pelo chat), aceite manual dos dois
+-- lados antes de aparecer pro outro. Só existe conexão "accepted" depois
+-- que quem recebeu o convite aceita; até lá fica "pending" e não conta
+-- pro leaderboard.
+-- ---------------------------------------------------------------------
+create table if not exists public.friend_connections (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  friend_id uuid not null references auth.users (id) on delete cascade,
+  status text not null default 'pending' check (status in ('pending', 'accepted')),
+  created_at timestamptz not null default now(),
+  unique (user_id, friend_id)
+);
+
+create index if not exists friend_connections_friend_id_idx on public.friend_connections (friend_id);
+
+alter table public.friend_connections enable row level security;
+
+drop policy if exists "friend_connections_select_own" on public.friend_connections;
+create policy "friend_connections_select_own"
+  on public.friend_connections for select
+  using (auth.uid() = user_id or auth.uid() = friend_id);
+
+drop policy if exists "friend_connections_insert_own" on public.friend_connections;
+create policy "friend_connections_insert_own"
+  on public.friend_connections for insert
+  with check (auth.uid() = user_id and user_id <> friend_id);
+
+drop policy if exists "friend_connections_update_as_friend" on public.friend_connections;
+create policy "friend_connections_update_as_friend"
+  on public.friend_connections for update
+  using (auth.uid() = friend_id)
+  with check (auth.uid() = friend_id);
+
+drop policy if exists "friend_connections_delete_either" on public.friend_connections;
+create policy "friend_connections_delete_either"
+  on public.friend_connections for delete
+  using (auth.uid() = user_id or auth.uid() = friend_id);
+
+-- Convites pendentes (enviados ou recebidos), com o nome de exibição do
+-- outro lado já resolvido — o client não pode ler profiles de terceiros
+-- diretamente (RLS só permite a própria linha), daí o security definer.
+create or replace function public.get_pending_friend_requests()
+returns table (connection_id uuid, other_display_name text, direction text)
+language sql
+security definer set search_path = public
+stable
+as $$
+  select
+    fc.id,
+    coalesce(nullif(trim(p.display_name), ''), 'Estudante'),
+    case when fc.user_id = auth.uid() then 'enviado' else 'recebido' end
+  from public.friend_connections fc
+  join public.profiles p on p.id = (case when fc.user_id = auth.uid() then fc.friend_id else fc.user_id end)
+  where fc.status = 'pending' and (fc.user_id = auth.uid() or fc.friend_id = auth.uid())
+  order by fc.created_at desc;
+$$;
+
+grant execute on function public.get_pending_friend_requests() to authenticated;
+
+create or replace function public.get_friends_leaderboard()
+returns table (display_name text, weekly_xp integer, rank bigint, is_me boolean)
+language sql
+security definer set search_path = public
+stable
+as $$
+  with friend_ids as (
+    select friend_id as id from public.friend_connections where user_id = auth.uid() and status = 'accepted'
+    union
+    select user_id as id from public.friend_connections where friend_id = auth.uid() and status = 'accepted'
+    union
+    select auth.uid() as id
+  ),
+  weekly as (
+    select
+      f.id,
+      coalesce(nullif(trim(p.display_name), ''), 'Estudante') as display_name,
+      coalesce((
+        select sum((entry.value)::integer)
+        from jsonb_each_text(coalesce(g.xp_log, '{}'::jsonb)) as entry(key, value)
+        where entry.key::date >= date_trunc('week', now())::date
+      ), 0)::integer as weekly_xp
+    from friend_ids f
+    join public.profiles p on p.id = f.id
+    left join public.gamification_state g on g.user_id = f.id
+  )
+  select w.display_name, w.weekly_xp, rank() over (order by w.weekly_xp desc) as rank, (w.id = auth.uid()) as is_me
+  from weekly w
+  order by w.weekly_xp desc, w.display_name;
+$$;
+
+grant execute on function public.get_friends_leaderboard() to authenticated;

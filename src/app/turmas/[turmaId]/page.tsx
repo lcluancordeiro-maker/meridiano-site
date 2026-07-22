@@ -10,6 +10,7 @@ import { getServerLocale } from "@/i18n/getServerLocale";
 import { getDictionary } from "@/i18n/dictionaries";
 
 type RosterRow = { student_user_id: string; display_name: string | null; xp: number; streak_current: number };
+type TurmaLeaderboardRow = { display_name: string; weekly_xp: number; rank: number };
 type AssignmentRow = { id: string; level_id: string; topic_id: string; difficulty: Difficulty };
 type AiUsageRow = {
   student_user_id: string;
@@ -92,6 +93,13 @@ export default async function TurmaDetailPage({
     ? (await supabase.rpc("get_turma_ai_usage", { p_turma_id: turmaId })).data
     : null;
 
+  // Only students see this — the teacher isn't a turma_members row, so
+  // get_turma_leaderboard's membership check would reject them anyway, and
+  // they already have the fuller roster view (XP + streak, not weekly-only).
+  const turmaLeaderboard = !isTeacher
+    ? (await supabase.rpc("get_turma_leaderboard", { p_turma_id: turmaId })).data
+    : null;
+
   const progressByAssignment: Record<string, { student_user_id: string; score: number | null; total: number | null; completed: boolean | null }[]> = {};
   if (isTeacher && assignments && assignments.length > 0) {
     const progressResults = await Promise.all(
@@ -162,6 +170,29 @@ export default async function TurmaDetailPage({
               neverUsedAi={dict.neverUsedAi}
               locale={locale}
             />
+          </section>
+        )}
+
+        {!isTeacher && turmaLeaderboard && (turmaLeaderboard as TurmaLeaderboardRow[]).length > 0 && (
+          <section className="mt-10">
+            <h2 className="font-display text-lg font-semibold text-foreground">Liga da turma</h2>
+            <p className="mt-1 text-sm text-muted">Ranking do XP ganho nesta semana pelos colegas de turma.</p>
+            <ol className="mt-3 flex flex-col gap-2">
+              {(turmaLeaderboard as TurmaLeaderboardRow[]).map((row) => (
+                <li
+                  key={`${row.rank}-${row.display_name}`}
+                  className="flex items-center justify-between rounded-xl border border-border bg-surface px-4 py-3 text-sm"
+                >
+                  <span className="flex items-center gap-3">
+                    <span className="w-8 text-center font-display font-semibold text-muted">{row.rank}º</span>
+                    <span className="font-medium text-foreground">{row.display_name}</span>
+                  </span>
+                  <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                    {row.weekly_xp} XP
+                  </span>
+                </li>
+              ))}
+            </ol>
           </section>
         )}
 

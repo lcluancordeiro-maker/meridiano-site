@@ -367,6 +367,20 @@ nativo (iOS/Android) via Capacitor, veja
   semana a partir de segunda-feira, e a flag `leaderboard_opt_in` vive
   no `profiles`. Sem Supabase configurado, a página degrada para o
   aviso padrão de recurso indisponível. Link de entrada em /progresso.
+- **Liga de amigos e liga de turma** (`/liga`, seção abaixo da liga
+  global): a liga semanal é anônima e opt-in — boa pra descoberta, mas
+  ranking contra estranhos engaja menos do que contra quem você
+  conhece. `friend_connections` (`supabase/schema.sql`) guarda convites
+  por e-mail (reaproveitando `find_user_by_email()`, o mesmo RPC do
+  chat) com aceite manual dos dois lados antes da conexão contar pro
+  ranking; `get_friends_leaderboard()` calcula o mesmo XP semanal só
+  entre você e seus amigos aceitos. `FriendsLeague.tsx` cuida do
+  convite/aceite/remoção com estado otimista (`useTransition`, mesmo
+  padrão do `BlockedUsersList.tsx`). Quem já está numa turma ganha de
+  graça um ranking com os colegas — `get_turma_leaderboard()` é a versão
+  "toda a turma já se conhece" (sem exigir opt-in, ao contrário da liga
+  global), visível pros alunos em `/turmas/[turmaId]` (o professor já
+  tem uma visão mais completa com XP total + streak, não precisa dessa).
 - **Problemas guiados em etapas**: exercícios mais difíceis podem trazer
   um painel recolhível "Resolver em etapas" que decompõe o problema em
   sub-perguntas de um toque, reveladas uma por vez com feedback imediato

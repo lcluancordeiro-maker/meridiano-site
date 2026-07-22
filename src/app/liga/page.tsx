@@ -1,10 +1,13 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import FriendsLeague from "@/components/FriendsLeague";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { setLeaderboardOptIn } from "@/app/actions/leaderboard";
 
 type LeaderboardRow = { display_name: string; weekly_xp: number; rank: number };
+type PendingRequest = { connection_id: string; other_display_name: string; direction: "enviado" | "recebido" };
+type FriendRow = { display_name: string; weekly_xp: number; rank: number; is_me: boolean };
 
 const MEDALS: Record<number, string> = { 1: "🥇", 2: "🥈", 3: "🥉" };
 
@@ -44,6 +47,9 @@ export default async function LigaPage() {
 
   const { data } = optedIn ? await supabase.rpc("get_weekly_leaderboard") : { data: null };
   const rows = (data ?? []) as LeaderboardRow[];
+
+  const { data: pendingData } = await supabase.rpc("get_pending_friend_requests");
+  const { data: friendsData } = await supabase.rpc("get_friends_leaderboard");
 
   return (
     <div className="flex flex-1 flex-col">
@@ -101,6 +107,11 @@ export default async function LigaPage() {
             </p>
           </div>
         )}
+
+        <FriendsLeague
+          initialPendingRequests={(pendingData ?? []) as PendingRequest[]}
+          friendsLeaderboard={(friendsData ?? []) as FriendRow[]}
+        />
       </div>
     </div>
   );
