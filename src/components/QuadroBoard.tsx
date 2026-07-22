@@ -46,7 +46,10 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const statusRef = useRef<"idle" | "loading" | "error">("idle");
   const [autoAnalyze, setAutoAnalyze] = useState(false);
-  const { status, errorText, solution, resolve, fail } = usePhotoSolve(dict, locale);
+  const { status, errorText, solution, resolve, fail, generateSimilar, generatingSimilar } = usePhotoSolve(
+    dict,
+    locale
+  );
 
   useEffect(() => {
     statusRef.current = status;
@@ -192,7 +195,14 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
 
       {errorText && <p className="rounded-xl bg-error-bg p-3 text-sm text-error">{errorText}</p>}
 
-      {solution && <SolutionDisplay key={JSON.stringify(solution)} solution={solution} />}
+      {solution && (
+        <SolutionDisplay
+          key={JSON.stringify(solution)}
+          solution={solution}
+          onPracticeSimilar={() => generateSimilar(solution.enunciado)}
+          isGeneratingSimilar={generatingSimilar}
+        />
+      )}
     </div>
   );
 }

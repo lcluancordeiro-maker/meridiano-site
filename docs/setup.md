@@ -131,7 +131,12 @@ Cada usuário logado tem um limite diário de fotos resolvidas —
 `supabase/schema.sql`, aplicado de forma atômica no banco) — proteção
 simples contra abuso, já que cada chamada tem custo real de API. O
 mesmo limite vale para o botão "Resolver com IA" do quadro de
-rascunho, já que os dois usam a mesma rota (`/api/resolver-foto`).
+rascunho, já que os dois usam a mesma rota (`/api/resolver-foto`), e
+também para `/api/exercicio-parecido` — o botão "Praticar um
+exercício parecido" que aparece depois que o aluno termina um
+problema resolvido por foto/quadro, oferecendo um problema novo com a
+mesma habilidade pra praticar (mesma cota diária, custo de API
+parecido).
 
 ## Configurando o tutor de IA (Gauss)
 
@@ -146,9 +151,12 @@ de mensagens — 15/dia no plano grátis, 60/dia no Premium
 resposta de um exercício de primeira — o objetivo é o aluno chegar lá
 com perguntas guiadas, não só receber a solução pronta (o mesmo
 espírito das dicas de erro comum, ver "Sobre as funcionalidades"). O
-componente (`src/components/TutorChat.tsx`) hoje não sabe em qual
-trilha/tópico o aluno está — o prompt instrui o Gauss a perguntar, mas
-passar esse contexto automaticamente é um possível próximo passo.
+componente (`src/components/TutorChat.tsx`) sabe em qual trilha/tópico
+o aluno está: uma página de tópico (`TopicPage`) renderiza
+`<SetTutorContext>` com o nível/tópico resolvidos no servidor, que
+dispara um `CustomEvent` (`src/lib/gaussPrompt.ts`) captado pelo
+`TutorChat` global — evita importar os dados do currículo (enormes)
+no bundle do layout raiz, que é compartilhado por todas as páginas.
 
 Não testado com uma conversa real nesta sessão (sem
 `ANTHROPIC_API_KEY` configurada aqui).

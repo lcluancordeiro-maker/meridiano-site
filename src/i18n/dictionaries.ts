@@ -141,6 +141,8 @@ export type Dictionary = {
     tryAgainFeedback: string;
     incorrectFeedback: string;
     showSolutionButton: string;
+    practiceSimilarButton: string;
+    generatingSimilar: string;
   };
   errors: {
     unsupportedType: string;
@@ -744,6 +746,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tryAgainFeedback: "Quase lá! Tente de novo ou veja a solução completa.",
       incorrectFeedback: "Não foi dessa vez — aqui está a solução completa:",
       showSolutionButton: "Ver solução completa",
+      practiceSimilarButton: "Praticar um exercício parecido",
+      generatingSimilar: "Gerando...",
     },
     errors: {
       unsupportedType: "Formato de imagem não suportado. Use JPEG, PNG, GIF ou WEBP.",
@@ -1166,6 +1170,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tryAgainFeedback: "Almost there! Try again or see the full solution.",
       incorrectFeedback: "Not quite — here's the full solution:",
       showSolutionButton: "See full solution",
+      practiceSimilarButton: "Practice a similar problem",
+      generatingSimilar: "Generating...",
     },
     errors: {
       unsupportedType: "Unsupported image format. Use JPEG, PNG, GIF or WEBP.",
@@ -1404,6 +1410,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tryAgainFeedback: "¡Casi! Intenta de nuevo o mira la solución completa.",
       incorrectFeedback: "No esta vez — aquí está la solución completa:",
       showSolutionButton: "Ver solución completa",
+      practiceSimilarButton: "Practicar un ejercicio parecido",
+      generatingSimilar: "Generando...",
     },
     errors: {
       unsupportedType: "Formato de imagen no compatible. Usa JPEG, PNG, GIF o WEBP.",
@@ -1822,6 +1830,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tryAgainFeedback: "就差一点!再试一次,或者查看完整解答。",
       incorrectFeedback: "这次不对——这是完整解答:",
       showSolutionButton: "查看完整解答",
+      practiceSimilarButton: "练习一道类似的题",
+      generatingSimilar: "生成中…",
     },
     errors: {
       unsupportedType: "不支持的图片格式。请使用 JPEG、PNG、GIF 或 WEBP。",
@@ -2261,6 +2271,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tryAgainFeedback: "Quasi! Riprova oppure guarda la soluzione completa.",
       incorrectFeedback: "Non questa volta — ecco la soluzione completa:",
       showSolutionButton: "Vedi soluzione completa",
+      practiceSimilarButton: "Esercitati con un problema simile",
+      generatingSimilar: "Generazione in corso…",
     },
     errors: {
       unsupportedType: "Formato immagine non supportato. Usa JPEG, PNG, GIF o WEBP.",
@@ -2698,6 +2710,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tryAgainFeedback: "거의 다 왔어요! 다시 시도하거나 전체 풀이를 확인해보세요.",
       incorrectFeedback: "이번엔 아니에요 — 전체 풀이를 보여드릴게요:",
       showSolutionButton: "전체 풀이 보기",
+      practiceSimilarButton: "비슷한 문제 연습하기",
+      generatingSimilar: "생성 중...",
     },
     errors: {
       unsupportedType: "지원하지 않는 이미지 형식입니다. JPEG, PNG, GIF 또는 WEBP를 사용하세요.",
@@ -3137,6 +3151,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tryAgainFeedback: "Fast geschafft! Versuch's noch mal oder sieh dir die vollständige Lösung an.",
       incorrectFeedback: "Diesmal nicht — hier ist die vollständige Lösung:",
       showSolutionButton: "Vollständige Lösung ansehen",
+      practiceSimilarButton: "Eine ähnliche Aufgabe üben",
+      generatingSimilar: "Wird erstellt…",
     },
     errors: {
       unsupportedType: "Nicht unterstütztes Bildformat. Verwende JPEG, PNG, GIF oder WEBP.",
@@ -3576,6 +3592,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tryAgainFeedback: "Presque ! Réessaie ou regarde la solution complète.",
       incorrectFeedback: "Pas cette fois — voici la solution complète :",
       showSolutionButton: "Voir la solution complète",
+      practiceSimilarButton: "S'entraîner avec un exercice similaire",
+      generatingSimilar: "Génération en cours…",
     },
     errors: {
       unsupportedType: "Format d'image non pris en charge. Utilisez JPEG, PNG, GIF ou WEBP.",
@@ -4012,6 +4030,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tryAgainFeedback: "もう少し!もう一度試すか、解答をすべて見てみましょう。",
       incorrectFeedback: "今回は違いました — こちらが解答全体です:",
       showSolutionButton: "解答をすべて見る",
+      practiceSimilarButton: "似た問題を練習する",
+      generatingSimilar: "生成中…",
     },
     errors: {
       unsupportedType: "サポートされていない画像形式です。JPEG、PNG、GIF、WEBPをご利用ください。",
@@ -4450,6 +4470,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tryAgainFeedback: "قريب جدًا! حاول مرة أخرى أو شاهد الحل الكامل.",
       incorrectFeedback: "ليس هذه المرة — إليك الحل الكامل:",
       showSolutionButton: "عرض الحل الكامل",
+      practiceSimilarButton: "تدرب على مسألة مشابهة",
+      generatingSimilar: "جارٍ الإنشاء…",
     },
     errors: {
       unsupportedType: "صيغة الصورة غير مدعومة. استخدم JPEG أو PNG أو GIF أو WEBP.",
@@ -4889,6 +4911,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tryAgainFeedback: "Почти получилось! Попробуйте ещё раз или посмотрите полное решение.",
       incorrectFeedback: "На этот раз не получилось — вот полное решение:",
       showSolutionButton: "Посмотреть полное решение",
+      practiceSimilarButton: "Потренироваться на похожей задаче",
+      generatingSimilar: "Создаём…",
     },
     errors: {
       unsupportedType: "Неподдерживаемый формат изображения. Используйте JPEG, PNG, GIF или WEBP.",
@@ -5323,6 +5347,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tryAgainFeedback: "लगभग हो गया! फिर से कोशिश करें या पूरा हल देखें।",
       incorrectFeedback: "इस बार नहीं — यह रहा पूरा हल:",
       showSolutionButton: "पूरा हल देखें",
+      practiceSimilarButton: "मिलता-जुलता अभ्यास करें",
+      generatingSimilar: "बनाया जा रहा है...",
     },
     "errors": {
       "unsupportedType": "यह इमेज फॉर्मैट सपोर्ट नहीं है। JPEG, PNG, GIF या WEBP का इस्तेमाल करें।",
@@ -5757,6 +5783,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tryAgainFeedback: "Gần đúng rồi! Thử lại hoặc xem lời giải đầy đủ.",
       incorrectFeedback: "Lần này chưa đúng — đây là lời giải đầy đủ:",
       showSolutionButton: "Xem lời giải đầy đủ",
+      practiceSimilarButton: "Luyện tập bài tương tự",
+      generatingSimilar: "Đang tạo...",
     },
     "errors": {
       "unsupportedType": "Định dạng ảnh không được hỗ trợ. Hãy dùng JPEG, PNG, GIF hoặc WEBP.",
@@ -6191,6 +6219,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tryAgainFeedback: "Prawie! Spróbuj ponownie albo zobacz pełne rozwiązanie.",
       incorrectFeedback: "Tym razem się nie udało — oto pełne rozwiązanie:",
       showSolutionButton: "Zobacz pełne rozwiązanie",
+      practiceSimilarButton: "Poćwicz podobne zadanie",
+      generatingSimilar: "Generowanie...",
     },
     "errors": {
       "unsupportedType": "Nieobsługiwany format obrazu. Użyj JPEG, PNG, GIF lub WEBP.",
@@ -6625,6 +6655,8 @@ export const dictionaries: Record<Locale, Dictionary> = {
       tryAgainFeedback: "Neredeyse! Tekrar dene ya da tam çözümü gör.",
       incorrectFeedback: "Bu sefer olmadı — işte tam çözüm:",
       showSolutionButton: "Tam çözümü gör",
+      practiceSimilarButton: "Benzer bir alıştırma yap",
+      generatingSimilar: "Oluşturuluyor...",
     },
     "errors": {
       "unsupportedType": "Desteklenmeyen görsel formatı. JPEG, PNG, GIF veya WEBP kullan.",

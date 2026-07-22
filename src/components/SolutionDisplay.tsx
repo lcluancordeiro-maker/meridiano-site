@@ -6,7 +6,15 @@ import { useTranslation } from "@/i18n/LanguageContext";
 import { askGauss } from "@/lib/gaussPrompt";
 import { checkPhotoAnswer } from "@/lib/answerMatch";
 
-export default function SolutionDisplay({ solution }: { solution: PhotoSolution }) {
+export default function SolutionDisplay({
+  solution,
+  onPracticeSimilar,
+  isGeneratingSimilar,
+}: {
+  solution: PhotoSolution;
+  onPracticeSimilar?: () => void;
+  isGeneratingSimilar?: boolean;
+}) {
   const { dict } = useTranslation();
   const { solution: labels } = dict;
 
@@ -115,13 +123,26 @@ export default function SolutionDisplay({ solution }: { solution: PhotoSolution 
         </>
       )}
 
-      <button
-        type="button"
-        onClick={() => askGauss(labels.gaussPromptTemplate.replace("{enunciado}", solution.enunciado))}
-        className="self-start rounded-lg border border-border px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:border-primary"
-      >
-        {labels.askGaussButton}
-      </button>
+      <div className="flex flex-wrap gap-3">
+        <button
+          type="button"
+          onClick={() => askGauss(labels.gaussPromptTemplate.replace("{enunciado}", solution.enunciado))}
+          className="self-start rounded-lg border border-border px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:border-primary"
+        >
+          {labels.askGaussButton}
+        </button>
+
+        {revealed && onPracticeSimilar && (
+          <button
+            type="button"
+            onClick={onPracticeSimilar}
+            disabled={isGeneratingSimilar}
+            className="self-start rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isGeneratingSimilar ? labels.generatingSimilar : labels.practiceSimilarButton}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

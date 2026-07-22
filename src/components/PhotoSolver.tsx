@@ -12,7 +12,10 @@ export default function PhotoSolver() {
   const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { status, errorText, solution, resolve, reset } = usePhotoSolve(dict, locale);
+  const { status, errorText, solution, resolve, reset, generateSimilar, generatingSimilar } = usePhotoSolve(
+    dict,
+    locale
+  );
 
   function selectFile(selected: File) {
     reset();
@@ -106,7 +109,14 @@ export default function PhotoSolver() {
 
       {errorText && <p className="rounded-xl bg-error-bg p-3 text-sm text-error">{errorText}</p>}
 
-      {solution && <SolutionDisplay key={JSON.stringify(solution)} solution={solution} />}
+      {solution && (
+        <SolutionDisplay
+          key={JSON.stringify(solution)}
+          solution={solution}
+          onPracticeSimilar={() => generateSimilar(solution.enunciado)}
+          isGeneratingSimilar={generatingSimilar}
+        />
+      )}
     </div>
   );
 }

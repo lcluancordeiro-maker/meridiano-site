@@ -477,6 +477,11 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   parser da calculadora (`mathExpr.ts`) e usa esse resultado como
   expressão inicial do gráfico sempre que uma nova resposta traz uma
   função plotável — com fallback pra `x^2` quando não encontra nada.
+  Gauss também sabe em qual trilha/tópico o aluno está numa página de
+  tópico, sem precisar perguntar — `<SetTutorContext>` (renderizado
+  pelo `TopicPage`, um Server Component) dispara um evento captado
+  pelo tutor global, evitando importar os dados do currículo no bundle
+  do layout raiz (ver docs/setup.md).
 - **Resolver por foto vira exercício interativo**: em vez de já mostrar
   a solução completa, `SolutionDisplay.tsx` (compartilhado entre
   `/foto` e `/quadro`) primeiro pede pro aluno digitar a própria
@@ -491,7 +496,16 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   numérica (ex: "0,75" bate com "3/4") e ignora um prefixo tipo "x = "
   em qualquer um dos lados. O botão "Perguntar ao Gauss sobre isso"
   continua disponível o tempo todo, mesmo antes de errar — dá pra pedir
-  ajuda ao tutor sem precisar revelar a resposta.
+  ajuda ao tutor sem precisar revelar a resposta. Depois de revelar o
+  passo a passo, aparece um botão "Praticar um exercício parecido":
+  chama `/api/exercicio-parecido` (mesmo schema JSON e mesma cota diária
+  do resolver por foto, via `photoSolveSchema.ts` e `increment_photo_usage`)
+  pedindo pro Claude criar um problema novo no mesmo assunto e já
+  resolvê-lo, substituindo a solução exibida por essa nova — dá pra
+  encadear vários exercícios de reforço sem tirar outra foto. O estado de
+  "gerando" (`generatingSimilar`) fica separado do estado principal do
+  `usePhotoSolve`, então a solução antiga continua na tela (com o botão
+  desabilitado) enquanto a nova é gerada, em vez de sumir a UI.
 - **Preparatório para Vestibulares**: simulados no estilo real de cada
   prova — ENEM (grátis: questões contextualizadas, múltipla escolha),
   UERJ (Premium: estilo discursivo/interdisciplinar), UNESP (Premium:
@@ -901,7 +915,17 @@ unitários e e2e em todo push e pull request.
 - `src/lib/usePhotoSolve.ts` — hook compartilhado entre `QuadroBoard.tsx`
   e `PhotoSolver.tsx` (fetch a `/api/resolver-foto` + locale +
   status/erro/solução), eliminando a duplicação que existia entre os
-  dois fluxos de "resolver por foto".
+  dois fluxos de "resolver por foto". Também expõe `generateSimilar`/
+  `generatingSimilar` pro botão "Praticar um exercício parecido".
+- `src/lib/photoSolveSchema.ts` — o JSON schema `PHOTO_SOLUTION_SCHEMA`
+  usado tanto por `resolver-foto/route.ts` quanto por
+  `exercicio-parecido/route.ts`, extraído pra um só lugar já que as duas
+  rotas retornam o mesmo formato de solução.
+- `src/app/api/exercicio-parecido/route.ts` — gera um novo exercício no
+  mesmo assunto de um problema já resolvido e já devolve a solução dele
+  (mesmo schema, mesmo modelo e mesma cota diária de `resolver-foto`, via
+  `increment_photo_usage`). Usado pelo botão "Praticar um exercício
+  parecido" em `SolutionDisplay.tsx`.
 - `src/lib/tutor/extractExpression.ts` — extrai uma expressão plotável
   de uma resposta do Gauss (usada pela calculadora embutida no
   `TutorChat.tsx`), reaproveitando `compileExpression` de `mathExpr.ts`

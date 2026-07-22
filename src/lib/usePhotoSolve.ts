@@ -15,6 +15,7 @@ export function usePhotoSolve(dict: Dictionary, locale: Locale) {
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const [errorText, setErrorText] = useState<string | null>(null);
   const [solution, setSolution] = useState<PhotoSolution | null>(null);
+  const [generatingSimilar, setGeneratingSimilar] = useState(false);
 
   const resolve = useCallback(
     async (image: Blob, filename: string) => {
@@ -46,6 +47,38 @@ export function usePhotoSolve(dict: Dictionary, locale: Locale) {
     [dict, locale]
   );
 
+  // Kept separate from `status`/`resolve` above: unlike a fresh solve, this
+  // doesn't clear the currently-displayed solution while it's in flight —
+  // the student keeps seeing the problem they just finished until the new
+  // one is ready, instead of the whole card disappearing mid-generation.
+  const generateSimilar = useCallback(
+    async (enunciado: string) => {
+      setGeneratingSimilar(true);
+      setErrorText(null);
+
+      try {
+        const res = await fetch("/api/exercicio-parecido", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ enunciado, locale }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          setErrorText(errorMessageFor(dict, data?.error));
+          return;
+        }
+
+        setSolution(data.solution);
+      } catch {
+        setErrorText(errorMessageFor(dict, undefined));
+      } finally {
+        setGeneratingSimilar(false);
+      }
+    },
+    [dict, locale]
+  );
+
   const fail = useCallback(
     (code?: string) => {
       setErrorText(errorMessageFor(dict, code));
@@ -60,5 +93,5 @@ export function usePhotoSolve(dict: Dictionary, locale: Locale) {
     setSolution(null);
   }, []);
 
-  return { status, errorText, solution, resolve, fail, reset };
+  return { status, errorText, solution, resolve, fail, reset, generateSimilar, generatingSimilar };
 }

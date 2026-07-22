@@ -10,27 +10,26 @@ import { PHOTO_SOLUTION_SCHEMA } from "@/lib/photoSolveSchema";
 
 export const runtime = "nodejs";
 
+// Shares the photo-solve daily quota — generating a practice problem costs
+// about the same as solving one, and it's the natural continuation of the
+// same flow rather than a separate feature to budget independently.
 const FREE_DAILY_LIMIT = 5;
 const PREMIUM_DAILY_LIMIT = 30;
-const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
-const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/gif", "image/webp"]);
-type AllowedMediaType = "image/jpeg" | "image/png" | "image/gif" | "image/webp";
+const MAX_ENUNCIADO_CHARS = 2000;
 
 function buildSystemPrompt(locale: Locale): string {
   const languageName = localeToLanguageName(locale);
-  return `Você é um professor de matemática experiente, especializado em explicar
-soluções passo a passo para alunos do ensino fundamental ao superior.
+  return `Você é um professor de matemática experiente, especializado em criar
+variações de exercícios para prática.
 
-O usuário envia uma foto de um problema de matemática. Você deve:
-1. Ler e transcrever o enunciado do problema na foto.
-2. Resolver o problema com uma sequência clara de passos, cada um explicando
-   o raciocínio (não pule etapas de álgebra).
+O aluno acabou de resolver um problema de matemática. Você deve:
+1. Criar UM novo problema com a mesma habilidade e o mesmo nível de
+   dificuldade do problema original, mas com números e/ou contexto
+   diferentes — não repita o mesmo problema só trocando os números de forma
+   óbvia.
+2. Resolver seu próprio problema com uma sequência clara de passos, cada um
+   explicando o raciocínio (não pule etapas de álgebra).
 3. Dar a resposta final.
-
-Se a foto não tiver um problema de matemática legível, responda ainda assim
-com "enunciado" vazio e um único passo explicando o que está faltando (ex:
-"Não consegui identificar um problema de matemática nessa foto — tente
-tirar a foto mais de perto, com boa iluminação.").
 
 Responda sempre em ${languageName}.`;
 }
@@ -50,26 +49,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "anthropic_not_configured" }, { status: 503 });
   }
 
-  let formData: FormData;
+  let body: { enunciado?: unknown; locale?: unknown };
   try {
-    formData = await request.formData();
+    body = await request.json();
   } catch {
-    return NextResponse.json({ error: "invalid_form_data" }, { status: 400 });
+    return NextResponse.json({ error: "invalid_body" }, { status: 400 });
   }
 
-  const file = formData.get("image");
-  if (!(file instanceof File)) {
-    return NextResponse.json({ error: "missing_image" }, { status: 400 });
-  }
-  if (!ALLOWED_TYPES.has(file.type)) {
-    return NextResponse.json({ error: "unsupported_type" }, { status: 400 });
-  }
-  if (file.size > MAX_IMAGE_BYTES) {
-    return NextResponse.json({ error: "image_too_large" }, { status: 400 });
+  const enunciado = typeof body.enunciado === "string" ? body.enunciado.trim() : "";
+  if (!enunciado || enunciado.length > MAX_ENUNCIADO_CHARS) {
+    return NextResponse.json({ error: "invalid_body" }, { status: 400 });
   }
 
-  const localeField = formData.get("locale");
-  const locale: Locale = typeof localeField === "string" && isLocale(localeField) ? localeField : "pt-BR";
+  const locale: Locale = typeof body.locale === "string" && isLocale(body.locale) ? body.locale : "pt-BR";
 
   const dailyLimit = (await isPremiumUser()) ? PREMIUM_DAILY_LIMIT : FREE_DAILY_LIMIT;
   const { error: usageError } = await supabase.rpc("increment_photo_usage", {
@@ -78,9 +70,6 @@ export async function POST(request: Request) {
   if (usageError) {
     return NextResponse.json({ error: "daily_limit_exceeded" }, { status: 429 });
   }
-
-  const bytes = await file.arrayBuffer();
-  const base64 = Buffer.from(bytes).toString("base64");
 
   const client = new Anthropic();
   let response;
@@ -96,17 +85,7 @@ export async function POST(request: Request) {
       messages: [
         {
           role: "user",
-          content: [
-            {
-              type: "image",
-              source: {
-                type: "base64",
-                media_type: file.type as AllowedMediaType,
-                data: base64,
-              },
-            },
-            { type: "text", text: "Resolva o problema de matemática nesta foto." },
-          ],
+          content: `Problema original que o aluno resolveu: "${enunciado}"\n\nCrie um novo problema parecido, com a solução completa.`,
         },
       ],
     });

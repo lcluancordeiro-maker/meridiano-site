@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import SetTutorContext from "@/components/SetTutorContext";
 import PracticeSection from "@/components/PracticeSection";
 import LazyFunctionGrapher from "@/components/LazyFunctionGrapher";
 import InteractiveWidgetRenderer from "@/components/widgets/InteractiveWidgetRenderer";
@@ -60,6 +61,7 @@ export default async function TopicPage({
   return (
     <div className="flex flex-1 flex-col">
       <Navbar />
+      <SetTutorContext levelName={level.name} topicTitle={topic.title} />
       <div className="mx-auto w-full max-w-3xl px-6 py-12">
         <Link
           href={`/trilha/${level.id}`}

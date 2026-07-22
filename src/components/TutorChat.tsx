@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { errorMessageFor } from "@/lib/photoSolveErrors";
-import { ASK_GAUSS_EVENT } from "@/lib/gaussPrompt";
+import { ASK_GAUSS_EVENT, GAUSS_CONTEXT_EVENT } from "@/lib/gaussPrompt";
 import { extractPlottableExpression } from "@/lib/tutor/extractExpression";
+import type { TutorContext } from "@/lib/tutor/systemPrompt";
 import VoiceInputButton from "./VoiceInputButton";
 import LazyFunctionGrapher from "./LazyFunctionGrapher";
 
@@ -27,6 +28,7 @@ export default function TutorChat({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showCalculator, setShowCalculator] = useState(false);
+  const [tutorContext, setTutorContextState] = useState<TutorContext | undefined>(undefined);
   const listRef = useRef<HTMLDivElement>(null);
 
   const calculatorExpression = useMemo(() => {
@@ -50,6 +52,14 @@ export default function TutorChat({
     return () => window.removeEventListener(ASK_GAUSS_EVENT, handleAskGauss);
   }, []);
 
+  useEffect(() => {
+    function handleContext(event: Event) {
+      setTutorContextState((event as CustomEvent<TutorContext | undefined>).detail);
+    }
+    window.addEventListener(GAUSS_CONTEXT_EVENT, handleContext);
+    return () => window.removeEventListener(GAUSS_CONTEXT_EVENT, handleContext);
+  }, []);
+
   async function handleSend() {
     const text = input.trim();
     if (!text || loading) return;
@@ -64,7 +74,7 @@ export default function TutorChat({
       const res = await fetch("/api/tutor", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: nextMessages, locale }),
+        body: JSON.stringify({ messages: nextMessages, locale, context: tutorContext }),
       });
 
       if (!res.ok || !res.body) {
