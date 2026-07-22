@@ -16,7 +16,9 @@ estrutura do código e os testes. Para configurar uma integração
 (Supabase, Stripe, LiveKit, notificações push etc.), veja
 [docs/setup.md](docs/setup.md); para entender como um recurso
 específico funciona por dentro (chat, comunidades, turmas, moderação,
-idioma etc.), veja [docs/features.md](docs/features.md).
+idioma etc.), veja [docs/features.md](docs/features.md); para o app
+nativo (iOS/Android) via Capacitor, veja
+[docs/mobile-app.md](docs/mobile-app.md).
 
 ## Estado atual
 
@@ -782,7 +784,12 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   telas largas (`src/components/MobileNavMenu.tsx`). Um banner
   "Instalar o app" aparece automaticamente quando o navegador oferece a
   instalação (evento `beforeinstallprompt`), com botão de instalar e de
-  dispensar (`src/components/InstallPwaPrompt.tsx`).
+  dispensar (`src/components/InstallPwaPrompt.tsx`). Também há a
+  configuração de um wrapper nativo via Capacitor
+  (`capacitor.config.ts`, `server.url` apontando pro deploy hospedado)
+  — só a config, não um binário compilado; veja
+  [docs/mobile-app.md](docs/mobile-app.md) pros próximos passos reais
+  (exigem Xcode/Android Studio, que este ambiente não tem).
 - **Navbar consolidada (menu "Mais")**: no desktop, a barra do topo só
   mostra os 3 links do ciclo central de estudo — Trilhas, Progresso,
   Revisão — mantendo o topo enxuto no espírito minimalista do
