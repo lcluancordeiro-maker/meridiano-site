@@ -804,7 +804,13 @@ npm run test:e2e  # testes end-to-end (Playwright) — builda, sobe o app e test
 Os testes unitários cobrem o parser de expressões da calculadora, a
 lógica de gamificação (XP/streak/badges) e a integridade dos dados do
 currículo (ids únicos, todo exercício de múltipla escolha tem a
-resposta entre as opções, etc.).
+resposta entre as opções, sem opções repetidas, etc.) — essa suíte de
+integridade (`curriculum.test.ts`) roda sobre `ALL_TRACKS`, que precisa
+listar toda trilha existente; 5 trilhas (Fundamental I, Geometria
+Espacial, Lógica e Conjuntos, Álgebra Linear, Análise Real) tinham sido
+adicionadas sem entrar nessa lista e ficaram sem essa checagem por um
+tempo — foram incluídas depois de uma auditoria de conteúdo, e passaram
+limpas (nenhum problema estrutural encontrado).
 
 O teste e2e mais importante é `e2e/exercises-correctness.spec.ts`: ele
 lê o currículo diretamente, preenche cada exercício com sua própria

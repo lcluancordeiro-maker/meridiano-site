@@ -2,16 +2,21 @@ import { describe, expect, it } from "vitest";
 import { getMathematician } from "./mathematicians";
 import {
   DIFFICULTY_ORDER,
+  algebraLinearTopics,
+  analiseRealTopics,
   econometriaTopics,
   estatisticaAvancadoTopics,
   estatisticaInicianteTopics,
   estatisticaIntermediarioTopics,
+  fundamental1Topics,
   fundamental2Topics,
+  geometriaEspacialTopics,
   getLevel,
   getRelatedTopics,
   getTopic,
   getTopicsForLevel,
   levels,
+  logicaEConjuntosTopics,
   machineLearningInicianteTopics,
   matematicaFinanceiraAvancadoTopics,
   matematicaFinanceiraInicianteTopics,
@@ -31,6 +36,7 @@ import {
 } from "./curriculum";
 
 const ALL_TRACKS: { levelId: string; topics: Topic[] }[] = [
+  { levelId: "fundamental-1", topics: fundamental1Topics },
   { levelId: "fundamental-2", topics: fundamental2Topics },
   { levelId: "medio", topics: medioTopics },
   { levelId: "estatistica-iniciante", topics: estatisticaInicianteTopics },
@@ -41,6 +47,10 @@ const ALL_TRACKS: { levelId: string; topics: Topic[] }[] = [
   { levelId: "matematica-financeira-iniciante", topics: matematicaFinanceiraInicianteTopics },
   { levelId: "matematica-financeira-avancado", topics: matematicaFinanceiraAvancadoTopics },
   { levelId: "superior", topics: superiorTopics },
+  { levelId: "geometria-espacial", topics: geometriaEspacialTopics },
+  { levelId: "logica-e-conjuntos", topics: logicaEConjuntosTopics },
+  { levelId: "algebra-linear", topics: algebraLinearTopics },
+  { levelId: "analise-real", topics: analiseRealTopics },
   { levelId: "econometria-iniciante", topics: econometriaTopics },
   { levelId: "programacao-avancado", topics: programacaoAvancadoTopics },
   { levelId: "machine-learning-iniciante", topics: machineLearningInicianteTopics },
@@ -216,6 +226,14 @@ describe.each(ALL_TRACKS)("topics for $levelId", ({ levelId, topics }) => {
       }
     });
 
+    it("never repeats an option within the same multiple-choice exercise", () => {
+      for (const ex of topic.exercises) {
+        if (ex.type !== "multiple-choice" || !ex.options) continue;
+        const trimmed = ex.options.map((o) => o.trim());
+        expect(new Set(trimmed).size, `${topic.id}/${ex.id} duplicate options`).toBe(trimmed.length);
+      }
+    });
+
     it("gives every numeric exercise no options", () => {
       for (const ex of topic.exercises) {
         if (ex.type === "numeric") {
@@ -234,6 +252,8 @@ describe.each(ALL_TRACKS)("topics for $levelId", ({ levelId, topics }) => {
           expect(step.explanation.trim(), `${label} explanation`).not.toBe("");
           expect(step.options.length, `${label} options`).toBeGreaterThanOrEqual(2);
           expect(step.options, `${label} answer among options`).toContain(step.answer);
+          const trimmed = step.options.map((o) => o.trim());
+          expect(new Set(trimmed).size, `${label} duplicate options`).toBe(trimmed.length);
         }
       }
     });
