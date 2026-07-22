@@ -4,6 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { parsePhotoSolution } from "@/lib/photoSolve";
 import { isPremiumUser } from "@/lib/entitlements";
+import { localeToLanguageName } from "@/lib/localeLanguageName";
+import { isLocale, type Locale } from "@/i18n/config";
 
 export const runtime = "nodejs";
 
@@ -13,7 +15,20 @@ const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/gif", "image/webp"]);
 type AllowedMediaType = "image/jpeg" | "image/png" | "image/gif" | "image/webp";
 
-const SYSTEM_PROMPT = `Você é um professor de matemática experiente, especializado em explicar
+const PHOTO_SOLUTION_SCHEMA = {
+  type: "object" as const,
+  properties: {
+    enunciado: { type: "string" as const },
+    passos: { type: "array" as const, items: { type: "string" as const } },
+    resposta: { type: "string" as const },
+  },
+  required: ["enunciado", "passos", "resposta"],
+  additionalProperties: false,
+};
+
+function buildSystemPrompt(locale: Locale): string {
+  const languageName = localeToLanguageName(locale);
+  return `Você é um professor de matemática experiente, especializado em explicar
 soluções passo a passo para alunos do ensino fundamental ao superior.
 
 O usuário envia uma foto de um problema de matemática. Você deve:
@@ -23,12 +38,12 @@ O usuário envia uma foto de um problema de matemática. Você deve:
 3. Dar a resposta final.
 
 Se a foto não tiver um problema de matemática legível, responda ainda assim
-no formato abaixo, com "enunciado" vazio e um único passo explicando o que
-está faltando (ex: "Não consegui identificar um problema de matemática
-nessa foto — tente tirar a foto mais de perto, com boa iluminação.").
+com "enunciado" vazio e um único passo explicando o que está faltando (ex:
+"Não consegui identificar um problema de matemática nessa foto — tente
+tirar a foto mais de perto, com boa iluminação.").
 
-Responda APENAS com um objeto JSON, sem texto antes ou depois, neste formato:
-{"enunciado": "...", "passos": ["...", "..."], "resposta": "..."}`;
+Responda sempre em ${languageName}.`;
+}
 
 export async function POST(request: Request) {
   if (!isSupabaseConfigured) {
@@ -63,6 +78,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "image_too_large" }, { status: 400 });
   }
 
+  const localeField = formData.get("locale");
+  const locale: Locale = typeof localeField === "string" && isLocale(localeField) ? localeField : "pt-BR";
+
   const dailyLimit = (await isPremiumUser()) ? PREMIUM_DAILY_LIMIT : FREE_DAILY_LIMIT;
   const { error: usageError } = await supabase.rpc("increment_photo_usage", {
     p_limit: dailyLimit,
@@ -80,7 +98,11 @@ export async function POST(request: Request) {
     response = await client.messages.create({
       model: "claude-opus-4-8",
       max_tokens: 4096,
-      system: SYSTEM_PROMPT,
+      thinking: { type: "adaptive" },
+      system: buildSystemPrompt(locale),
+      output_config: {
+        format: { type: "json_schema", schema: PHOTO_SOLUTION_SCHEMA },
+      },
       messages: [
         {
           role: "user",

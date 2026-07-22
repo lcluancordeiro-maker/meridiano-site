@@ -504,8 +504,10 @@ porque `Record<Locale, Dictionary>` exige as ~330 chaves do tipo
   atenção" e a grade de conquistas) já é totalmente traduzido — chaves
   `progresso` e `badges` em `dictionaries.ts` (`badges` é indexada por
   `BadgeId`, o mesmo `id` usado em `BADGES` no `gamification.ts`),
-  real em pt-BR/en/es, fallback pro inglês nos outros 8. A única
-  exceção é o toast "Nova conquista!" que aparece dentro do
+  com tradução real nos 11 idiomas (identity, chat, comunidades, lives
+  e onboarding também já têm tradução real nos 11 — não há mais
+  nenhuma seção com fallback pro inglês). A única exceção é o toast
+  "Nova conquista!" que aparece dentro do
   `ExerciseQuiz` ao terminar um quiz — ele ainda usa `badge.name`/
   `badge.description` direto do `gamification.ts` (português), de
   propósito: o resto da tela de resultado do `ExerciseQuiz` também é

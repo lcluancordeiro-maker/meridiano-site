@@ -12,7 +12,7 @@ import { useTranslation } from "@/i18n/LanguageContext";
 const AUTO_ANALYZE_DEBOUNCE_MS = 2000;
 
 export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
-  const { dict } = useTranslation();
+  const { dict, locale } = useTranslation();
   const { quadro } = dict;
 
   // Matches the canvas's own paper color (light paper + dark ink vs. dark
@@ -84,6 +84,7 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
 
       const formData = new FormData();
       formData.append("image", blob, "quadro.png");
+      formData.append("locale", locale);
 
       const res = await fetch("/api/resolver-foto", { method: "POST", body: formData });
       const data = await res.json();
@@ -100,7 +101,7 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
       setErrorText(errorMessageFor(dict, undefined));
       setStatus("error");
     }
-  }, [dict]);
+  }, [dict, locale]);
 
   const handleStrokeEnd = useCallback(() => {
     if (!autoAnalyze || !canResolve) return;

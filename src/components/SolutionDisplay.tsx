@@ -2,6 +2,7 @@
 
 import type { PhotoSolution } from "@/lib/photoSolve";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { askGauss } from "@/lib/gaussPrompt";
 
 export default function SolutionDisplay({ solution }: { solution: PhotoSolution }) {
   const { dict } = useTranslation();
@@ -34,6 +35,13 @@ export default function SolutionDisplay({ solution }: { solution: PhotoSolution 
           <p className="mt-1 font-semibold text-foreground">{solution.resposta}</p>
         </div>
       )}
+      <button
+        type="button"
+        onClick={() => askGauss(labels.gaussPromptTemplate.replace("{enunciado}", solution.enunciado))}
+        className="self-start rounded-lg border border-border px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:border-primary"
+      >
+        {labels.askGaussButton}
+      </button>
     </div>
   );
 }

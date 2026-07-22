@@ -7,7 +7,7 @@ import SolutionDisplay from "@/components/SolutionDisplay";
 import { useTranslation } from "@/i18n/LanguageContext";
 
 export default function PhotoSolver() {
-  const { dict } = useTranslation();
+  const { dict, locale } = useTranslation();
   const { foto } = dict;
   const [preview, setPreview] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -34,6 +34,7 @@ export default function PhotoSolver() {
     try {
       const formData = new FormData();
       formData.append("image", file);
+      formData.append("locale", locale);
 
       const res = await fetch("/api/resolver-foto", { method: "POST", body: formData });
       const data = await res.json();

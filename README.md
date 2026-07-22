@@ -456,10 +456,17 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   Gauss usa o método socrático — faz perguntas e dá pistas em vez de
   entregar a resposta de primeira — e responde sobre qualquer matéria do
   catálogo. Exige login (mesmo padrão do "resolver por foto"), com cota
-  diária (15 mensagens grátis, 60 Premium). A conversa fica só no
-  navegador (não é salva no banco nem sincronizada entre dispositivos —
-  um possível próximo passo). Veja "Configurando o tutor de IA" em
-  docs/setup.md.
+  diária (15 mensagens grátis, 60 Premium). A resposta chega em streaming
+  (a mensagem do Gauss vai aparecendo palavra a palavra, `/api/tutor`
+  devolve um stream NDJSON em vez de esperar a resposta inteira) e usa
+  extended thinking (`thinking: { type: "adaptive" }`, sem exibir o
+  raciocínio ao aluno) para pensar melhor em perguntas mais difíceis.
+  Gauss sempre responde no idioma selecionado pelo aluno (o seletor de
+  idioma do app), não só em português — `buildTutorSystemPrompt` recebe
+  o locale e monta a instrução de idioma dinamicamente
+  (`src/lib/localeLanguageName.ts`). A conversa fica só no navegador (não
+  é salva no banco nem sincronizada entre dispositivos — um possível
+  próximo passo). Veja "Configurando o tutor de IA" em docs/setup.md.
 - **Preparatório para Vestibulares**: simulados no estilo real de cada
   prova — ENEM (grátis: questões contextualizadas, múltipla escolha),
   UERJ (Premium: estilo discursivo/interdisciplinar), UNESP (Premium:
@@ -835,10 +842,19 @@ unitários e e2e em todo push e pull request.
   sessão; `src/lib/cloudSync.ts` — sincronização de progresso/XP com a
   nuvem quando logado.
 - `src/app/api/resolver-foto/route.ts` + `src/components/PhotoSolver.tsx`
-  — rota e UI de "resolver por foto" (Claude API com visão).
+  — rota e UI de "resolver por foto" (Claude API com visão). A resposta usa
+  structured outputs (`output_config.format` com o JSON schema de
+  `PhotoSolution`) em vez de pedir "responda só com JSON" no prompt, e
+  extended thinking (`thinking: { type: "adaptive" }`) para problemas mais
+  complexos. Responde no idioma selecionado pelo aluno (locale enviado no
+  `FormData`, mesmo `localeToLanguageName` do tutor).
 - `src/components/DrawingCanvas.tsx` + `QuadroBoard.tsx` — quadro de
   rascunho (canvas livre) e o botão "Resolver com IA", que reaproveita
-  `/api/resolver-foto` exportando o desenho como PNG.
+  `/api/resolver-foto` exportando o desenho como PNG. `SolutionDisplay.tsx`
+  (compartilhado entre `/foto` e `/quadro`) tem um botão "Perguntar ao
+  Gauss sobre isso" que abre o chat do tutor já com uma pergunta pré-
+  preenchida sobre a solução (mesmo padrão `askGauss()`/`ASK_GAUSS_EVENT`
+  usado no grafo de conhecimento).
 - `supabase/schema.sql` — esquema do banco (tabelas + RLS). Índices em
   toda foreign key usada em filtro/RLS (inclusive a 2ª coluna de PKs
   compostas, que o índice da própria PK não cobre — ex:

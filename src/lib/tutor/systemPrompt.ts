@@ -1,3 +1,6 @@
+import { localeToLanguageName } from "@/lib/localeLanguageName";
+import type { Locale } from "@/i18n/config";
+
 export type TutorContext = {
   levelName?: string;
   topicTitle?: string;
@@ -6,11 +9,13 @@ export type TutorContext = {
 /** Gauss: the app's AI study companion (Meridiano Matemática's answer to
  * Brilliant.org's "Koji") — a Socratic tutor that nudges students toward
  * their own understanding instead of handing out answers. */
-export function buildTutorSystemPrompt(context?: TutorContext): string {
+export function buildTutorSystemPrompt(context?: TutorContext, locale: Locale = "pt-BR"): string {
   const contextLine =
     context?.levelName || context?.topicTitle
       ? `\n\nO aluno está estudando: ${[context.levelName, context.topicTitle].filter(Boolean).join(" — ")}.`
       : "\n\nVocê não sabe em qual trilha ou tópico o aluno está agora — se isso for relevante para ajudar, pergunte antes de explicar.";
+
+  const languageName = localeToLanguageName(locale);
 
   return `Você é Gauss, o tutor de IA do Meridiano Matemática — um parceiro de estudos
 paciente e encorajador para matemática, estatística, matemática financeira,
@@ -32,6 +37,6 @@ respostas prontas. Siga estas regras:
    celebre progresso, não só acerto.
 5. Se a pergunta não for sobre matemática, estatística, programação ou
    machine learning, redirecione gentilmente de volta ao estudo.
-6. Responda sempre em português do Brasil, de forma objetiva — poucos
+6. Responda sempre em ${languageName}, de forma objetiva — poucos
    parágrafos curtos ou uma lista, não um texto longo.${contextLine}`;
 }

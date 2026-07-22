@@ -56,16 +56,62 @@ export default function TutorChat({
       const res = await fetch("/api/tutor", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: nextMessages }),
+        body: JSON.stringify({ messages: nextMessages, locale }),
       });
-      const data = await res.json();
 
-      if (!res.ok) {
-        setError(errorMessageFor(dict, data?.error));
+      if (!res.ok || !res.body) {
+        let errorCode: string | undefined;
+        try {
+          errorCode = (await res.json())?.error;
+        } catch {
+          // response wasn't JSON — fall through with no error code
+        }
+        setError(errorMessageFor(dict, errorCode));
         return;
       }
 
-      setMessages([...nextMessages, { role: "assistant", content: data.reply }]);
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      let assistantText = "";
+      let streamErrorCode: string | undefined;
+      let assistantMessageAdded = false;
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
+
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          const streamEvent = JSON.parse(line) as
+            | { type: "delta"; text: string }
+            | { type: "error"; error: string };
+
+          if (streamEvent.type === "delta") {
+            assistantText += streamEvent.text;
+            if (!assistantMessageAdded) {
+              assistantMessageAdded = true;
+              setMessages((prev) => [...prev, { role: "assistant", content: assistantText }]);
+            } else {
+              setMessages((prev) => {
+                const updated = [...prev];
+                updated[updated.length - 1] = { role: "assistant", content: assistantText };
+                return updated;
+              });
+            }
+          } else {
+            streamErrorCode = streamEvent.error;
+          }
+        }
+      }
+
+      if (streamErrorCode) {
+        setError(errorMessageFor(dict, streamErrorCode));
+      }
     } catch {
       setError(errorMessageFor(dict, undefined));
     } finally {

@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { isPremiumUser } from "@/lib/entitlements";
 import { buildTutorSystemPrompt, type TutorContext } from "@/lib/tutor/systemPrompt";
+import { isLocale } from "@/i18n/config";
 
 export const runtime = "nodejs";
 
@@ -41,7 +42,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "anthropic_not_configured" }, { status: 503 });
   }
 
-  let body: { messages?: unknown; context?: TutorContext };
+  let body: { messages?: unknown; context?: TutorContext; locale?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -70,27 +71,44 @@ export async function POST(request: Request) {
 
   const recentMessages = validMessages.slice(-MAX_MESSAGES_TO_MODEL);
   const context = body.context && typeof body.context === "object" ? body.context : undefined;
+  const locale = typeof body.locale === "string" && isLocale(body.locale) ? body.locale : "pt-BR";
 
   const client = new Anthropic();
-  let response;
-  try {
-    response = await client.messages.create({
-      model: "claude-opus-4-8",
-      max_tokens: 1024,
-      system: buildTutorSystemPrompt(context),
-      messages: recentMessages.map((m) => ({ role: m.role, content: m.content })),
-    });
-  } catch (err) {
-    if (err instanceof Anthropic.APIError) {
-      return NextResponse.json({ error: "ai_error", message: err.message }, { status: 502 });
-    }
-    throw err;
-  }
+  const encoder = new TextEncoder();
 
-  const textBlock = response.content.find((block) => block.type === "text");
-  if (!textBlock || textBlock.type !== "text") {
-    return NextResponse.json({ error: "empty_response" }, { status: 502 });
-  }
+  const stream = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      function send(event: { type: "delta"; text: string } | { type: "error"; error: string; message?: string }) {
+        controller.enqueue(encoder.encode(JSON.stringify(event) + "\n"));
+      }
 
-  return NextResponse.json({ reply: textBlock.text });
+      try {
+        const anthropicStream = client.messages.stream({
+          model: "claude-opus-4-8",
+          max_tokens: 1024,
+          thinking: { type: "adaptive" },
+          system: buildTutorSystemPrompt(context, locale),
+          messages: recentMessages.map((m) => ({ role: m.role, content: m.content })),
+        });
+
+        for await (const event of anthropicStream) {
+          if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
+            send({ type: "delta", text: event.delta.text });
+          }
+        }
+      } catch (err) {
+        if (err instanceof Anthropic.APIError) {
+          send({ type: "error", error: "ai_error", message: err.message });
+        } else {
+          send({ type: "error", error: "ai_error" });
+        }
+      } finally {
+        controller.close();
+      }
+    },
+  });
+
+  return new Response(stream, {
+    headers: { "Content-Type": "application/x-ndjson; charset=utf-8" },
+  });
 }
