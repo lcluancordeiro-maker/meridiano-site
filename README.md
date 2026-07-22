@@ -504,7 +504,12 @@ nativo (iOS/Android) via Capacitor, veja
   (a maioria, por enquanto) mantêm o comportamento original de revelar na
   hora. Hoje as dicas cobrem "Função do 1º Grau", "Geometria Analítica",
   "Função Quadrática" e "Trigonometria no Triângulo Retângulo" (todos do
-  Ensino Médio) — dá pra adicionar aos poucos em outros tópicos.
+  Ensino Médio) e, numa primeira rodada de expansão pra outras trilhas,
+  "Operações com Números Inteiros" (Ensino Fundamental II — as 17
+  perguntas que envolvem sinal e ordem de operações; as 4 mais triviais
+  tipo "5 + 3" ficaram sem dica de propósito, já que não há erro de
+  raciocínio plausível ali) — dá pra continuar adicionando aos poucos em
+  outros tópicos.
 - **"Reportar erro"**: depois de responder um exercício (`ExerciseQuiz.tsx`)
   ou revelar uma solução do Gauss/resolver por foto (`SolutionDisplay.tsx`),
   o aluno pode sinalizar que algo parece errado — um comentário opcional

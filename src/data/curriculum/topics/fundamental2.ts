@@ -56,6 +56,8 @@ export const fundamental2Topics: Topic[] = [
         answer: "-4",
         explanation:
           "Sinais diferentes: 7 - 3 = 4. Como -7 tem o maior valor absoluto, o resultado é -4.",
+        commonMistakeHint:
+          "Sinais diferentes: não some os valores — subtraia o menor do maior e use o sinal do que tem maior valor absoluto.",
       },
       {
         id: "q2",
@@ -64,6 +66,7 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "medio",
         answer: "0",
         explanation: "Números opostos sempre se cancelam: 9 - 9 = 0.",
+        commonMistakeHint: "Um número e seu oposto sempre se cancelam ao somar — o resultado nunca é o dobro.",
       },
       {
         id: "q3",
@@ -72,6 +75,8 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "medio",
         answer: "-20",
         explanation: "Sinais diferentes → resultado negativo: 5 × 4 = 20, logo -20.",
+        commonMistakeHint:
+          "Sinais diferentes na multiplicação sempre dão resultado negativo — confira o sinal antes de finalizar.",
       },
       {
         id: "q4",
@@ -80,6 +85,8 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "medio",
         answer: "4",
         explanation: "Sinais iguais → resultado positivo: 12 ÷ 3 = 4.",
+        commonMistakeHint:
+          "Dois sinais negativos numa divisão se cancelam — sinais iguais sempre dão resultado positivo.",
       },
       {
         id: "q5",
@@ -90,6 +97,8 @@ export const fundamental2Topics: Topic[] = [
         answer: "4",
         explanation:
           "Subtrair um negativo é o mesmo que somar: -2 - (-6) = -2 + 6 = 4.",
+        commonMistakeHint:
+          "Subtrair um número negativo é o mesmo que somar seu oposto — reescreva a expressão trocando o sinal antes de calcular.",
       },
       {
         id: "q6",
@@ -98,6 +107,8 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "medio",
         answer: "-7",
         explanation: "3 - 10 = -(10 - 3) = -7.",
+        commonMistakeHint:
+          "Quando o primeiro número é menor, o resultado é negativo — inverta a subtração (10 - 3) e troque o sinal.",
       },
       {
         id: "f1",
@@ -122,6 +133,7 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "facil",
         answer: "-5",
         explanation: "Mesmo sinal: some os valores e mantenha o sinal. 2 + 3 = 5, então -5.",
+        commonMistakeHint: "Somando dois negativos, o resultado continua negativo — não esqueça o sinal.",
       },
       {
         id: "f4",
@@ -146,6 +158,7 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "facil",
         answer: "0",
         explanation: "Números opostos se cancelam: -5 + 5 = 0.",
+        commonMistakeHint: "Um número e seu oposto sempre resultam em zero quando somados.",
       },
       {
         id: "d1",
@@ -154,6 +167,7 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "dificil",
         answer: "-7",
         explanation: "Multiplicação primeiro: (-3) × 4 = -12. Depois: -12 + 5 = -7.",
+        commonMistakeHint: "Resolva a multiplicação antes da soma — a ordem das operações importa.",
       },
       {
         id: "d2",
@@ -162,6 +176,8 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "dificil",
         answer: "18",
         explanation: "Multiplicação primeiro: (-4) × 2 = -8. Depois: 10 - (-8) = 10 + 8 = 18.",
+        commonMistakeHint:
+          "Multiplique primeiro, e lembre que subtrair um número negativo equivale a somar.",
       },
       {
         id: "d3",
@@ -170,6 +186,8 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "dificil",
         answer: "8",
         explanation: "Multiplicação primeiro: (-6) × (-3) = 18. Depois: 18 - 10 = 8.",
+        commonMistakeHint:
+          "Calcule o produto dos dois negativos primeiro (o resultado é positivo) antes de subtrair.",
       },
       {
         id: "d4",
@@ -178,6 +196,8 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "dificil",
         answer: "2",
         explanation: "Divisão primeiro: (-20) ÷ (-4) = 5. Depois: 5 + (-3) = 2.",
+        commonMistakeHint:
+          "Faça a divisão primeiro — dois negativos numa divisão resultam em um número positivo.",
       },
       {
         id: "d5",
@@ -186,6 +206,8 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "dificil",
         answer: "-2",
         explanation: "Multiplicações primeiro: 3×(-4)=-12 e 2×(-5)=-10. Depois: -12 - (-10) = -2.",
+        commonMistakeHint:
+          "Resolva as duas multiplicações primeiro, depois lembre que subtrair um negativo é somar.",
       },
       {
         id: "d6",
@@ -194,6 +216,7 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "dificil",
         answer: "27",
         explanation: "Multiplicação primeiro: 2 × (-6) = -12. Depois: 15 - (-12) = 27.",
+        commonMistakeHint: "A multiplicação vem antes da subtração — calcule 2 × (-6) primeiro.",
       },
       {
         id: "o1",
@@ -203,6 +226,8 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "olimpiada",
         answer: "2",
         explanation: "-5 + x = -3, então x = 2. Confira o produto: -5 × 2 = -10. ✓",
+        commonMistakeHint:
+          "Monte a equação usando a soma dos dois números (não o produto) para achar o valor desconhecido, depois confira com o produto.",
       },
       {
         id: "o2",
@@ -213,6 +238,8 @@ export const fundamental2Topics: Topic[] = [
         answer: "23",
         explanation:
           "-17 + x > 5, então x > 22. O menor inteiro positivo maior que 22 é 23 (verifique: -17+23=6>5).",
+        commonMistakeHint:
+          "Resolva como desigualdade (-17 + x > 5), não como igualdade — e lembre que precisa do menor inteiro que ainda satisfaz a condição.",
       },
       {
         id: "o3",
@@ -222,6 +249,8 @@ export const fundamental2Topics: Topic[] = [
         options: ["negativo", "positivo", "zero", "depende"],
         answer: "negativo",
         explanation: "Sinais diferentes na multiplicação sempre resultam em um número negativo.",
+        commonMistakeHint:
+          "Pense na regra de sinais da multiplicação: um fator negativo e um positivo sempre dão o quê?",
       },
       {
         id: "o4",
@@ -231,6 +260,8 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "olimpiada",
         answer: "1",
         explanation: "-8 + 15 - 6 = 7 - 6 = 1.",
+        commonMistakeHint:
+          "'Subiu' soma e 'desceu' subtrai — monte a expressão -8 + 15 - 6 na ordem certa.",
       },
       {
         id: "o5",
@@ -240,6 +271,8 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "olimpiada",
         answer: "7",
         explanation: "x - (-x) = 2x = 14, então x = 7.",
+        commonMistakeHint:
+          "x menos o oposto de x é o mesmo que x + x = 2x — resolva a equação 2x = 14.",
       },
       {
         id: "o6",
@@ -250,6 +283,8 @@ export const fundamental2Topics: Topic[] = [
         answer: "a - b = -(b - a)",
         explanation:
           "A subtração é anti-comutativa: trocar a ordem inverte o sinal do resultado, o que sempre vale.",
+        commonMistakeHint:
+          "Teste as opções com números concretos (por exemplo a=5, b=2) para ver qual sempre bate, mesmo trocando a e b.",
       },
     ],
   },
