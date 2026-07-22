@@ -120,6 +120,14 @@ export type Dictionary = {
     fecharMensagens: string;
     carregando: string;
   };
+  recomendado: {
+    heading: string;
+    subtitle: string;
+    empty: string;
+    kindRevisao: string;
+    kindDificuldade: string;
+    kindNovoTopico: string;
+  };
   quadro: {
     title: string;
     subtitle: string;
@@ -746,6 +754,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       fecharMensagens: "Fechar",
       carregando: "Carregando...",
     },
+    recomendado: {
+      heading: "Recomendado para você",
+      subtitle: "Revisão, prática e próximos passos, tudo em um só lugar.",
+      empty: "Nada específico pra recomendar agora — continue praticando!",
+      kindRevisao: "Revisão",
+      kindDificuldade: "Praticar",
+      kindNovoTopico: "Novo tópico",
+    },
     quadro: {
       title: "Quadro de rascunho",
       subtitle:
@@ -1192,6 +1208,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       fecharMensagens: "Close",
       carregando: "Loading...",
     },
+    recomendado: {
+      heading: "Recommended for you",
+      subtitle: "Review, practice and next steps, all in one place.",
+      empty: "Nothing specific to recommend right now — keep practicing!",
+      kindRevisao: "Review",
+      kindDificuldade: "Practice",
+      kindNovoTopico: "New topic",
+    },
     quadro: {
       title: "Scratch whiteboard",
       subtitle:
@@ -1453,6 +1477,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       verMensagens: "Ver mensajes",
       fecharMensagens: "Cerrar",
       carregando: "Cargando...",
+    },
+    recomendado: {
+      heading: "Recomendado para ti",
+      subtitle: "Repaso, práctica y próximos pasos, todo en un solo lugar.",
+      empty: "Nada específico para recomendar ahora — ¡sigue practicando!",
+      kindRevisao: "Repaso",
+      kindDificuldade: "Practicar",
+      kindNovoTopico: "Tema nuevo",
     },
     quadro: {
       title: "Pizarra de borrador",
@@ -1896,6 +1928,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       verMensagens: "查看消息",
       fecharMensagens: "关闭",
       carregando: "加载中...",
+    },
+    recomendado: {
+      heading: "为你推荐",
+      subtitle: "复习、练习和下一步，都在一个地方。",
+      empty: "现在没有具体推荐——继续练习吧！",
+      kindRevisao: "复习",
+      kindDificuldade: "练习",
+      kindNovoTopico: "新主题",
     },
     quadro: {
       title: "草稿白板",
@@ -2359,6 +2399,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       fecharMensagens: "Chiudi",
       carregando: "Caricamento...",
     },
+    recomendado: {
+      heading: "Consigliato per te",
+      subtitle: "Ripasso, pratica e prossimi passi, tutto in un solo posto.",
+      empty: "Niente di specifico da consigliare ora — continua a esercitarti!",
+      kindRevisao: "Ripasso",
+      kindDificuldade: "Esercitati",
+      kindNovoTopico: "Nuovo argomento",
+    },
     quadro: {
       title: "Lavagna per appunti",
       subtitle:
@@ -2819,6 +2867,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       verMensagens: "메시지 보기",
       fecharMensagens: "닫기",
       carregando: "불러오는 중...",
+    },
+    recomendado: {
+      heading: "당신을 위한 추천",
+      subtitle: "복습, 연습, 다음 단계를 한곳에서 확인하세요.",
+      empty: "지금은 추천할 게 없어요 — 계속 연습해 보세요!",
+      kindRevisao: "복습",
+      kindDificuldade: "연습",
+      kindNovoTopico: "새 주제",
     },
     quadro: {
       title: "연습장 화이트보드",
@@ -3283,6 +3339,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       fecharMensagens: "Schließen",
       carregando: "Wird geladen...",
     },
+    recomendado: {
+      heading: "Für dich empfohlen",
+      subtitle: "Wiederholung, Übung und nächste Schritte an einem Ort.",
+      empty: "Gerade nichts Bestimmtes zu empfehlen — übe einfach weiter!",
+      kindRevisao: "Wiederholung",
+      kindDificuldade: "Üben",
+      kindNovoTopico: "Neues Thema",
+    },
     quadro: {
       title: "Schmier-Tafel",
       subtitle:
@@ -3746,6 +3810,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       fecharMensagens: "Fermer",
       carregando: "Chargement...",
     },
+    recomendado: {
+      heading: "Recommandé pour toi",
+      subtitle: "Révision, pratique et prochaines étapes, tout au même endroit.",
+      empty: "Rien de spécifique à recommander pour l'instant — continue à t'entraîner !",
+      kindRevisao: "Révision",
+      kindDificuldade: "Pratiquer",
+      kindNovoTopico: "Nouveau sujet",
+    },
     quadro: {
       title: "Tableau de brouillon",
       subtitle:
@@ -4205,6 +4277,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       verMensagens: "メッセージを見る",
       fecharMensagens: "閉じる",
       carregando: "読み込み中...",
+    },
+    recomendado: {
+      heading: "あなたへのおすすめ",
+      subtitle: "復習・練習・次のステップを一か所で確認できます。",
+      empty: "今はおすすめが特にありません — 練習を続けましょう！",
+      kindRevisao: "復習",
+      kindDificuldade: "練習",
+      kindNovoTopico: "新しいトピック",
     },
     quadro: {
       title: "落書きホワイトボード",
@@ -4667,6 +4747,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       verMensagens: "عرض الرسائل",
       fecharMensagens: "إغلاق",
       carregando: "جارٍ التحميل...",
+    },
+    recomendado: {
+      heading: "موصى به لك",
+      subtitle: "المراجعة والتدريب والخطوات التالية، كلها في مكان واحد.",
+      empty: "لا يوجد شيء محدد لأقترحه الآن — واصل التدرب!",
+      kindRevisao: "مراجعة",
+      kindDificuldade: "تدريب",
+      kindNovoTopico: "موضوع جديد",
     },
     quadro: {
       title: "لوحة المسودة",
@@ -5131,6 +5219,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       fecharMensagens: "Закрыть",
       carregando: "Загрузка...",
     },
+    recomendado: {
+      heading: "Рекомендовано для вас",
+      subtitle: "Повторение, практика и следующие шаги — всё в одном месте.",
+      empty: "Сейчас нечего конкретно порекомендовать — продолжайте практиковаться!",
+      kindRevisao: "Повторение",
+      kindDificuldade: "Практика",
+      kindNovoTopico: "Новая тема",
+    },
     quadro: {
       title: "Доска для черновиков",
       subtitle:
@@ -5590,6 +5686,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       fecharMensagens: "बंद करें",
       carregando: "लोड हो रहा है...",
     },
+    recomendado: {
+      heading: "आपके लिए अनुशंसित",
+      subtitle: "रिवीज़न, अभ्यास और अगले कदम, सब एक ही जगह पर।",
+      empty: "अभी सुझाने के लिए कुछ खास नहीं है — अभ्यास जारी रखें!",
+      kindRevisao: "रिवीज़न",
+      kindDificuldade: "अभ्यास करें",
+      kindNovoTopico: "नया विषय",
+    },
     "quadro": {
       "title": "स्क्रैच व्हाइटबोर्ड",
       "subtitle": "लिखने और हिसाब करने के लिए एक जगह, जैसे एक डिजिटल ब्लैकबोर्ड। माउस, उंगली या पेन से बनाएं — और जब चाहें AI से हल मांगें।",
@@ -6047,6 +6151,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       verMensagens: "Xem tin nhắn",
       fecharMensagens: "Đóng",
       carregando: "Đang tải...",
+    },
+    recomendado: {
+      heading: "Đề xuất cho bạn",
+      subtitle: "Ôn tập, luyện tập và các bước tiếp theo, tất cả trong một nơi.",
+      empty: "Hiện chưa có đề xuất cụ thể — hãy tiếp tục luyện tập!",
+      kindRevisao: "Ôn tập",
+      kindDificuldade: "Luyện tập",
+      kindNovoTopico: "Chủ đề mới",
     },
     "quadro": {
       "title": "Bảng nháp",
@@ -6506,6 +6618,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       fecharMensagens: "Zamknij",
       carregando: "Ładowanie...",
     },
+    recomendado: {
+      heading: "Polecane dla Ciebie",
+      subtitle: "Powtórki, ćwiczenia i kolejne kroki w jednym miejscu.",
+      empty: "Na razie nie ma nic konkretnego do polecenia — ćwicz dalej!",
+      kindRevisao: "Powtórka",
+      kindDificuldade: "Ćwiczenie",
+      kindNovoTopico: "Nowy temat",
+    },
     "quadro": {
       "title": "Tablica do rysowania",
       "subtitle": "Miejsce do pisania i liczenia, jak cyfrowa tablica szkolna. Rysuj myszką, palcem albo rysikiem — i poproś AI o rozwiązanie, kiedy tylko chcesz.",
@@ -6963,6 +7083,14 @@ export const dictionaries: Record<Locale, Dictionary> = {
       verMensagens: "Mesajları gör",
       fecharMensagens: "Kapat",
       carregando: "Yükleniyor...",
+    },
+    recomendado: {
+      heading: "Senin için önerilen",
+      subtitle: "Tekrar, alıştırma ve sıradaki adımlar, hepsi tek bir yerde.",
+      empty: "Şu anda önerecek belirli bir şey yok — pratik yapmaya devam et!",
+      kindRevisao: "Tekrar",
+      kindDificuldade: "Alıştırma",
+      kindNovoTopico: "Yeni konu",
     },
     "quadro": {
       "title": "Karalama Tahtası",

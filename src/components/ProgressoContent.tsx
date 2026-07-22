@@ -3,6 +3,7 @@
 import StatTile from "@/components/StatTile";
 import BadgeGrid from "@/components/BadgeGrid";
 import WeakSpotsCard from "@/components/WeakSpotsCard";
+import RecommendedForYou from "@/components/RecommendedForYou";
 import AccuracyChart from "@/components/charts/AccuracyChart";
 import XpTrendChart from "@/components/charts/XpTrendChart";
 import { useGamification } from "@/lib/useGamification";
@@ -138,6 +139,9 @@ export default function ProgressoContent() {
         </div>
       ) : (
         <div className="mt-10 grid gap-6 sm:grid-cols-2">
+          <div className="sm:col-span-2">
+            <RecommendedForYou />
+          </div>
           <div className="rounded-2xl border border-border bg-surface p-5">
             <h2 className="font-display text-lg font-semibold text-foreground">
               {t.accuracyByTopic}

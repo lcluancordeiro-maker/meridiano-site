@@ -606,6 +606,19 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   **lembretes de sequência por notificação push** — avisa quando a
   sequência de dias praticando está prestes a quebrar. Veja
   "Configurando notificações push" em docs/setup.md.
+- **"Recomendado para você"** (`/progresso`, acima do resto do
+  dashboard): antes disso, revisão espaçada (`/revisao`), dificuldade
+  adaptativa (badge "Recomendado" no seletor de dificuldade) e o skill
+  tree (próximo nó não começado) eram três sistemas separados que o
+  aluno tinha que checar um por um. `src/lib/unifiedRecommendations.ts`
+  (`buildRecommendations`, testado isoladamente) junta os três numa
+  lista só, ranqueada — revisões vencidas primeiro (curva do
+  esquecimento é mais urgente), depois tópicos já começados e não
+  dominados, depois o próximo tópico de uma trilha em andamento —
+  removendo duplicata quando mais de um sistema sugeriria a mesma
+  combinação (nível, tópico, dificuldade). Não cria tabela nova: só lê
+  os mesmos dados que `ReviewSession.tsx`, `weakSpots.ts` e
+  `adaptiveDifficulty.ts` já liam separadamente.
 - Progresso e gamificação salvos localmente no navegador
   (`localStorage`) — funciona sem conta (modo convidado).
 - **Contas (opcional)**: login/cadastro (`/entrar`, `/cadastro`) via
