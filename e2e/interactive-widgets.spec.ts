@@ -471,7 +471,7 @@ test.describe("interactive widgets (inspired by Brilliant.org)", () => {
     await xSlider.fill("2");
     await expect(page.getByText("(x > 3) E (x < 10) = Falso")).toBeVisible();
 
-    await page.getByRole("button", { name: "OU" }).click();
+    await page.getByRole("button", { name: "OU", exact: true }).click();
     await expect(page.getByText("(x > 3) OU (x < 10) = Verdadeiro")).toBeVisible();
   });
 

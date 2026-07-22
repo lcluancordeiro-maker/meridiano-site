@@ -8,6 +8,7 @@ import LazyFunctionGrapher from "@/components/LazyFunctionGrapher";
 import InteractiveWidgetRenderer from "@/components/widgets/InteractiveWidgetRenderer";
 import KnowledgeGraph from "@/components/KnowledgeGraph";
 import TheoryCheckQuestion from "@/components/TheoryCheckQuestion";
+import TheoryNarration from "@/components/TheoryNarration";
 import { getLevel, getTopic, getTopicsForLevel, levels } from "@/data/curriculum";
 import { getMathematician } from "@/data/mathematicians";
 import { isPremiumUser } from "@/lib/entitlements";
@@ -90,7 +91,13 @@ export default async function TopicPage({
           </div>
         ) : (
           <>
-            <div className="mt-10 flex flex-col gap-8">
+            <div className="mt-10">
+              <TheoryNarration
+                sections={topic.theory.map((s) => ({ heading: s.heading, body: s.body }))}
+                locale={locale}
+              />
+            </div>
+            <div className="flex flex-col gap-8">
               {topic.theory.map((section) => (
                 <div key={section.heading}>
                   <h2 className="font-display text-xl font-semibold text-foreground">

@@ -28,7 +28,7 @@ declare global {
 
 /** Maps this app's UI locales to a BCP-47 tag for speech recognition. Falls
  * back to Portuguese (Brazil) for any locale not listed. */
-const LOCALE_TO_SPEECH_LANG: Record<string, string> = {
+export const LOCALE_TO_SPEECH_LANG: Record<string, string> = {
   "pt-BR": "pt-BR",
   en: "en-US",
   es: "es-ES",

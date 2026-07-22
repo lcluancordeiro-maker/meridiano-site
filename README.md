@@ -401,6 +401,18 @@ nativo (iOS/Android) via Capacitor, veja
   `alternativeSolutions` opcional em `Exercise`
   (`src/data/curriculum/types.ts`), renderizado em `ExerciseQuiz.tsx` —
   a aba ativa reseta pro método padrão a cada novo exercício.
+- **Narração em áudio da teoria (TTS)**: um botão "🔊 Ouvir teoria" no topo
+  de cada página de tópico lê a teoria em voz alta (títulos das seções +
+  parágrafos, uma só locução) usando a SpeechSynthesis nativa do
+  navegador — sem custo de API, funciona mesmo offline depois de
+  carregada a página. Vira "⏸️ Pausar"/"▶️ Continuar" + "⏹ Parar" enquanto
+  fala. Some por completo em navegadores sem suporte (mesmo padrão de
+  feature-detection do `VoiceInputButton.tsx`, o componente-espelho que
+  faz o caminho inverso — falar a resposta em vez de ouvir a teoria).
+  Idioma da voz segue o mesmo mapa locale→BCP-47 que o reconhecimento de
+  voz já usa (`LOCALE_TO_SPEECH_LANG`, agora exportado de
+  `useSpeechRecognition.ts` e reaproveitado pelo novo
+  `useSpeechSynthesis.ts`). `src/components/TheoryNarration.tsx`.
 - **"Continue de onde parou"**: a home mostra, logo abaixo do CTA
   principal, um card apontando para o último tópico em que o aluno
   respondeu algo — no espírito do Brilliant.org de retomar o curso
