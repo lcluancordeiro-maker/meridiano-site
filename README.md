@@ -464,9 +464,17 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   Gauss sempre responde no idioma selecionado pelo aluno (o seletor de
   idioma do app), não só em português — `buildTutorSystemPrompt` recebe
   o locale e monta a instrução de idioma dinamicamente
-  (`src/lib/localeLanguageName.ts`). A conversa fica só no navegador (não
-  é salva no banco nem sincronizada entre dispositivos — um possível
-  próximo passo). Veja "Configurando o tutor de IA" em docs/setup.md.
+  (`src/lib/localeLanguageName.ts`). A conversa é salva (ver
+  `/historico` acima) e pode ser revisitada depois — não fica só no
+  navegador. Veja "Configurando o tutor de IA" em docs/setup.md.
+  Um botão "Guiado"/"Direto" no topo do chat deixa explícito o que
+  antes só existia como uma regra escondida no prompt ("se o aluno
+  pedir a resposta depois de tentar, pode explicar"): Guiado (padrão)
+  mantém o método socrático; Direto resolve o exercício por completo
+  de uma vez, pro aluno que só quer conferir uma resposta — mesmo
+  espírito do resolver por foto/quadro, que sempre foram diretos. O
+  modo escolhido vai no corpo da requisição a `/api/tutor`
+  (`buildTutorSystemPrompt` recebe um terceiro parâmetro `mode`).
   O chat tem uma calculadora gráfica interativa embutida (mesmo
   `FunctionGrapher`/`LazyFunctionGrapher` da página `/calculadora`,
   código-splitado para não pesar o chat quando não usada) — um botão

@@ -22,4 +22,17 @@ describe("buildTutorSystemPrompt", () => {
     const prompt = buildTutorSystemPrompt({ levelName: "Ensino Fundamental II" });
     expect(prompt).toContain("O aluno está estudando: Ensino Fundamental II.");
   });
+
+  it("defaults to guided mode: no direct-answer instruction, keeps the Socratic rule", () => {
+    const prompt = buildTutorSystemPrompt();
+    expect(prompt).toContain("Nunca dê a resposta final");
+    expect(prompt).not.toContain("modo Direto");
+  });
+
+  it("in direto mode, drops the Socratic rule and instructs a full worked answer", () => {
+    const prompt = buildTutorSystemPrompt(undefined, "pt-BR", "direto");
+    expect(prompt).toContain("modo Direto");
+    expect(prompt).toContain("Resolva o exercício por completo");
+    expect(prompt).not.toContain("Nunca dê a resposta final");
+  });
 });

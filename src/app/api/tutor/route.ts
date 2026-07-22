@@ -3,7 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { isPremiumUser } from "@/lib/entitlements";
-import { buildTutorSystemPrompt, type TutorContext } from "@/lib/tutor/systemPrompt";
+import { buildTutorSystemPrompt, type TutorContext, type TutorMode } from "@/lib/tutor/systemPrompt";
 import { isLocale } from "@/i18n/config";
 import { titleFromMessage } from "@/lib/tutorHistory";
 
@@ -43,7 +43,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "anthropic_not_configured" }, { status: 503 });
   }
 
-  let body: { messages?: unknown; context?: TutorContext; locale?: unknown; conversationId?: unknown };
+  let body: {
+    messages?: unknown;
+    context?: TutorContext;
+    locale?: unknown;
+    conversationId?: unknown;
+    mode?: unknown;
+  };
   try {
     body = await request.json();
   } catch {
@@ -72,6 +78,7 @@ export async function POST(request: Request) {
 
   const recentMessages = validMessages.slice(-MAX_MESSAGES_TO_MODEL);
   const context = body.context && typeof body.context === "object" ? body.context : undefined;
+  const mode: TutorMode = body.mode === "direto" ? "direto" : "guiado";
   const locale = typeof body.locale === "string" && isLocale(body.locale) ? body.locale : "pt-BR";
   const requestedConversationId =
     typeof body.conversationId === "string" && body.conversationId ? body.conversationId : undefined;
@@ -134,7 +141,7 @@ export async function POST(request: Request) {
           model: "claude-opus-4-8",
           max_tokens: 1024,
           thinking: { type: "adaptive" },
-          system: buildTutorSystemPrompt(context, locale),
+          system: buildTutorSystemPrompt(context, locale, mode),
           messages: recentMessages.map((m) => ({ role: m.role, content: m.content })),
         });
 

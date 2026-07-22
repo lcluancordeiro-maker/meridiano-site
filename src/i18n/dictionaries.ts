@@ -288,6 +288,9 @@ export type Dictionary = {
     notConfigured: string;
     voiceInputLabel: string;
     voiceListeningLabel: string;
+    modeGuiado: string;
+    modeDireto: string;
+    modeToggleLabel: string;
   };
   identity: {
     pageTitle: string;
@@ -905,6 +908,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "O tutor de IA ainda não está disponível neste app.",
       voiceInputLabel: "Falar",
       voiceListeningLabel: "Ouvindo...",
+      modeGuiado: "Guiado",
+      modeDireto: "Direto",
+      modeToggleLabel: "Modo do tutor: Guiado (perguntas antes da resposta) ou Direto (resposta completa)",
     },
     identity: {
       pageTitle: "Verificação de identidade",
@@ -1358,6 +1364,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "The AI tutor isn't available in this app yet.",
       voiceInputLabel: "Speak",
       voiceListeningLabel: "Listening...",
+      modeGuiado: "Guided",
+      modeDireto: "Direct",
+      modeToggleLabel: "Tutor mode: Guided (questions before the answer) or Direct (full answer)",
     },
     identity: socialFeaturesEn.identity,
     chat: socialFeaturesEn.chat,
@@ -1628,6 +1637,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "El tutor de IA todavía no está disponible en esta app.",
       voiceInputLabel: "Hablar",
       voiceListeningLabel: "Escuchando...",
+      modeGuiado: "Guiado",
+      modeDireto: "Directo",
+      modeToggleLabel: "Modo del tutor: Guiado (preguntas antes de la respuesta) o Directo (respuesta completa)",
     },
     identity: {
       pageTitle: "Verificación de identidad",
@@ -2078,6 +2090,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "此应用暂不支持 AI 辅导功能。",
       voiceInputLabel: "说话",
       voiceListeningLabel: "聆听中...",
+      modeGuiado: "引导模式",
+      modeDireto: "直接模式",
+      modeToggleLabel: "辅导模式：引导（先提问再给答案）或直接（完整答案）",
     },
     identity: {
       "pageTitle": "身份验证",
@@ -2549,6 +2564,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "Il tutor IA non è ancora disponibile in questa app.",
       voiceInputLabel: "Parla",
       voiceListeningLabel: "Ascolto...",
+      modeGuiado: "Guidato",
+      modeDireto: "Diretto",
+      modeToggleLabel: "Modalità tutor: Guidato (domande prima della risposta) o Diretto (risposta completa)",
     },
     identity: {
       "pageTitle": "Verifica dell'identità",
@@ -3018,6 +3036,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "이 앱에서는 아직 AI 튜터를 사용할 수 없습니다.",
       voiceInputLabel: "말하기",
       voiceListeningLabel: "듣는 중...",
+      modeGuiado: "안내형",
+      modeDireto: "직접형",
+      modeToggleLabel: "튜터 모드: 안내형(답 전에 질문) 또는 직접형(전체 답)",
     },
     identity: {
       "pageTitle": "본인 인증",
@@ -3489,6 +3510,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "Der KI-Tutor ist in dieser App noch nicht verfügbar.",
       voiceInputLabel: "Sprechen",
       voiceListeningLabel: "Höre zu...",
+      modeGuiado: "Angeleitet",
+      modeDireto: "Direkt",
+      modeToggleLabel: "Tutor-Modus: Angeleitet (Fragen vor der Antwort) oder Direkt (vollständige Antwort)",
     },
     identity: {
       "pageTitle": "Identitätsprüfung",
@@ -3960,6 +3984,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "Le tuteur IA n'est pas encore disponible dans cette application.",
       voiceInputLabel: "Parler",
       voiceListeningLabel: "Écoute...",
+      modeGuiado: "Guidé",
+      modeDireto: "Direct",
+      modeToggleLabel: "Mode du tuteur : Guidé (questions avant la réponse) ou Direct (réponse complète)",
     },
     identity: {
       "pageTitle": "Vérification d'identité",
@@ -4428,6 +4455,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "このアプリではまだAIチューターはご利用いただけません。",
       voiceInputLabel: "話す",
       voiceListeningLabel: "聞き取り中...",
+      modeGuiado: "誘導モード",
+      modeDireto: "直接モード",
+      modeToggleLabel: "チューターモード：誘導（答えの前に質問）または直接（完全な答え）",
     },
     identity: {
       "pageTitle": "本人確認",
@@ -4898,6 +4928,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "المعلّم الذكي غير متاح بعد في هذا التطبيق.",
       voiceInputLabel: "تحدث",
       voiceListeningLabel: "جارٍ الاستماع...",
+      modeGuiado: "موجَّه",
+      modeDireto: "مباشر",
+      modeToggleLabel: "وضع المعلّم: موجَّه (أسئلة قبل الإجابة) أو مباشر (إجابة كاملة)",
     },
     identity: {
       "pageTitle": "التحقق من الهوية",
@@ -5369,6 +5402,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       notConfigured: "ИИ-репетитор пока недоступен в этом приложении.",
       voiceInputLabel: "Говорить",
       voiceListeningLabel: "Слушаю...",
+      modeGuiado: "С подсказками",
+      modeDireto: "Прямой",
+      modeToggleLabel: "Режим репетитора: с подсказками (вопросы перед ответом) или прямой (полный ответ)",
     },
     identity: {
       "pageTitle": "Проверка личности",
@@ -5834,7 +5870,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "requiresLogin": "गॉस से बात करने के लिए लॉग इन करें।",
       "notConfigured": "इस ऐप में AI ट्यूटर अभी उपलब्ध नहीं है।",
       "voiceInputLabel": "बोलें",
-      "voiceListeningLabel": "सुन रहा है..."
+      "voiceListeningLabel": "सुन रहा है...",
+      modeGuiado: "मार्गदर्शित",
+      modeDireto: "सीधा",
+      modeToggleLabel: "ट्यूटर मोड: मार्गदर्शित (उत्तर से पहले सवाल) या सीधा (पूरा उत्तर)",
     },
     "identity": {
       "pageTitle": "पहचान सत्यापन",
@@ -6300,7 +6339,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "requiresLogin": "Đăng nhập để trò chuyện với Gauss.",
       "notConfigured": "Gia sư AI chưa khả dụng trong ứng dụng này.",
       "voiceInputLabel": "Nói",
-      "voiceListeningLabel": "Đang nghe..."
+      "voiceListeningLabel": "Đang nghe...",
+      modeGuiado: "Hướng dẫn",
+      modeDireto: "Trực tiếp",
+      modeToggleLabel: "Chế độ gia sư: Hướng dẫn (hỏi trước khi trả lời) hoặc Trực tiếp (trả lời đầy đủ)",
     },
     "identity": {
       "pageTitle": "Xác minh danh tính",
@@ -6766,7 +6808,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "requiresLogin": "Zaloguj się, aby porozmawiać z Gaussem.",
       "notConfigured": "Tutor AI nie jest jeszcze dostępny w tej aplikacji.",
       "voiceInputLabel": "Mów",
-      "voiceListeningLabel": "Słucham..."
+      "voiceListeningLabel": "Słucham...",
+      modeGuiado: "Prowadzony",
+      modeDireto: "Bezpośredni",
+      modeToggleLabel: "Tryb korepetytora: Prowadzony (pytania przed odpowiedzią) lub Bezpośredni (pełna odpowiedź)",
     },
     "identity": {
       "pageTitle": "Weryfikacja tożsamości",
@@ -7232,7 +7277,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "requiresLogin": "Gauss ile sohbet etmek için giriş yap.",
       "notConfigured": "Yapay zekâ öğretmeni bu uygulamada henüz kullanılamıyor.",
       "voiceInputLabel": "Konuş",
-      "voiceListeningLabel": "Dinliyor..."
+      "voiceListeningLabel": "Dinliyor...",
+      modeGuiado: "Rehberli",
+      modeDireto: "Doğrudan",
+      modeToggleLabel: "Öğretmen modu: Rehberli (cevaptan önce sorular) veya Doğrudan (tam cevap)",
     },
     "identity": {
       "pageTitle": "Kimlik doğrulama",

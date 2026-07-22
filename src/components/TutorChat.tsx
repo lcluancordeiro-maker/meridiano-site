@@ -6,7 +6,7 @@ import { useTranslation } from "@/i18n/LanguageContext";
 import { errorMessageFor } from "@/lib/photoSolveErrors";
 import { ASK_GAUSS_EVENT, GAUSS_CONTEXT_EVENT } from "@/lib/gaussPrompt";
 import { extractPlottableExpression } from "@/lib/tutor/extractExpression";
-import type { TutorContext } from "@/lib/tutor/systemPrompt";
+import type { TutorContext, TutorMode } from "@/lib/tutor/systemPrompt";
 import VoiceInputButton from "./VoiceInputButton";
 import LazyFunctionGrapher from "./LazyFunctionGrapher";
 
@@ -28,6 +28,7 @@ export default function TutorChat({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showCalculator, setShowCalculator] = useState(false);
+  const [mode, setMode] = useState<TutorMode>("guiado");
   const [tutorContext, setTutorContextState] = useState<TutorContext | undefined>(undefined);
   const listRef = useRef<HTMLDivElement>(null);
   // Set once the server confirms/creates a conversation row, then reused
@@ -84,6 +85,7 @@ export default function TutorChat({
           locale,
           context: tutorContext,
           conversationId: conversationIdRef.current ?? undefined,
+          mode,
         }),
       });
 
@@ -215,6 +217,32 @@ export default function TutorChat({
               <span aria-hidden>📈</span>
               {nav.calculadora}
             </button>
+            <div
+              className="flex items-center gap-0.5 rounded-lg bg-background p-0.5"
+              role="group"
+              title={tutor.modeToggleLabel}
+            >
+              <button
+                type="button"
+                onClick={() => setMode("guiado")}
+                aria-pressed={mode === "guiado"}
+                className={`rounded-md px-2 py-1 text-xs font-semibold transition-colors ${
+                  mode === "guiado" ? "bg-primary/10 text-primary" : "text-muted hover:text-foreground"
+                }`}
+              >
+                {tutor.modeGuiado}
+              </button>
+              <button
+                type="button"
+                onClick={() => setMode("direto")}
+                aria-pressed={mode === "direto"}
+                className={`rounded-md px-2 py-1 text-xs font-semibold transition-colors ${
+                  mode === "direto" ? "bg-primary/10 text-primary" : "text-muted hover:text-foreground"
+                }`}
+              >
+                {tutor.modeDireto}
+              </button>
+            </div>
           </div>
 
           {showCalculator && (
