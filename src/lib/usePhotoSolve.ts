@@ -5,6 +5,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/config";
 import type { PhotoSolution } from "@/lib/photoSolve";
 import { errorMessageFor } from "@/lib/photoSolveErrors";
+import { trackFirstTimeEvent } from "@/lib/analytics/trackEvent";
 
 /** Shared client-side logic behind "resolver por foto" — used by both the
  * photo upload flow (PhotoSolver.tsx) and the drawing board's "Resolver com
@@ -39,6 +40,7 @@ export function usePhotoSolve(dict: Dictionary, locale: Locale) {
 
         setSolution(data.solution);
         setStatus("idle");
+        trackFirstTimeEvent("foto_resolvida");
       } catch {
         setErrorText(errorMessageFor(dict, undefined));
         setStatus("error");

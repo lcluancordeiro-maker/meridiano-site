@@ -11,6 +11,7 @@ import {
   recordTopicCompletion,
 } from "@/lib/gamification";
 import { recordReviewResult } from "@/lib/reviewSchedule";
+import { trackFirstTimeEvent } from "@/lib/analytics/trackEvent";
 import { extractSpokenNumber, matchSpokenOption } from "@/lib/voiceMatching";
 import GuidedSteps from "./GuidedSteps";
 import ProgressBar from "./ProgressBar";
@@ -77,6 +78,7 @@ export default function ExerciseQuiz({
       const badgesAfter = getGamificationSnapshot().unlockedBadges;
       setNewBadges(badgesAfter.filter((id) => !badgesBefore.includes(id)));
       setFinished(true);
+      trackFirstTimeEvent("exercicio_concluido", { levelId, topicId, difficulty });
       return;
     }
     setIndex((i) => i + 1);

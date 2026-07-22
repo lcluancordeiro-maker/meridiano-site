@@ -42,6 +42,7 @@ export default async function Navbar() {
       ? [
           { href: "/admin/moderacao", label: "Moderação" },
           { href: "/admin/relatos-conteudo", label: "Relatos de conteúdo" },
+          { href: "/admin/analytics", label: "Analytics" },
         ]
       : []),
   ];

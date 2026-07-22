@@ -1845,3 +1845,36 @@ drop policy if exists "content_reports_select_admin" on public.content_reports;
 create policy "content_reports_select_admin"
   on public.content_reports for select
   using (public.is_admin());
+
+-- ---------------------------------------------------------------------
+-- analytics_events: eventos de produto (signup, primeiro exercício
+-- concluído, primeira mensagem ao Gauss, primeira foto resolvida) — a
+-- base para decisões de priorização (ex: vale a pena manter/expandir o
+-- stack social?) em vez de achismo. user_id fica nulo para eventos antes
+-- de haver sessão (ex: o próprio signup, se a confirmação de e-mail
+-- estiver ligada); a policy de insert aceita user_id nulo ou igual ao
+-- usuário autenticado, nunca deixando um usuário gravar em nome de
+-- outro. Só admin lê (mesmo is_admin() de content_reports/moderação).
+-- ---------------------------------------------------------------------
+create table if not exists public.analytics_events (
+  id uuid primary key default gen_random_uuid(),
+  event_name text not null,
+  user_id uuid references auth.users (id) on delete set null,
+  metadata jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists analytics_events_created_at_idx on public.analytics_events (created_at desc);
+create index if not exists analytics_events_name_idx on public.analytics_events (event_name);
+
+alter table public.analytics_events enable row level security;
+
+drop policy if exists "analytics_events_insert" on public.analytics_events;
+create policy "analytics_events_insert"
+  on public.analytics_events for insert
+  with check (user_id is null or auth.uid() = user_id);
+
+drop policy if exists "analytics_events_select_admin" on public.analytics_events;
+create policy "analytics_events_select_admin"
+  on public.analytics_events for select
+  using (public.is_admin());

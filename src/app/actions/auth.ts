@@ -45,12 +45,21 @@ export async function signup(_prevState: AuthFormState, formData: FormData): Pro
     return { error: "A senha precisa ter pelo menos 6 caracteres." };
   }
 
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: { data: { display_name: displayName || null } },
   });
   if (error) return { error: friendlyAuthError(error.message) };
+
+  // Best-effort — a signed-up-but-not-yet-authenticated session (e.g. email
+  // confirmation required) can't pass analytics_events' RLS check, and
+  // that's fine: this is a product-analytics count, not a critical path.
+  if (data.user) {
+    await supabase
+      .from("analytics_events")
+      .insert({ event_name: "signup", user_id: data.user.id, metadata: {} });
+  }
 
   redirect("/progresso");
 }

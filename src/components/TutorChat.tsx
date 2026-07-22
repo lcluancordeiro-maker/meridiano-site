@@ -7,6 +7,7 @@ import { errorMessageFor } from "@/lib/photoSolveErrors";
 import { ASK_GAUSS_EVENT, GAUSS_CONTEXT_EVENT } from "@/lib/gaussPrompt";
 import { extractPlottableExpression } from "@/lib/tutor/extractExpression";
 import type { TutorContext, TutorMode } from "@/lib/tutor/systemPrompt";
+import { trackFirstTimeEvent } from "@/lib/analytics/trackEvent";
 import VoiceInputButton from "./VoiceInputButton";
 import LazyFunctionGrapher from "./LazyFunctionGrapher";
 
@@ -75,6 +76,7 @@ export default function TutorChat({
     setInput("");
     setError(null);
     setLoading(true);
+    trackFirstTimeEvent("gauss_mensagem");
 
     try {
       const res = await fetch("/api/tutor", {

@@ -467,6 +467,16 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   `next/og`/`ImageResponse`, igual `opengraph-image.tsx`) confere a
   conclusão de novo no servidor via `topic_progress` antes de gerar a
   imagem — exige login e retorna 403 se a trilha não estiver completa.
+- **Analytics de produto**: eventos de funil (`signup`,
+  `exercicio_concluido`, `gauss_mensagem`, `foto_resolvida`) gravados em
+  `analytics_events` (RLS: qualquer um insere só a própria linha ou uma
+  linha anônima, só admin lê). `src/lib/analytics/trackEvent.ts` dispara os
+  eventos "primeira vez" (`trackFirstTimeEvent`, gate por `localStorage`
+  em `firstTimeGate.ts` — só conta a primeira ocorrência por navegador) de
+  forma "fire-and-forget": nunca bloqueia nem quebra a feature que
+  instrumenta. `/admin/analytics` mostra a contagem diária dos últimos 7
+  dias por evento — é a base de dados real para decisões de priorização
+  (ex: vale a pena manter/expandir o stack social?), no lugar de achismo.
 - **Tutor de IA (Gauss)**: um chat flutuante (canto inferior esquerdo,
   disponível em qualquer página), inspirado no "Koji" do Brilliant.org.
   Gauss usa o método socrático — faz perguntas e dá pistas em vez de
@@ -1089,6 +1099,11 @@ unitários e e2e em todo push e pull request.
   — card "Trilha completa!" na página da trilha; `src/app/certificado/
   [levelId]/route.tsx` — gera o PNG do certificado (`next/og`), conferindo
   a conclusão de novo no servidor via `topic_progress`.
+- `src/lib/analytics/trackEvent.ts` — `trackEvent()`/`trackFirstTimeEvent()`,
+  fire-and-forget; `firstTimeGate.ts` — gate por `localStorage` pros
+  eventos "primeira vez"; `aggregateEventCounts.ts` — função pura que
+  transforma linhas de `analytics_events` numa tabela de contagem diária;
+  `src/app/admin/analytics/page.tsx` — o painel.
 - `.github/workflows/ci.yml` — lint, checagem de tipos, testes
   unitários e e2e em todo push/PR.
 - `e2e/` — testes end-to-end (Playwright).
