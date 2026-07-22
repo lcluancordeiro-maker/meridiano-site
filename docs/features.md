@@ -475,9 +475,10 @@ acessível do botão.
 
 O seletor de idioma (`src/i18n/`) traduz toda a navegação e as páginas
 de nível superior: menu, home, login/cadastro, resolver por foto e
-quadro de rascunho, em 11 idiomas — Português, English, Español, 中文
+quadro de rascunho, em 15 idiomas — Português, English, Español, 中文
 (chinês), Italiano, 한국어 (coreano), Deutsch, Français, 日本語
-(japonês), العربية (árabe) e Русский (russo). A arquitetura é simples
+(japonês), العربية (árabe), Русский (russo), हिन्दी (hindi), Tiếng Việt
+(vietnamita), Polski (polonês) e Türkçe (turco). A arquitetura é simples
 de propósito — dicionários (`src/i18n/dictionaries.ts`) mais um cookie
 (lido por Server e Client Components), sem reescrever rotas com
 prefixo de idioma (`/en/...`). Adicionar um novo idioma é só: (1)
@@ -499,13 +500,13 @@ porque `Record<Locale, Dictionary>` exige as ~330 chaves do tipo
   motor) — mexer neles quebraria dezenas de testes e2e que hoje
   verificam texto exato em português; fica como próximo passo se
   decidirmos ir além da navegação. O link do menu (`nav.revisao`) já
-  está traduzido nos 11 idiomas, como qualquer outro item de navegação.
+  está traduzido nos 15 idiomas, como qualquer outro item de navegação.
   O dashboard de progresso (`/progresso`, incluindo o card "Pontos de
   atenção" e a grade de conquistas) já é totalmente traduzido — chaves
   `progresso` e `badges` em `dictionaries.ts` (`badges` é indexada por
   `BadgeId`, o mesmo `id` usado em `BADGES` no `gamification.ts`),
-  com tradução real nos 11 idiomas (identity, chat, comunidades, lives
-  e onboarding também já têm tradução real nos 11 — não há mais
+  com tradução real nos 15 idiomas (identity, chat, comunidades, lives
+  e onboarding também já têm tradução real nos 15 — não há mais
   nenhuma seção com fallback pro inglês). A única exceção é o toast
   "Nova conquista!" que aparece dentro do
   `ExerciseQuiz` ao terminar um quiz — ele ainda usa `badge.name`/
@@ -518,7 +519,7 @@ porque `Record<Locale, Dictionary>` exige as ~330 chaves do tipo
   `src/app/actions/auth.ts`).
 
 Isso significa: hoje dá para navegar o app inteiro em qualquer um dos
-10 outros idiomas, mas ao entrar numa trilha e resolver exercícios, o
+14 outros idiomas, mas ao entrar numa trilha e resolver exercícios, o
 conteúdo continua em português.
 
 **Sobre as seções sociais mais novas** (`identity`, `chat`,

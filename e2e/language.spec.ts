@@ -28,6 +28,10 @@ test.describe("language switcher", () => {
     { value: "ja", loginLabel: "ログイン" },
     { value: "ar", loginLabel: "تسجيل الدخول" },
     { value: "ru", loginLabel: "Войти" },
+    { value: "hi", loginLabel: "लॉग इन करें" },
+    { value: "vi", loginLabel: "Đăng nhập" },
+    { value: "pl", loginLabel: "Zaloguj się" },
+    { value: "tr", loginLabel: "Giriş Yap" },
   ];
 
   for (const { value, loginLabel } of extraLocales) {
