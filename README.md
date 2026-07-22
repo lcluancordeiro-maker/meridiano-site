@@ -390,6 +390,17 @@ nativo (iOS/Android) via Capacitor, veja
   opcional em `Exercise` (`src/data/curriculum/types.ts`), renderizado por
   `GuidedSteps.tsx`. Piloto: 3 exercícios (2 em Geometria Plana, 1 em
   Descontos e Acréscimos).
+- **Múltiplos métodos de solução (piloto)**: alguns exercícios têm mais de
+  um jeito genuinamente comum de chegar na resposta — depois de conferir
+  a resposta, um exercício assim mostra abas ("Método padrão" + o nome
+  de cada alternativa) que trocam só o texto da explicação, nunca a
+  resposta certa em si. Piloto: as duas perguntas sobre x² - 5x + 6 = 0
+  em Equações do 2º Grau (Bhaskara padrão vs. Fatoração — (x-2)(x-3)=0)
+  e a de hipotenusa 6-8-10 em Geometria Plana (Pitágoras padrão vs.
+  reconhecer o triplo pitagórico 3-4-5 em escala dobrada). Campo
+  `alternativeSolutions` opcional em `Exercise`
+  (`src/data/curriculum/types.ts`), renderizado em `ExerciseQuiz.tsx` —
+  a aba ativa reseta pro método padrão a cada novo exercício.
 - **"Continue de onde parou"**: a home mostra, logo abaixo do CTA
   principal, um card apontando para o último tópico em que o aluno
   respondeu algo — no espírito do Brilliant.org de retomar o curso

@@ -41,9 +41,12 @@ export default function ExerciseQuiz({
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
   const [newBadges, setNewBadges] = useState<string[]>([]);
+  const [methodIndex, setMethodIndex] = useState(0);
 
   const exercise = exercises[index];
   const isCorrect = checked && normalize(selected) === normalize(exercise.answer);
+  const activeExplanation =
+    methodIndex === 0 ? exercise.explanation : exercise.alternativeSolutions?.[methodIndex - 1]?.explanation ?? exercise.explanation;
 
   function handleCheck() {
     if (!selected) return;
@@ -85,6 +88,7 @@ export default function ExerciseQuiz({
     setSelected("");
     setChecked(false);
     setHintActive(false);
+    setMethodIndex(0);
   }
 
   function handleRestart() {
@@ -95,6 +99,7 @@ export default function ExerciseQuiz({
     setScore(0);
     setFinished(false);
     setNewBadges([]);
+    setMethodIndex(0);
   }
 
   if (finished) {
@@ -259,7 +264,35 @@ export default function ExerciseQuiz({
               </span>
             )}
           </p>
-          <p className="mt-1 text-foreground/80">{exercise.explanation}</p>
+          <p className="mt-1 text-foreground/80">{activeExplanation}</p>
+        </div>
+      )}
+
+      {checked && exercise.alternativeSolutions && exercise.alternativeSolutions.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          <button
+            onClick={() => setMethodIndex(0)}
+            className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+              methodIndex === 0
+                ? "border-primary bg-primary/10 text-primary"
+                : "border-border text-muted hover:border-primary/50"
+            }`}
+          >
+            Método padrão
+          </button>
+          {exercise.alternativeSolutions.map((alt, i) => (
+            <button
+              key={alt.label}
+              onClick={() => setMethodIndex(i + 1)}
+              className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+                methodIndex === i + 1
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border text-muted hover:border-primary/50"
+              }`}
+            >
+              {alt.label}
+            </button>
+          ))}
         </div>
       )}
 

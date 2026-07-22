@@ -23,6 +23,17 @@ export type ExerciseStep = {
   explanation: string;
 };
 
+/** An alternate way to reach the same answer — e.g. factoring instead of
+ * the quadratic formula, or spotting a Pythagorean triple instead of
+ * computing it. Shown as a tab next to the default explanation once the
+ * exercise is checked, so a student who already knows one method can see
+ * how another one arrives at the same result. Optional: pilot on a small
+ * set of exercises where more than one method is genuinely common. */
+export type AlternativeSolution = {
+  label: string;
+  explanation: string;
+};
+
 export type Exercise = {
   id: string;
   prompt: string;
@@ -40,6 +51,8 @@ export type Exercise = {
    * Optional: exercises without one keep the original immediate-reveal
    * behavior. */
   commonMistakeHint?: string;
+  /** Other ways to solve this same exercise — see AlternativeSolution. */
+  alternativeSolutions?: AlternativeSolution[];
 };
 
 export type TheoryExample = {

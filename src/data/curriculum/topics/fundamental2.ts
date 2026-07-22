@@ -1354,6 +1354,13 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "medio",
         answer: "2",
         explanation: "Com Δ=1, x = (5 ± 1)/2, o que dá x=3 ou x=2. A menor raiz é 2.",
+        alternativeSolutions: [
+          {
+            label: "Fatoração",
+            explanation:
+              "Procure dois números que somem 5 e multipliquem 6: são 2 e 3. Então x² - 5x + 6 = (x-2)(x-3) = 0, o que dá x=2 ou x=3 — sem precisar calcular Δ.",
+          },
+        ],
       },
       {
         id: "q3",
@@ -1362,6 +1369,13 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "medio",
         answer: "3",
         explanation: "Com Δ=1, x = (5 ± 1)/2, o que dá x=3 ou x=2. A maior raiz é 3.",
+        alternativeSolutions: [
+          {
+            label: "Fatoração",
+            explanation:
+              "Procure dois números que somem 5 e multipliquem 6: são 2 e 3. Então x² - 5x + 6 = (x-2)(x-3) = 0, o que dá x=2 ou x=3 — sem precisar calcular Δ.",
+          },
+        ],
       },
       {
         id: "q4",
@@ -1614,6 +1628,13 @@ export const fundamental2Topics: Topic[] = [
         difficulty: "medio",
         answer: "10",
         explanation: "Pitágoras: a² = 6² + 8² = 36 + 64 = 100, então a = √100 = 10 cm.",
+        alternativeSolutions: [
+          {
+            label: "Triplo pitagórico",
+            explanation:
+              "6 e 8 são o dobro de 3 e 4 — e (3, 4, 5) é um triplo pitagórico conhecido (3² + 4² = 5²). Dobrando também a hipotenusa, 6-8-10 é o mesmo triângulo em escala, então a hipotenusa é 10 sem precisar elevar nada ao quadrado.",
+          },
+        ],
       },
       {
         id: "q5",
