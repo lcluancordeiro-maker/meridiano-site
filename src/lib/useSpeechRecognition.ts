@@ -40,6 +40,10 @@ const LOCALE_TO_SPEECH_LANG: Record<string, string> = {
   ja: "ja-JP",
   ar: "ar-SA",
   ru: "ru-RU",
+  hi: "hi-IN",
+  vi: "vi-VN",
+  pl: "pl-PL",
+  tr: "tr-TR",
 };
 
 function getSpeechRecognitionConstructor(): SpeechRecognitionConstructor | undefined {

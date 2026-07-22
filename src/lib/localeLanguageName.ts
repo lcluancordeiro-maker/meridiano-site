@@ -17,6 +17,10 @@ const LOCALE_LANGUAGE_NAMES: Record<Locale, string> = {
   ja: "Japanese",
   ar: "Arabic",
   ru: "Russian",
+  hi: "Hindi",
+  vi: "Vietnamese",
+  pl: "Polish",
+  tr: "Turkish",
 };
 
 export function localeToLanguageName(locale: Locale): string {
