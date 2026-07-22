@@ -8,6 +8,7 @@ import { localeToLanguageName } from "@/lib/localeLanguageName";
 import { isLocale, type Locale } from "@/i18n/config";
 import { PHOTO_SOLUTION_SCHEMA } from "@/lib/photoSolveSchema";
 import { validateImageBatch } from "@/lib/photoImageLimits";
+import { recordPhotoSolveHistory } from "@/lib/photoSolveHistory";
 
 export const runtime = "nodejs";
 
@@ -130,5 +131,6 @@ export async function POST(request: Request) {
   }
 
   const solution = parsePhotoSolution(textBlock.text);
+  await recordPhotoSolveHistory(supabase, user.id, solution);
   return NextResponse.json({ solution });
 }

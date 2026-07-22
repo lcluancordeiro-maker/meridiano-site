@@ -1684,3 +1684,84 @@ as $$
 $$;
 
 grant execute on function public.get_weekly_leaderboard() to authenticated;
+
+-- ---------------------------------------------------------------------
+-- Histórico: conversas com o tutor Gauss e problemas resolvidos por foto,
+-- pra o aluno poder revisitar depois em /historico — hoje as duas coisas
+-- vivem só em memória do componente (TutorChat/usePhotoSolve) e somem ao
+-- recarregar a página.
+--
+-- Como as duas tabelas guardam só o próprio conteúdo do usuário (não há
+-- leitura cruzada entre usuários, ao contrário de turmas/comunidades), a
+-- API grava direto pela policy "own" (for all) em vez de passar por uma
+-- RPC security definer.
+-- ---------------------------------------------------------------------
+create table if not exists public.gauss_conversations (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  title text not null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+-- gauss_messages: uma linha por mensagem (usuário ou assistente) de uma
+-- conversa. Sem user_id próprio — a policy de acesso é derivada do dono
+-- da conversa (gauss_conversations.user_id) via subquery.
+create table if not exists public.gauss_messages (
+  id uuid primary key default gen_random_uuid(),
+  conversation_id uuid not null references public.gauss_conversations (id) on delete cascade,
+  role text not null check (role in ('user', 'assistant')),
+  content text not null,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists gauss_conversations_user_id_idx on public.gauss_conversations (user_id);
+create index if not exists gauss_messages_conversation_id_idx on public.gauss_messages (conversation_id);
+
+alter table public.gauss_conversations enable row level security;
+alter table public.gauss_messages enable row level security;
+
+drop policy if exists "gauss_conversations_own" on public.gauss_conversations;
+create policy "gauss_conversations_own"
+  on public.gauss_conversations for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "gauss_messages_own" on public.gauss_messages;
+create policy "gauss_messages_own"
+  on public.gauss_messages for all
+  using (
+    exists (
+      select 1 from public.gauss_conversations gc
+      where gc.id = gauss_messages.conversation_id and gc.user_id = auth.uid()
+    )
+  )
+  with check (
+    exists (
+      select 1 from public.gauss_conversations gc
+      where gc.id = gauss_messages.conversation_id and gc.user_id = auth.uid()
+    )
+  );
+
+-- photo_solve_history: uma linha por problema resolvido com sucesso em
+-- /foto ou /quadro (mesmo formato de PhotoSolution: enunciado/passos/
+-- resposta). Não distingue a origem (foto vs quadro) — do ponto de vista
+-- do histórico é só "um problema que a IA resolveu para o aluno".
+create table if not exists public.photo_solve_history (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  enunciado text not null default '',
+  passos jsonb not null default '[]'::jsonb,
+  resposta text not null default '',
+  created_at timestamptz not null default now()
+);
+
+create index if not exists photo_solve_history_user_id_idx on public.photo_solve_history (user_id);
+
+alter table public.photo_solve_history enable row level security;
+
+drop policy if exists "photo_solve_history_own" on public.photo_solve_history;
+create policy "photo_solve_history_own"
+  on public.photo_solve_history for all
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);

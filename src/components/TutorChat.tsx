@@ -30,6 +30,11 @@ export default function TutorChat({
   const [showCalculator, setShowCalculator] = useState(false);
   const [tutorContext, setTutorContextState] = useState<TutorContext | undefined>(undefined);
   const listRef = useRef<HTMLDivElement>(null);
+  // Set once the server confirms/creates a conversation row, then reused
+  // for every subsequent message in this open chat — a page reload starts
+  // a new conversation rather than resuming this one (see /historico for
+  // read-only access to past conversations instead).
+  const conversationIdRef = useRef<string | null>(null);
 
   const calculatorExpression = useMemo(() => {
     const lastAssistantMessage = [...messages].reverse().find((m) => m.role === "assistant")?.content;
@@ -74,7 +79,12 @@ export default function TutorChat({
       const res = await fetch("/api/tutor", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: nextMessages, locale, context: tutorContext }),
+        body: JSON.stringify({
+          messages: nextMessages,
+          locale,
+          context: tutorContext,
+          conversationId: conversationIdRef.current ?? undefined,
+        }),
       });
 
       if (!res.ok || !res.body) {
@@ -107,7 +117,8 @@ export default function TutorChat({
           if (!line.trim()) continue;
           const streamEvent = JSON.parse(line) as
             | { type: "delta"; text: string }
-            | { type: "error"; error: string };
+            | { type: "error"; error: string }
+            | { type: "conversation_id"; id: string };
 
           if (streamEvent.type === "delta") {
             assistantText += streamEvent.text;
@@ -121,6 +132,8 @@ export default function TutorChat({
                 return updated;
               });
             }
+          } else if (streamEvent.type === "conversation_id") {
+            conversationIdRef.current = streamEvent.id;
           } else {
             streamErrorCode = streamEvent.error;
           }

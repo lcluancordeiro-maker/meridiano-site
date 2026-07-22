@@ -22,6 +22,7 @@ export type Dictionary = {
     turmas: string;
     progresso: string;
     revisao: string;
+    historico: string;
     liga: string;
     matematicos: string;
     mais: string;
@@ -106,6 +107,17 @@ export type Dictionary = {
     resolver: string;
     analisando: string;
     trocarFoto: string;
+  };
+  historico: {
+    title: string;
+    subtitle: string;
+    conversasHeading: string;
+    fotosHeading: string;
+    semConversas: string;
+    semFotos: string;
+    verMensagens: string;
+    fecharMensagens: string;
+    carregando: string;
   };
   quadro: {
     title: string;
@@ -627,6 +639,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       turmas: "Turmas",
       progresso: "Progresso",
       revisao: "Revisão",
+      historico: "Histórico",
       liga: "Liga",
       matematicos: "Matemáticos",
       mais: "Mais",
@@ -714,6 +727,17 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resolver: "Resolver",
       analisando: "Analisando...",
       trocarFoto: "Trocar foto",
+    },
+    historico: {
+      title: "Histórico",
+      subtitle: "Reveja suas conversas com o Gauss e os problemas que você já resolveu por foto.",
+      conversasHeading: "Conversas com o Gauss",
+      fotosHeading: "Fotos resolvidas",
+      semConversas: "Você ainda não teve nenhuma conversa com o Gauss.",
+      semFotos: "Você ainda não resolveu nenhum problema por foto.",
+      verMensagens: "Ver mensagens",
+      fecharMensagens: "Fechar",
+      carregando: "Carregando...",
     },
     quadro: {
       title: "Quadro de rascunho",
@@ -1055,6 +1079,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       turmas: "Classes",
       progresso: "Progress",
       revisao: "Review",
+      historico: "History",
       liga: "League",
       matematicos: "Mathematicians",
       mais: "More",
@@ -1142,6 +1167,17 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resolver: "Solve",
       analisando: "Analyzing...",
       trocarFoto: "Change photo",
+    },
+    historico: {
+      title: "History",
+      subtitle: "Revisit your conversations with Gauss and the problems you've solved by photo.",
+      conversasHeading: "Conversations with Gauss",
+      fotosHeading: "Solved photos",
+      semConversas: "You haven't had any conversations with Gauss yet.",
+      semFotos: "You haven't solved any problems by photo yet.",
+      verMensagens: "View messages",
+      fecharMensagens: "Close",
+      carregando: "Loading...",
     },
     quadro: {
       title: "Scratch whiteboard",
@@ -1299,6 +1335,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       turmas: "Clases",
       progresso: "Progreso",
       revisao: "Repaso",
+      historico: "Historial",
       liga: "Liga",
       matematicos: "Matemáticos",
       mais: "Más",
@@ -1386,6 +1423,17 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resolver: "Resolver",
       analisando: "Analizando...",
       trocarFoto: "Cambiar foto",
+    },
+    historico: {
+      title: "Historial",
+      subtitle: "Revisa tus conversaciones con Gauss y los problemas que ya resolviste por foto.",
+      conversasHeading: "Conversaciones con Gauss",
+      fotosHeading: "Fotos resueltas",
+      semConversas: "Todavía no tuviste ninguna conversación con Gauss.",
+      semFotos: "Todavía no resolviste ningún problema por foto.",
+      verMensagens: "Ver mensajes",
+      fecharMensagens: "Cerrar",
+      carregando: "Cargando...",
     },
     quadro: {
       title: "Pizarra de borrador",
@@ -1726,6 +1774,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       turmas: "班级",
       progresso: "进度",
       revisao: "复习",
+      historico: "历史记录",
       liga: "联赛",
       matematicos: "数学家",
       mais: "更多",
@@ -1811,6 +1860,17 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resolver: "解答",
       analisando: "分析中...",
       trocarFoto: "更换照片",
+    },
+    historico: {
+      title: "历史记录",
+      subtitle: "回顾你与高斯的对话，以及你通过拍照解决过的问题。",
+      conversasHeading: "与高斯的对话",
+      fotosHeading: "已解决的照片",
+      semConversas: "你还没有和高斯进行过对话。",
+      semFotos: "你还没有通过拍照解决过任何问题。",
+      verMensagens: "查看消息",
+      fecharMensagens: "关闭",
+      carregando: "加载中...",
     },
     quadro: {
       title: "草稿白板",
@@ -2167,6 +2227,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       turmas: "Classi",
       progresso: "Progressi",
       revisao: "Ripasso",
+      historico: "Cronologia",
       liga: "Classifica",
       matematicos: "Matematici",
       mais: "Altro",
@@ -2255,6 +2316,17 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resolver: "Risolvi",
       analisando: "Analisi in corso...",
       trocarFoto: "Cambia foto",
+    },
+    historico: {
+      title: "Cronologia",
+      subtitle: "Rivedi le tue conversazioni con Gauss e i problemi che hai già risolto con la foto.",
+      conversasHeading: "Conversazioni con Gauss",
+      fotosHeading: "Foto risolte",
+      semConversas: "Non hai ancora avuto nessuna conversazione con Gauss.",
+      semFotos: "Non hai ancora risolto nessun problema con la foto.",
+      verMensagens: "Vedi messaggi",
+      fecharMensagens: "Chiudi",
+      carregando: "Caricamento...",
     },
     quadro: {
       title: "Lavagna per appunti",
@@ -2612,6 +2684,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       turmas: "학급",
       progresso: "학습 진도",
       revisao: "복습",
+      historico: "기록",
       liga: "리그",
       matematicos: "수학자",
       mais: "더보기",
@@ -2698,6 +2771,17 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resolver: "풀이 보기",
       analisando: "분석 중...",
       trocarFoto: "사진 바꾸기",
+    },
+    historico: {
+      title: "기록",
+      subtitle: "가우스와 나눈 대화와 사진으로 풀었던 문제들을 다시 확인해 보세요.",
+      conversasHeading: "가우스와의 대화",
+      fotosHeading: "해결한 사진",
+      semConversas: "아직 가우스와 나눈 대화가 없습니다.",
+      semFotos: "아직 사진으로 해결한 문제가 없습니다.",
+      verMensagens: "메시지 보기",
+      fecharMensagens: "닫기",
+      carregando: "불러오는 중...",
     },
     quadro: {
       title: "연습장 화이트보드",
@@ -3055,6 +3139,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       turmas: "Klassen",
       progresso: "Fortschritt",
       revisao: "Wiederholung",
+      historico: "Verlauf",
       liga: "Liga",
       matematicos: "Mathematiker",
       mais: "Mehr",
@@ -3143,6 +3228,17 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resolver: "Lösen",
       analisando: "Wird analysiert...",
       trocarFoto: "Foto ändern",
+    },
+    historico: {
+      title: "Verlauf",
+      subtitle: "Sieh dir deine Gespräche mit Gauss und die per Foto gelösten Aufgaben noch einmal an.",
+      conversasHeading: "Gespräche mit Gauss",
+      fotosHeading: "Gelöste Fotos",
+      semConversas: "Du hattest noch kein Gespräch mit Gauss.",
+      semFotos: "Du hast noch keine Aufgabe per Foto gelöst.",
+      verMensagens: "Nachrichten ansehen",
+      fecharMensagens: "Schließen",
+      carregando: "Wird geladen...",
     },
     quadro: {
       title: "Schmier-Tafel",
@@ -3500,6 +3596,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       turmas: "Classes",
       progresso: "Progrès",
       revisao: "Révision",
+      historico: "Historique",
       liga: "Ligue",
       matematicos: "Mathématiciens",
       mais: "Plus",
@@ -3588,6 +3685,17 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resolver: "Résoudre",
       analisando: "Analyse en cours...",
       trocarFoto: "Changer de photo",
+    },
+    historico: {
+      title: "Historique",
+      subtitle: "Revois tes conversations avec Gauss et les problèmes déjà résolus par photo.",
+      conversasHeading: "Conversations avec Gauss",
+      fotosHeading: "Photos résolues",
+      semConversas: "Tu n'as encore eu aucune conversation avec Gauss.",
+      semFotos: "Tu n'as encore résolu aucun problème par photo.",
+      verMensagens: "Voir les messages",
+      fecharMensagens: "Fermer",
+      carregando: "Chargement...",
     },
     quadro: {
       title: "Tableau de brouillon",
@@ -3945,6 +4053,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       turmas: "クラス",
       progresso: "進捗",
       revisao: "復習",
+      historico: "履歴",
       liga: "リーグ",
       matematicos: "数学者",
       mais: "もっと見る",
@@ -4030,6 +4139,17 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resolver: "解く",
       analisando: "分析中...",
       trocarFoto: "写真を変更",
+    },
+    historico: {
+      title: "履歴",
+      subtitle: "ガウスとの会話や、写真で解いた問題を振り返れます。",
+      conversasHeading: "ガウスとの会話",
+      fotosHeading: "解いた写真",
+      semConversas: "まだガウスとの会話はありません。",
+      semFotos: "まだ写真で解いた問題はありません。",
+      verMensagens: "メッセージを見る",
+      fecharMensagens: "閉じる",
+      carregando: "読み込み中...",
     },
     quadro: {
       title: "落書きホワイトボード",
@@ -4387,6 +4507,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       turmas: "الصفوف",
       progresso: "التقدم",
       revisao: "المراجعة",
+      historico: "السجل",
       liga: "الدوري",
       matematicos: "علماء الرياضيات",
       mais: "المزيد",
@@ -4474,6 +4595,17 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resolver: "حل",
       analisando: "جارٍ التحليل...",
       trocarFoto: "تغيير الصورة",
+    },
+    historico: {
+      title: "السجل",
+      subtitle: "راجع محادثاتك مع غاوس والمسائل التي حللتها بالصورة من قبل.",
+      conversasHeading: "محادثات مع غاوس",
+      fotosHeading: "الصور المحلولة",
+      semConversas: "لم تجرِ أي محادثة مع غاوس بعد.",
+      semFotos: "لم تحلّ أي مسألة بالصورة بعد.",
+      verMensagens: "عرض الرسائل",
+      fecharMensagens: "إغلاق",
+      carregando: "جارٍ التحميل...",
     },
     quadro: {
       title: "لوحة المسودة",
@@ -4831,6 +4963,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       turmas: "Классы",
       progresso: "Прогресс",
       revisao: "Повторение",
+      historico: "История",
       liga: "Лига",
       matematicos: "Математики",
       mais: "Ещё",
@@ -4919,6 +5052,17 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resolver: "Решить",
       analisando: "Анализируем...",
       trocarFoto: "Сменить фото",
+    },
+    historico: {
+      title: "История",
+      subtitle: "Просмотрите свои разговоры с Гауссом и задачи, решённые по фото.",
+      conversasHeading: "Разговоры с Гауссом",
+      fotosHeading: "Решённые фото",
+      semConversas: "У вас ещё не было разговоров с Гауссом.",
+      semFotos: "Вы ещё не решили ни одной задачи по фото.",
+      verMensagens: "Посмотреть сообщения",
+      fecharMensagens: "Закрыть",
+      carregando: "Загрузка...",
     },
     quadro: {
       title: "Доска для черновиков",
@@ -5276,6 +5420,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "turmas": "कक्षाएं",
       "progresso": "प्रगति",
       "revisao": "रिवीज़न",
+      historico: "इतिहास",
       "liga": "लीग",
       "matematicos": "गणितज्ञ",
       "mais": "अधिक",
@@ -5359,7 +5504,18 @@ export const dictionaries: Record<Locale, Dictionary> = {
       removerFoto: "फ़ोटो हटाएं",
       "resolver": "हल करें",
       "analisando": "जांचा जा रहा है...",
-      "trocarFoto": "फोटो बदलें"
+      "trocarFoto": "फोटो बदलें",
+    },
+    historico: {
+      title: "इतिहास",
+      subtitle: "गॉस के साथ अपनी बातचीत और फ़ोटो से हल किए गए सवालों को फिर से देखें।",
+      conversasHeading: "गॉस के साथ बातचीत",
+      fotosHeading: "हल की गई फ़ोटो",
+      semConversas: "आपने अभी तक गॉस के साथ कोई बातचीत नहीं की है।",
+      semFotos: "आपने अभी तक फ़ोटो से कोई सवाल हल नहीं किया है।",
+      verMensagens: "संदेश देखें",
+      fecharMensagens: "बंद करें",
+      carregando: "लोड हो रहा है...",
     },
     "quadro": {
       "title": "स्क्रैच व्हाइटबोर्ड",
@@ -5716,6 +5872,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "turmas": "Lớp học",
       "progresso": "Tiến độ",
       "revisao": "Ôn tập",
+      historico: "Lịch sử",
       "liga": "Giải đấu",
       "matematicos": "Nhà toán học",
       "mais": "Thêm",
@@ -5799,7 +5956,18 @@ export const dictionaries: Record<Locale, Dictionary> = {
       removerFoto: "Xóa ảnh",
       "resolver": "Giải",
       "analisando": "Đang phân tích...",
-      "trocarFoto": "Đổi ảnh"
+      "trocarFoto": "Đổi ảnh",
+    },
+    historico: {
+      title: "Lịch sử",
+      subtitle: "Xem lại các cuộc trò chuyện với Gauss và những bài toán bạn đã giải bằng ảnh.",
+      conversasHeading: "Trò chuyện với Gauss",
+      fotosHeading: "Ảnh đã giải",
+      semConversas: "Bạn chưa có cuộc trò chuyện nào với Gauss.",
+      semFotos: "Bạn chưa giải bài toán nào bằng ảnh.",
+      verMensagens: "Xem tin nhắn",
+      fecharMensagens: "Đóng",
+      carregando: "Đang tải...",
     },
     "quadro": {
       "title": "Bảng nháp",
@@ -6156,6 +6324,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "turmas": "Klasy",
       "progresso": "Postępy",
       "revisao": "Powtórki",
+      historico: "Historia",
       "liga": "Liga",
       "matematicos": "Matematycy",
       "mais": "Więcej",
@@ -6239,7 +6408,18 @@ export const dictionaries: Record<Locale, Dictionary> = {
       removerFoto: "Usuń zdjęcie",
       "resolver": "Rozwiąż",
       "analisando": "Analizowanie...",
-      "trocarFoto": "Zmień zdjęcie"
+      "trocarFoto": "Zmień zdjęcie",
+    },
+    historico: {
+      title: "Historia",
+      subtitle: "Przejrzyj swoje rozmowy z Gaussem i zadania, które rozwiązałeś na podstawie zdjęcia.",
+      conversasHeading: "Rozmowy z Gaussem",
+      fotosHeading: "Rozwiązane zdjęcia",
+      semConversas: "Nie miałeś jeszcze żadnej rozmowy z Gaussem.",
+      semFotos: "Nie rozwiązałeś jeszcze żadnego zadania ze zdjęcia.",
+      verMensagens: "Zobacz wiadomości",
+      fecharMensagens: "Zamknij",
+      carregando: "Ładowanie...",
     },
     "quadro": {
       "title": "Tablica do rysowania",
@@ -6596,6 +6776,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "turmas": "Sınıflar",
       "progresso": "İlerleme",
       "revisao": "Tekrar",
+      historico: "Geçmiş",
       "liga": "Lig",
       "matematicos": "Matematikçiler",
       "mais": "Diğer",
@@ -6679,7 +6860,18 @@ export const dictionaries: Record<Locale, Dictionary> = {
       removerFoto: "Fotoğrafı kaldır",
       "resolver": "Çöz",
       "analisando": "Analiz ediliyor...",
-      "trocarFoto": "Fotoğrafı değiştir"
+      "trocarFoto": "Fotoğrafı değiştir",
+    },
+    historico: {
+      title: "Geçmiş",
+      subtitle: "Gauss ile yaptığın sohbetleri ve fotoğrafla çözdüğün soruları tekrar gör.",
+      conversasHeading: "Gauss ile sohbetler",
+      fotosHeading: "Çözülen fotoğraflar",
+      semConversas: "Henüz Gauss ile bir sohbetin olmadı.",
+      semFotos: "Henüz fotoğrafla bir soru çözmedin.",
+      verMensagens: "Mesajları gör",
+      fecharMensagens: "Kapat",
+      carregando: "Yükleniyor...",
     },
     "quadro": {
       "title": "Karalama Tahtası",

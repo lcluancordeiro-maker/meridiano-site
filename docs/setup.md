@@ -161,6 +161,23 @@ no bundle do layout raiz, que é compartilhado por todas as páginas.
 Não testado com uma conversa real nesta sessão (sem
 `ANTHROPIC_API_KEY` configurada aqui).
 
+## Histórico (conversas do Gauss + fotos resolvidas)
+
+Sem variável nova — usa as tabelas `gauss_conversations`,
+`gauss_messages` e `photo_solve_history` de `supabase/schema.sql`
+(rode o script de novo se seu banco já existia antes dessas tabelas
+existirem). Cada mensagem trocada com o Gauss e cada problema resolvido
+por foto/quadro é gravado nessas tabelas (RLS restringe cada usuário à
+própria linha) e fica disponível em `/historico`, sem exigir nenhuma
+ação do aluno. A gravação é "best-effort": uma falha ao salvar nunca
+derruba a resposta da IA que já foi gerada (ver `recordPhotoSolveHistory`
+em `src/lib/photoSolveHistory.ts` e o bloco `try/catch` em
+`/api/tutor/route.ts`). Uma conversa aberta no Gauss vira uma única
+linha em `gauss_conversations` até a página ser recarregada — recarregar
+sempre começa uma conversa nova (não há retomar-e-continuar uma
+conversa antiga a partir de `/historico`, só visualizar o que já foi
+dito).
+
 ## Configurando assinaturas (Stripe)
 
 Exige contas (Supabase) já configuradas. Assinaturas são opcionais —

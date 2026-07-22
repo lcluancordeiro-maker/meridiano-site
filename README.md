@@ -520,6 +520,16 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   (checagem definitiva). O quadro de rascunho (`/quadro`) continua
   enviando uma única imagem (o PNG exportado do desenho), só que agora
   como uma lista de um item — mesma função, sem mudança de UI lá.
+- **Histórico de conversas do Gauss e fotos resolvidas** (`/historico`):
+  toda mensagem trocada com o tutor e todo problema resolvido por
+  foto/quadro fica salvo (tabelas `gauss_conversations`/`gauss_messages`/
+  `photo_solve_history`, RLS restringe cada aluno à própria linha) e pode
+  ser revisitado depois, sem exigir nenhuma ação — a gravação acontece
+  sozinha em `/api/tutor` e `/api/resolver-foto`/`/api/exercicio-parecido`
+  como efeito colateral best-effort (uma falha ao salvar nunca derruba a
+  resposta da IA que já foi gerada). Uma conversa aberta no Gauss vira uma
+  linha só até a página recarregar — `/historico` mostra o que já foi
+  dito, mas não retoma uma conversa antiga pra continuar de onde parou.
 - **Preparatório para Vestibulares**: simulados no estilo real de cada
   prova — ENEM (grátis: questões contextualizadas, múltipla escolha),
   UERJ (Premium: estilo discursivo/interdisciplinar), UNESP (Premium:
@@ -947,6 +957,18 @@ unitários e e2e em todo push e pull request.
   (mesmo schema, mesmo modelo e mesma cota diária de `resolver-foto`, via
   `increment_photo_usage`). Usado pelo botão "Praticar um exercício
   parecido" em `SolutionDisplay.tsx`.
+- `src/app/historico/page.tsx` + `src/components/HistoricoList.tsx` +
+  `src/app/actions/historico.ts` — página de histórico. O Server
+  Component busca a lista de conversas (`gauss_conversations`) e fotos
+  resolvidas (`photo_solve_history`) direto do Supabase e passa como
+  props; o transcript completo de uma conversa só é buscado sob demanda
+  (ao expandir um item) via a server action `getConversationMessages`,
+  pra não carregar toda a mensageria do aluno de uma vez. `src/lib/
+  photoSolveHistory.ts` (`recordPhotoSolveHistory`) e o bloco try/catch em
+  `/api/tutor/route.ts` gravam best-effort — uma falha aqui nunca derruba
+  uma resposta da IA que já foi gerada. `src/lib/tutorHistory.ts`
+  (`titleFromMessage`) deriva o título de uma conversa da primeira
+  mensagem do aluno.
 - `src/lib/tutor/extractExpression.ts` — extrai uma expressão plotável
   de uma resposta do Gauss (usada pela calculadora embutida no
   `TutorChat.tsx`), reaproveitando `compileExpression` de `mathExpr.ts`
