@@ -229,7 +229,7 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
 
       {errorText && <p className="rounded-xl bg-error-bg p-3 text-sm text-error">{errorText}</p>}
 
-      {solution && <SolutionDisplay solution={solution} />}
+      {solution && <SolutionDisplay key={JSON.stringify(solution)} solution={solution} />}
     </div>
   );
 }

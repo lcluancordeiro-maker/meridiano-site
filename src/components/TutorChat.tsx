@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { errorMessageFor } from "@/lib/photoSolveErrors";
 import { ASK_GAUSS_EVENT } from "@/lib/gaussPrompt";
+import { extractPlottableExpression } from "@/lib/tutor/extractExpression";
 import VoiceInputButton from "./VoiceInputButton";
+import LazyFunctionGrapher from "./LazyFunctionGrapher";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -17,14 +19,20 @@ export default function TutorChat({
   loggedIn: boolean;
 }) {
   const { dict, locale } = useTranslation();
-  const { tutor } = dict;
+  const { tutor, nav } = dict;
 
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showCalculator, setShowCalculator] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
+
+  const calculatorExpression = useMemo(() => {
+    const lastAssistantMessage = [...messages].reverse().find((m) => m.role === "assistant")?.content;
+    return lastAssistantMessage ? extractPlottableExpression(lastAssistantMessage) : "x^2";
+  }, [messages]);
 
   useEffect(() => {
     if (listRef.current) listRef.current.scrollTop = listRef.current.scrollHeight;
@@ -172,7 +180,27 @@ export default function TutorChat({
         </p>
       ) : (
         <>
-          <div ref={listRef} className="flex-1 overflow-y-auto px-4 py-3">
+          <div className="flex items-center justify-between border-b border-border px-4 py-1.5">
+            <button
+              type="button"
+              onClick={() => setShowCalculator((v) => !v)}
+              aria-pressed={showCalculator}
+              className={`flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-semibold transition-colors ${
+                showCalculator ? "bg-primary/10 text-primary" : "text-muted hover:text-foreground"
+              }`}
+            >
+              <span aria-hidden>📈</span>
+              {nav.calculadora}
+            </button>
+          </div>
+
+          {showCalculator && (
+            <div className="max-h-72 shrink-0 overflow-y-auto border-b border-border p-3">
+              <LazyFunctionGrapher initialExpressions={[calculatorExpression]} key={calculatorExpression} />
+            </div>
+          )}
+
+          <div ref={listRef} className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
             <div className="mb-3 max-w-[85%] rounded-2xl rounded-tl-sm bg-background px-3 py-2 text-sm text-foreground">
               {tutor.welcomeMessage}
             </div>

@@ -467,6 +467,31 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   (`src/lib/localeLanguageName.ts`). A conversa fica só no navegador (não
   é salva no banco nem sincronizada entre dispositivos — um possível
   próximo passo). Veja "Configurando o tutor de IA" em docs/setup.md.
+  O chat tem uma calculadora gráfica interativa embutida (mesmo
+  `FunctionGrapher`/`LazyFunctionGrapher` da página `/calculadora`,
+  código-splitado para não pesar o chat quando não usada) — um botão
+  "📈 Calculadora" no topo do painel abre/fecha um gráfico compacto e
+  arrastável. Ela é "contextual": `extractPlottableExpression`
+  (`src/lib/tutor/extractExpression.ts`) escaneia a última resposta do
+  Gauss por um padrão `f(x) = ...`/`y = ...`, valida contra o mesmo
+  parser da calculadora (`mathExpr.ts`) e usa esse resultado como
+  expressão inicial do gráfico sempre que uma nova resposta traz uma
+  função plotável — com fallback pra `x^2` quando não encontra nada.
+- **Resolver por foto vira exercício interativo**: em vez de já mostrar
+  a solução completa, `SolutionDisplay.tsx` (compartilhado entre
+  `/foto` e `/quadro`) primeiro pede pro aluno digitar a própria
+  resposta. Acertou de primeira → mostra "Certinho!" e revela o
+  passo a passo como reforço. Errou a primeira vez → uma mensagem de
+  incentivo pra tentar de novo (sem revelar nada). Errou a segunda vez
+  (ou clicou em "Ver solução completa" a qualquer momento) → revela o
+  passo a passo e a resposta certa. A comparação (`src/lib/answerMatch.ts`)
+  é mais frouxa que a do motor de exercícios — normaliza texto e, se os
+  dois lados forem expressões matemáticas válidas (reaproveita
+  `compileExpression` de `mathExpr.ts`), também aceita equivalência
+  numérica (ex: "0,75" bate com "3/4") e ignora um prefixo tipo "x = "
+  em qualquer um dos lados. O botão "Perguntar ao Gauss sobre isso"
+  continua disponível o tempo todo, mesmo antes de errar — dá pra pedir
+  ajuda ao tutor sem precisar revelar a resposta.
 - **Preparatório para Vestibulares**: simulados no estilo real de cada
   prova — ENEM (grátis: questões contextualizadas, múltipla escolha),
   UERJ (Premium: estilo discursivo/interdisciplinar), UNESP (Premium:
@@ -851,10 +876,16 @@ unitários e e2e em todo push e pull request.
 - `src/components/DrawingCanvas.tsx` + `QuadroBoard.tsx` — quadro de
   rascunho (canvas livre) e o botão "Resolver com IA", que reaproveita
   `/api/resolver-foto` exportando o desenho como PNG. `SolutionDisplay.tsx`
-  (compartilhado entre `/foto` e `/quadro`) tem um botão "Perguntar ao
-  Gauss sobre isso" que abre o chat do tutor já com uma pergunta pré-
-  preenchida sobre a solução (mesmo padrão `askGauss()`/`ASK_GAUSS_EVENT`
-  usado no grafo de conhecimento).
+  (compartilhado entre `/foto` e `/quadro`) primeiro pede a resposta do
+  aluno antes de revelar o passo a passo (ver seção de features acima
+  e `src/lib/answerMatch.ts`), e tem um botão "Perguntar ao Gauss sobre
+  isso" que abre o chat do tutor já com uma pergunta pré-preenchida
+  sobre a solução (mesmo padrão `askGauss()`/`ASK_GAUSS_EVENT` usado no
+  grafo de conhecimento).
+- `src/lib/tutor/extractExpression.ts` — extrai uma expressão plotável
+  de uma resposta do Gauss (usada pela calculadora embutida no
+  `TutorChat.tsx`), reaproveitando `compileExpression` de `mathExpr.ts`
+  pra validar candidatos.
 - `supabase/schema.sql` — esquema do banco (tabelas + RLS). Índices em
   toda foreign key usada em filtro/RLS (inclusive a 2ª coluna de PKs
   compostas, que o índice da própria PK não cobre — ex:

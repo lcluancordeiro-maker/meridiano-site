@@ -130,6 +130,12 @@ export type Dictionary = {
     resposta: string;
     askGaussButton: string;
     gaussPromptTemplate: string;
+    answerPlaceholder: string;
+    checkButton: string;
+    correctFeedback: string;
+    tryAgainFeedback: string;
+    incorrectFeedback: string;
+    showSolutionButton: string;
   };
   errors: {
     unsupportedType: string;
@@ -722,6 +728,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resposta: "Resposta",
       askGaussButton: "Perguntar ao Gauss sobre isso",
       gaussPromptTemplate: "Pode me ajudar a entender melhor essa solução? O problema era: \"{enunciado}\". Pode explicar de outro jeito ou me dar um exercício parecido pra eu praticar?",
+      answerPlaceholder: "Digite sua resposta...",
+      checkButton: "Verificar",
+      correctFeedback: "Certinho! 🎉",
+      tryAgainFeedback: "Quase lá! Tente de novo ou veja a solução completa.",
+      incorrectFeedback: "Não foi dessa vez — aqui está a solução completa:",
+      showSolutionButton: "Ver solução completa",
     },
     errors: {
       unsupportedType: "Formato de imagem não suportado. Use JPEG, PNG, GIF ou WEBP.",
@@ -1133,6 +1145,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resposta: "Answer",
       askGaussButton: "Ask Gauss about this",
       gaussPromptTemplate: "Can you help me understand this solution better? The problem was: \"{enunciado}\". Can you explain it another way, or give me a similar exercise to practice?",
+      answerPlaceholder: "Type your answer...",
+      checkButton: "Check",
+      correctFeedback: "Correct! 🎉",
+      tryAgainFeedback: "Almost there! Try again or see the full solution.",
+      incorrectFeedback: "Not quite — here's the full solution:",
+      showSolutionButton: "See full solution",
     },
     errors: {
       unsupportedType: "Unsupported image format. Use JPEG, PNG, GIF or WEBP.",
@@ -1360,6 +1378,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resposta: "Respuesta",
       askGaussButton: "Preguntarle a Gauss sobre esto",
       gaussPromptTemplate: "¿Puedes ayudarme a entender mejor esta solución? El problema era: \"{enunciado}\". ¿Puedes explicarlo de otra manera o darme un ejercicio parecido para practicar?",
+      answerPlaceholder: "Escribe tu respuesta...",
+      checkButton: "Comprobar",
+      correctFeedback: "¡Correcto! 🎉",
+      tryAgainFeedback: "¡Casi! Intenta de nuevo o mira la solución completa.",
+      incorrectFeedback: "No esta vez — aquí está la solución completa:",
+      showSolutionButton: "Ver solución completa",
     },
     errors: {
       unsupportedType: "Formato de imagen no compatible. Usa JPEG, PNG, GIF o WEBP.",
@@ -1767,6 +1791,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resposta: "答案",
       askGaussButton: "向高斯提问",
       gaussPromptTemplate: "你能帮我更好地理解这个解法吗?题目是:“{enunciado}”。你能换个方式讲解一下,或者给我一道类似的题练习吗?",
+      answerPlaceholder: "输入你的答案…",
+      checkButton: "检查",
+      correctFeedback: "答对了!🎉",
+      tryAgainFeedback: "就差一点!再试一次,或者查看完整解答。",
+      incorrectFeedback: "这次不对——这是完整解答:",
+      showSolutionButton: "查看完整解答",
     },
     errors: {
       unsupportedType: "不支持的图片格式。请使用 JPEG、PNG、GIF 或 WEBP。",
@@ -2195,6 +2225,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resposta: "Risposta",
       askGaussButton: "Chiedi a Gauss di questo",
       gaussPromptTemplate: "Puoi aiutarmi a capire meglio questa soluzione? Il problema era: \"{enunciado}\". Puoi spiegarlo in un altro modo o darmi un esercizio simile per esercitarmi?",
+      answerPlaceholder: "Scrivi la tua risposta...",
+      checkButton: "Verifica",
+      correctFeedback: "Esatto! 🎉",
+      tryAgainFeedback: "Quasi! Riprova oppure guarda la soluzione completa.",
+      incorrectFeedback: "Non questa volta — ecco la soluzione completa:",
+      showSolutionButton: "Vedi soluzione completa",
     },
     errors: {
       unsupportedType: "Formato immagine non supportato. Usa JPEG, PNG, GIF o WEBP.",
@@ -2621,6 +2657,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resposta: "정답",
       askGaussButton: "가우스에게 물어보기",
       gaussPromptTemplate: "\"{enunciado}\"라는 문제였는데, 이 풀이를 더 잘 이해하도록 도와줄 수 있어? 다른 방식으로 설명해주거나 비슷한 연습 문제를 하나 줄 수 있어?",
+      answerPlaceholder: "답을 입력하세요...",
+      checkButton: "확인",
+      correctFeedback: "정답이에요! 🎉",
+      tryAgainFeedback: "거의 다 왔어요! 다시 시도하거나 전체 풀이를 확인해보세요.",
+      incorrectFeedback: "이번엔 아니에요 — 전체 풀이를 보여드릴게요:",
+      showSolutionButton: "전체 풀이 보기",
     },
     errors: {
       unsupportedType: "지원하지 않는 이미지 형식입니다. JPEG, PNG, GIF 또는 WEBP를 사용하세요.",
@@ -3049,6 +3091,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resposta: "Antwort",
       askGaussButton: "Gauß dazu fragen",
       gaussPromptTemplate: "Kannst du mir helfen, diese Lösung besser zu verstehen? Die Aufgabe war: „{enunciado}\". Kannst du es anders erklären oder mir eine ähnliche Übung zum Üben geben?",
+      answerPlaceholder: "Gib deine Antwort ein...",
+      checkButton: "Prüfen",
+      correctFeedback: "Richtig! 🎉",
+      tryAgainFeedback: "Fast geschafft! Versuch's noch mal oder sieh dir die vollständige Lösung an.",
+      incorrectFeedback: "Diesmal nicht — hier ist die vollständige Lösung:",
+      showSolutionButton: "Vollständige Lösung ansehen",
     },
     errors: {
       unsupportedType: "Nicht unterstütztes Bildformat. Verwende JPEG, PNG, GIF oder WEBP.",
@@ -3477,6 +3525,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resposta: "Réponse",
       askGaussButton: "Demander à Gauss à ce sujet",
       gaussPromptTemplate: "Peux-tu m'aider à mieux comprendre cette solution ? Le problème était : « {enunciado} ». Peux-tu l'expliquer autrement ou me donner un exercice similaire pour m'entraîner ?",
+      answerPlaceholder: "Tape ta réponse...",
+      checkButton: "Vérifier",
+      correctFeedback: "Correct ! 🎉",
+      tryAgainFeedback: "Presque ! Réessaie ou regarde la solution complète.",
+      incorrectFeedback: "Pas cette fois — voici la solution complète :",
+      showSolutionButton: "Voir la solution complète",
     },
     errors: {
       unsupportedType: "Format d'image non pris en charge. Utilisez JPEG, PNG, GIF ou WEBP.",
@@ -3902,6 +3956,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resposta: "答え",
       askGaussButton: "ガウスに聞いてみる",
       gaussPromptTemplate: "この解き方をもっとよく理解する手伝いをしてもらえますか?問題は「{enunciado}」でした。別の説明の仕方をしてもらうか、練習用に似た問題を出してもらえますか?",
+      answerPlaceholder: "答えを入力してください…",
+      checkButton: "確認する",
+      correctFeedback: "正解です!🎉",
+      tryAgainFeedback: "もう少し!もう一度試すか、解答をすべて見てみましょう。",
+      incorrectFeedback: "今回は違いました — こちらが解答全体です:",
+      showSolutionButton: "解答をすべて見る",
     },
     errors: {
       unsupportedType: "サポートされていない画像形式です。JPEG、PNG、GIF、WEBPをご利用ください。",
@@ -4329,6 +4389,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resposta: "الإجابة",
       askGaussButton: "اسأل غاوس عن هذا",
       gaussPromptTemplate: "هل يمكنك مساعدتي على فهم هذا الحل بشكل أفضل؟ كانت المسألة: \"{enunciado}\". هل يمكنك شرحها بطريقة أخرى أو إعطائي تمرينًا مشابهًا للتدرب عليه؟",
+      answerPlaceholder: "اكتب إجابتك...",
+      checkButton: "تحقق",
+      correctFeedback: "إجابة صحيحة! 🎉",
+      tryAgainFeedback: "قريب جدًا! حاول مرة أخرى أو شاهد الحل الكامل.",
+      incorrectFeedback: "ليس هذه المرة — إليك الحل الكامل:",
+      showSolutionButton: "عرض الحل الكامل",
     },
     errors: {
       unsupportedType: "صيغة الصورة غير مدعومة. استخدم JPEG أو PNG أو GIF أو WEBP.",
@@ -4757,6 +4823,12 @@ export const dictionaries: Record<Locale, Dictionary> = {
       resposta: "Ответ",
       askGaussButton: "Спросить Гаусса об этом",
       gaussPromptTemplate: "Можешь помочь мне лучше понять это решение? Задача была: «{enunciado}». Можешь объяснить по-другому или дать похожее упражнение для практики?",
+      answerPlaceholder: "Введите ваш ответ...",
+      checkButton: "Проверить",
+      correctFeedback: "Правильно! 🎉",
+      tryAgainFeedback: "Почти получилось! Попробуйте ещё раз или посмотрите полное решение.",
+      incorrectFeedback: "На этот раз не получилось — вот полное решение:",
+      showSolutionButton: "Посмотреть полное решение",
     },
     errors: {
       unsupportedType: "Неподдерживаемый формат изображения. Используйте JPEG, PNG, GIF или WEBP.",
@@ -5179,7 +5251,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "passoAPasso": "स्टेप बाय स्टेप",
       "resposta": "जवाब",
       "askGaussButton": "इस बारे में गॉस से पूछें",
-      "gaussPromptTemplate": "क्या आप मुझे यह हल और अच्छे से समझने में मदद कर सकते हैं? सवाल था: \"{enunciado}\"। क्या आप इसे किसी और तरीके से समझा सकते हैं, या अभ्यास के लिए मिलता-जुलता एक सवाल दे सकते हैं?"
+      "gaussPromptTemplate": "क्या आप मुझे यह हल और अच्छे से समझने में मदद कर सकते हैं? सवाल था: \"{enunciado}\"। क्या आप इसे किसी और तरीके से समझा सकते हैं, या अभ्यास के लिए मिलता-जुलता एक सवाल दे सकते हैं?",
+      answerPlaceholder: "अपना उत्तर लिखें...",
+      checkButton: "जांचें",
+      correctFeedback: "सही जवाब! 🎉",
+      tryAgainFeedback: "लगभग हो गया! फिर से कोशिश करें या पूरा हल देखें।",
+      incorrectFeedback: "इस बार नहीं — यह रहा पूरा हल:",
+      showSolutionButton: "पूरा हल देखें",
     },
     "errors": {
       "unsupportedType": "यह इमेज फॉर्मैट सपोर्ट नहीं है। JPEG, PNG, GIF या WEBP का इस्तेमाल करें।",
@@ -5602,7 +5680,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "passoAPasso": "Từng bước",
       "resposta": "Đáp án",
       "askGaussButton": "Hỏi Gauss về điều này",
-      "gaussPromptTemplate": "Bạn có thể giúp mình hiểu rõ hơn lời giải này không? Đề bài là: \"{enunciado}\". Bạn có thể giải thích theo cách khác hoặc cho mình một bài tập tương tự để luyện tập không?"
+      "gaussPromptTemplate": "Bạn có thể giúp mình hiểu rõ hơn lời giải này không? Đề bài là: \"{enunciado}\". Bạn có thể giải thích theo cách khác hoặc cho mình một bài tập tương tự để luyện tập không?",
+      answerPlaceholder: "Nhập câu trả lời của bạn...",
+      checkButton: "Kiểm tra",
+      correctFeedback: "Chính xác! 🎉",
+      tryAgainFeedback: "Gần đúng rồi! Thử lại hoặc xem lời giải đầy đủ.",
+      incorrectFeedback: "Lần này chưa đúng — đây là lời giải đầy đủ:",
+      showSolutionButton: "Xem lời giải đầy đủ",
     },
     "errors": {
       "unsupportedType": "Định dạng ảnh không được hỗ trợ. Hãy dùng JPEG, PNG, GIF hoặc WEBP.",
@@ -6025,7 +6109,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "passoAPasso": "Krok po kroku",
       "resposta": "Odpowiedź",
       "askGaussButton": "Zapytaj o to Gaussa",
-      "gaussPromptTemplate": "Możesz pomóc mi lepiej zrozumieć to rozwiązanie? Zadanie brzmiało: \"{enunciado}\". Możesz wyjaśnić to inaczej albo dać mi podobne zadanie do przećwiczenia?"
+      "gaussPromptTemplate": "Możesz pomóc mi lepiej zrozumieć to rozwiązanie? Zadanie brzmiało: \"{enunciado}\". Możesz wyjaśnić to inaczej albo dać mi podobne zadanie do przećwiczenia?",
+      answerPlaceholder: "Wpisz swoją odpowiedź...",
+      checkButton: "Sprawdź",
+      correctFeedback: "Brawo, dobrze! 🎉",
+      tryAgainFeedback: "Prawie! Spróbuj ponownie albo zobacz pełne rozwiązanie.",
+      incorrectFeedback: "Tym razem się nie udało — oto pełne rozwiązanie:",
+      showSolutionButton: "Zobacz pełne rozwiązanie",
     },
     "errors": {
       "unsupportedType": "Nieobsługiwany format obrazu. Użyj JPEG, PNG, GIF lub WEBP.",
@@ -6448,7 +6538,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "passoAPasso": "Adım adım",
       "resposta": "Cevap",
       "askGaussButton": "Bunu Gauss'a sor",
-      "gaussPromptTemplate": "Bu çözümü daha iyi anlamama yardımcı olabilir misin? Problem şuydu: \"{enunciado}\". Farklı bir şekilde açıklayabilir misin ya da pratik yapmam için benzer bir alıştırma verebilir misin?"
+      "gaussPromptTemplate": "Bu çözümü daha iyi anlamama yardımcı olabilir misin? Problem şuydu: \"{enunciado}\". Farklı bir şekilde açıklayabilir misin ya da pratik yapmam için benzer bir alıştırma verebilir misin?",
+      answerPlaceholder: "Cevabını yaz...",
+      checkButton: "Kontrol et",
+      correctFeedback: "Doğru! 🎉",
+      tryAgainFeedback: "Neredeyse! Tekrar dene ya da tam çözümü gör.",
+      incorrectFeedback: "Bu sefer olmadı — işte tam çözüm:",
+      showSolutionButton: "Tam çözümü gör",
     },
     "errors": {
       "unsupportedType": "Desteklenmeyen görsel formatı. JPEG, PNG, GIF veya WEBP kullan.",
