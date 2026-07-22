@@ -8,17 +8,24 @@ export type DrawingCanvasHandle = {
   undo: () => void;
   redo: () => void;
   toBlob: () => Promise<Blob | null>;
+  toDataUrl: () => string | null;
+  canUndo: () => boolean;
+  canRedo: () => boolean;
 };
 
-export type Tool = "pen" | "eraser";
+export type Tool = "pen" | "highlighter" | "eraser";
 
 type StrokePoint = { x: number; y: number; pressure: number };
 
-const RESOLUTION_WIDTH = 1200;
-const RESOLUTION_HEIGHT = 800;
+// Exported so BoardObjectsLayer.tsx (the shapes/text/images layer stacked
+// on top of this one) shares the exact same internal bitmap resolution —
+// otherwise the two layers' coordinate systems would drift apart.
+export const RESOLUTION_WIDTH = 1200;
+export const RESOLUTION_HEIGHT = 800;
 const MAX_UNDO_STEPS = 30;
 const LIGHT_PAPER_COLOR = "#ffffff";
 const DARK_PAPER_COLOR = "#1c1930";
+const HIGHLIGHTER_ALPHA = 0.35;
 
 const DrawingCanvas = forwardRef<
   DrawingCanvasHandle,
@@ -116,6 +123,15 @@ const DrawingCanvas = forwardRef<
           canvas.toBlob((blob) => resolve(blob), "image/png");
         });
       },
+      toDataUrl() {
+        return canvasRef.current?.toDataURL("image/png") ?? null;
+      },
+      canUndo() {
+        return undoStack.current.length > 0;
+      },
+      canRedo() {
+        return redoStack.current.length > 0;
+      },
     }));
 
     function toStrokePoint(event: PointerEvent | React.PointerEvent<HTMLCanvasElement>): StrokePoint {
@@ -128,10 +144,12 @@ const DrawingCanvas = forwardRef<
     function drawDot(point: StrokePoint) {
       const ctx = getContext();
       if (!ctx) return;
+      ctx.globalAlpha = tool === "highlighter" ? HIGHLIGHTER_ALPHA : 1;
       ctx.beginPath();
       ctx.arc(point.x, point.y, pressureToWidth(point.pressure, lineWidth) / 2, 0, Math.PI * 2);
       ctx.fillStyle = tool === "eraser" ? paperColor.current : color;
       ctx.fill();
+      ctx.globalAlpha = 1;
     }
 
     /** Draws a quadratic curve through the midpoints of the last three raw
@@ -146,6 +164,7 @@ const DrawingCanvas = forwardRef<
 
       const curr = points[points.length - 2];
       const next = points[points.length - 1];
+      ctx.globalAlpha = tool === "highlighter" ? HIGHLIGHTER_ALPHA : 1;
       ctx.strokeStyle = tool === "eraser" ? paperColor.current : color;
       ctx.lineWidth = pressureToWidth(curr.pressure, lineWidth);
       ctx.lineCap = "round";
@@ -163,6 +182,7 @@ const DrawingCanvas = forwardRef<
         ctx.quadraticCurveTo(curr.x, curr.y, to.x, to.y);
       }
       ctx.stroke();
+      ctx.globalAlpha = 1;
     }
 
     function handlePointerDown(event: React.PointerEvent<HTMLCanvasElement>) {
@@ -231,8 +251,7 @@ const DrawingCanvas = forwardRef<
         onPointerCancel={endStroke}
         role="img"
         aria-label={ariaLabel}
-        className="w-full touch-none rounded-xl border border-border bg-surface"
-        style={{ aspectRatio: `${RESOLUTION_WIDTH} / ${RESOLUTION_HEIGHT}` }}
+        className="h-full w-full touch-none bg-surface"
       />
     );
   }

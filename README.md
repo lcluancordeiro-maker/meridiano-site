@@ -715,6 +715,38 @@ nativo (iOS/Android) via Capacitor, veja
   essa cor, não sempre branco), e a cor de tinta padrão em
   `QuadroBoard.tsx` segue o mesmo tema via `src/lib/theme.ts` (o mesmo
   store compartilhado por trás do `ThemeToggle`).
+- **Quadro: caixa de ferramentas expandida**: além da tinta (que
+  ganhou um marca-texto semitransparente e um seletor de cor
+  personalizada, `<input type="color">`, ao lado das 4 cores prontas),
+  uma segunda camada vetorial fica empilhada por cima
+  (`src/components/BoardObjectsLayer.tsx`) com formas (linha,
+  retângulo, elipse, seta), texto (clique com a ferramenta "Texto" abre
+  uma caixa editável in-line) e imagens inseridas — tudo selecionável,
+  movível, redimensionável pelos cantos (ou pelas pontas, no caso de
+  linha/seta) e removível (botão "Excluir" ou tecla Delete). As duas
+  camadas (tinta e objetos) têm undo/redo independentes
+  (`src/lib/board/boardHistory.ts`, um reducer genérico de histórico
+  puro), mas os botões "Desfazer"/"Refazer" da toolbar roteiam pra
+  qualquer uma das duas — a que foi editada por último, com fallback
+  pra outra quando ela não tem mais o que desfazer. Uma régua virtual
+  arrastável/rotacionável (`RulerOverlay.tsx`) faz linha/seta
+  encaixarem no ângulo exato dela (`snapEndpointToRuler` em
+  `canvasGeometry.ts`) e vira transferidor (mostra as marcações de grau
+  e o ângulo atual) com um botão a mais; a grade ganhou 4 estilos
+  (fina/grossa/pautada/isométrica, puramente visual, nunca exportada);
+  dá pra esconder/mostrar cada camada (tinta/formas/imagens)
+  independentemente; e zoom + botões de navegação (setas) escalam/
+  deslocam o quadro via `transform` CSS — a mesma matemática de mapear
+  clique→pixel do canvas (`toCanvasPoint`) já funciona sob zoom/pan sem
+  mudança nenhuma, porque `getBoundingClientRect()` já reflete
+  transforms CSS. "Baixar PNG" agora funde as duas camadas num canvas
+  só; "Baixar SVG" (novo) serializa a camada de objetos como SVG de
+  verdade (`src/lib/board/boardSvg.ts`, função pura testada sem DOM)
+  com a tinta embutida como imagem de fundo. As novas etiquetas da
+  toolbar (formas, régua, camadas, zoom etc.) ficam só em português por
+  enquanto, mesmo padrão já usado em outros controles novos
+  (`ReportContentButton.tsx`) — os textos que já existiam continuam
+  totalmente traduzidos.
 - **Modo escuro**: alternância clara/escura no menu, com detecção da
   preferência do sistema e persistência em `localStorage`. Sem "flash"
   de tema errado ao carregar a página (script inline aplicado antes da
@@ -1011,6 +1043,13 @@ unitários e e2e em todo push e pull request.
   e tem um botão "Perguntar ao Gauss sobre isso" que abre o chat do
   tutor já com uma pergunta pré-preenchida sobre a solução (mesmo
   padrão `askGauss()`/`ASK_GAUSS_EVENT` usado no grafo de conhecimento).
+- `src/components/BoardObjectsLayer.tsx` — a camada de formas/texto/
+  imagens empilhada sobre `DrawingCanvas.tsx`; `RulerOverlay.tsx` — a
+  régua/transferidor arrastável; `src/lib/board/boardTypes.ts` (tipos),
+  `boardHistory.ts` (undo/redo genérico e puro) e `boardSvg.ts`
+  (exportação SVG, pura); as funções de geometria de objetos (hit-test,
+  redimensionar, mover, encaixar na régua) vivem em
+  `src/lib/canvasGeometry.ts`, ao lado das de `DrawingCanvas.tsx`.
 - `src/lib/usePhotoSolve.ts` — hook compartilhado entre `QuadroBoard.tsx`
   e `PhotoSolver.tsx` (fetch a `/api/resolver-foto` + locale +
   status/erro/solução), eliminando a duplicação que existia entre os
