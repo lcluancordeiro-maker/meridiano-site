@@ -6,8 +6,44 @@ test.describe("quadro de rascunho", () => {
     await expect(page.getByRole("heading", { name: "Quadro de rascunho" })).toBeVisible();
     await expect(page.getByRole("img", { name: "Quadro de rascunho" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Desfazer" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Refazer" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Limpar" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Baixar PNG" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Grade" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Expandir" })).toBeVisible();
+  });
+
+  test("toggling the grid overlay doesn't affect the drawing itself", async ({ page }) => {
+    await page.goto("/quadro");
+    const canvas = page.getByRole("img", { name: "Quadro de rascunho" });
+    const box = await canvas.boundingBox();
+    if (!box) throw new Error("canvas has no bounding box");
+
+    const gridButton = page.getByRole("button", { name: "Grade" });
+    await expect(gridButton).toHaveAttribute("aria-pressed", "false");
+    await gridButton.click();
+    await expect(gridButton).toHaveAttribute("aria-pressed", "true");
+
+    await page.mouse.move(box.x + 20, box.y + 20);
+    await page.mouse.down();
+    await page.mouse.move(box.x + 120, box.y + 120);
+    await page.mouse.up();
+
+    const downloadPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Baixar PNG" }).click();
+    const download = await downloadPromise;
+    expect(download.suggestedFilename()).toBe("quadro-meridiano.png");
+  });
+
+  test("expanding the board switches to fullscreen and Escape collapses it back", async ({ page }) => {
+    await page.goto("/quadro");
+    const expandButton = page.getByRole("button", { name: "Expandir" });
+    await expandButton.click();
+    await expect(page.getByRole("button", { name: "Recolher" })).toBeVisible();
+    await expect(page.getByRole("img", { name: "Quadro de rascunho" })).toBeVisible();
+
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("button", { name: "Expandir" })).toBeVisible();
   });
 
   test("is usable without an account, but AI resolve requires login", async ({ page }) => {
@@ -37,6 +73,41 @@ test.describe("quadro de rascunho", () => {
     await page.getByRole("button", { name: "Baixar PNG" }).click();
     const download = await downloadPromise;
     expect(download.suggestedFilename()).toBe("quadro-meridiano.png");
+  });
+
+  test("undo then redo restores an erased stroke", async ({ page }) => {
+    await page.goto("/quadro");
+    const canvas = page.getByRole("img", { name: "Quadro de rascunho" });
+    const box = await canvas.boundingBox();
+    if (!box) throw new Error("canvas has no bounding box");
+
+    await page.mouse.move(box.x + 20, box.y + 20);
+    await page.mouse.down();
+    await page.mouse.move(box.x + 120, box.y + 120);
+    await page.mouse.up();
+
+    // The canvas's internal resolution is fixed, independent of its
+    // rendered (CSS) size — scale the client-space point the mouse stroke
+    // touched into internal pixel coordinates before sampling.
+    const pixelAt = () =>
+      page.evaluate(() => {
+        const el = document.querySelector('canvas[aria-label="Quadro de rascunho"]') as HTMLCanvasElement;
+        const rect = el.getBoundingClientRect();
+        const scaleX = el.width / rect.width;
+        const scaleY = el.height / rect.height;
+        const x = Math.round(20 * scaleX);
+        const y = Math.round(20 * scaleY);
+        const ctx = el.getContext("2d")!;
+        return Array.from(ctx.getImageData(x, y, 1, 1).data).slice(0, 3);
+      });
+
+    expect(await pixelAt()).not.toEqual([255, 255, 255]);
+
+    await page.getByRole("button", { name: "Desfazer" }).click();
+    expect(await pixelAt()).toEqual([255, 255, 255]);
+
+    await page.getByRole("button", { name: "Refazer" }).click();
+    expect(await pixelAt()).not.toEqual([255, 255, 255]);
   });
 
   test("navbar (under 'Mais') links to the quadro page", async ({ page }) => {

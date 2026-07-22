@@ -6,6 +6,7 @@ import { midpoint, pressureToWidth, toCanvasPoint } from "@/lib/canvasGeometry";
 export type DrawingCanvasHandle = {
   clear: () => void;
   undo: () => void;
+  redo: () => void;
   toBlob: () => Promise<Blob | null>;
 };
 
@@ -25,6 +26,7 @@ const DrawingCanvas = forwardRef<
 >(function DrawingCanvas({ color, lineWidth, tool, ariaLabel, onStrokeEnd }, ref) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const undoStack = useRef<ImageData[]>([]);
+    const redoStack = useRef<ImageData[]>([]);
     const activePointer = useRef<{ id: number; type: string } | null>(null);
     const strokePoints = useRef<StrokePoint[]>([]);
     /** The "paper" color, matching the site theme at the moment the canvas
@@ -52,15 +54,27 @@ const DrawingCanvas = forwardRef<
       return canvasRef.current?.getContext("2d") ?? null;
     }
 
-    function pushUndoSnapshot() {
+    function currentSnapshot(): ImageData | null {
       const canvas = canvasRef.current;
       const ctx = getContext();
-      if (!canvas || !ctx) return;
-      undoStack.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
-      if (undoStack.current.length > MAX_UNDO_STEPS) undoStack.current.shift();
+      if (!canvas || !ctx) return null;
+      return ctx.getImageData(0, 0, canvas.width, canvas.height);
     }
 
-    function restoreLastSnapshot() {
+    // A new stroke/clear invalidates whatever was undone before it — same
+    // convention as any other undo/redo editor.
+    function pushUndoSnapshot() {
+      const snapshot = currentSnapshot();
+      if (!snapshot) return;
+      undoStack.current.push(snapshot);
+      if (undoStack.current.length > MAX_UNDO_STEPS) undoStack.current.shift();
+      redoStack.current = [];
+    }
+
+    // Used only for the palm-rejection rollback in handlePointerDown — it
+    // discards an aborted touch stroke, which isn't a real user-initiated
+    // undo and shouldn't feed the redo stack.
+    function rollbackLastSnapshot() {
       const ctx = getContext();
       const snapshot = undoStack.current.pop();
       if (!ctx || !snapshot) return;
@@ -77,7 +91,20 @@ const DrawingCanvas = forwardRef<
         ctx.fillRect(0, 0, canvas.width, canvas.height);
       },
       undo() {
-        restoreLastSnapshot();
+        const ctx = getContext();
+        const current = currentSnapshot();
+        const snapshot = undoStack.current.pop();
+        if (!ctx || !snapshot) return;
+        if (current) redoStack.current.push(current);
+        ctx.putImageData(snapshot, 0, 0);
+      },
+      redo() {
+        const ctx = getContext();
+        const current = currentSnapshot();
+        const snapshot = redoStack.current.pop();
+        if (!ctx || !snapshot) return;
+        if (current) undoStack.current.push(current);
+        ctx.putImageData(snapshot, 0, 0);
       },
       toBlob() {
         return new Promise((resolve) => {
@@ -148,7 +175,7 @@ const DrawingCanvas = forwardRef<
         // (e.g. a resting palm) — discard the touch stroke and let the pen
         // take over. Otherwise, ignore any second simultaneous pointer.
         if (event.pointerType === "pen" && existing.type !== "pen") {
-          restoreLastSnapshot();
+          rollbackLastSnapshot();
         } else {
           return;
         }

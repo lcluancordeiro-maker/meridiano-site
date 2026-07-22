@@ -575,15 +575,29 @@ idioma etc.), veja [docs/features.md](docs/features.md).
 - **Resolver por foto** (`/foto`, exclusivo para quem tem conta): o
   aluno fotografa um problema de matemática e recebe a solução passo a
   passo, gerada pela Claude API (visão). Veja "Configurando resolver
-  por foto" em docs/setup.md.
+  por foto" em docs/setup.md. A dropzone aceita arrastar-e-soltar uma
+  foto (além do clique/câmera do celular), com destaque visual
+  enquanto o arquivo está sendo arrastado por cima.
 - **Quadro de rascunho** (`/quadro`): quadro negro digital — desenhar
   com mouse, dedo ou caneta (cores, espessura, borracha, desfazer,
-  baixar como PNG). Aberto a todos, sem conta; o botão "Resolver com
-  IA" (que reaproveita o mesmo pipeline do "resolver por foto") exige
-  login. Quem está logado também pode ativar "Analisar
-  automaticamente ao pausar": 2 segundos depois do fim de um traço, o
-  quadro é enviado sozinho para a IA — sem precisar clicar no botão a
-  cada tentativa. A escrita ao toque foi refinada
+  refazer, grade/papel quadriculado, modo tela cheia, baixar como
+  PNG). Aberto a todos, sem conta; o botão "Resolver com IA" (que
+  reaproveita o mesmo pipeline do "resolver por foto" via o hook
+  compartilhado `src/lib/usePhotoSolve.ts`) exige login. Quem está
+  logado também pode ativar "Analisar automaticamente ao pausar": 2
+  segundos depois do fim de um traço, o quadro é enviado sozinho para
+  a IA — sem precisar clicar no botão a cada tentativa. A grade é um
+  overlay puramente visual (`QuadroBoard.tsx`, CSS por cima do canvas)
+  — não é desenhada nos pixels reais, então nunca aparece no PNG
+  baixado nem na imagem enviada pra IA. O modo tela cheia
+  (`isExpanded`) troca o layout normal por um overlay `fixed inset-0`
+  ocupando a viewport inteira — mais espaço de desenho sem mudar a
+  resolução interna do canvas — e fecha com Esc. Refazer usa uma pilha
+  de redo em `DrawingCanvas.tsx` que é limpa a cada novo traço/limpar
+  (convenção padrão de undo/redo — desenhar algo novo depois de
+  desfazer descarta o que dava pra refazer). A toolbar foi extraída
+  pra `QuadroToolbar.tsx`, mantendo `QuadroBoard.tsx` focado em estado
+  e lógica. A escrita ao toque foi refinada
   (`src/components/DrawingCanvas.tsx`): os traços usam curvas
   quadráticas entre os pontos médios de cada 3 pontos brutos (em vez de
   segmentos retos), o que remove o aspecto "poligonal" de traços
@@ -610,8 +624,9 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   preferência do sistema e persistência em `localStorage`. Sem "flash"
   de tema errado ao carregar a página (script inline aplicado antes da
   primeira renderização).
-- **Idioma** (11 opções: Português, English, Español, 中文, Italiano,
-  한국어, Deutsch, Français, 日本語, العربية e Русский): seletor no menu
+- **Idioma** (15 opções: Português, English, Español, 中文, Italiano,
+  한국어, Deutsch, Français, 日本語, العربية, Русский, हिन्दी, Tiếng Việt,
+  Polski e Türkçe): seletor no menu
   troca o texto de toda a navegação, páginas e mensagens de erro
   (`src/i18n/`). A escolha fica salva em cookie, então funciona em
   Server Components também (Navbar, cabeçalhos de página etc.). O
@@ -873,15 +888,20 @@ unitários e e2e em todo push e pull request.
   extended thinking (`thinking: { type: "adaptive" }`) para problemas mais
   complexos. Responde no idioma selecionado pelo aluno (locale enviado no
   `FormData`, mesmo `localeToLanguageName` do tutor).
-- `src/components/DrawingCanvas.tsx` + `QuadroBoard.tsx` — quadro de
-  rascunho (canvas livre) e o botão "Resolver com IA", que reaproveita
-  `/api/resolver-foto` exportando o desenho como PNG. `SolutionDisplay.tsx`
-  (compartilhado entre `/foto` e `/quadro`) primeiro pede a resposta do
-  aluno antes de revelar o passo a passo (ver seção de features acima
-  e `src/lib/answerMatch.ts`), e tem um botão "Perguntar ao Gauss sobre
-  isso" que abre o chat do tutor já com uma pergunta pré-preenchida
-  sobre a solução (mesmo padrão `askGauss()`/`ASK_GAUSS_EVENT` usado no
-  grafo de conhecimento).
+- `src/components/DrawingCanvas.tsx` + `QuadroToolbar.tsx` +
+  `QuadroBoard.tsx` — quadro de rascunho (canvas livre com undo/redo),
+  a toolbar (cores, espessura, borracha, grade, tela cheia) e o botão
+  "Resolver com IA", que reaproveita `/api/resolver-foto` exportando o
+  desenho como PNG. `SolutionDisplay.tsx` (compartilhado entre `/foto`
+  e `/quadro`) primeiro pede a resposta do aluno antes de revelar o
+  passo a passo (ver seção de features acima e `src/lib/answerMatch.ts`),
+  e tem um botão "Perguntar ao Gauss sobre isso" que abre o chat do
+  tutor já com uma pergunta pré-preenchida sobre a solução (mesmo
+  padrão `askGauss()`/`ASK_GAUSS_EVENT` usado no grafo de conhecimento).
+- `src/lib/usePhotoSolve.ts` — hook compartilhado entre `QuadroBoard.tsx`
+  e `PhotoSolver.tsx` (fetch a `/api/resolver-foto` + locale +
+  status/erro/solução), eliminando a duplicação que existia entre os
+  dois fluxos de "resolver por foto".
 - `src/lib/tutor/extractExpression.ts` — extrai uma expressão plotável
   de uma resposta do Gauss (usada pela calculadora embutida no
   `TutorChat.tsx`), reaproveitando `compileExpression` de `mathExpr.ts`

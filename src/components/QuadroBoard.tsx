@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import DrawingCanvas, { type DrawingCanvasHandle, type Tool } from "@/components/DrawingCanvas";
+import QuadroToolbar from "@/components/QuadroToolbar";
 import SolutionDisplay from "@/components/SolutionDisplay";
-import type { PhotoSolution } from "@/lib/photoSolve";
-import { errorMessageFor } from "@/lib/photoSolveErrors";
 import { themeStore } from "@/lib/theme";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { usePhotoSolve } from "@/lib/usePhotoSolve";
 
 const AUTO_ANALYZE_DEBOUNCE_MS = 2000;
 
@@ -42,15 +42,24 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
   const color = COLORS.find((c) => c.id === colorId)?.value ?? COLORS[0].value;
   const [lineWidth, setLineWidth] = useState(LINE_WIDTHS[1].value);
   const [tool, setTool] = useState<Tool>("pen");
-  const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
-  const statusRef = useRef(status);
-  const [errorText, setErrorText] = useState<string | null>(null);
-  const [solution, setSolution] = useState<PhotoSolution | null>(null);
+  const [showGrid, setShowGrid] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const statusRef = useRef<"idle" | "loading" | "error">("idle");
   const [autoAnalyze, setAutoAnalyze] = useState(false);
+  const { status, errorText, solution, resolve, fail } = usePhotoSolve(dict, locale);
 
   useEffect(() => {
     statusRef.current = status;
   }, [status]);
+
+  useEffect(() => {
+    if (!isExpanded) return;
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setIsExpanded(false);
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isExpanded]);
 
   function selectColor(id: string) {
     setColorId(id);
@@ -70,38 +79,13 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
   }
 
   const handleResolve = useCallback(async () => {
-    setStatus("loading");
-    setErrorText(null);
-    setSolution(null);
-
-    try {
-      const blob = await canvasRef.current?.toBlob();
-      if (!blob) {
-        setErrorText(errorMessageFor(dict, "missing_image"));
-        setStatus("error");
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("image", blob, "quadro.png");
-      formData.append("locale", locale);
-
-      const res = await fetch("/api/resolver-foto", { method: "POST", body: formData });
-      const data = await res.json();
-
-      if (!res.ok) {
-        setErrorText(errorMessageFor(dict, data?.error));
-        setStatus("error");
-        return;
-      }
-
-      setSolution(data.solution);
-      setStatus("idle");
-    } catch {
-      setErrorText(errorMessageFor(dict, undefined));
-      setStatus("error");
+    const blob = await canvasRef.current?.toBlob();
+    if (!blob) {
+      fail("missing_image");
+      return;
     }
-  }, [dict, locale]);
+    await resolve(blob, "quadro.png");
+  }, [resolve, fail]);
 
   const handleStrokeEnd = useCallback(() => {
     if (!autoAnalyze || !canResolve) return;
@@ -118,75 +102,54 @@ export default function QuadroBoard({ canResolve }: { canResolve: boolean }) {
   }, []);
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-wrap items-center gap-4 rounded-xl border border-border bg-surface p-3">
-        <div className="flex items-center gap-2">
-          {COLORS.map((c) => (
-            <button
-              key={c.id}
-              type="button"
-              aria-label={c.label}
-              onClick={() => selectColor(c.id)}
-              className="h-7 w-7 rounded-full border-2 transition-transform"
-              style={{
-                backgroundColor: c.value,
-                borderColor: tool === "pen" && colorId === c.id ? "var(--color-primary)" : "transparent",
-                transform: tool === "pen" && colorId === c.id ? "scale(1.15)" : "scale(1)",
-              }}
-            />
-          ))}
-        </div>
-        <div className="flex items-center gap-1.5">
-          {LINE_WIDTHS.map((w) => (
-            <button
-              key={w.value}
-              type="button"
-              onClick={() => setLineWidth(w.value)}
-              className={`rounded-lg border px-2.5 py-1 text-xs font-medium transition-colors ${
-                lineWidth === w.value
-                  ? "border-primary text-primary"
-                  : "border-border text-muted hover:border-primary"
-              }`}
-            >
-              {w.label}
-            </button>
-          ))}
-        </div>
-        <button
-          type="button"
-          onClick={() => setTool("eraser")}
-          className={`rounded-lg border px-2.5 py-1 text-xs font-medium transition-colors ${
-            tool === "eraser" ? "border-primary text-primary" : "border-border text-muted hover:border-primary"
-          }`}
-        >
-          {quadro.borracha}
-        </button>
-        <div className="ml-auto flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => canvasRef.current?.undo()}
-            className="rounded-lg border border-border px-2.5 py-1 text-xs font-medium text-muted transition-colors hover:border-primary hover:text-foreground"
-          >
-            {quadro.desfazer}
-          </button>
-          <button
-            type="button"
-            onClick={() => canvasRef.current?.clear()}
-            className="rounded-lg border border-border px-2.5 py-1 text-xs font-medium text-muted transition-colors hover:border-primary hover:text-foreground"
-          >
-            {quadro.limpar}
-          </button>
-        </div>
-      </div>
-
-      <DrawingCanvas
-        ref={canvasRef}
-        color={color}
-        lineWidth={lineWidth}
+    <div className={isExpanded ? "fixed inset-0 z-50 flex flex-col gap-4 overflow-auto bg-background p-4" : "flex flex-col gap-4"}>
+      <QuadroToolbar
+        colors={COLORS}
+        colorId={colorId}
         tool={tool}
-        ariaLabel={quadro.title}
-        onStrokeEnd={handleStrokeEnd}
+        onSelectColor={selectColor}
+        lineWidths={LINE_WIDTHS}
+        lineWidth={lineWidth}
+        onSelectLineWidth={setLineWidth}
+        onSelectEraser={() => setTool("eraser")}
+        eraserLabel={quadro.borracha}
+        onUndo={() => canvasRef.current?.undo()}
+        undoLabel={quadro.desfazer}
+        onRedo={() => canvasRef.current?.redo()}
+        redoLabel={quadro.refazer}
+        showGrid={showGrid}
+        onToggleGrid={() => setShowGrid((v) => !v)}
+        gridLabel={quadro.grade}
+        onClear={() => canvasRef.current?.clear()}
+        clearLabel={quadro.limpar}
+        isExpanded={isExpanded}
+        onToggleExpand={() => setIsExpanded((v) => !v)}
+        expandLabel={quadro.expandir}
+        collapseLabel={quadro.recolher}
       />
+
+      <div className="relative">
+        <DrawingCanvas
+          ref={canvasRef}
+          color={color}
+          lineWidth={lineWidth}
+          tool={tool}
+          ariaLabel={quadro.title}
+          onStrokeEnd={handleStrokeEnd}
+        />
+        {showGrid && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 rounded-xl"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, var(--color-border) 1px, transparent 1px), linear-gradient(to bottom, var(--color-border) 1px, transparent 1px)",
+              backgroundSize: "5% 5%",
+              opacity: 0.6,
+            }}
+          />
+        )}
+      </div>
 
       <div className="flex flex-wrap items-center gap-3">
         <button

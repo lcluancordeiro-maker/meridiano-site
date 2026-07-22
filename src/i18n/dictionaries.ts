@@ -99,6 +99,7 @@ export type Dictionary = {
     criarUmaConta: string;
     tirarFoto: string;
     formatoInfo: string;
+    arrasteAqui: string;
     resolver: string;
     analisando: string;
     trocarFoto: string;
@@ -107,6 +108,7 @@ export type Dictionary = {
     title: string;
     subtitle: string;
     desfazer: string;
+    refazer: string;
     limpar: string;
     baixarPng: string;
     resolverIA: string;
@@ -123,6 +125,9 @@ export type Dictionary = {
     corVermelho: string;
     corVerde: string;
     corBranco: string;
+    grade: string;
+    expandir: string;
+    recolher: string;
   };
   solution: {
     enunciado: string;
@@ -696,6 +701,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       criarUmaConta: "criar uma conta",
       tirarFoto: "Tirar foto ou escolher da galeria",
       formatoInfo: "JPEG, PNG, GIF ou WEBP — até 8MB",
+      arrasteAqui: "ou arraste uma foto aqui",
       resolver: "Resolver",
       analisando: "Analisando...",
       trocarFoto: "Trocar foto",
@@ -705,6 +711,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       subtitle:
         "Um espaço para escrever e fazer contas, como um quadro negro digital. Desenhe com o mouse, dedo ou caneta — e peça a solução por IA quando quiser.",
       desfazer: "Desfazer",
+      refazer: "Refazer",
       limpar: "Limpar",
       baixarPng: "Baixar PNG",
       resolverIA: "Resolver com IA",
@@ -721,6 +728,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corVermelho: "Cor Vermelho",
       corVerde: "Cor Verde",
       corBranco: "Cor Branco",
+      grade: "Grade",
+      expandir: "Expandir",
+      recolher: "Recolher",
     },
     solution: {
       enunciado: "Enunciado",
@@ -1113,6 +1123,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       criarUmaConta: "create an account",
       tirarFoto: "Take a photo or choose from gallery",
       formatoInfo: "JPEG, PNG, GIF or WEBP — up to 8MB",
+      arrasteAqui: "or drag a photo here",
       resolver: "Solve",
       analisando: "Analyzing...",
       trocarFoto: "Change photo",
@@ -1122,6 +1133,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       subtitle:
         "A space to write and work out math, like a digital chalkboard. Draw with your mouse, finger or pen — and ask the AI to solve it whenever you want.",
       desfazer: "Undo",
+      refazer: "Redo",
       limpar: "Clear",
       baixarPng: "Download PNG",
       resolverIA: "Solve with AI",
@@ -1138,6 +1150,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corVermelho: "Red color",
       corVerde: "Green color",
       corBranco: "White color",
+      grade: "Grid",
+      expandir: "Expand",
+      recolher: "Collapse",
     },
     solution: {
       enunciado: "Problem",
@@ -1346,6 +1361,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       criarUmaConta: "crear una cuenta",
       tirarFoto: "Tomar foto o elegir de la galería",
       formatoInfo: "JPEG, PNG, GIF o WEBP — hasta 8MB",
+      arrasteAqui: "o arrastra una foto aquí",
       resolver: "Resolver",
       analisando: "Analizando...",
       trocarFoto: "Cambiar foto",
@@ -1355,6 +1371,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       subtitle:
         "Un espacio para escribir y hacer cuentas, como una pizarra digital. Dibuja con el mouse, el dedo o un lápiz — y pide la solución por IA cuando quieras.",
       desfazer: "Deshacer",
+      refazer: "Rehacer",
       limpar: "Limpiar",
       baixarPng: "Descargar PNG",
       resolverIA: "Resolver con IA",
@@ -1371,6 +1388,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corVermelho: "Color rojo",
       corVerde: "Color verde",
       corBranco: "Color blanco",
+      grade: "Cuadrícula",
+      expandir: "Expandir",
+      recolher: "Contraer",
     },
     solution: {
       enunciado: "Enunciado",
@@ -1760,6 +1780,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       criarUmaConta: "创建账户",
       tirarFoto: "拍照或从相册选择",
       formatoInfo: "支持 JPEG、PNG、GIF 或 WEBP——最大 8MB",
+      arrasteAqui: "或将照片拖到此处",
       resolver: "解答",
       analisando: "分析中...",
       trocarFoto: "更换照片",
@@ -1768,6 +1789,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       title: "草稿白板",
       subtitle: "一个用来书写和演算的空间,就像数字黑板一样。用鼠标、手指或触控笔绘图——随时可以请求 AI 给出解答。",
       desfazer: "撤销",
+      refazer: "重做",
       limpar: "清除",
       baixarPng: "下载 PNG",
       resolverIA: "用 AI 解答",
@@ -1784,6 +1806,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corVermelho: "红色",
       corVerde: "绿色",
       corBranco: "白色",
+      grade: "网格",
+      expandir: "展开",
+      recolher: "收起",
     },
     solution: {
       enunciado: "题目",
@@ -2193,6 +2218,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       criarUmaConta: "crea un account",
       tirarFoto: "Scatta una foto o scegli dalla galleria",
       formatoInfo: "JPEG, PNG, GIF o WEBP — fino a 8MB",
+      arrasteAqui: "oppure trascina una foto qui",
       resolver: "Risolvi",
       analisando: "Analisi in corso...",
       trocarFoto: "Cambia foto",
@@ -2202,6 +2228,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       subtitle:
         "Uno spazio per scrivere e fare calcoli, come una lavagna digitale. Disegna con il mouse, il dito o una penna — e chiedi la soluzione all'IA quando vuoi.",
       desfazer: "Annulla",
+      refazer: "Ripeti",
       limpar: "Cancella",
       baixarPng: "Scarica PNG",
       resolverIA: "Risolvi con l'IA",
@@ -2218,6 +2245,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corVermelho: "Colore rosso",
       corVerde: "Colore verde",
       corBranco: "Colore bianco",
+      grade: "Griglia",
+      expandir: "Espandi",
+      recolher: "Comprimi",
     },
     solution: {
       enunciado: "Testo del problema",
@@ -2625,6 +2655,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       criarUmaConta: "계정 만들기",
       tirarFoto: "사진 찍기 또는 갤러리에서 선택",
       formatoInfo: "JPEG, PNG, GIF 또는 WEBP — 최대 8MB",
+      arrasteAqui: "또는 사진을 여기로 끌어다 놓으세요",
       resolver: "풀이 보기",
       analisando: "분석 중...",
       trocarFoto: "사진 바꾸기",
@@ -2634,6 +2665,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       subtitle:
         "디지털 칠판처럼 글씨를 쓰고 계산할 수 있는 공간입니다. 마우스, 손가락 또는 펜으로 그리고, 원할 때 언제든 AI에게 풀이를 요청하세요.",
       desfazer: "실행 취소",
+      refazer: "다시 실행",
       limpar: "지우기",
       baixarPng: "PNG로 다운로드",
       resolverIA: "AI로 풀기",
@@ -2650,6 +2682,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corVermelho: "빨간색",
       corVerde: "초록색",
       corBranco: "흰색",
+      grade: "격자",
+      expandir: "확대",
+      recolher: "축소",
     },
     solution: {
       enunciado: "문제",
@@ -3059,6 +3094,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       criarUmaConta: "ein Konto erstellen",
       tirarFoto: "Foto aufnehmen oder aus der Galerie wählen",
       formatoInfo: "JPEG, PNG, GIF oder WEBP — bis zu 8MB",
+      arrasteAqui: "oder ziehe ein Foto hierher",
       resolver: "Lösen",
       analisando: "Wird analysiert...",
       trocarFoto: "Foto ändern",
@@ -3068,6 +3104,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       subtitle:
         "Ein Ort zum Schreiben und Rechnen, wie eine digitale Tafel. Zeichne mit Maus, Finger oder Stift — und lass dir jederzeit die Lösung von der KI zeigen.",
       desfazer: "Rückgängig",
+      refazer: "Wiederholen",
       limpar: "Löschen",
       baixarPng: "PNG herunterladen",
       resolverIA: "Mit KI lösen",
@@ -3084,6 +3121,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corVermelho: "Farbe Rot",
       corVerde: "Farbe Grün",
       corBranco: "Farbe Weiß",
+      grade: "Raster",
+      expandir: "Erweitern",
+      recolher: "Verkleinern",
     },
     solution: {
       enunciado: "Aufgabenstellung",
@@ -3493,6 +3533,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       criarUmaConta: "créer un compte",
       tirarFoto: "Prendre une photo ou choisir dans la galerie",
       formatoInfo: "JPEG, PNG, GIF ou WEBP — jusqu'à 8 Mo",
+      arrasteAqui: "ou glisse une photo ici",
       resolver: "Résoudre",
       analisando: "Analyse en cours...",
       trocarFoto: "Changer de photo",
@@ -3502,6 +3543,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       subtitle:
         "Un espace pour écrire et faire des calculs, comme un tableau noir numérique. Dessinez avec la souris, le doigt ou un stylet — et demandez la solution à l'IA quand vous voulez.",
       desfazer: "Annuler",
+      refazer: "Rétablir",
       limpar: "Effacer",
       baixarPng: "Télécharger en PNG",
       resolverIA: "Résoudre avec l'IA",
@@ -3518,6 +3560,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corVermelho: "Couleur rouge",
       corVerde: "Couleur verte",
       corBranco: "Couleur blanche",
+      grade: "Grille",
+      expandir: "Agrandir",
+      recolher: "Réduire",
     },
     solution: {
       enunciado: "Énoncé",
@@ -3924,6 +3969,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       criarUmaConta: "アカウントを作成",
       tirarFoto: "写真を撮る、またはギャラリーから選択",
       formatoInfo: "JPEG、PNG、GIF、WEBP対応 — 最大8MB",
+      arrasteAqui: "または写真をここにドラッグ",
       resolver: "解く",
       analisando: "分析中...",
       trocarFoto: "写真を変更",
@@ -3933,6 +3979,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       subtitle:
         "デジタル黒板のように、書いたり計算したりできるスペースです。マウス、指、またはペンで描き、いつでもAIに解答を求めることができます。",
       desfazer: "元に戻す",
+      refazer: "やり直す",
       limpar: "消去",
       baixarPng: "PNGをダウンロード",
       resolverIA: "AIで解く",
@@ -3949,6 +3996,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corVermelho: "赤色",
       corVerde: "緑色",
       corBranco: "白色",
+      grade: "グリッド",
+      expandir: "拡大表示",
+      recolher: "元のサイズに戻す",
     },
     solution: {
       enunciado: "問題文",
@@ -4357,6 +4407,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       criarUmaConta: "إنشاء حساب",
       tirarFoto: "التقط صورة أو اخترها من المعرض",
       formatoInfo: "JPEG أو PNG أو GIF أو WEBP — حتى 8 ميجابايت",
+      arrasteAqui: "أو اسحب صورة إلى هنا",
       resolver: "حل",
       analisando: "جارٍ التحليل...",
       trocarFoto: "تغيير الصورة",
@@ -4366,6 +4417,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       subtitle:
         "مساحة للكتابة وإجراء العمليات الحسابية، مثل سبورة رقمية. ارسم باستخدام الفأرة أو إصبعك أو قلم، واطلب الحل من الذكاء الاصطناعي في أي وقت.",
       desfazer: "تراجع",
+      refazer: "إعادة",
       limpar: "مسح",
       baixarPng: "تنزيل بصيغة PNG",
       resolverIA: "الحل بالذكاء الاصطناعي",
@@ -4382,6 +4434,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corVermelho: "اللون الأحمر",
       corVerde: "اللون الأخضر",
       corBranco: "اللون الأبيض",
+      grade: "شبكة",
+      expandir: "توسيع",
+      recolher: "طي",
     },
     solution: {
       enunciado: "نص المسألة",
@@ -4791,6 +4846,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       criarUmaConta: "создать аккаунт",
       tirarFoto: "Сделать фото или выбрать из галереи",
       formatoInfo: "JPEG, PNG, GIF или WEBP — до 8 МБ",
+      arrasteAqui: "или перетащите фото сюда",
       resolver: "Решить",
       analisando: "Анализируем...",
       trocarFoto: "Сменить фото",
@@ -4800,6 +4856,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       subtitle:
         "Пространство для записей и вычислений, как цифровая грифельная доска. Рисуйте мышью, пальцем или стилусом — и в любой момент попросите ИИ решить задачу.",
       desfazer: "Отменить",
+      refazer: "Повторить",
       limpar: "Очистить",
       baixarPng: "Скачать PNG",
       resolverIA: "Решить с помощью ИИ",
@@ -4816,6 +4873,9 @@ export const dictionaries: Record<Locale, Dictionary> = {
       corVermelho: "Красный цвет",
       corVerde: "Зелёный цвет",
       corBranco: "Белый цвет",
+      grade: "Сетка",
+      expandir: "Развернуть",
+      recolher: "Свернуть",
     },
     solution: {
       enunciado: "Условие",
@@ -5221,6 +5281,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "criarUmaConta": "एक अकाउंट बनाएं",
       "tirarFoto": "फोटो लें या गैलरी से चुनें",
       "formatoInfo": "JPEG, PNG, GIF या WEBP — 8MB तक",
+      arrasteAqui: "या यहाँ फ़ोटो खींचकर लाएं",
       "resolver": "हल करें",
       "analisando": "जांचा जा रहा है...",
       "trocarFoto": "फोटो बदलें"
@@ -5229,6 +5290,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "title": "स्क्रैच व्हाइटबोर्ड",
       "subtitle": "लिखने और हिसाब करने के लिए एक जगह, जैसे एक डिजिटल ब्लैकबोर्ड। माउस, उंगली या पेन से बनाएं — और जब चाहें AI से हल मांगें।",
       "desfazer": "पूर्ववत करें",
+      refazer: "फिर से करें",
       "limpar": "साफ़ करें",
       "baixarPng": "PNG डाउनलोड करें",
       "resolverIA": "AI से हल करें",
@@ -5244,7 +5306,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "corAzul": "नीला रंग",
       "corVermelho": "लाल रंग",
       "corVerde": "हरा रंग",
-      "corBranco": "सफ़ेद रंग"
+      "corBranco": "सफ़ेद रंग",
+      grade: "ग्रिड",
+      expandir: "बड़ा करें",
+      recolher: "छोटा करें",
     },
     "solution": {
       "enunciado": "सवाल",
@@ -5650,6 +5715,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "criarUmaConta": "tạo một tài khoản",
       "tirarFoto": "Chụp ảnh hoặc chọn từ thư viện",
       "formatoInfo": "JPEG, PNG, GIF hoặc WEBP — tối đa 8MB",
+      arrasteAqui: "hoặc kéo một bức ảnh vào đây",
       "resolver": "Giải",
       "analisando": "Đang phân tích...",
       "trocarFoto": "Đổi ảnh"
@@ -5658,6 +5724,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "title": "Bảng nháp",
       "subtitle": "Một không gian để viết và tính toán, giống như một tấm bảng đen kỹ thuật số. Vẽ bằng chuột, ngón tay hoặc bút — và nhờ AI giải bất cứ khi nào bạn muốn.",
       "desfazer": "Hoàn tác",
+      refazer: "Làm lại",
       "limpar": "Xóa",
       "baixarPng": "Tải PNG",
       "resolverIA": "Giải bằng AI",
@@ -5673,7 +5740,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "corAzul": "Màu Xanh dương",
       "corVermelho": "Màu Đỏ",
       "corVerde": "Màu Xanh lá",
-      "corBranco": "Màu Trắng"
+      "corBranco": "Màu Trắng",
+      grade: "Lưới",
+      expandir: "Mở rộng",
+      recolher: "Thu nhỏ",
     },
     "solution": {
       "enunciado": "Đề bài",
@@ -6079,6 +6149,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "criarUmaConta": "utwórz konto",
       "tirarFoto": "Zrób zdjęcie lub wybierz z galerii",
       "formatoInfo": "JPEG, PNG, GIF lub WEBP — maks. 8 MB",
+      arrasteAqui: "albo przeciągnij tutaj zdjęcie",
       "resolver": "Rozwiąż",
       "analisando": "Analizowanie...",
       "trocarFoto": "Zmień zdjęcie"
@@ -6087,6 +6158,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "title": "Tablica do rysowania",
       "subtitle": "Miejsce do pisania i liczenia, jak cyfrowa tablica szkolna. Rysuj myszką, palcem albo rysikiem — i poproś AI o rozwiązanie, kiedy tylko chcesz.",
       "desfazer": "Cofnij",
+      refazer: "Ponów",
       "limpar": "Wyczyść",
       "baixarPng": "Pobierz PNG",
       "resolverIA": "Rozwiąż z AI",
@@ -6102,7 +6174,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "corAzul": "Kolor niebieski",
       "corVermelho": "Kolor czerwony",
       "corVerde": "Kolor zielony",
-      "corBranco": "Kolor biały"
+      "corBranco": "Kolor biały",
+      grade: "Siatka",
+      expandir: "Rozwiń",
+      recolher: "Zwiń",
     },
     "solution": {
       "enunciado": "Treść zadania",
@@ -6508,6 +6583,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "criarUmaConta": "bir hesap oluştur",
       "tirarFoto": "Fotoğraf çek veya galeriden seç",
       "formatoInfo": "JPEG, PNG, GIF veya WEBP — 8MB'a kadar",
+      arrasteAqui: "ya da bir fotoğrafı buraya sürükle",
       "resolver": "Çöz",
       "analisando": "Analiz ediliyor...",
       "trocarFoto": "Fotoğrafı değiştir"
@@ -6516,6 +6592,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "title": "Karalama Tahtası",
       "subtitle": "Yazı yazıp hesap yapabileceğin bir alan, dijital bir karatahta gibi. Fare, parmak ya da kalemle çiz — ve istediğinde yapay zekâdan çözüm iste.",
       "desfazer": "Geri al",
+      refazer: "Yinele",
       "limpar": "Temizle",
       "baixarPng": "PNG indir",
       "resolverIA": "Yapay zekâ ile çöz",
@@ -6531,7 +6608,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "corAzul": "Mavi Renk",
       "corVermelho": "Kırmızı Renk",
       "corVerde": "Yeşil Renk",
-      "corBranco": "Beyaz Renk"
+      "corBranco": "Beyaz Renk",
+      grade: "Izgara",
+      expandir: "Genişlet",
+      recolher: "Daralt",
     },
     "solution": {
       "enunciado": "Problem",

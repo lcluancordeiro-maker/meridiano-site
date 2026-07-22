@@ -1,73 +1,72 @@
 "use client";
 
 import { useRef, useState } from "react";
-import type { PhotoSolution } from "@/lib/photoSolve";
-import { errorMessageFor } from "@/lib/photoSolveErrors";
 import SolutionDisplay from "@/components/SolutionDisplay";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { usePhotoSolve } from "@/lib/usePhotoSolve";
 
 export default function PhotoSolver() {
   const { dict, locale } = useTranslation();
   const { foto } = dict;
   const [preview, setPreview] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
-  const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
-  const [errorText, setErrorText] = useState<string | null>(null);
-  const [solution, setSolution] = useState<PhotoSolution | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { status, errorText, solution, resolve, reset } = usePhotoSolve(dict, locale);
+
+  function selectFile(selected: File) {
+    reset();
+    setFile(selected);
+    setPreview(URL.createObjectURL(selected));
+  }
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const selected = event.target.files?.[0] ?? null;
-    setSolution(null);
-    setErrorText(null);
-    setStatus("idle");
-    setFile(selected);
-    setPreview(selected ? URL.createObjectURL(selected) : null);
+    const selected = event.target.files?.[0];
+    if (selected) selectFile(selected);
+  }
+
+  function handleDragOver(event: React.DragEvent<HTMLLabelElement>) {
+    event.preventDefault();
+    setIsDragging(true);
+  }
+
+  function handleDragLeave() {
+    setIsDragging(false);
+  }
+
+  function handleDrop(event: React.DragEvent<HTMLLabelElement>) {
+    event.preventDefault();
+    setIsDragging(false);
+    const dropped = event.dataTransfer.files?.[0];
+    if (dropped) selectFile(dropped);
   }
 
   async function handleSubmit() {
     if (!file) return;
-    setStatus("loading");
-    setErrorText(null);
-    setSolution(null);
-
-    try {
-      const formData = new FormData();
-      formData.append("image", file);
-      formData.append("locale", locale);
-
-      const res = await fetch("/api/resolver-foto", { method: "POST", body: formData });
-      const data = await res.json();
-
-      if (!res.ok) {
-        setErrorText(errorMessageFor(dict, data?.error));
-        setStatus("error");
-        return;
-      }
-
-      setSolution(data.solution);
-      setStatus("idle");
-    } catch {
-      setErrorText(errorMessageFor(dict, undefined));
-      setStatus("error");
-    }
+    await resolve(file, file.name);
   }
 
   function handleReset() {
     setFile(null);
     setPreview(null);
-    setSolution(null);
-    setErrorText(null);
-    setStatus("idle");
+    reset();
     if (inputRef.current) inputRef.current.value = "";
   }
 
   return (
     <div className="flex flex-col gap-4">
       {!preview ? (
-        <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border bg-surface px-6 py-12 text-center transition-colors hover:border-primary">
+        <label
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          className={`flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-6 py-12 text-center transition-colors ${
+            isDragging ? "border-primary bg-primary/5" : "border-border bg-surface hover:border-primary"
+          }`}
+        >
           <span className="text-sm font-medium text-foreground">{foto.tirarFoto}</span>
           <span className="text-xs text-muted">{foto.formatoInfo}</span>
+          <span className="text-xs text-muted">{foto.arrasteAqui}</span>
           <input
             ref={inputRef}
             type="file"
