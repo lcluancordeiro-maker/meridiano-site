@@ -1808,3 +1808,40 @@ create policy "photo_solve_history_own"
   on public.photo_solve_history for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
+
+-- ---------------------------------------------------------------------
+-- content_reports: "reportar erro" em um exercício (ExerciseQuiz.tsx) ou
+-- numa resposta do Gauss (SolutionDisplay.tsx/TutorChat.tsx) — um aluno
+-- sinaliza que algo parece errado, o time revisa manualmente depois. Não
+-- é moderação de conduta (isso é message_reports) — é sinalização de
+-- conteúdo/correção, por isso é uma tabela separada com policy própria:
+-- qualquer usuário insere só a própria linha (nunca lê as dos outros —
+-- não há policy de select para "authenticated"), e só admin lê a lista
+-- inteira, reaproveitando is_admin() já usado no painel de moderação.
+-- ---------------------------------------------------------------------
+create table if not exists public.content_reports (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users (id) on delete cascade,
+  source text not null check (source in ('exercicio', 'gauss')),
+  level_id text,
+  topic_id text,
+  exercise_id text,
+  difficulty text,
+  context text not null default '',
+  comment text not null default '',
+  created_at timestamptz not null default now()
+);
+
+create index if not exists content_reports_created_at_idx on public.content_reports (created_at desc);
+
+alter table public.content_reports enable row level security;
+
+drop policy if exists "content_reports_insert_own" on public.content_reports;
+create policy "content_reports_insert_own"
+  on public.content_reports for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "content_reports_select_admin" on public.content_reports;
+create policy "content_reports_select_admin"
+  on public.content_reports for select
+  using (public.is_admin());

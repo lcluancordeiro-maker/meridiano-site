@@ -38,7 +38,12 @@ export default async function Navbar() {
     { href: "/lives", label: dict.lives.title },
     { href: "/liga", label: dict.nav.liga },
     { href: "/matematicos", label: dict.nav.matematicos },
-    ...(isModerator ? [{ href: "/admin/moderacao", label: "Moderação" }] : []),
+    ...(isModerator
+      ? [
+          { href: "/admin/moderacao", label: "Moderação" },
+          { href: "/admin/relatos-conteudo", label: "Relatos de conteúdo" },
+        ]
+      : []),
   ];
 
   return (

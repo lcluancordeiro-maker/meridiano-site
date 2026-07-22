@@ -15,6 +15,7 @@ import { extractSpokenNumber, matchSpokenOption } from "@/lib/voiceMatching";
 import GuidedSteps from "./GuidedSteps";
 import ProgressBar from "./ProgressBar";
 import VoiceInputButton from "./VoiceInputButton";
+import ReportContentButton from "./ReportContentButton";
 
 function normalize(value: string): string {
   return value.trim().toLowerCase().replace(/\s+/g, "");
@@ -257,6 +258,18 @@ export default function ExerciseQuiz({
             )}
           </p>
           <p className="mt-1 text-foreground/80">{exercise.explanation}</p>
+        </div>
+      )}
+
+      {checked && (
+        <div className="mt-3">
+          <ReportContentButton
+            source="exercicio"
+            levelId={levelId}
+            topicId={topicId}
+            exerciseId={exercise.id}
+            difficulty={difficulty}
+          />
         </div>
       )}
 

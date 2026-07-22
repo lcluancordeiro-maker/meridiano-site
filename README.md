@@ -451,6 +451,14 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   hora. Hoje as dicas cobrem "Função do 1º Grau", "Geometria Analítica",
   "Função Quadrática" e "Trigonometria no Triângulo Retângulo" (todos do
   Ensino Médio) — dá pra adicionar aos poucos em outros tópicos.
+- **"Reportar erro"**: depois de responder um exercício (`ExerciseQuiz.tsx`)
+  ou revelar uma solução do Gauss/resolver por foto (`SolutionDisplay.tsx`),
+  o aluno pode sinalizar que algo parece errado — um comentário opcional
+  vai para `content_reports` (RLS: qualquer um insere só a própria linha,
+  só admin lê a lista) e aparece em `/admin/relatos-conteudo`. É a rede de
+  segurança contra erros sutis em conteúdo gerado com ajuda de IA em
+  escala — mais barato e contínuo do que só auditorias manuais pontuais.
+  `ReportContentButton.tsx` é o mesmo componente nos dois lugares.
 - **Tutor de IA (Gauss)**: um chat flutuante (canto inferior esquerdo,
   disponível em qualquer página), inspirado no "Koji" do Brilliant.org.
   Gauss usa o método socrático — faz perguntas e dá pistas em vez de

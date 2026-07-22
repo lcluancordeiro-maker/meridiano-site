@@ -5,6 +5,7 @@ import type { PhotoSolution } from "@/lib/photoSolve";
 import { useTranslation } from "@/i18n/LanguageContext";
 import { askGauss } from "@/lib/gaussPrompt";
 import { checkPhotoAnswer } from "@/lib/answerMatch";
+import ReportContentButton from "./ReportContentButton";
 
 export default function SolutionDisplay({
   solution,
@@ -142,6 +143,8 @@ export default function SolutionDisplay({
             {isGeneratingSimilar ? labels.generatingSimilar : labels.practiceSimilarButton}
           </button>
         )}
+
+        {revealed && <ReportContentButton source="gauss" context={solution.enunciado} />}
       </div>
     </div>
   );
