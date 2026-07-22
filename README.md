@@ -530,7 +530,15 @@ idioma etc.), veja [docs/features.md](docs/features.md).
   resposta da IA que já foi gerada). Uma conversa aberta no Gauss vira uma
   linha só até a página recarregar — `/historico` mostra o que já foi
   dito, mas não retoma uma conversa antiga pra continuar de onde parou.
-- **Preparatório para Vestibulares**: simulados no estilo real de cada
+- **Preparatório para Vestibulares** (destaque na home, logo abaixo do
+  hero — e um botão "Preparar para o Vestibular" no próprio hero levando
+  direto pra lá): esse é o diferencial real do produto frente a
+  concorrentes como Brilliant/Khan Academy/Photomath, nenhum dos quais
+  foca em vestibular brasileiro — por isso a seção não fica mais no fim
+  da home, atrás de todo o resto do currículo. A `description` raiz
+  (`layout.tsx`, usada em SEO/compartilhamento) também cita ENEM/UERJ/
+  UNESP/OBMEP explicitamente em vez de só "ensino fundamental ao
+  superior". Simulados no estilo real de cada
   prova — ENEM (grátis: questões contextualizadas, múltipla escolha),
   UERJ (Premium: estilo discursivo/interdisciplinar), UNESP (Premium:
   múltipla escolha direta), OBMEP (Premium: raciocínio lógico estilo

@@ -38,6 +38,12 @@ export default async function Home() {
             >
               {home.comecarFundamental2}
             </Link>
+            <Link
+              href="#vestibulares"
+              className="rounded-lg border border-border px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
+            >
+              {home.prepararVestibular}
+            </Link>
           </div>
           <ContinueLearningCard label={home.continuarLabel} cta={home.continuarCta} />
         </div>
@@ -45,19 +51,37 @@ export default async function Home() {
 
       <DailyChallenge />
 
-      <section id="niveis" className="mx-auto w-full max-w-5xl px-6 py-16 sm:py-20">
+      <section id="vestibulares" className="mx-auto w-full max-w-5xl px-6 py-16 sm:py-20">
         <div className="mb-10">
           <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-            {home.escolhaNivel}
+            {home.vestibularesHeading}
           </h2>
-          <p className="mt-2 text-muted">{home.niveisDisponiveis}</p>
+          <p className="mt-2 text-muted">{home.vestibularesSubtitle}</p>
         </div>
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid gap-5 sm:grid-cols-3">
           {levels
-            .filter((level) => level.group === "serie")
+            .filter((level) => level.group === "vestibulares")
             .map((level) => (
               <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} progressLabel={dict.nav.progresso} />
             ))}
+        </div>
+      </section>
+
+      <section id="niveis" className="border-t border-border bg-surface">
+        <div className="mx-auto w-full max-w-5xl px-6 py-16 sm:py-20">
+          <div className="mb-10">
+            <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
+              {home.escolhaNivel}
+            </h2>
+            <p className="mt-2 text-muted">{home.niveisDisponiveis}</p>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2">
+            {levels
+              .filter((level) => level.group === "serie")
+              .map((level) => (
+                <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} progressLabel={dict.nav.progresso} />
+              ))}
+          </div>
         </div>
       </section>
 
@@ -128,22 +152,6 @@ export default async function Home() {
                 <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} progressLabel={dict.nav.progresso} />
               ))}
           </div>
-        </div>
-      </section>
-
-      <section className="mx-auto w-full max-w-5xl px-6 py-16 sm:py-20">
-        <div className="mb-10">
-          <h2 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-            {home.vestibularesHeading}
-          </h2>
-          <p className="mt-2 text-muted">{home.vestibularesSubtitle}</p>
-        </div>
-        <div className="grid gap-5 sm:grid-cols-3">
-          {levels
-            .filter((level) => level.group === "vestibulares")
-            .map((level) => (
-              <LevelCard key={level.id} level={level} emBreve={home.emBreve} comecarTrilha={home.comecarTrilha} premiumBadge={premium.navBadge} progressLabel={dict.nav.progresso} />
-            ))}
         </div>
       </section>
 

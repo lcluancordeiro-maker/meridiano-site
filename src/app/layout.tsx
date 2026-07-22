@@ -25,7 +25,7 @@ const sora = Sora({
 });
 
 const description =
-  "Aprenda matemática do ensino fundamental ao superior, com teoria e exercícios interativos.";
+  "Aprenda matemática do ensino fundamental ao superior, com teoria e exercícios interativos — e prepare-se para ENEM, UERJ, UNESP, OBMEP e olimpíadas com simulados no estilo de cada prova.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
