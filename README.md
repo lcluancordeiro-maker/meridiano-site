@@ -872,6 +872,21 @@ nativo (iOS/Android) via Capacitor, veja
   os dois em containers separados — badges de XP, seletor de idioma,
   tema e login ficam num terceiro container à parte, pra nunca duplicar
   no DOM).
+- **Busca global no currículo**: um ícone de busca na Navbar (visível em
+  toda página, ao lado do botão de tema) abre um overlay com um campo de
+  texto — digitar filtra, em tempo real (debounce de 200ms), tópicos de
+  TODAS as trilhas disponíveis por título/resumo, sem distinguir
+  maiúsculas/acentos ("fracoes" encontra "Frações"). Navegação por
+  teclado (setas + Enter) e Escape fecha o overlay. A busca em si roda
+  inteiramente no servidor via server action
+  (`src/app/actions/search.ts` → `searchCurriculumAction`) chamando
+  `src/lib/curriculumSearch.ts` (`searchCurriculum`, testado
+  isoladamente) — importante porque o currículo completo (teoria +
+  exercícios de todas as ~25 trilhas) soma ~1MB, e a Navbar aparece em
+  toda página; rodar a busca no servidor evita que esse megabyte vá
+  pro bundle do cliente só pra alimentar uma caixa de busca. Resultados
+  de trilhas Premium aparecem com um badge "Premium" e levam pro mesmo
+  paywall que a trilha já mostra. `src/components/GlobalSearch.tsx`.
 - **Prontidão para produção**: `sitemap.xml`/`robots.txt` gerados a
   partir do catálogo de trilhas, metadados OpenGraph/Twitter,
   monitoramento de erros opcional (Sentry) e analytics de página sem

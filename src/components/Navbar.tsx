@@ -3,6 +3,7 @@ import NavbarXpBadge from "./NavbarXpBadge";
 import ThemeToggle from "./ThemeToggle";
 import LanguageSwitcher from "./LanguageSwitcher";
 import MobileNavMenu from "./MobileNavMenu";
+import GlobalSearch from "./GlobalSearch";
 import { createClient } from "@/lib/supabase/server";
 import { logout } from "@/app/actions/auth";
 import { getServerLocale } from "@/i18n/getServerLocale";
@@ -79,6 +80,7 @@ export default async function Navbar() {
             {dict.premium.navBadge}
           </Link>
           <NavbarXpBadge />
+          <GlobalSearch />
           <LanguageSwitcher />
           <ThemeToggle />
           {user ? (
