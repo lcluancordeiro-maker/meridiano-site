@@ -1823,7 +1823,7 @@ create policy "photo_solve_history_own"
 create table if not exists public.content_reports (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users (id) on delete cascade,
-  source text not null check (source in ('exercicio', 'gauss')),
+  source text not null check (source in ('exercicio', 'gauss', 'community_problem')),
   level_id text,
   topic_id text,
   exercise_id text,
@@ -2017,3 +2017,137 @@ as $$
 $$;
 
 grant execute on function public.get_friends_leaderboard() to authenticated;
+
+-- ---------------------------------------------------------------------
+-- community_problems: banco de problemas enviados pelos próprios alunos
+-- (enunciado + resposta + explicação, com uma tag de assunto e nível de
+-- dificuldade livres). Qualquer usuário logado pode enviar e ver todos os
+-- problemas — não há fila de aprovação, no mesmo espírito de
+-- chat/comunidades (conteúdo vai ao ar na hora, "reportar erro" e o
+-- painel de moderação de conteúdo cuidam do que aparecer errado depois:
+-- reaproveita content_reports com source 'community_problem' em vez de
+-- criar uma fila de revisão nova). Upvotes ficam numa tabela separada
+-- (um voto por usuário por problema) e list_community_problems() já
+-- resolve nome do autor + "já votei?" via security definer, evitando dar
+-- select público na tabela de votos.
+-- ---------------------------------------------------------------------
+create table if not exists public.community_problems (
+  id uuid primary key default gen_random_uuid(),
+  author_id uuid not null references auth.users (id) on delete cascade,
+  prompt text not null,
+  answer text not null,
+  explanation text not null default '',
+  topic_tag text not null,
+  difficulty text not null check (difficulty in ('facil', 'medio', 'dificil', 'olimpiada')),
+  upvotes integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists community_problems_created_at_idx on public.community_problems (created_at desc);
+
+alter table public.community_problems enable row level security;
+
+drop policy if exists "community_problems_select_authenticated" on public.community_problems;
+create policy "community_problems_select_authenticated"
+  on public.community_problems for select
+  using (auth.uid() is not null);
+
+drop policy if exists "community_problems_insert_own" on public.community_problems;
+create policy "community_problems_insert_own"
+  on public.community_problems for insert
+  with check (auth.uid() = author_id);
+
+drop policy if exists "community_problems_delete_own" on public.community_problems;
+create policy "community_problems_delete_own"
+  on public.community_problems for delete
+  using (auth.uid() = author_id);
+
+create table if not exists public.community_problem_upvotes (
+  problem_id uuid not null references public.community_problems (id) on delete cascade,
+  user_id uuid not null references auth.users (id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (problem_id, user_id)
+);
+
+alter table public.community_problem_upvotes enable row level security;
+
+drop policy if exists "community_problem_upvotes_select_own" on public.community_problem_upvotes;
+create policy "community_problem_upvotes_select_own"
+  on public.community_problem_upvotes for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "community_problem_upvotes_insert_own" on public.community_problem_upvotes;
+create policy "community_problem_upvotes_insert_own"
+  on public.community_problem_upvotes for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "community_problem_upvotes_delete_own" on public.community_problem_upvotes;
+create policy "community_problem_upvotes_delete_own"
+  on public.community_problem_upvotes for delete
+  using (auth.uid() = user_id);
+
+create or replace function public.list_community_problems()
+returns table (
+  id uuid,
+  prompt text,
+  answer text,
+  explanation text,
+  topic_tag text,
+  difficulty text,
+  upvotes integer,
+  author_name text,
+  is_own boolean,
+  already_upvoted boolean,
+  created_at timestamptz
+)
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  return query
+    select
+      cp.id, cp.prompt, cp.answer, cp.explanation, cp.topic_tag, cp.difficulty, cp.upvotes,
+      coalesce(nullif(trim(pr.display_name), ''), 'Estudante'),
+      cp.author_id = auth.uid(),
+      exists (
+        select 1 from public.community_problem_upvotes u
+        where u.problem_id = cp.id and u.user_id = auth.uid()
+      ),
+      cp.created_at
+    from public.community_problems cp
+    left join public.profiles pr on pr.id = cp.author_id
+    order by cp.created_at desc
+    limit 100;
+end;
+$$;
+
+grant execute on function public.list_community_problems() to authenticated;
+
+-- Toggles the calling user's upvote on a problem (adds if missing, removes
+-- if present), keeping community_problems.upvotes in sync in the same
+-- transaction.
+create or replace function public.toggle_community_problem_upvote(p_problem_id uuid)
+returns void
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  already boolean;
+begin
+  select exists (
+    select 1 from public.community_problem_upvotes
+    where problem_id = p_problem_id and user_id = auth.uid()
+  ) into already;
+
+  if already then
+    delete from public.community_problem_upvotes
+    where problem_id = p_problem_id and user_id = auth.uid();
+    update public.community_problems set upvotes = upvotes - 1 where id = p_problem_id;
+  else
+    insert into public.community_problem_upvotes (problem_id, user_id) values (p_problem_id, auth.uid());
+    update public.community_problems set upvotes = upvotes + 1 where id = p_problem_id;
+  end if;
+end;
+$$;
+
+grant execute on function public.toggle_community_problem_upvote(uuid) to authenticated;

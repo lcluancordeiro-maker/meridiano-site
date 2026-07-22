@@ -2,7 +2,7 @@
 
 import { getAuthedSupabase } from "@/lib/actionAuth";
 
-export type ReportSource = "exercicio" | "gauss";
+export type ReportSource = "exercicio" | "gauss" | "community_problem";
 
 export type ReportContentInput = {
   source: ReportSource;

@@ -381,6 +381,22 @@ nativo (iOS/Android) via Capacitor, veja
   "toda a turma já se conhece" (sem exigir opt-in, ao contrário da liga
   global), visível pros alunos em `/turmas/[turmaId]` (o professor já
   tem uma visão mais completa com XP total + streak, não precisa dessa).
+- **Banco de problemas da comunidade** (`/comunidade/problemas`): alunos
+  enviam problemas próprios (enunciado, resposta, explicação opcional,
+  assunto livre e nível de dificuldade) que ficam visíveis pra todo
+  mundo na hora — sem fila de aprovação, mesmo modelo de confiança do
+  chat/comunidades (conteúdo vai ao ar direto; "reportar erro" reaproveita
+  `content_reports` com um novo `source: 'community_problem'`, sem criar
+  uma fila de revisão nova, e aparece junto com os relatos de exercício/
+  Gauss em `/admin/relatos-conteudo`). Cada problema tem um botão de
+  upvote (`community_problem_upvotes`, um voto por usuário, alternado via
+  `toggle_community_problem_upvote()`) e "Ver resposta" — sem XP nem
+  progresso, é conteúdo suplementar, não parte da trilha oficial. Atrás do
+  mesmo gate de verificação de identidade/consentimento parental que
+  chat/comunidades/lives já usam (`getSocialAccessStatus()`), já que é
+  conteúdo público gerado por outros alunos.
+  `src/components/CommunityProblemsList.tsx` +
+  `src/app/actions/communityProblems.ts`.
 - **Problemas guiados em etapas**: exercícios mais difíceis podem trazer
   um painel recolhível "Resolver em etapas" que decompõe o problema em
   sub-perguntas de um toque, reveladas uma por vez com feedback imediato

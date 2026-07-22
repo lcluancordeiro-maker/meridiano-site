@@ -38,6 +38,7 @@ export default async function Navbar() {
     { href: "/turmas", label: dict.nav.turmas },
     { href: "/chat", label: dict.chat.title },
     { href: "/comunidades", label: dict.communities.title },
+    { href: "/comunidade/problemas", label: "Problemas da comunidade" },
     { href: "/lives", label: dict.lives.title },
     { href: "/liga", label: dict.nav.liga },
     { href: "/matematicos", label: dict.nav.matematicos },

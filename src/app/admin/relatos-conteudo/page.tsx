@@ -6,7 +6,7 @@ import { isAdmin } from "@/lib/entitlements";
 
 type ContentReport = {
   id: string;
-  source: "exercicio" | "gauss";
+  source: "exercicio" | "gauss" | "community_problem";
   level_id: string | null;
   topic_id: string | null;
   exercise_id: string | null;
@@ -53,7 +53,11 @@ export default async function RelatosConteudoPage() {
               <li key={report.id} className="rounded-xl border border-border bg-surface p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
                   <span className="rounded-full bg-primary/10 px-2 py-0.5 font-semibold text-primary">
-                    {report.source === "exercicio" ? "Exercício" : "Gauss / Resolver por foto"}
+                    {report.source === "exercicio"
+                      ? "Exercício"
+                      : report.source === "gauss"
+                      ? "Gauss / Resolver por foto"
+                      : "Problema da comunidade"}
                   </span>
                   <span>{new Date(report.created_at).toLocaleString("pt-BR")}</span>
                 </div>
