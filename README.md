@@ -395,6 +395,20 @@ nativo (iOS/Android) via Capacitor, veja
   mesmo gate de verificação de identidade/consentimento parental que
   chat/comunidades/lives já usam (`getSocialAccessStatus()`), já que é
   conteúdo público gerado por outros alunos.
+- **Importação de turma via Google Classroom/Clever (CSV)**: na página da
+  turma, o professor envia o CSV de alunos exportado direto do Classroom
+  ou do Clever (ambos exportam nativamente, sem precisar de OAuth) e o
+  app matricula quem já tem conta pelo e-mail — quem ainda não tem conta
+  continua entrando pelo código normal da turma.
+  `src/lib/lmsRoster.ts` (`parseRosterEmails`, testado isoladamente)
+  extrai e-mails de qualquer formato de export, ignorando cabeçalho;
+  `add_turma_member_by_email()` (`supabase/schema.sql`) é o caminho
+  teacher-initiated que faltava ao lado do `join_turma_by_code`
+  student-initiated que já existia. Não há integração OAuth de verdade
+  com as APIs do Classroom/Clever neste ambiente — registrar um app
+  OAuth em qualquer um dos dois exige verificação manual do provedor
+  (dias/semanas, precisa de organização real) — o caminho completo pra
+  isso está documentado em `docs/lms-integration.md`.
   `src/components/CommunityProblemsList.tsx` +
   `src/app/actions/communityProblems.ts`.
 - **Problemas guiados em etapas**: exercícios mais difíceis podem trazer

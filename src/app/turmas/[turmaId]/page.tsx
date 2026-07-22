@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import CreateAssignmentForm from "@/components/CreateAssignmentForm";
+import ImportRosterForm from "@/components/ImportRosterForm";
 import TurmaPerformanceMatrix from "@/components/TurmaPerformanceMatrix";
 import TurmaAiUsage from "@/components/TurmaAiUsage";
 import { createClient } from "@/lib/supabase/server";
@@ -156,6 +157,12 @@ export default async function TurmaDetailPage({
             ) : (
               <p className="mt-3 text-sm text-muted">{dict.noStudents}</p>
             )}
+            <div className="mt-5 rounded-xl border border-border bg-surface p-4">
+              <h3 className="text-sm font-semibold text-foreground">
+                Importar do Google Classroom / Clever
+              </h3>
+              <ImportRosterForm turmaId={turma.id} />
+            </div>
           </section>
         )}
 

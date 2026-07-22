@@ -5,8 +5,10 @@ import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getAuthedSupabase } from "@/lib/actionAuth";
 import { generateJoinCode } from "@/lib/turmaCode";
+import { parseRosterEmails } from "@/lib/lmsRoster";
 
 export type TurmaFormState = { error?: string } | undefined;
+export type ImportRosterFormState = { error?: string; success?: string } | undefined;
 
 const NOT_CONFIGURED_ERROR: TurmaFormState = { error: "Turmas ainda não estão disponíveis neste app." };
 const MAX_JOIN_CODE_ATTEMPTS = 5;
@@ -66,6 +68,58 @@ export async function joinTurma(_prevState: TurmaFormState, formData: FormData):
   }
 
   redirect(`/turmas/${turmaId}`);
+}
+
+/** Imports a roster exported from Google Classroom or Clever (CSV or a
+ * bare email list — see parseRosterEmails) by adding, one at a time, every
+ * student whose e-mail already has an account. There's no real Classroom/
+ * Clever OAuth here (no registered app in this sandbox) — this is the
+ * practical v1: both platforms natively export a roster CSV, so a teacher
+ * can do this today without either app being OAuth-approved. See
+ * docs/lms-integration.md for the real-OAuth path this would grow into. */
+export async function importTurmaRoster(
+  _prevState: ImportRosterFormState,
+  formData: FormData
+): Promise<ImportRosterFormState> {
+  const auth = await getAuthedSupabase();
+  if ("reason" in auth) {
+    return auth.reason === "not-configured"
+      ? { error: "Turmas ainda não estão disponíveis neste app." }
+      : { error: "Faça login para importar uma turma." };
+  }
+  const { supabase } = auth;
+
+  const turmaId = String(formData.get("turmaId") ?? "");
+  const roster = String(formData.get("roster") ?? "");
+  if (!turmaId || !roster.trim()) {
+    return { error: "Cole ou envie a lista exportada do Classroom/Clever." };
+  }
+
+  const { emails, skippedLines } = parseRosterEmails(roster);
+  if (emails.length === 0) {
+    return { error: "Nenhum e-mail válido encontrado no arquivo." };
+  }
+
+  let added = 0;
+  let alreadyMember = 0;
+  let notFound = 0;
+  for (const email of emails) {
+    const { data, error } = await supabase.rpc("add_turma_member_by_email", {
+      p_turma_id: turmaId,
+      p_email: email,
+    });
+    if (error) continue;
+    if (data === "added") added++;
+    else if (data === "already_member") alreadyMember++;
+    else if (data === "not_found") notFound++;
+  }
+
+  const parts = [`${added} aluno(s) adicionado(s)`];
+  if (alreadyMember > 0) parts.push(`${alreadyMember} já estavam na turma`);
+  if (notFound > 0) parts.push(`${notFound} e-mail(s) ainda sem conta no app (podem entrar pelo código)`);
+  if (skippedLines > 0) parts.push(`${skippedLines} linha(s) ignorada(s)`);
+
+  return { success: parts.join(" · ") + "." };
 }
 
 export async function createAssignment(_prevState: TurmaFormState, formData: FormData): Promise<TurmaFormState> {

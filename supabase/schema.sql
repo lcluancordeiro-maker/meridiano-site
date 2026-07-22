@@ -346,6 +346,47 @@ $$;
 
 grant execute on function public.join_turma_by_code(text) to authenticated;
 
+-- Matricula um aluno (identificado por e-mail, já com conta no app) numa
+-- turma diretamente pelo professor — o caminho teacher-initiated que falta
+-- pra importar um roster do Google Classroom/Clever, complementando o
+-- join_turma_by_code student-initiated acima. Só o professor dono da turma
+-- pode chamar; retorna 'added', 'already_member' ou 'not_found' (o aluno
+-- ainda não tem conta) em vez de vazar se um e-mail existe no sistema —
+-- só quem já é dono da turma chega a essa checagem, então não é o mesmo
+-- risco de enumeração do "esqueci minha senha".
+create or replace function public.add_turma_member_by_email(p_turma_id uuid, p_email text)
+returns text
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  v_student_id uuid;
+begin
+  if not exists (
+    select 1 from public.turmas where id = p_turma_id and teacher_user_id = auth.uid()
+  ) then
+    raise exception 'not_authorized';
+  end if;
+
+  select id into v_student_id from auth.users where lower(email) = lower(p_email) limit 1;
+
+  if v_student_id is null then
+    return 'not_found';
+  end if;
+
+  if exists (
+    select 1 from public.turma_members where turma_id = p_turma_id and student_user_id = v_student_id
+  ) then
+    return 'already_member';
+  end if;
+
+  insert into public.turma_members (turma_id, student_user_id) values (p_turma_id, v_student_id);
+  return 'added';
+end;
+$$;
+
+grant execute on function public.add_turma_member_by_email(uuid, text) to authenticated;
+
 -- Lista de alunos de uma turma com XP e streak, só pro professor dono
 -- dela — junta dados de profiles/gamification_state que o professor não
 -- teria como ler diretamente (RLS dessas tabelas é "só a própria linha").
