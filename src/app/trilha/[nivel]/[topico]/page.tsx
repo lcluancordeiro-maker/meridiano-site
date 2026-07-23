@@ -181,9 +181,15 @@ export default async function TopicPage({
             )}
 
             <div className="mt-12">
-              <h2 className="mb-4 font-display text-xl font-semibold text-foreground">
-                Praticar
-              </h2>
+              <div className="mb-4 flex items-center justify-between">
+                <h2 className="font-display text-xl font-semibold text-foreground">Praticar</h2>
+                <Link
+                  href={`/imprimir/${level.id}/${topic.id}`}
+                  className="text-sm font-medium text-primary hover:underline"
+                >
+                  🖨️ Gerar PDF de exercícios
+                </Link>
+              </div>
               <PracticeSection
                 levelId={level.id}
                 topicId={topic.id}

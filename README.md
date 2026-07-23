@@ -787,6 +787,15 @@ nativo (iOS/Android) via Capacitor, veja
   quem só clicou em "cadastro" mas já tinha conta OAuth existente. A
   página do diagnóstico mostra um banner de boas-vindas com link
   "Pular por agora" pra `/progresso` quando chega com esse parâmetro.
+- **Gerar PDF de exercícios de um tópico** (`/imprimir/[nivel]/[topico]`,
+  linkado a partir da página do tópico): folha imprimível com todos os
+  exercícios do tópico (opções lettered A/B/C/D pras de múltipla escolha,
+  linha em branco pras de resposta numérica) seguida de um "Gabarito" em
+  página separada (`break-before: page`). Sem geração de PDF no servidor
+  — o botão "Baixar PDF" só chama `window.print()`; o navegador do
+  professor já sabe salvar como PDF. Mesmo corte de premium da página do
+  tópico (`isPremiumUser()`): a rota devolve 404 pra quem tenta acessar
+  o PDF de uma trilha paga sem assinatura.
 - Progresso e gamificação salvos localmente no navegador
   (`localStorage`) — funciona sem conta (modo convidado).
 - **Contas (opcional)**: login/cadastro (`/entrar`, `/cadastro`) via
