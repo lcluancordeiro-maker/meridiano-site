@@ -443,6 +443,10 @@ export type Dictionary = {
     chartToday: string;
     /** Sun..Sat, short form, for the XP-trend chart's x-axis labels. */
     weekdayLabels: string[];
+    studyActivity: string;
+    heatmapCaption: string;
+    heatmapLess: string;
+    heatmapMore: string;
   };
   badges: Record<BadgeId, { name: string; description: string }>;
 };
@@ -625,6 +629,10 @@ const progressoEn = {
   chartNotAttempted: "not attempted yet",
   chartToday: "today",
   weekdayLabels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  studyActivity: "Study activity",
+  heatmapCaption: "Last 6 months",
+  heatmapLess: "Less",
+  heatmapMore: "More",
 };
 
 // Achievement names/descriptions — same pt-BR/en/es-real, 8-locale-fallback
@@ -1081,6 +1089,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       chartNotAttempted: "ainda não feito",
       chartToday: "hoje",
       weekdayLabels: ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"],
+      studyActivity: "Atividade de estudo",
+      heatmapCaption: "Últimos 6 meses",
+      heatmapLess: "Menos",
+      heatmapMore: "Mais",
     },
     badges: {
       "first-topic": { name: "Primeiro passo", description: "Conclua seu primeiro tópico." },
@@ -1810,6 +1822,10 @@ export const dictionaries: Record<Locale, Dictionary> = {
       chartNotAttempted: "aún no hecho",
       chartToday: "hoy",
       weekdayLabels: ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
+      studyActivity: "Actividad de estudio",
+      heatmapCaption: "Últimos 6 meses",
+      heatmapLess: "Menos",
+      heatmapMore: "Más",
     },
     badges: {
       "first-topic": { name: "Primer paso", description: "Completa tu primer tema." },
@@ -2270,7 +2286,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "四",
         "五",
         "六"
-      ]
+      ],
+      "studyActivity": "学习活动",
+      "heatmapCaption": "过去6个月",
+      "heatmapLess": "较少",
+      "heatmapMore": "较多"
     },
     badges: {
       "first-topic": {
@@ -2744,7 +2764,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "gio",
         "ven",
         "sab"
-      ]
+      ],
+      "studyActivity": "Attività di studio",
+      "heatmapCaption": "Ultimi 6 mesi",
+      "heatmapLess": "Meno",
+      "heatmapMore": "Più"
     },
     badges: {
       "first-topic": {
@@ -3216,7 +3240,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "목",
         "금",
         "토"
-      ]
+      ],
+      "studyActivity": "학습 활동",
+      "heatmapCaption": "지난 6개월",
+      "heatmapLess": "적음",
+      "heatmapMore": "많음"
     },
     badges: {
       "first-topic": {
@@ -3690,7 +3718,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "Do",
         "Fr",
         "Sa"
-      ]
+      ],
+      "studyActivity": "Lernaktivität",
+      "heatmapCaption": "Letzte 6 Monate",
+      "heatmapLess": "Weniger",
+      "heatmapMore": "Mehr"
     },
     badges: {
       "first-topic": {
@@ -4164,7 +4196,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "jeu",
         "ven",
         "sam"
-      ]
+      ],
+      "studyActivity": "Activité d'étude",
+      "heatmapCaption": "6 derniers mois",
+      "heatmapLess": "Moins",
+      "heatmapMore": "Plus"
     },
     badges: {
       "first-topic": {
@@ -4635,7 +4671,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "木",
         "金",
         "土"
-      ]
+      ],
+      "studyActivity": "学習アクティビティ",
+      "heatmapCaption": "過去6か月",
+      "heatmapLess": "少ない",
+      "heatmapMore": "多い"
     },
     badges: {
       "first-topic": {
@@ -5108,7 +5148,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "خ",
         "ج",
         "س"
-      ]
+      ],
+      "studyActivity": "نشاط الدراسة",
+      "heatmapCaption": "آخر 6 أشهر",
+      "heatmapLess": "أقل",
+      "heatmapMore": "أكثر"
     },
     badges: {
       "first-topic": {
@@ -5582,7 +5626,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "чт",
         "пт",
         "сб"
-      ]
+      ],
+      "studyActivity": "Учебная активность",
+      "heatmapCaption": "Последние 6 месяцев",
+      "heatmapLess": "Меньше",
+      "heatmapMore": "Больше"
     },
     badges: {
       "first-topic": {
@@ -6051,7 +6099,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "गुरु",
         "शुक्र",
         "शनि"
-      ]
+      ],
+      "studyActivity": "अध्ययन गतिविधि",
+      "heatmapCaption": "पिछले 6 महीने",
+      "heatmapLess": "कम",
+      "heatmapMore": "ज़्यादा"
     },
     "badges": {
       "first-topic": {
@@ -6520,7 +6572,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "T5",
         "T6",
         "T7"
-      ]
+      ],
+      "studyActivity": "Hoạt động học tập",
+      "heatmapCaption": "6 tháng gần đây",
+      "heatmapLess": "Ít hơn",
+      "heatmapMore": "Nhiều hơn"
     },
     "badges": {
       "first-topic": {
@@ -6989,7 +7045,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "czw",
         "pt",
         "sob"
-      ]
+      ],
+      "studyActivity": "Aktywność nauki",
+      "heatmapCaption": "Ostatnie 6 miesięcy",
+      "heatmapLess": "Mniej",
+      "heatmapMore": "Więcej"
     },
     "badges": {
       "first-topic": {
@@ -7458,7 +7518,11 @@ export const dictionaries: Record<Locale, Dictionary> = {
         "Per",
         "Cum",
         "Cmt"
-      ]
+      ],
+      "studyActivity": "Çalışma etkinliği",
+      "heatmapCaption": "Son 6 ay",
+      "heatmapLess": "Az",
+      "heatmapMore": "Çok"
     },
     "badges": {
       "first-topic": {

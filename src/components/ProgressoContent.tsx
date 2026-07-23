@@ -6,6 +6,7 @@ import WeakSpotsCard from "@/components/WeakSpotsCard";
 import RecommendedForYou from "@/components/RecommendedForYou";
 import AccuracyChart from "@/components/charts/AccuracyChart";
 import XpTrendChart from "@/components/charts/XpTrendChart";
+import StudyHeatmap from "@/components/charts/StudyHeatmap";
 import { useGamification } from "@/lib/useGamification";
 import { useAllProgress } from "@/lib/useAllProgress";
 import { levelFromXp, getXpLast } from "@/lib/gamification";
@@ -75,6 +76,7 @@ export default function ProgressoContent() {
   const allProgress = useAllProgress();
   const { level, xpIntoLevel, xpForNextLevel } = levelFromXp(gamification.xp);
   const xpTrend = getXpLast(7);
+  const heatmapData = getXpLast(182);
 
   const fund2AccuracyData = buildAccuracyData(
     fundamental2Topics.map((topic) => ({
@@ -172,6 +174,14 @@ export default function ProgressoContent() {
             <p className="mt-1 text-xs text-muted">{t.last7Days}</p>
             <div className="mt-4">
               <XpTrendChart data={xpTrend} />
+            </div>
+          </div>
+          <div className="rounded-2xl border border-border bg-surface p-5 sm:col-span-2">
+            <h2 className="font-display text-lg font-semibold text-foreground">
+              {t.studyActivity}
+            </h2>
+            <div className="mt-4">
+              <StudyHeatmap data={heatmapData} />
             </div>
           </div>
           <div className="sm:col-span-2">

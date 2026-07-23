@@ -739,6 +739,16 @@ nativo (iOS/Android) via Capacitor, veja
   **lembretes de sequência por notificação push** — avisa quando a
   sequência de dias praticando está prestes a quebrar. Veja
   "Configurando notificações push" em docs/setup.md.
+- **Heatmap de atividade de estudo** (`/progresso`, estilo GitHub
+  contribution graph): grade de semanas × dias-da-semana colorida pela
+  intensidade de XP ganho naquele dia, cobrindo os últimos ~6 meses.
+  `src/lib/studyHeatmap.ts` (`buildHeatmapWeeks`, `heatmapIntensity`,
+  testados isoladamente) reaproveita `getXpLast(182)` — a mesma função
+  que já alimenta o gráfico de XP da semana — sem precisar de nenhum
+  dado novo persistido; os limiares de intensidade são fixos (não por
+  quantil do usuário), então uma célula significa a mesma coisa pra
+  qualquer aluno. `src/components/charts/StudyHeatmap.tsx` — o SVG, com
+  fallback acessível em tabela (`<details>`) igual ao `XpTrendChart`.
 - **"Recomendado para você"** (`/progresso`, acima do resto do
   dashboard): antes disso, revisão espaçada (`/revisao`), dificuldade
   adaptativa (badge "Recomendado" no seletor de dificuldade) e o skill
