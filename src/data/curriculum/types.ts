@@ -197,6 +197,16 @@ export type HistoricalNote = {
   mathematicians?: string[];
 };
 
+/** A curated short video lesson embed — hand-picked per topic, not
+ * user-submitted, so this is a plain array on the topic rather than a
+ * database table. youtubeId is the 11-character id from the video's URL
+ * (the part after `v=` or `youtu.be/`), never a full URL. */
+export type VideoLesson = {
+  title: string;
+  youtubeId: string;
+  channel: string;
+};
+
 export type Topic = {
   id: string;
   title: string;
@@ -208,6 +218,10 @@ export type Topic = {
   graphExpressions?: string[];
   relatedTopics?: RelatedTopicRef[];
   historicalNote?: HistoricalNote;
+  /** Optional curated short video lessons — see VideoLesson. Only a
+   * handful of topics have these; most don't and that's fine, this is
+   * additive. */
+  videoLessons?: VideoLesson[];
 };
 
 export type LevelGroup = "serie" | "estatistica" | "econometria" | "programacao" | "financas" | "vestibulares";

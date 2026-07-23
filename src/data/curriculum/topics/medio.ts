@@ -296,6 +296,13 @@ export const medioTopics: Topic[] = [
     summary: "Explore a forma f(x) = ax² + bx + c: concavidade, vértice e o gráfico em parábola.",
     minutes: 20,
     graphExpressions: ["x^2 - 4x + 3"],
+    videoLessons: [
+      {
+        title: "Função Quadrática | Função do 2º Grau - ENEM",
+        youtubeId: "2Uxt7Aey0wE",
+        channel: "Professora Angela Matemática",
+      },
+    ],
     relatedTopics: [
       { levelId: "medio", topicId: "funcao-primeiro-grau" },
       { levelId: "superior", topicId: "limites-e-derivadas" },

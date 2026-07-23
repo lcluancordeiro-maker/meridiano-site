@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import SetTutorContext from "@/components/SetTutorContext";
 import PracticeSection from "@/components/PracticeSection";
 import LazyFunctionGrapher from "@/components/LazyFunctionGrapher";
+import VideoLessons from "@/components/VideoLessons";
 import InteractiveWidgetRenderer from "@/components/widgets/InteractiveWidgetRenderer";
 import KnowledgeGraph from "@/components/KnowledgeGraph";
 import TheoryCheckQuestion from "@/components/TheoryCheckQuestion";
@@ -177,6 +178,18 @@ export default async function TopicPage({
                   Mude a expressão abaixo e veja como o gráfico se transforma.
                 </p>
                 <LazyFunctionGrapher initialExpressions={topic.graphExpressions} />
+              </div>
+            )}
+
+            {topic.videoLessons && (
+              <div className="mt-10">
+                <h2 className="mb-1 font-display text-xl font-semibold text-foreground">
+                  Videoaulas
+                </h2>
+                <p className="mb-4 text-sm text-muted">
+                  Vídeos curtos de outros canais de matemática sobre este tópico.
+                </p>
+                <VideoLessons videos={topic.videoLessons} />
               </div>
             )}
 

@@ -294,6 +294,13 @@ export const fundamental2Topics: Topic[] = [
     summary:
       "Entenda o que são frações, como simplificá-las e como somar, subtrair, multiplicar e dividir.",
     minutes: 18,
+    videoLessons: [
+      {
+        title: "O que é uma fração?",
+        youtubeId: "NoBHpMF2MOE",
+        channel: "Professora Angela Matemática",
+      },
+    ],
     historicalNote: {
       title: "Pão, terra e o papiro de Rhind",
       body: [
@@ -1086,6 +1093,18 @@ export const fundamental2Topics: Topic[] = [
     summary:
       "Domine razão, proporção, regra de três simples e cálculo de porcentagem.",
     minutes: 20,
+    videoLessons: [
+      {
+        title: "Regra de Três Simples - Grandezas diretamente proporcionais",
+        youtubeId: "goqyLABRxjo",
+        channel: "Professora Angela Matemática",
+      },
+      {
+        title: "Porcentagem de um valor: como calcular",
+        youtubeId: "B0tet-cT35Y",
+        channel: "Professora Angela Matemática",
+      },
+    ],
     theory: [
       {
         heading: "Razão e proporção",
@@ -1334,6 +1353,13 @@ export const fundamental2Topics: Topic[] = [
     summary: "Aprenda a fórmula de Bhaskara e resolva equações do segundo grau.",
     minutes: 22,
     graphExpressions: ["x^2 - 5x + 6"],
+    videoLessons: [
+      {
+        title: "Equações do Segundo Grau",
+        youtubeId: "iMTcN--jfHM",
+        channel: "Professora Angela Matemática",
+      },
+    ],
     theory: [
       {
         heading: "O que é uma equação do 2º grau?",
@@ -1593,6 +1619,13 @@ export const fundamental2Topics: Topic[] = [
     summary:
       "Calcule perímetros, áreas de figuras planas e aplique o Teorema de Pitágoras.",
     minutes: 20,
+    videoLessons: [
+      {
+        title: "Teorema de Pitágoras",
+        youtubeId: "PGPRh4JBIsg",
+        channel: "Professora Angela Matemática",
+      },
+    ],
     historicalNote: {
       title: "Medir a terra deu nome à geometria",
       body: [
