@@ -5,6 +5,7 @@ import Link from "next/link";
 import { DIFFICULTY_LABELS, DIFFICULTY_ORDER, type Chapter, type Topic } from "@/data/curriculum";
 import { useTopicProgress } from "@/lib/useTopicProgress";
 import { useChapterCompletion } from "@/lib/useChapterCompletion";
+import { computeTopicMastery, type MasteryInput } from "@/lib/mastery";
 
 type NodeStatus = "concluído" | "em progresso" | "não iniciado";
 
@@ -40,6 +41,14 @@ function SkillPathNode({
   const done = status === "concluído";
   const started = status === "em progresso";
 
+  const masteryInput: MasteryInput = {
+    facil,
+    medio,
+    dificil,
+    olimpiada,
+  };
+  const mastery = computeTopicMastery(masteryInput);
+
   return (
     <li className="relative flex gap-4 sm:gap-5">
       <div className="flex flex-col items-center">
@@ -70,6 +79,15 @@ function SkillPathNode({
         <div className="mt-1 flex items-center justify-between text-xs text-muted">
           <span>~{topic.minutes} min</span>
           <div className="flex items-center gap-2">
+            {mastery !== null && (
+              <span
+                data-testid="mastery-badge"
+                className="font-semibold text-foreground"
+                title="Pontuação de domínio: acerto ponderado pela dificuldade, descontado quando faz tempo que você não pratica"
+              >
+                Domínio: {mastery}%
+              </span>
+            )}
             <span>
               {completedTiers}/{DIFFICULTY_ORDER.length} níveis
             </span>

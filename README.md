@@ -481,6 +481,20 @@ nativo (iOS/Android) via Capacitor, veja
   `localStorage` que o quiz grava, então o mapa atualiza ao vivo. Ver
   `src/components/SkillPath.tsx` (substituiu o antigo grid de
   `TopicCard`).
+- **Pontuação de domínio unificada por tópico** (badge "Domínio: X%" no
+  nó do skill path, quando o tópico já tem alguma tentativa): antes só
+  existia o acerto bruto por nível de dificuldade (`score/total`) e um
+  contador de níveis concluídos — nenhum número único resumia "o quanto
+  esse tópico está dominado". `computeTopicMastery()`
+  (`src/lib/mastery.ts`, testado isoladamente) soma acerto ponderado
+  pela dificuldade (facil=1, medio=2, dificil=3, olimpiada=4 — acertar
+  olimpíada pesa mais que acertar fácil) e desconta o resultado conforme
+  o tempo desde a última tentativa (peso cheio até 14 dias, caindo
+  linear até um piso de 50% aos 90 dias — nunca zera, porque um tópico
+  dominado há um tempo ainda carrega sinal real). Retorna `null` (sem
+  badge) quando o tópico nunca foi tentado. Não substitui o "Pontos de
+  atenção"/`weakSpots.ts` existente — é um número complementar, mostrado
+  só no skill path.
 - **Pré-requisito suave entre capítulos**: quando o capítulo anterior
   ainda não tem nenhum progresso, o divisor do capítulo seguinte mostra
   um aviso 🔒 sugerindo começar por ali primeiro (com tooltip explicando

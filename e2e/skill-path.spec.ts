@@ -62,6 +62,29 @@ test.describe("skill path (visual progression map)", () => {
     await expect(node).toHaveText("✓");
     await expect(page.getByText("4/4 níveis")).toBeVisible();
   });
+
+  test("a topic with no attempts shows no mastery badge, and a perfect recent score shows 100%", async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      window.localStorage.setItem(
+        "meridiano-math-progress",
+        JSON.stringify({
+          "fundamental-2/fracoes/facil": {
+            completed: true,
+            score: 6,
+            total: 6,
+            updatedAt: Date.now(),
+          },
+        })
+      );
+    });
+    await page.goto("/trilha/fundamental-2");
+    await expect(page.getByTestId("mastery-badge")).toHaveText("Domínio: 100%");
+    // Every other topic on the page has no recorded attempts yet.
+    const badges = page.getByTestId("mastery-badge");
+    await expect(badges).toHaveCount(1);
+  });
 });
 
 // Fundamental II and Ensino Médio group their topics into "chapters" — a
