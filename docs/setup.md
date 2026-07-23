@@ -358,6 +358,31 @@ nascimento extraída. Não testado com uma conta Stripe Identity real
 nesta sessão — teste uma verificação de ponta a ponta antes de contar
 com isso em produção.
 
+## Configurando o resumo semanal por e-mail para responsáveis
+
+Opcional — sem configurar, o job simplesmente não roda (o resto do app
+funciona normalmente). Reaproveita a mesma conta Resend do e-mail de
+consentimento dos responsáveis (seção anterior) e o mesmo `CRON_SECRET`
+do lembrete de streak (`## Configurando notificações push`).
+
+1. Confirme que `RESEND_API_KEY`/`RESEND_FROM_EMAIL` e `CRON_SECRET` já
+   estão preenchidos (mesmas variáveis das seções anteriores — nenhuma
+   variável nova é necessária).
+2. Configure um agendador externo para chamar, uma vez por semana,
+   `POST https://SEU_DOMINIO/api/email/send-weekly-digest` com o header
+   `x-cron-secret: <seu CRON_SECRET>`.
+
+Como funciona: a rota varre `parent_consents` (via `service_role`) em
+busca de consentimentos já confirmados (`confirmed_at` preenchido) e
+manda, para cada `parent_email`, um resumo com o XP ganho pelo aluno
+nesta semana (somando `gamification_state.xp_log` a partir da
+segunda-feira — mesma janela que `get_weekly_leaderboard()` usa),
+quantos exercícios foram concluídos nessa janela (`topic_progress`,
+filtrado por `updated_at`) e a sequência atual (`streak_current`).
+Nenhuma tabela nova: reaproveita só o que `parent_consents`,
+`gamification_state` e `topic_progress` já guardavam. Não testado com
+um envio real nesta sessão (sem conta Resend configurada aqui).
+
 ## Configurando as lives (LiveKit Cloud)
 
 Lives (ver ["Sobre as funcionalidades"](./features.md#sobre-as-lives))

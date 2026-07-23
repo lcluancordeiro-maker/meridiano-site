@@ -1349,6 +1349,17 @@ unitários e e2e em todo push e pull request.
   (`send-streak-reminders`, protegida por `CRON_SECRET` e disparada por
   um agendador externo); `public/sw.js` — listeners `push` e
   `notificationclick`.
+- **Resumo semanal por e-mail para responsáveis**
+  (`src/app/api/email/send-weekly-digest/route.ts`, mesmo padrão de
+  rota protegida por `CRON_SECRET` + agendador externo do lembrete de
+  streak): pra cada `parent_consents` já confirmado, manda um e-mail
+  com XP ganho na semana, exercícios concluídos e sequência atual do
+  aluno. `src/lib/weeklyDigest.ts` (`startOfWeekUTC`, `sumWeeklyXp`,
+  `buildWeeklyDigestEmail`, testados isoladamente) soma o `xp_log` a
+  partir da segunda-feira — mesma janela que `get_weekly_leaderboard()`
+  já usava — e reaproveita `topic_progress`/`gamification_state` sem
+  criar tabela nova. Ver "Configurando o resumo semanal por e-mail para
+  responsáveis" em docs/setup.md.
 - `src/lib/levelCompletion.ts` — `isLevelComplete()`, a mesma regra de
   "todas as 4 dificuldades concluídas em todo tópico" do skill tree, só
   que agregada pra trilha inteira; `src/components/LevelCertificateCta.tsx`

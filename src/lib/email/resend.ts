@@ -10,8 +10,8 @@ const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL;
 export const isEmailConfigured = Boolean(RESEND_API_KEY && RESEND_FROM_EMAIL);
 
 /** Sends a transactional email via the Resend HTTP API (no SDK dependency —
- * this is the only email this app sends, so a single fetch call is simpler
- * than adding a package). Returns whether the send succeeded. */
+ * this app only sends a couple of plain-HTML emails, so a single fetch call
+ * is simpler than adding a package). Returns whether the send succeeded. */
 export async function sendEmail(to: string, subject: string, html: string): Promise<boolean> {
   if (!isEmailConfigured) return false;
 
