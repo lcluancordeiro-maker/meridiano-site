@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f7f7fb;
+  --surface: #ffffff;
+  --foreground: #1e1b2e;
+  --muted: #635f78;
+  --primary: #5b4fe9;
+  --primary-dark: #4038b0;
+  --accent: #ff7a45;
+  --success: #16a34a;
+  --success-bg: #ecfdf3;
+  --error: #dc2626;
+  --error-bg: #fef2f2;
+  --warning: #b45309;
+  --warning-bg: #fffbeb;
+  --border: #e4e2f1;
+}
+
+:root[data-theme="dark"] {
+  --background: #131120;
+  --surface: #1c1930;
+  --foreground: #f1f0f8;
+  --muted: #a29dc2;
+  --primary: #8b7ff5;
+  --primary-dark: #a79dfa;
+  --accent: #ff9166;
+  --success: #4ade80;
+  --success-bg: #0f2e1d;
+  --error: #f87171;
+  --error-bg: #3a1414;
+  --warning: #fbbf24;
+  --warning-bg: #3a2e0f;
+  --border: #33304d;
+}
+
+/* Accent color themes (bought with gems in /loja) — layer on top of
+   light/dark mode by overriding only --primary/--primary-dark, so they
+   look right in either theme without duplicating the whole palette. Must
+   come after both :root blocks above so they win by source order. */
+:root[data-accent="oceano"] {
+  --primary: #0891b2;
+  --primary-dark: #0e7490;
+}
+
+:root[data-accent="floresta"] {
+  --primary: #059669;
+  --primary-dark: #047857;
+}
+
+:root[data-accent="por-do-sol"] {
+  --primary: #ea580c;
+  --primary-dark: #c2410c;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-error: var(--error);
+  --color-error-bg: var(--error-bg);
+  --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-border: var(--border);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-sora);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Micro-animações: entradas curtas e discretas para feedback de quiz,
+   chips de XP e tela de resultado. Desligadas por completo quando o
+   usuário prefere menos movimento. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes xp-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-rise-in {
+  animation: rise-in 0.25s ease-out both;
+}
+
+.animate-pop-in {
+  animation: pop-in 0.3s ease-out both;
+}
+
+.animate-xp-pop {
+  animation: xp-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise-in,
+  .animate-pop-in,
+  .animate-xp-pop {
+    animation: none;
+  }
+}
+
+::selection {
+  background: var(--primary);
+  color: white;
+}
