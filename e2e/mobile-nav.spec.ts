@@ -32,7 +32,7 @@ test.describe("'Mais' menu (secondary nav links)", () => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto("/");
 
-    const quadroLink = page.getByRole("link", { name: "Quadro" });
+    const quadroLink = page.getByRole("link", { name: "Quadro", exact: true });
     const moreButton = page.getByRole("button", { name: "Mais" });
 
     await expect(quadroLink).not.toBeVisible();
@@ -54,7 +54,7 @@ test.describe("'Mais' menu (secondary nav links)", () => {
     await page.getByRole("button", { name: "Abrir menu" }).click();
 
     await expect(page.getByRole("link", { name: "Trilhas", exact: true })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Quadro" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Quadro", exact: true })).toBeVisible();
     await expect(page.getByRole("link", { name: "Turmas", exact: true })).toBeVisible();
   });
 });

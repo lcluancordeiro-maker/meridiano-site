@@ -32,6 +32,7 @@ export default async function Navbar() {
     { href: "/calculadora", label: dict.nav.calculadora },
     { href: "/foto", label: dict.nav.resolverFoto },
     { href: "/quadro", label: dict.nav.quadro },
+    { href: "/quadro-colaborativo", label: dict.collabBoard.navLabel },
     { href: "/diagnostico", label: "Teste de nivelamento" },
     { href: "/plano-de-estudos", label: "Plano de estudos" },
     { href: "/loja", label: "Loja" },

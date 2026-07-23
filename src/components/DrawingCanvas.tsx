@@ -9,6 +9,11 @@ export type DrawingCanvasHandle = {
   redo: () => void;
   toBlob: () => Promise<Blob | null>;
   toDataUrl: () => string | null;
+  /** Replaces the whole canvas with an external snapshot — used by
+   * CollabBoard to apply a collaborator's synced stroke. Deliberately does
+   * not push an undo snapshot: undo/redo stays scoped to this browser's own
+   * strokes, not remote updates that arrived in between them. */
+  loadDataUrl: (dataUrl: string) => Promise<void>;
   canUndo: () => boolean;
   canRedo: () => boolean;
 };
@@ -125,6 +130,24 @@ const DrawingCanvas = forwardRef<
       },
       toDataUrl() {
         return canvasRef.current?.toDataURL("image/png") ?? null;
+      },
+      loadDataUrl(dataUrl: string) {
+        return new Promise<void>((resolve) => {
+          const canvas = canvasRef.current;
+          const ctx = getContext();
+          if (!canvas || !ctx) {
+            resolve();
+            return;
+          }
+          const img = new Image();
+          img.onload = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            resolve();
+          };
+          img.onerror = () => resolve();
+          img.src = dataUrl;
+        });
       },
       canUndo() {
         return undoStack.current.length > 0;

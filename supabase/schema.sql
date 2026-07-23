@@ -1223,6 +1223,123 @@ create policy "live_sessions_update_own"
   on public.live_sessions for update
   using (auth.uid() = host_id);
 
+-- ---------------------------------------------------------------------
+-- collab_board_sessions: quadro colaborativo em tempo real para exatamente
+-- dois participantes (o criador + mais uma pessoa, ambos com o link/id da
+-- sessão — não há um "código" separado, o próprio uuid da sessão é o
+-- convite). Só a camada de tinta (DrawingCanvas) é sincronizada, não as
+-- formas/texto/imagens de BoardObjectsLayer — a cada traço concluído
+-- (onStrokeEnd), o PNG inteiro do canvas é enviado em canvas_data_url; o
+-- outro participante recebe via postgres_changes e desenha essa imagem por
+-- cima da própria tela (src/components/CollabBoard.tsx).
+--
+-- Sem policy de insert em collab_board_participants — só é gravada através
+-- da função join_collab_board_session abaixo, que também é quem aplica o
+-- limite de 2 participantes (mesmo padrão de turma_members/join_turma_by_code).
+-- ---------------------------------------------------------------------
+create table if not exists public.collab_board_sessions (
+  id uuid primary key default gen_random_uuid(),
+  created_by uuid not null references auth.users (id) on delete cascade,
+  canvas_data_url text,
+  updated_by uuid references auth.users (id) on delete set null,
+  updated_at timestamptz not null default now(),
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.collab_board_participants (
+  session_id uuid not null references public.collab_board_sessions (id) on delete cascade,
+  user_id uuid not null references auth.users (id) on delete cascade,
+  -- Copied from profiles at join time (same reasoning as
+  -- live_quiz_participants.display_name): the realtime INSERT payload
+  -- needs a name to show without an extra join.
+  display_name text,
+  joined_at timestamptz not null default now(),
+  primary key (session_id, user_id)
+);
+
+alter table public.collab_board_sessions enable row level security;
+alter table public.collab_board_participants enable row level security;
+
+-- Só quem já é participante (criador incluído, via join_collab_board_session
+-- na própria criação) enxerga a sessão — ninguém consegue listar quadros de
+-- outras pessoas varrendo a tabela, mesmo estando autenticado.
+drop policy if exists "collab_board_sessions_select" on public.collab_board_sessions;
+create policy "collab_board_sessions_select"
+  on public.collab_board_sessions for select
+  using (
+    exists (
+      select 1 from public.collab_board_participants p
+      where p.session_id = collab_board_sessions.id and p.user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "collab_board_sessions_insert" on public.collab_board_sessions;
+create policy "collab_board_sessions_insert"
+  on public.collab_board_sessions for insert
+  with check (auth.uid() = created_by);
+
+drop policy if exists "collab_board_sessions_update" on public.collab_board_sessions;
+create policy "collab_board_sessions_update"
+  on public.collab_board_sessions for update
+  using (
+    exists (
+      select 1 from public.collab_board_participants p
+      where p.session_id = collab_board_sessions.id and p.user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "collab_board_participants_select" on public.collab_board_participants;
+create policy "collab_board_participants_select"
+  on public.collab_board_participants for select
+  using (
+    auth.uid() = user_id
+    or exists (
+      select 1 from public.collab_board_participants me
+      where me.session_id = collab_board_participants.session_id and me.user_id = auth.uid()
+    )
+  );
+
+-- Adiciona o usuário atual como participante da sessão (chamada tanto pelo
+-- criador logo após o insert quanto por quem entra depois pelo link) — só
+-- deixa entrar quem a sessão ainda tem vaga (máximo 2 participantes).
+create or replace function public.join_collab_board_session(p_session_id uuid)
+returns void
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  v_count integer;
+  v_display_name text;
+begin
+  if auth.uid() is null then
+    raise exception 'not_authenticated';
+  end if;
+
+  if not exists (select 1 from public.collab_board_sessions where id = p_session_id) then
+    raise exception 'session_not_found';
+  end if;
+
+  if exists (
+    select 1 from public.collab_board_participants
+    where session_id = p_session_id and user_id = auth.uid()
+  ) then
+    return;
+  end if;
+
+  select count(*) into v_count from public.collab_board_participants where session_id = p_session_id;
+  if v_count >= 2 then
+    raise exception 'session_full';
+  end if;
+
+  select display_name into v_display_name from public.profiles where id = auth.uid();
+
+  insert into public.collab_board_participants (session_id, user_id, display_name)
+  values (p_session_id, auth.uid(), coalesce(v_display_name, '—'));
+end;
+$$;
+
+grant execute on function public.join_collab_board_session(uuid) to authenticated;
+
 -- Resolve o e-mail de um contato para iniciar uma conversa (estilo "iniciar
 -- chat com..."), sem expor a tabela auth.users (e sem permitir listar
 -- e-mails de terceiros — só confirma se UM e-mail específico já informado

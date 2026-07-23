@@ -113,7 +113,7 @@ test.describe("quadro de rascunho", () => {
   test("navbar (under 'Mais') links to the quadro page", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "Mais" }).click();
-    await expect(page.getByRole("link", { name: "Quadro" })).toHaveAttribute("href", "/quadro");
+    await expect(page.getByRole("link", { name: "Quadro", exact: true })).toHaveAttribute("href", "/quadro");
   });
 
   test("a pen touching down cancels an in-progress touch stroke (palm rejection)", async ({ page }) => {
