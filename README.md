@@ -256,6 +256,21 @@ nativo (iOS/Android) via Capacitor, veja
   salvo no `localStorage`) — a sequência do Desafio do Dia ainda não é
   sincronizada na nuvem quando logado, diferente da sequência geral (é um
   possível próximo passo).
+- **Missões diárias rotativas** (na home, ao lado do Desafio do Dia): três
+  metas fixas que resetam todo dia — ganhar 30 XP, acertar 5 exercícios e
+  terminar um exercício com nota perfeita — cada uma paga um pequeno bônus
+  de XP e gemas ao ser cumprida. `evaluateDailyQuests()`
+  (`src/lib/gamification.ts`, testado isoladamente) roda dentro dos
+  mesmos mutators que já existiam (`recordCorrectAnswer`,
+  `recordTopicCompletion`, `recordBonusXp`), reaproveitando `xpLog` do dia
+  pra meta de XP em vez de criar um contador novo pra isso; só a contagem
+  de acertos e o "teve nota perfeita hoje" precisaram de estado novo
+  (`dailyQuests` em `GamificationState`). O progresso reseta sozinho
+  assim que a data guardada não bate mais com hoje (mesmo padrão de
+  "guarda contra reivindicar duas vezes" do Desafio do Dia). Estado
+  intencionalmente não sincronizado na nuvem — reseta todo dia de
+  qualquer forma, então não há nada de cross-device que valha a pena
+  carregar.
 - **Widgets interativos na teoria** (também inspirado no Brilliant.org):
   algumas seções de teoria têm uma seção extra "Explore ao vivo" com um
   mini-app SVG em vez de só texto — sliders ou pontos arrastáveis que

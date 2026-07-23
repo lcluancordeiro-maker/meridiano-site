@@ -39,6 +39,13 @@ export type Dictionary = {
     comeBackTomorrow: string;
     moreAt: string;
   };
+  dailyQuests: {
+    title: string;
+    subtitle: string;
+    questXp: string;
+    questCorrect: string;
+    questPerfect: string;
+  };
   home: {
     heroTag: string;
     heroTitle: string;
@@ -681,6 +688,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       comeBackTomorrow: "Volte amanhã para o próximo desafio!",
       moreAt: "Praticar mais:",
     },
+    dailyQuests: {
+      title: "Missões diárias",
+      subtitle: "Pequenos objetivos que renovam todo dia — cada um dá um bônus de XP e gemas.",
+      questXp: "Ganhe {target} XP hoje",
+      questCorrect: "Acerte {target} exercícios hoje",
+      questPerfect: "Termine um exercício com nota perfeita hoje",
+    },
     home: {
       heroTag: "Do fundamental ao superior",
       heroTitle:
@@ -1142,6 +1156,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       comeBackTomorrow: "Come back tomorrow for the next challenge!",
       moreAt: "Practice more:",
     },
+    dailyQuests: {
+      title: "Daily quests",
+      subtitle: "Small goals that reset every day — each one pays out an XP and gem bonus.",
+      questXp: "Earn {target} XP today",
+      questCorrect: "Get {target} exercises right today",
+      questPerfect: "Finish an exercise set with a perfect score today",
+    },
     home: {
       heroTag: "From elementary to college",
       heroTitle:
@@ -1414,6 +1435,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       streakLabelPlural: "días seguidos",
       comeBackTomorrow: "¡Vuelve mañana para el próximo desafío!",
       moreAt: "Practicar más:",
+    },
+    dailyQuests: {
+      title: "Misiones diarias",
+      subtitle: "Pequeños objetivos que se renuevan cada día — cada uno da un bono de XP y gemas.",
+      questXp: "Gana {target} XP hoy",
+      questCorrect: "Acierta {target} ejercicios hoy",
+      questPerfect: "Termina un ejercicio con puntuación perfecta hoy",
     },
     home: {
       heroTag: "De primaria a la universidad",
@@ -1874,6 +1902,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       streakLabelPlural: "天连续",
       comeBackTomorrow: "明天再来挑战新题目!",
       moreAt: "继续练习:",
+    },
+    dailyQuests: {
+      title: "每日任务",
+      subtitle: "每天重置的小目标——每完成一个都会获得XP和宝石奖励。",
+      questXp: "今天获得{target}点XP",
+      questCorrect: "今天答对{target}道题",
+      questPerfect: "今天完成一组满分练习",
     },
     home: {
       heroTag: "从小学到大学",
@@ -2348,6 +2383,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       streakLabelPlural: "giorni di fila",
       comeBackTomorrow: "Torna domani per la prossima sfida!",
       moreAt: "Continua a esercitarti:",
+    },
+    dailyQuests: {
+      title: "Missioni giornaliere",
+      subtitle: "Piccoli obiettivi che si rinnovano ogni giorno — ognuno dà un bonus di XP e gemme.",
+      questXp: "Guadagna {target} XP oggi",
+      questCorrect: "Rispondi correttamente a {target} esercizi oggi",
+      questPerfect: "Completa un esercizio con punteggio perfetto oggi",
     },
     home: {
       heroTag: "Dalle elementari all'università",
@@ -2827,6 +2869,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       comeBackTomorrow: "내일 다음 도전 문제를 풀어보세요!",
       moreAt: "더 연습하기:",
     },
+    dailyQuests: {
+      title: "일일 퀘스트",
+      subtitle: "매일 초기화되는 작은 목표들 — 완료하면 XP와 보석 보너스를 받습니다.",
+      questXp: "오늘 XP {target}점 획득하기",
+      questCorrect: "오늘 문제 {target}개 맞히기",
+      questPerfect: "오늘 한 세트를 만점으로 완료하기",
+    },
     home: {
       heroTag: "초등학교부터 대학까지",
       heroTitle: "명확한 이론과 즉각적인 피드백을 주는 문제로, 자신의 속도에 맞춰 수학을 배우세요.",
@@ -3302,6 +3351,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       streakLabelPlural: "Tage in Folge",
       comeBackTomorrow: "Komm morgen wieder für die nächste Herausforderung!",
       moreAt: "Mehr üben:",
+    },
+    dailyQuests: {
+      title: "Tägliche Aufgaben",
+      subtitle: "Kleine Ziele, die sich jeden Tag zurücksetzen — jedes gibt einen XP- und Edelstein-Bonus.",
+      questXp: "Verdiene heute {target} XP",
+      questCorrect: "Beantworte heute {target} Aufgaben richtig",
+      questPerfect: "Schließe heute eine Übung mit perfekter Punktzahl ab",
     },
     home: {
       heroTag: "Von der Grundschule bis zur Universität",
@@ -3781,6 +3837,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       comeBackTomorrow: "Revenez demain pour le prochain défi !",
       moreAt: "Continuer à s'entraîner :",
     },
+    dailyQuests: {
+      title: "Quêtes quotidiennes",
+      subtitle: "De petits objectifs qui se renouvellent chaque jour — chacun rapporte un bonus d'XP et de gemmes.",
+      questXp: "Gagnez {target} XP aujourd'hui",
+      questCorrect: "Réussissez {target} exercices aujourd'hui",
+      questPerfect: "Terminez un exercice avec un score parfait aujourd'hui",
+    },
     home: {
       heroTag: "Du primaire à l'université",
       heroTitle: "Apprenez les mathématiques à votre rythme, avec une théorie claire et des exercices qui donnent un retour immédiat.",
@@ -4259,6 +4322,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       comeBackTomorrow: "明日また次のチャレンジに挑戦しましょう!",
       moreAt: "もっと練習する:",
     },
+    dailyQuests: {
+      title: "デイリークエスト",
+      subtitle: "毎日リセットされる小さな目標 — 達成するとXPと宝石のボーナスがもらえます。",
+      questXp: "今日XPを{target}獲得する",
+      questCorrect: "今日{target}問正解する",
+      questPerfect: "今日満点で1セット終える",
+    },
     home: {
       heroTag: "小学校から大学まで",
       heroTitle: "明確な理論とすぐにフィードバックが得られる演習で、自分のペースで数学を学びましょう。",
@@ -4733,6 +4803,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       streakLabelPlural: "أيام متتالية",
       comeBackTomorrow: "عد غدًا للتحدي التالي!",
       moreAt: "تدرّب أكثر:",
+    },
+    dailyQuests: {
+      title: "مهام يومية",
+      subtitle: "أهداف صغيرة تتجدد كل يوم — كل مهمة تمنحك مكافأة من نقاط الخبرة والجواهر.",
+      questXp: "اكسب {target} نقطة خبرة اليوم",
+      questCorrect: "أجب بشكل صحيح على {target} تمارين اليوم",
+      questPerfect: "أنهِ مجموعة تمارين بعلامة كاملة اليوم",
     },
     home: {
       heroTag: "من المرحلة الابتدائية إلى الجامعة",
@@ -5210,6 +5287,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       streakLabelPlural: "дней подряд",
       comeBackTomorrow: "Возвращайтесь завтра за новой задачей!",
       moreAt: "Практиковаться ещё:",
+    },
+    dailyQuests: {
+      title: "Ежедневные задания",
+      subtitle: "Небольшие цели, обновляющиеся каждый день — за каждую вы получаете бонус в виде XP и самоцветов.",
+      questXp: "Заработайте {target} XP сегодня",
+      questCorrect: "Решите правильно {target} упражнений сегодня",
+      questPerfect: "Завершите упражнение с идеальным результатом сегодня",
     },
     home: {
       heroTag: "От начальной школы до университета",
@@ -5689,6 +5773,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "comeBackTomorrow": "अगली चुनौती के लिए कल फिर आएं!",
       "moreAt": "और अभ्यास करें:"
     },
+    "dailyQuests": {
+      "title": "दैनिक मिशन",
+      "subtitle": "हर दिन नए बनते छोटे लक्ष्य — हर एक पूरा करने पर XP और जेम्स का बोनस मिलता है।",
+      "questXp": "आज {target} XP कमाएं",
+      "questCorrect": "आज {target} सवाल सही करें",
+      "questPerfect": "आज एक सेट पूरे अंकों के साथ पूरा करें"
+    },
     "home": {
       "heroTag": "प्राइमरी से लेकर कॉलेज तक",
       "heroTitle": "साफ थ्योरी और तुरंत फीडबैक देने वाले अभ्यासों के साथ अपनी रफ़्तार से गणित सीखें।",
@@ -6161,6 +6252,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "streakLabelPlural": "ngày liên tiếp",
       "comeBackTomorrow": "Quay lại vào ngày mai để làm thử thách tiếp theo!",
       "moreAt": "Luyện tập thêm:"
+    },
+    "dailyQuests": {
+      "title": "Nhiệm vụ hàng ngày",
+      "subtitle": "Những mục tiêu nhỏ được làm mới mỗi ngày — mỗi nhiệm vụ đều thưởng XP và đá quý.",
+      "questXp": "Kiếm {target} XP hôm nay",
+      "questCorrect": "Trả lời đúng {target} bài tập hôm nay",
+      "questPerfect": "Hoàn thành một bài tập với điểm tuyệt đối hôm nay"
     },
     "home": {
       "heroTag": "Từ tiểu học đến đại học",
@@ -6635,6 +6733,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "comeBackTomorrow": "Wróć jutro po kolejne wyzwanie!",
       "moreAt": "Ćwicz więcej:"
     },
+    "dailyQuests": {
+      "title": "Codzienne misje",
+      "subtitle": "Małe cele odnawiane każdego dnia — każda daje bonus XP i klejnotów.",
+      "questXp": "Zdobądź dziś {target} XP",
+      "questCorrect": "Rozwiąż dziś poprawnie {target} zadań",
+      "questPerfect": "Ukończ dziś zestaw zadań z idealnym wynikiem"
+    },
     "home": {
       "heroTag": "Od podstawówki po studia",
       "heroTitle": "Ucz się matematyki we własnym tempie — z jasną teorią i zadaniami, które od razu dają informację zwrotną.",
@@ -7107,6 +7212,13 @@ export const dictionaries: Record<Locale, Dictionary> = {
       "streakLabelPlural": "gün üst üste",
       "comeBackTomorrow": "Bir sonraki meydan okuma için yarın tekrar gel!",
       "moreAt": "Daha fazla pratik yap:"
+    },
+    "dailyQuests": {
+      "title": "Günlük görevler",
+      "subtitle": "Her gün yenilenen küçük hedefler — her biri XP ve mücevher bonusu verir.",
+      "questXp": "Bugün {target} XP kazan",
+      "questCorrect": "Bugün {target} soruyu doğru cevapla",
+      "questPerfect": "Bugün bir alıştırma setini mükemmel puanla bitir"
     },
     "home": {
       "heroTag": "İlkokuldan üniversiteye",

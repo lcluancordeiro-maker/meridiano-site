@@ -1,12 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   BADGES,
+  DAILY_QUEST_BONUS_GEMS,
+  DAILY_QUEST_BONUS_XP,
   DIFFICULTY_XP,
   GEMS_PER_LEVEL,
   GEM_COST_ACCENT_THEME,
   GEM_COST_STREAK_FREEZE,
   MAX_STREAK_FREEZES,
   XP_BOOST_MULTIPLIER,
+  XP_TOPIC_COMPLETION_BONUS,
   __resetGamificationForTests,
   buyAccentTheme,
   buyStreakFreeze,
@@ -59,7 +62,9 @@ describe("recordTopicCompletion — badges", () => {
     recordTopicCompletion("fundamental-2", "numeros-inteiros", "medio", 4, 6);
     const state = getGamificationSnapshot();
     expect(state.unlockedBadges).toContain("first-topic");
-    expect(state.xp).toBe(50); // completion bonus only, no per-answer xp recorded here
+    // 50 xp completion bonus + 10 xp from the "ganhe 30 xp hoje" daily
+    // quest firing in the same call (50 already clears its 30xp target).
+    expect(state.xp).toBe(XP_TOPIC_COMPLETION_BONUS + DAILY_QUEST_BONUS_XP);
   });
 
   it("does not re-award the completion bonus on a repeat attempt of the same topic", () => {
@@ -210,15 +215,16 @@ describe("BADGES catalog", () => {
 
 describe("gem economy", () => {
   it("awards gems when xp crosses a level boundary", () => {
-    recordBonusXp(99);
+    recordBonusXp(29); // under both the 100xp level and 30xp/day quest thresholds
     expect(getGamificationSnapshot().gems).toBe(0);
-    recordBonusXp(1); // xp = 100, crosses into level 2
-    expect(getGamificationSnapshot().gems).toBe(GEMS_PER_LEVEL);
+    recordBonusXp(71); // xp = 100, crosses into level 2 (and the daily quest's 30xp/day target)
+    expect(getGamificationSnapshot().gems).toBe(GEMS_PER_LEVEL + DAILY_QUEST_BONUS_GEMS);
   });
 
   it("awards gems proportionally for a multi-level jump in one call", () => {
     recordBonusXp(250); // level 1 -> level 3, two boundaries crossed
-    expect(getGamificationSnapshot().gems).toBe(GEMS_PER_LEVEL * 2);
+    // Also clears the 30xp/day quest target in the same call.
+    expect(getGamificationSnapshot().gems).toBe(GEMS_PER_LEVEL * 2 + DAILY_QUEST_BONUS_GEMS);
   });
 
   describe("buyStreakFreeze", () => {
@@ -228,10 +234,11 @@ describe("gem economy", () => {
     });
 
     it("spends gems for one extra banked freeze", () => {
-      recordBonusXp(500); // 5 level-ups => 5 * GEMS_PER_LEVEL gems earned
+      // 5 level-ups (5 * GEMS_PER_LEVEL) plus the 30xp/day quest bonus.
+      recordBonusXp(500);
       expect(buyStreakFreeze()).toBe(true);
       const state = getGamificationSnapshot();
-      expect(state.gems).toBe(5 * GEMS_PER_LEVEL - GEM_COST_STREAK_FREEZE);
+      expect(state.gems).toBe(5 * GEMS_PER_LEVEL + DAILY_QUEST_BONUS_GEMS - GEM_COST_STREAK_FREEZE);
       expect(state.streak.freezes).toBe(1);
     });
 
@@ -289,5 +296,57 @@ describe("gem economy", () => {
       expect(getGamificationSnapshot().unlockedAccentThemes).toEqual(["oceano", "floresta"]);
       expect(GEM_COST_ACCENT_THEME).toBeGreaterThan(0);
     });
+  });
+});
+
+describe("daily quests", () => {
+  it("pays out the correct-answers quest once its target is reached", () => {
+    for (let i = 0; i < 4; i++) recordCorrectAnswer("facil");
+    expect(getGamificationSnapshot().dailyQuests.claimed).not.toContain("correct5");
+    recordCorrectAnswer("facil");
+    const state = getGamificationSnapshot();
+    expect(state.dailyQuests.correctAnswersToday).toBe(5);
+    expect(state.dailyQuests.claimed).toContain("correct5");
+    expect(state.gems).toBe(DAILY_QUEST_BONUS_GEMS);
+  });
+
+  it("does not pay the correct-answers bonus twice, even after more correct answers", () => {
+    for (let i = 0; i < 7; i++) recordCorrectAnswer("facil");
+    const claimed = getGamificationSnapshot().dailyQuests.claimed;
+    expect(claimed.filter((id) => id === "correct5")).toHaveLength(1);
+  });
+
+  it("pays out the perfect-score quest when a topic finishes with a perfect score", () => {
+    recordTopicCompletion("fundamental-2", "numeros-inteiros", "medio", 6, 6);
+    const state = getGamificationSnapshot();
+    expect(state.dailyQuests.perfectScoreToday).toBe(true);
+    expect(state.dailyQuests.claimed).toContain("perfectScore");
+  });
+
+  it("does not pay out the perfect-score quest for an imperfect attempt", () => {
+    recordTopicCompletion("fundamental-2", "numeros-inteiros", "medio", 4, 6);
+    expect(getGamificationSnapshot().dailyQuests.claimed).not.toContain("perfectScore");
+  });
+
+  it("pays out the xp quest once today's xp log reaches its target", () => {
+    recordBonusXp(29);
+    expect(getGamificationSnapshot().dailyQuests.claimed).not.toContain("xp30");
+    recordBonusXp(1);
+    expect(getGamificationSnapshot().dailyQuests.claimed).toContain("xp30");
+  });
+
+  it("resets progress and claims on a new day", () => {
+    const day1 = new Date("2026-01-01T12:00:00Z");
+    vi.useFakeTimers();
+    vi.setSystemTime(day1);
+    for (let i = 0; i < 5; i++) recordCorrectAnswer("facil");
+    expect(getGamificationSnapshot().dailyQuests.claimed).toContain("correct5");
+
+    vi.setSystemTime(new Date(day1.getTime() + 86400000));
+    recordCorrectAnswer("facil");
+    const state = getGamificationSnapshot();
+    expect(state.dailyQuests.correctAnswersToday).toBe(1);
+    expect(state.dailyQuests.claimed).not.toContain("correct5");
+    vi.useRealTimers();
   });
 });

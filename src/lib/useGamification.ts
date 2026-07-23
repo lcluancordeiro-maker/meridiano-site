@@ -16,6 +16,7 @@ const SERVER_SNAPSHOT: GamificationState = {
   gems: 0,
   xpBoostUntil: null,
   unlockedAccentThemes: [],
+  dailyQuests: { date: "", correctAnswersToday: 0, perfectScoreToday: false, claimed: [] },
 };
 
 function getServerSnapshot(): GamificationState {

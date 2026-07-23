@@ -178,6 +178,11 @@ async function syncOnLogin(userId: string) {
         gems: row.gems ?? 0,
         xpBoostUntil: row.xp_boost_until ? new Date(row.xp_boost_until).getTime() : null,
         unlockedAccentThemes: row.unlocked_accent_themes ?? [],
+        // Daily quests are intentionally device-local, not synced to the
+        // cloud — they reset every day anyway, so there's no cross-device
+        // state worth carrying over. An empty/stale date makes the next
+        // mutator rebuild it for today (see ensureDailyQuestsForToday).
+        dailyQuests: { date: "", correctAnswersToday: 0, perfectScoreToday: false, claimed: [] },
       };
       hydrateFromCloud(hydrated);
     }

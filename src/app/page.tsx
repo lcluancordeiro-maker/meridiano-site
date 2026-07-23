@@ -2,6 +2,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import LevelCard from "@/components/LevelCard";
 import DailyChallenge from "@/components/DailyChallenge";
+import DailyQuests from "@/components/DailyQuests";
 import ContinueLearningCard from "@/components/ContinueLearningCard";
 import { levels } from "@/data/curriculum";
 import { getServerLocale } from "@/i18n/getServerLocale";
@@ -50,6 +51,7 @@ export default async function Home() {
       </section>
 
       <DailyChallenge />
+      <DailyQuests />
 
       <section id="vestibulares" className="mx-auto w-full max-w-5xl px-6 py-16 sm:py-20">
         <div className="mb-10">

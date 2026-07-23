@@ -56,6 +56,9 @@ export const BADGES: Badge[] = [
 export const ACCENT_THEMES = ["oceano", "floresta", "por-do-sol"] as const;
 export type AccentTheme = (typeof ACCENT_THEMES)[number];
 
+export const DAILY_QUEST_IDS = ["xp30", "correct5", "perfectScore"] as const;
+export type DailyQuestId = (typeof DAILY_QUEST_IDS)[number];
+
 export type GamificationState = {
   xp: number;
   streak: {
@@ -81,6 +84,16 @@ export type GamificationState = {
   /** Accent color themes purchased in the shop — a one-time unlock per
    * theme, not consumed on use (see accentTheme.ts for how it's applied). */
   unlockedAccentThemes: AccentTheme[];
+  /** Rotating daily quests alongside the Daily Challenge — progress resets
+   * whenever `date` no longer matches today (see ensureDailyQuestsForToday).
+   * `claimed` guards each quest's bonus from being paid out twice in the
+   * same day, the same role `history` plays in dailyChallenge.ts. */
+  dailyQuests: {
+    date: string;
+    correctAnswersToday: number;
+    perfectScoreToday: boolean;
+    claimed: DailyQuestId[];
+  };
 };
 
 const STORAGE_KEY = "meridiano-math-gamification";
@@ -101,6 +114,19 @@ export const GEM_COST_ACCENT_THEME = 15;
 export const XP_BOOST_MULTIPLIER = 2;
 export const XP_BOOST_DURATION_MS = 60 * 60 * 1000; // 1 hour
 
+// Rotating daily quests: fixed targets, all active every day (not a
+// rotating subset — "rotating" here means they reset daily, not that the
+// set of three changes). Each pays out once per day via recordBonusXp-style
+// gems + a small flat XP bonus.
+export const DAILY_QUEST_XP_TARGET = 30;
+export const DAILY_QUEST_CORRECT_TARGET = 5;
+export const DAILY_QUEST_BONUS_GEMS = 3;
+export const DAILY_QUEST_BONUS_XP = 10;
+
+function emptyDailyQuests(): GamificationState["dailyQuests"] {
+  return { date: "", correctAnswersToday: 0, perfectScoreToday: false, claimed: [] };
+}
+
 function emptyState(): GamificationState {
   return {
     xp: 0,
@@ -111,10 +137,11 @@ function emptyState(): GamificationState {
     gems: 0,
     xpBoostUntil: null,
     unlockedAccentThemes: [],
+    dailyQuests: emptyDailyQuests(),
   };
 }
 
-function todayStr(d = new Date()): string {
+export function todayStr(d = new Date()): string {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");
   const day = String(d.getDate()).padStart(2, "0");
@@ -141,7 +168,14 @@ function readState(): GamificationState {
     // Top-level spread alone wouldn't backfill `streak.freezes` for state
     // saved before that field existed — `parsed.streak` would just
     // overwrite emptyState()'s streak wholesale, leaving freezes undefined.
-    return { ...emptyState(), ...parsed, streak: { ...emptyState().streak, ...parsed.streak } };
+    // Same reasoning applies to `dailyQuests` for state saved before task
+    // #215.
+    return {
+      ...emptyState(),
+      ...parsed,
+      streak: { ...emptyState().streak, ...parsed.streak },
+      dailyQuests: { ...emptyDailyQuests(), ...parsed.dailyQuests },
+    };
   } catch {
     return emptyState();
   }
@@ -227,18 +261,53 @@ function addXp(state: GamificationState, amount: number) {
   state.xpLog = { ...state.xpLog, [today]: (state.xpLog[today] ?? 0) + effectiveAmount };
 }
 
+/** Resets `dailyQuests` in place whenever its stored date no longer matches
+ * today — called at the start of every mutator that could affect a quest,
+ * same role todayStr()-keyed history plays in dailyChallenge.ts. */
+function ensureDailyQuestsForToday(state: GamificationState): void {
+  const today = todayStr();
+  if (state.dailyQuests.date !== today) {
+    state.dailyQuests = { date: today, correctAnswersToday: 0, perfectScoreToday: false, claimed: [] };
+  }
+}
+
+function claimDailyQuest(state: GamificationState, id: DailyQuestId): void {
+  if (state.dailyQuests.claimed.includes(id)) return;
+  state.dailyQuests = { ...state.dailyQuests, claimed: [...state.dailyQuests.claimed, id] };
+  state.gems += DAILY_QUEST_BONUS_GEMS;
+  addXp(state, DAILY_QUEST_BONUS_XP);
+}
+
+/** Checks every quest's completion condition against the state already
+ * mutated by the caller, paying out (once per day per quest) any that just
+ * became true. Safe to call unconditionally — already-claimed quests are a
+ * no-op via claimDailyQuest's guard. */
+function evaluateDailyQuests(state: GamificationState): void {
+  ensureDailyQuestsForToday(state);
+  const xpToday = state.xpLog[todayStr()] ?? 0;
+  if (xpToday >= DAILY_QUEST_XP_TARGET) claimDailyQuest(state, "xp30");
+  if (state.dailyQuests.correctAnswersToday >= DAILY_QUEST_CORRECT_TARGET) claimDailyQuest(state, "correct5");
+  if (state.dailyQuests.perfectScoreToday) claimDailyQuest(state, "perfectScore");
+}
+
 /** Call once per correct exercise answer. */
 export function recordCorrectAnswer(difficulty: Difficulty): void {
-  const state = { ...ensureCache() };
+  const prev = ensureCache();
+  const state: GamificationState = { ...prev, dailyQuests: { ...prev.dailyQuests } };
+  ensureDailyQuestsForToday(state);
+  state.dailyQuests.correctAnswersToday += 1;
   addXp(state, DIFFICULTY_XP[difficulty]);
+  evaluateDailyQuests(state);
   commit(state);
 }
 
 /** Adds a flat XP bonus not tied to a specific difficulty (e.g. the Daily
  * Challenge bonus). */
 export function recordBonusXp(amount: number): void {
-  const state = { ...ensureCache() };
+  const prev = ensureCache();
+  const state: GamificationState = { ...prev, dailyQuests: { ...prev.dailyQuests } };
   addXp(state, amount);
+  evaluateDailyQuests(state);
   commit(state);
 }
 
@@ -259,9 +328,11 @@ export function recordTopicCompletion(
     xpLog: { ...prev.xpLog },
     unlockedBadges: [...prev.unlockedBadges],
     completedTopics: [...prev.completedTopics],
+    dailyQuests: { ...prev.dailyQuests },
   };
 
   updateStreak(state);
+  ensureDailyQuestsForToday(state);
 
   const key = `${levelId}/${topicId}`;
   const firstCompletion = !state.completedTopics.includes(key);
@@ -273,6 +344,7 @@ export function recordTopicCompletion(
 
   if (total > 0 && score === total) {
     unlockBadge(state, "perfect-score");
+    state.dailyQuests.perfectScoreToday = true;
     if (difficulty === "olimpiada") {
       unlockBadge(state, "olympian");
     }
@@ -293,6 +365,7 @@ export function recordTopicCompletion(
     unlockBadge(state, "all-difficulties");
   }
 
+  evaluateDailyQuests(state);
   commit(state);
 }
 
