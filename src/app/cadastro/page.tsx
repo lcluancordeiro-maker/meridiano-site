@@ -24,7 +24,7 @@ export default async function CadastroPage() {
         ) : (
           <div className="mt-8">
             <div className="mb-6">
-              <OAuthButtons dict={auth} />
+              <OAuthButtons dict={auth} intent="signup" />
             </div>
             <AuthForm action={signup} mode="signup" />
             <p className="mt-4 text-sm text-muted">

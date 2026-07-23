@@ -92,4 +92,18 @@ test.describe("teste de nivelamento (/diagnostico)", () => {
     await page.getByRole("button", { name: "Mais" }).click();
     await expect(page.getByRole("link", { name: "Teste de nivelamento" })).toHaveAttribute("href", "/diagnostico");
   });
+
+  test("shows a welcome banner with a skip link right after signup (?boasVindas=1)", async ({ page }) => {
+    await page.goto("/diagnostico?boasVindas=1");
+    await expect(page.getByText("Bem-vindo(a) ao Meridiano Matemática!")).toBeVisible();
+    await expect(page.getByRole("link", { name: "Pular por agora →" })).toHaveAttribute(
+      "href",
+      "/progresso"
+    );
+  });
+
+  test("does not show the welcome banner on a normal visit", async ({ page }) => {
+    await page.goto("/diagnostico");
+    await expect(page.getByText("Bem-vindo(a) ao Meridiano Matemática!")).not.toBeVisible();
+  });
 });

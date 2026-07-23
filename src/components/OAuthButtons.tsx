@@ -51,10 +51,16 @@ function AppleIcon() {
   );
 }
 
-export default function OAuthButtons({ dict }: { dict: Dictionary["auth"] }) {
+export default function OAuthButtons({
+  dict,
+  intent = "login",
+}: {
+  dict: Dictionary["auth"];
+  intent?: "login" | "signup";
+}) {
   return (
     <div className="flex flex-col gap-3">
-      <form action={signInWithGoogle}>
+      <form action={signInWithGoogle.bind(null, intent)}>
         <button
           type="submit"
           className="flex w-full items-center justify-center gap-3 rounded-xl border border-border px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary"
@@ -63,7 +69,7 @@ export default function OAuthButtons({ dict }: { dict: Dictionary["auth"] }) {
           {dict.continuarComGoogle}
         </button>
       </form>
-      <form action={signInWithMicrosoft}>
+      <form action={signInWithMicrosoft.bind(null, intent)}>
         <button
           type="submit"
           className="flex w-full items-center justify-center gap-3 rounded-xl border border-border px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary"
@@ -72,7 +78,7 @@ export default function OAuthButtons({ dict }: { dict: Dictionary["auth"] }) {
           {dict.continuarComMicrosoft}
         </button>
       </form>
-      <form action={signInWithGitHub}>
+      <form action={signInWithGitHub.bind(null, intent)}>
         <button
           type="submit"
           className="flex w-full items-center justify-center gap-3 rounded-xl border border-border px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary"
@@ -81,7 +87,7 @@ export default function OAuthButtons({ dict }: { dict: Dictionary["auth"] }) {
           {dict.continuarComGitHub}
         </button>
       </form>
-      <form action={signInWithApple}>
+      <form action={signInWithApple.bind(null, intent)}>
         <button
           type="submit"
           className="flex w-full items-center justify-center gap-3 rounded-xl border border-border px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary"

@@ -12,9 +12,9 @@ export const metadata = {
 export default async function DiagnosticoPage({
   searchParams,
 }: {
-  searchParams: Promise<{ trilha?: string }>;
+  searchParams: Promise<{ trilha?: string; boasVindas?: string }>;
 }) {
-  const { trilha } = await searchParams;
+  const { trilha, boasVindas } = await searchParams;
 
   if (!trilha) {
     // Premium tracks are skipped here — the diagnostic is a quick "where do
@@ -24,6 +24,18 @@ export default async function DiagnosticoPage({
       <div className="flex flex-1 flex-col">
         <Navbar />
         <div className="mx-auto w-full max-w-2xl px-6 py-16">
+          {boasVindas === "1" && (
+            <div className="mb-6 rounded-xl border border-primary/30 bg-primary/10 p-4 text-sm text-foreground">
+              <p className="font-semibold">Bem-vindo(a) ao Meridiano Matemática! 🎉</p>
+              <p className="mt-1 text-muted">
+                Antes de começar, que tal um teste rápido de nivelamento? Em poucos minutos a gente
+                descobre por onde você deve começar em vez de você ter que adivinhar.
+              </p>
+              <Link href="/progresso" className="mt-2 inline-block text-sm font-medium text-primary hover:underline">
+                Pular por agora →
+              </Link>
+            </div>
+          )}
           <h1 className="font-display text-3xl font-semibold text-foreground">Teste de nivelamento</h1>
           <p className="mt-2 text-muted">
             Escolha uma trilha e responda algumas perguntas — a gente sugere por onde começar em vez de

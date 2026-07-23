@@ -774,7 +774,19 @@ nativo (iOS/Android) via Capacitor, veja
   se a amostra já cobriu a trilha inteira, o último tópico no nível
   difícil). Função pura, testada isoladamente; a trilha continua
   igualzinha de qualquer forma — é só um atalho pra decidir o ponto de
-  partida.
+  partida. Antes só era alcançável pelo menu "Mais" da navbar — fácil de
+  nunca notar logo depois de criar conta. Agora `signup()` (e-mail/senha,
+  `src/app/actions/auth.ts`) redireciona direto para
+  `/diagnostico?boasVindas=1` em vez de `/progresso`, e o mesmo vale para
+  cadastro via OAuth: os botões "Continuar com..." em `/cadastro` passam
+  `intent="signup"` (`OAuthButtons.tsx` → `signInWithGoogle.bind(null,
+  intent)` etc.), que vira `?intent=signup` no `redirectTo` da URL de
+  autorização; `src/app/auth/callback/route.ts` só trata como conta nova
+  (e manda pro diagnóstico) quando `intent=signup` **e**
+  `created_at === last_sign_in_at` do usuário — evita mandar pro teste
+  quem só clicou em "cadastro" mas já tinha conta OAuth existente. A
+  página do diagnóstico mostra um banner de boas-vindas com link
+  "Pular por agora" pra `/progresso` quando chega com esse parâmetro.
 - Progresso e gamificação salvos localmente no navegador
   (`localStorage`) — funciona sem conta (modo convidado).
 - **Contas (opcional)**: login/cadastro (`/entrar`, `/cadastro`) via

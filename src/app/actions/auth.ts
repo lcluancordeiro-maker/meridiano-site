@@ -61,7 +61,10 @@ export async function signup(_prevState: AuthFormState, formData: FormData): Pro
       .insert({ event_name: "signup", user_id: data.user.id, metadata: {} });
   }
 
-  redirect("/progresso");
+  // Send brand-new accounts to the placement quiz instead of the (still
+  // empty) progress dashboard — it was previously only reachable via the
+  // "Mais" nav menu, easy to miss right after creating an account.
+  redirect("/diagnostico?boasVindas=1");
 }
 
 export async function logout(): Promise<void> {
@@ -70,33 +73,40 @@ export async function logout(): Promise<void> {
   redirect("/");
 }
 
-async function startOAuth(provider: "google" | "azure" | "github" | "apple"): Promise<void> {
+type OAuthIntent = "login" | "signup";
+
+async function startOAuth(
+  provider: "google" | "azure" | "github" | "apple",
+  intent: OAuthIntent
+): Promise<void> {
   if (!isSupabaseConfigured) redirect("/entrar");
   const supabase = await createClient();
   if (!supabase) redirect("/entrar");
 
   const origin = (await headers()).get("origin");
+  const redirectTo =
+    intent === "signup" ? `${origin}/auth/callback?intent=signup` : `${origin}/auth/callback`;
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
-    options: { redirectTo: `${origin}/auth/callback` },
+    options: { redirectTo },
   });
   if (error || !data.url) redirect("/entrar?erro=oauth");
 
   redirect(data.url);
 }
 
-export async function signInWithGoogle(): Promise<void> {
-  await startOAuth("google");
+export async function signInWithGoogle(intent: OAuthIntent): Promise<void> {
+  await startOAuth("google", intent);
 }
 
-export async function signInWithMicrosoft(): Promise<void> {
-  await startOAuth("azure");
+export async function signInWithMicrosoft(intent: OAuthIntent): Promise<void> {
+  await startOAuth("azure", intent);
 }
 
-export async function signInWithGitHub(): Promise<void> {
-  await startOAuth("github");
+export async function signInWithGitHub(intent: OAuthIntent): Promise<void> {
+  await startOAuth("github", intent);
 }
 
-export async function signInWithApple(): Promise<void> {
-  await startOAuth("apple");
+export async function signInWithApple(intent: OAuthIntent): Promise<void> {
+  await startOAuth("apple", intent);
 }
