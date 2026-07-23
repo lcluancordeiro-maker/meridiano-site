@@ -516,6 +516,239 @@ $$;
 grant execute on function public.get_turma_ai_usage(uuid) to authenticated;
 
 -- ---------------------------------------------------------------------
+-- Quiz ao vivo (estilo Kahoot): o professor de uma turma inicia uma
+-- sessão a partir de uma tarefa já atribuída (turma_assignments), os
+-- alunos entram pelo código, e cada pergunta tem um tempo fixo — quanto
+-- mais rápido a resposta certa, mais pontos. As perguntas em si não são
+-- guardadas aqui: question_ids referencia os mesmos ids de exercício de
+-- src/data/curriculum.ts (mesma convenção de turma_assignments acima), e
+-- a correção/pontuação é calculada no server action Next.js (única
+-- camada que conhece o currículo), não em SQL.
+--
+-- Sem policy de insert em live_quiz_participants/live_quiz_answers —
+-- só são gravadas via join_live_quiz_by_code / record_live_quiz_answer
+-- abaixo, mesmo padrão de turma_members/join_turma_by_code.
+-- ---------------------------------------------------------------------
+create table if not exists public.live_quiz_sessions (
+  id uuid primary key default gen_random_uuid(),
+  turma_id uuid not null references public.turmas (id) on delete cascade,
+  host_user_id uuid not null references auth.users (id) on delete cascade,
+  join_code text not null unique,
+  level_id text not null,
+  topic_id text not null,
+  difficulty text not null,
+  question_ids jsonb not null,
+  question_seconds integer not null default 20,
+  status text not null default 'lobby',
+  current_question_index integer not null default 0,
+  question_started_at timestamptz,
+  created_at timestamptz not null default now(),
+  ended_at timestamptz
+);
+
+create table if not exists public.live_quiz_participants (
+  session_id uuid not null references public.live_quiz_sessions (id) on delete cascade,
+  student_user_id uuid not null references auth.users (id) on delete cascade,
+  display_name text,
+  score integer not null default 0,
+  joined_at timestamptz not null default now(),
+  primary key (session_id, student_user_id)
+);
+
+create table if not exists public.live_quiz_answers (
+  session_id uuid not null references public.live_quiz_sessions (id) on delete cascade,
+  student_user_id uuid not null references auth.users (id) on delete cascade,
+  question_index integer not null,
+  is_correct boolean not null,
+  points_awarded integer not null,
+  answered_at timestamptz not null default now(),
+  primary key (session_id, student_user_id, question_index)
+);
+
+alter table public.live_quiz_sessions enable row level security;
+alter table public.live_quiz_participants enable row level security;
+alter table public.live_quiz_answers enable row level security;
+
+-- O professor (host) vê a própria sessão; um aluno só a vê se já é membro
+-- da turma dona dela (mesmo antes de entrar na sessão em si, para poder
+-- descobrir que ela existe e usar o código).
+drop policy if exists "live_quiz_sessions_select" on public.live_quiz_sessions;
+create policy "live_quiz_sessions_select"
+  on public.live_quiz_sessions for select
+  using (
+    auth.uid() = host_user_id
+    or exists (
+      select 1 from public.turma_members tm
+      where tm.turma_id = live_quiz_sessions.turma_id and tm.student_user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "live_quiz_sessions_insert" on public.live_quiz_sessions;
+create policy "live_quiz_sessions_insert"
+  on public.live_quiz_sessions for insert
+  with check (
+    auth.uid() = host_user_id
+    and exists (
+      select 1 from public.turmas t
+      where t.id = live_quiz_sessions.turma_id and t.teacher_user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "live_quiz_sessions_update" on public.live_quiz_sessions;
+create policy "live_quiz_sessions_update"
+  on public.live_quiz_sessions for update
+  using (auth.uid() = host_user_id)
+  with check (auth.uid() = host_user_id);
+
+-- Qualquer participante da sessão vê a linha de todo mundo (placar ao
+-- vivo), além do host — igual à visibilidade de colegas de turma, só que
+-- escopada à sessão em vez da turma inteira.
+drop policy if exists "live_quiz_participants_select" on public.live_quiz_participants;
+create policy "live_quiz_participants_select"
+  on public.live_quiz_participants for select
+  using (
+    auth.uid() = student_user_id
+    or exists (
+      select 1 from public.live_quiz_sessions s
+      where s.id = live_quiz_participants.session_id and s.host_user_id = auth.uid()
+    )
+    or exists (
+      select 1 from public.live_quiz_participants me
+      where me.session_id = live_quiz_participants.session_id and me.student_user_id = auth.uid()
+    )
+  );
+
+drop policy if exists "live_quiz_answers_select" on public.live_quiz_answers;
+create policy "live_quiz_answers_select"
+  on public.live_quiz_answers for select
+  using (
+    auth.uid() = student_user_id
+    or exists (
+      select 1 from public.live_quiz_sessions s
+      where s.id = live_quiz_answers.session_id and s.host_user_id = auth.uid()
+    )
+  );
+
+-- Matricula o usuário atual como participante da sessão dona do código
+-- informado (e não da sessão em si — o "join" real é o join_code da
+-- sessão). Exige já ser membro da turma (mesmo padrão de turma fechada
+-- de sala de aula, não um quiz público). O nome é copiado de profiles no
+-- momento da entrada para o placar em tempo real não precisar de join
+-- nenhum — só ler live_quiz_participants já basta.
+create or replace function public.join_live_quiz_by_code(p_join_code text)
+returns uuid
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  v_session record;
+  v_display_name text;
+begin
+  if auth.uid() is null then
+    raise exception 'not_authenticated';
+  end if;
+
+  select id, turma_id, status into v_session
+  from public.live_quiz_sessions
+  where join_code = p_join_code;
+
+  if v_session.id is null then
+    raise exception 'session_not_found';
+  end if;
+
+  if v_session.status = 'finished' then
+    raise exception 'session_finished';
+  end if;
+
+  if not exists (
+    select 1 from public.turma_members
+    where turma_id = v_session.turma_id and student_user_id = auth.uid()
+  ) then
+    raise exception 'not_a_turma_member';
+  end if;
+
+  select display_name into v_display_name from public.profiles where id = auth.uid();
+
+  insert into public.live_quiz_participants (session_id, student_user_id, display_name)
+  values (v_session.id, auth.uid(), coalesce(v_display_name, '—'))
+  on conflict (session_id, student_user_id) do nothing;
+
+  return v_session.id;
+end;
+$$;
+
+grant execute on function public.join_live_quiz_by_code(text) to authenticated;
+
+-- Grava a resposta do participante a uma pergunta e soma os pontos ao
+-- placar, tudo em uma função só para não haver corrida entre o insert em
+-- live_quiz_answers e o update do score. is_correct/points_awarded já
+-- vêm calculados pelo server action (só ele conhece o currículo); esta
+-- função só garante que a pergunta ainda está aberta, que quem chama é
+-- de fato participante da sessão, que não há resposta em dobro (on
+-- conflict do nothing) e clampa os pontos a um teto plausível.
+create or replace function public.record_live_quiz_answer(
+  p_session_id uuid,
+  p_question_index integer,
+  p_is_correct boolean,
+  p_points integer
+)
+returns integer
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  v_session record;
+  v_inserted_session_id uuid;
+  v_new_score integer;
+  v_points integer := least(greatest(p_points, 0), 1000);
+begin
+  if auth.uid() is null then
+    raise exception 'not_authenticated';
+  end if;
+
+  select status, current_question_index into v_session
+  from public.live_quiz_sessions
+  where id = p_session_id;
+
+  if v_session.status is null then
+    raise exception 'session_not_found';
+  end if;
+
+  if v_session.status != 'question' or v_session.current_question_index != p_question_index then
+    raise exception 'question_closed';
+  end if;
+
+  if not exists (
+    select 1 from public.live_quiz_participants
+    where session_id = p_session_id and student_user_id = auth.uid()
+  ) then
+    raise exception 'not_a_participant';
+  end if;
+
+  insert into public.live_quiz_answers (session_id, student_user_id, question_index, is_correct, points_awarded)
+  values (p_session_id, auth.uid(), p_question_index, p_is_correct, v_points)
+  on conflict (session_id, student_user_id, question_index) do nothing
+  returning session_id into v_inserted_session_id;
+
+  if v_inserted_session_id is null then
+    select score into v_new_score
+    from public.live_quiz_participants
+    where session_id = p_session_id and student_user_id = auth.uid();
+    return v_new_score;
+  end if;
+
+  update public.live_quiz_participants
+  set score = score + v_points
+  where session_id = p_session_id and student_user_id = auth.uid()
+  returning score into v_new_score;
+
+  return v_new_score;
+end;
+$$;
+
+grant execute on function public.record_live_quiz_answer(uuid, integer, boolean, integer) to authenticated;
+
+-- ---------------------------------------------------------------------
 -- push_subscriptions: endpoints de Web Push por usuário, usados para
 -- lembretes de sequência (streak). Um usuário pode ter várias (um por
 -- dispositivo/navegador em que ativou notificações).

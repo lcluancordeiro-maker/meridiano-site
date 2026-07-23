@@ -1360,6 +1360,21 @@ unitários e e2e em todo push e pull request.
   já usava — e reaproveita `topic_progress`/`gamification_state` sem
   criar tabela nova. Ver "Configurando o resumo semanal por e-mail para
   responsáveis" em docs/setup.md.
+- **Quiz ao vivo pra turmas** (`/quiz-ao-vivo/[sessionId]`, estilo
+  Kahoot): o professor escolhe uma tarefa já atribuída à turma
+  (`turma_assignments`) e vira uma sessão síncrona — os alunos entram
+  com um código de 6 caracteres, cada pergunta tem 20s e quem responde
+  certo mais rápido ganha mais pontos (`src/lib/liveQuiz.ts`,
+  `computeLiveQuizPoints`). Sincronização via Supabase Realtime
+  (`postgres_changes` em `live_quiz_sessions`/`live_quiz_participants`,
+  mesmo padrão do chat) — o host controla o avanço das perguntas, e o
+  placar atualiza ao vivo pra todo mundo. A correção em si roda só no
+  server action (`src/app/actions/liveQuiz.ts`), nunca no cliente: a
+  pergunta atual é buscada sob demanda (nunca as próximas, pra não
+  vazar respostas futuras) e a RPC `record_live_quiz_answer` garante
+  uma resposta por pergunta por aluno de forma atômica. Novas tabelas
+  `live_quiz_sessions`/`live_quiz_participants`/`live_quiz_answers` no
+  schema, mesmo padrão de RLS "só via RPC" de `turma_members`.
 - `src/lib/levelCompletion.ts` — `isLevelComplete()`, a mesma regra de
   "todas as 4 dificuldades concluídas em todo tópico" do skill tree, só
   que agregada pra trilha inteira; `src/components/LevelCertificateCta.tsx`

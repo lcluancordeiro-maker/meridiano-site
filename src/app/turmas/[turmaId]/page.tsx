@@ -4,6 +4,7 @@ import CreateAssignmentForm from "@/components/CreateAssignmentForm";
 import ImportRosterForm from "@/components/ImportRosterForm";
 import TurmaPerformanceMatrix from "@/components/TurmaPerformanceMatrix";
 import TurmaAiUsage from "@/components/TurmaAiUsage";
+import HostLiveQuizForm from "@/components/HostLiveQuizForm";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getLevel, getTopic, DIFFICULTY_LABELS, type Difficulty } from "@/data/curriculum";
@@ -28,7 +29,7 @@ export default async function TurmaDetailPage({
 }) {
   const { turmaId } = await params;
   const locale = await getServerLocale();
-  const { turmas: dict, auth } = getDictionary(locale);
+  const { turmas: dict, liveQuiz, auth } = getDictionary(locale);
 
   const supabase = isSupabaseConfigured ? await createClient() : null;
   const user = supabase ? (await supabase.auth.getUser()).data.user : null;
@@ -255,6 +256,28 @@ export default async function TurmaDetailPage({
                 studentColumnLabel={dict.studentColumnLabel}
               />
             </div>
+          </section>
+        )}
+
+        {isTeacher && assignments && assignments.length > 0 && (
+          <section className="mt-8 rounded-xl border border-border bg-surface p-5">
+            <h2 className="font-display text-lg font-semibold text-foreground">{liveQuiz.hostSectionHeading}</h2>
+            <div className="mt-3">
+              <HostLiveQuizForm turmaId={turma.id} assignments={assignments as AssignmentRow[]} />
+            </div>
+          </section>
+        )}
+
+        {!isTeacher && assignments && assignments.length > 0 && (
+          <section className="mt-8 rounded-xl border border-border bg-surface p-5">
+            <h2 className="font-display text-lg font-semibold text-foreground">{liveQuiz.hostSectionHeading}</h2>
+            <p className="mt-2 text-sm text-muted">{liveQuiz.studentJoinHint}</p>
+            <Link
+              href="/quiz-ao-vivo/entrar"
+              className="mt-3 inline-block rounded-lg border border-border px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary"
+            >
+              {liveQuiz.joinButton}
+            </Link>
           </section>
         )}
 

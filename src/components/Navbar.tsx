@@ -37,6 +37,7 @@ export default async function Navbar() {
     { href: "/loja", label: "Loja" },
     { href: "/historico", label: dict.nav.historico },
     { href: "/turmas", label: dict.nav.turmas },
+    { href: "/quiz-ao-vivo/entrar", label: dict.liveQuiz.navLabel },
     { href: "/chat", label: dict.chat.title },
     { href: "/comunidades", label: dict.communities.title },
     { href: "/comunidade/problemas", label: "Problemas da comunidade" },
