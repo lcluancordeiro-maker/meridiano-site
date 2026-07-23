@@ -109,8 +109,19 @@ create table if not exists public.gamification_state (
   unlocked_badges jsonb not null default '[]'::jsonb,
   completed_topics jsonb not null default '[]'::jsonb,
   xp_log jsonb not null default '{}'::jsonb,
+  gems integer not null default 0,
+  xp_boost_until timestamptz,
+  unlocked_accent_themes jsonb not null default '[]'::jsonb,
   updated_at timestamptz not null default now()
 );
+
+-- `create table if not exists` above no-ops on a project that already has
+-- this table from before the gem economy (task #214) — these backfill the
+-- three new columns for anyone re-running this file on an existing install.
+alter table public.gamification_state add column if not exists gems integer not null default 0;
+alter table public.gamification_state add column if not exists xp_boost_until timestamptz;
+alter table public.gamification_state
+  add column if not exists unlocked_accent_themes jsonb not null default '[]'::jsonb;
 
 alter table public.gamification_state enable row level security;
 

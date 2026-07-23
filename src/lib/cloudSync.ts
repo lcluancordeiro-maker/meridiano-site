@@ -11,6 +11,7 @@ import {
   getGamificationSnapshot,
   hydrateFromCloud,
   subscribeGamification,
+  type AccentTheme,
   type GamificationState,
 } from "./gamification";
 import {
@@ -38,6 +39,9 @@ type GamificationRow = {
   unlocked_badges: string[];
   completed_topics: string[];
   xp_log: Record<string, number>;
+  gems: number;
+  xp_boost_until: string | null;
+  unlocked_accent_themes: AccentTheme[];
 };
 
 type ReviewScheduleRow = {
@@ -105,6 +109,9 @@ async function pushGamification(userId: string) {
     unlocked_badges: state.unlockedBadges,
     completed_topics: state.completedTopics,
     xp_log: state.xpLog,
+    gems: state.gems,
+    xp_boost_until: state.xpBoostUntil !== null ? new Date(state.xpBoostUntil).toISOString() : null,
+    unlocked_accent_themes: state.unlockedAccentThemes,
   });
 }
 
@@ -168,6 +175,9 @@ async function syncOnLogin(userId: string) {
         unlockedBadges: row.unlocked_badges ?? [],
         completedTopics: row.completed_topics ?? [],
         xpLog: row.xp_log ?? {},
+        gems: row.gems ?? 0,
+        xpBoostUntil: row.xp_boost_until ? new Date(row.xp_boost_until).getTime() : null,
+        unlockedAccentThemes: row.unlocked_accent_themes ?? [],
       };
       hydrateFromCloud(hydrated);
     }

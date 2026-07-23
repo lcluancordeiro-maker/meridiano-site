@@ -34,6 +34,7 @@ export default async function Navbar() {
     { href: "/quadro", label: dict.nav.quadro },
     { href: "/diagnostico", label: "Teste de nivelamento" },
     { href: "/plano-de-estudos", label: "Plano de estudos" },
+    { href: "/loja", label: "Loja" },
     { href: "/historico", label: dict.nav.historico },
     { href: "/turmas", label: dict.nav.turmas },
     { href: "/chat", label: dict.chat.title },

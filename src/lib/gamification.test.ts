@@ -2,10 +2,18 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   BADGES,
   DIFFICULTY_XP,
+  GEMS_PER_LEVEL,
+  GEM_COST_ACCENT_THEME,
+  GEM_COST_STREAK_FREEZE,
   MAX_STREAK_FREEZES,
+  XP_BOOST_MULTIPLIER,
   __resetGamificationForTests,
+  buyAccentTheme,
+  buyStreakFreeze,
+  buyXpBoost,
   getGamificationSnapshot,
   levelFromXp,
+  recordBonusXp,
   recordCorrectAnswer,
   recordTopicCompletion,
 } from "./gamification";
@@ -197,5 +205,89 @@ describe("BADGES catalog", () => {
   it("has unique ids matching everything referenced by recordTopicCompletion", () => {
     const ids = BADGES.map((b) => b.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+});
+
+describe("gem economy", () => {
+  it("awards gems when xp crosses a level boundary", () => {
+    recordBonusXp(99);
+    expect(getGamificationSnapshot().gems).toBe(0);
+    recordBonusXp(1); // xp = 100, crosses into level 2
+    expect(getGamificationSnapshot().gems).toBe(GEMS_PER_LEVEL);
+  });
+
+  it("awards gems proportionally for a multi-level jump in one call", () => {
+    recordBonusXp(250); // level 1 -> level 3, two boundaries crossed
+    expect(getGamificationSnapshot().gems).toBe(GEMS_PER_LEVEL * 2);
+  });
+
+  describe("buyStreakFreeze", () => {
+    it("fails without enough gems", () => {
+      expect(buyStreakFreeze()).toBe(false);
+      expect(getGamificationSnapshot().streak.freezes).toBe(0);
+    });
+
+    it("spends gems for one extra banked freeze", () => {
+      recordBonusXp(500); // 5 level-ups => 5 * GEMS_PER_LEVEL gems earned
+      expect(buyStreakFreeze()).toBe(true);
+      const state = getGamificationSnapshot();
+      expect(state.gems).toBe(5 * GEMS_PER_LEVEL - GEM_COST_STREAK_FREEZE);
+      expect(state.streak.freezes).toBe(1);
+    });
+
+    it("refuses to exceed MAX_STREAK_FREEZES even with enough gems", () => {
+      recordBonusXp(1000);
+      for (let i = 0; i < MAX_STREAK_FREEZES; i++) expect(buyStreakFreeze()).toBe(true);
+      expect(buyStreakFreeze()).toBe(false);
+      expect(getGamificationSnapshot().streak.freezes).toBe(MAX_STREAK_FREEZES);
+    });
+  });
+
+  describe("buyXpBoost", () => {
+    it("fails without enough gems", () => {
+      expect(buyXpBoost()).toBe(false);
+      expect(getGamificationSnapshot().xpBoostUntil).toBeNull();
+    });
+
+    it("doubles subsequently earned xp while active", () => {
+      recordBonusXp(1000); // plenty of gems to afford the boost
+      expect(buyXpBoost()).toBe(true);
+      const before = getGamificationSnapshot().xp;
+      recordCorrectAnswer("facil");
+      expect(getGamificationSnapshot().xp).toBe(before + DIFFICULTY_XP.facil * XP_BOOST_MULTIPLIER);
+    });
+
+    it("extends an already-active boost instead of restarting it", () => {
+      recordBonusXp(2000); // plenty of gems for two boost purchases
+      buyXpBoost();
+      const firstUntil = getGamificationSnapshot().xpBoostUntil;
+      buyXpBoost();
+      const secondUntil = getGamificationSnapshot().xpBoostUntil;
+      expect(secondUntil).toBe((firstUntil ?? 0) + 60 * 60 * 1000);
+    });
+  });
+
+  describe("buyAccentTheme", () => {
+    it("fails without enough gems", () => {
+      expect(buyAccentTheme("oceano")).toBe(false);
+      expect(getGamificationSnapshot().unlockedAccentThemes).toEqual([]);
+    });
+
+    it("unlocks the theme once and refuses a repeat purchase", () => {
+      recordBonusXp(1000);
+      expect(buyAccentTheme("oceano")).toBe(true);
+      expect(getGamificationSnapshot().unlockedAccentThemes).toEqual(["oceano"]);
+      const gemsAfterFirstBuy = getGamificationSnapshot().gems;
+      expect(buyAccentTheme("oceano")).toBe(false);
+      expect(getGamificationSnapshot().gems).toBe(gemsAfterFirstBuy);
+    });
+
+    it("can unlock more than one theme", () => {
+      recordBonusXp(1000);
+      buyAccentTheme("oceano");
+      buyAccentTheme("floresta");
+      expect(getGamificationSnapshot().unlockedAccentThemes).toEqual(["oceano", "floresta"]);
+      expect(GEM_COST_ACCENT_THEME).toBeGreaterThan(0);
+    });
   });
 });

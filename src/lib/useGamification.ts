@@ -13,6 +13,9 @@ const SERVER_SNAPSHOT: GamificationState = {
   unlockedBadges: [],
   completedTopics: [],
   xpLog: {},
+  gems: 0,
+  xpBoostUntil: null,
+  unlockedAccentThemes: [],
 };
 
 function getServerSnapshot(): GamificationState {

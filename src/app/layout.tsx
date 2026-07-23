@@ -69,7 +69,7 @@ export const viewport: Viewport = {
   themeColor: "#5b4fe9",
 };
 
-const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.setAttribute("data-theme","dark");}}catch(e){}})();`;
+const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.setAttribute("data-theme","dark");}var a=localStorage.getItem("accent-theme");if(a){document.documentElement.setAttribute("data-accent",a);}}catch(e){}})();`;
 
 export default async function RootLayout({
   children,

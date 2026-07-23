@@ -53,6 +53,9 @@ export const BADGES: Badge[] = [
   },
 ];
 
+export const ACCENT_THEMES = ["oceano", "floresta", "por-do-sol"] as const;
+export type AccentTheme = (typeof ACCENT_THEMES)[number];
+
 export type GamificationState = {
   xp: number;
   streak: {
@@ -67,6 +70,17 @@ export type GamificationState = {
   unlockedBadges: string[];
   completedTopics: string[];
   xpLog: Record<string, number>;
+  /** Spendable currency — earned on level-up, spent in the shop (extra
+   * streak freezes, accent color themes, temporary XP boost). */
+  gems: number;
+  /** Epoch ms until which XP gains are doubled, or null when no boost is
+   * active. Set by buyXpBoost(); stacks by extending the window rather
+   * than starting a fresh one, so buying while one is already active
+   * never wastes gems. */
+  xpBoostUntil: number | null;
+  /** Accent color themes purchased in the shop — a one-time unlock per
+   * theme, not consumed on use (see accentTheme.ts for how it's applied). */
+  unlockedAccentThemes: AccentTheme[];
 };
 
 const STORAGE_KEY = "meridiano-math-gamification";
@@ -79,6 +93,14 @@ export const DIFFICULTY_XP: Record<Difficulty, number> = {
   olimpiada: 25,
 };
 
+// Gem economy: earn on level-up, spend in the shop.
+export const GEMS_PER_LEVEL = 5;
+export const GEM_COST_STREAK_FREEZE = 20;
+export const GEM_COST_XP_BOOST = 30;
+export const GEM_COST_ACCENT_THEME = 15;
+export const XP_BOOST_MULTIPLIER = 2;
+export const XP_BOOST_DURATION_MS = 60 * 60 * 1000; // 1 hour
+
 function emptyState(): GamificationState {
   return {
     xp: 0,
@@ -86,6 +108,9 @@ function emptyState(): GamificationState {
     unlockedBadges: [],
     completedTopics: [],
     xpLog: {},
+    gems: 0,
+    xpBoostUntil: null,
+    unlockedAccentThemes: [],
   };
 }
 
@@ -188,9 +213,18 @@ function updateStreak(state: GamificationState) {
 }
 
 function addXp(state: GamificationState, amount: number) {
-  state.xp += amount;
+  const boosted = state.xpBoostUntil !== null && Date.now() < state.xpBoostUntil;
+  const effectiveAmount = boosted ? amount * XP_BOOST_MULTIPLIER : amount;
+
+  const levelBefore = levelFromXp(state.xp).level;
+  state.xp += effectiveAmount;
+  const levelAfter = levelFromXp(state.xp).level;
+  if (levelAfter > levelBefore) {
+    state.gems += (levelAfter - levelBefore) * GEMS_PER_LEVEL;
+  }
+
   const today = todayStr();
-  state.xpLog = { ...state.xpLog, [today]: (state.xpLog[today] ?? 0) + amount };
+  state.xpLog = { ...state.xpLog, [today]: (state.xpLog[today] ?? 0) + effectiveAmount };
 }
 
 /** Call once per correct exercise answer. */
@@ -260,6 +294,55 @@ export function recordTopicCompletion(
   }
 
   commit(state);
+}
+
+/** Spends gems on one extra banked streak freeze. Fails (no-op, returns
+ * false) without enough gems or once MAX_STREAK_FREEZES is already banked —
+ * same cap the free 7-day auto-grant respects, so gems can't stack an
+ * unlimited safety net. */
+export function buyStreakFreeze(): boolean {
+  const prev = ensureCache();
+  if (prev.gems < GEM_COST_STREAK_FREEZE || prev.streak.freezes >= MAX_STREAK_FREEZES) {
+    return false;
+  }
+  const state: GamificationState = { ...prev, streak: { ...prev.streak } };
+  state.gems -= GEM_COST_STREAK_FREEZE;
+  state.streak.freezes += 1;
+  commit(state);
+  return true;
+}
+
+/** Spends gems on an hour of double XP. Buying again while a boost is
+ * already running extends it from its current end rather than restarting
+ * from now, so it's never wasteful to stock up in advance. */
+export function buyXpBoost(): boolean {
+  const prev = ensureCache();
+  if (prev.gems < GEM_COST_XP_BOOST) return false;
+  const now = Date.now();
+  const activeUntil = prev.xpBoostUntil !== null && prev.xpBoostUntil > now ? prev.xpBoostUntil : now;
+  const state: GamificationState = {
+    ...prev,
+    gems: prev.gems - GEM_COST_XP_BOOST,
+    xpBoostUntil: activeUntil + XP_BOOST_DURATION_MS,
+  };
+  commit(state);
+  return true;
+}
+
+/** Spends gems to permanently unlock an accent color theme. A one-time
+ * purchase per theme — buying an already-owned theme is a no-op. */
+export function buyAccentTheme(theme: AccentTheme): boolean {
+  const prev = ensureCache();
+  if (prev.unlockedAccentThemes.includes(theme) || prev.gems < GEM_COST_ACCENT_THEME) {
+    return false;
+  }
+  const state: GamificationState = {
+    ...prev,
+    gems: prev.gems - GEM_COST_ACCENT_THEME,
+    unlockedAccentThemes: [...prev.unlockedAccentThemes, theme],
+  };
+  commit(state);
+  return true;
 }
 
 /** Overwrites local state with a snapshot pulled from the cloud (used only

@@ -735,6 +735,28 @@ nativo (iOS/Android) via Capacitor, veja
   coluna `streak_freezes` de `gamification_state`, e o contador aparece
   no card de sequência do dashboard de progresso (`/progresso`) quando
   há pelo menos 1 banked.
+- **Loja de gemas** (`/loja`): moeda gastável, ganha automaticamente a
+  cada nível que o aluno sobe (`GEMS_PER_LEVEL` gemas por nível,
+  detectado dentro de `addXp()` comparando `levelFromXp()` antes/depois
+  — cobre até saltos de vários níveis de uma vez, como o bônus de
+  conclusão de tópico). Gasta em três coisas, cada uma uma função pura
+  testada isoladamente em `src/lib/gamification.ts`: **congelamento de
+  sequência extra** (`buyStreakFreeze`, 20 gemas, respeita o mesmo teto
+  `MAX_STREAK_FREEZES` do congelamento automático); **impulso de XP**
+  (`buyXpBoost`, 30 gemas, dobra o XP ganho por 1 hora — comprar de novo
+  com o impulso já ativo estende o prazo em vez de reiniciar); e
+  **temas de cor** (`buyAccentTheme`, 15 gemas, desbloqueio único por
+  tema — Oceano/Floresta/Pôr do sol). Os temas mudam só
+  `--primary`/`--primary-dark` via um atributo `data-accent` independente
+  do `data-theme` de claro/escuro (`src/lib/accentTheme.ts`, mesmo padrão
+  do store de dark mode), então funcionam em cima de qualquer um dos
+  dois. Estado sincronizado na nuvem via as colunas `gems`,
+  `xp_boost_until` e `unlocked_accent_themes` de `gamification_state`.
+- **Gemas nunca substituem grind**: como toda a moeda vem de subir de
+  nível (proporcional ao XP ganho jogando normalmente), não existe
+  compra com dinheiro real nem forma de gastar gemas que pule a
+  prática de exercícios — é só um jeito diferente de expressar o
+  progresso já conquistado.
 - **Micro-animações**: o feedback de resposta (quiz, revisão, Desafio do
   Dia e checks de teoria) entra com um slide-in curto, os chips de XP e a
   tela de resultado ganham um "pop" celebratório, e os botões de opção
