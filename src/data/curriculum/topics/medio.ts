@@ -303,6 +303,12 @@ export const medioTopics: Topic[] = [
         channel: "Professora Angela Matemática",
       },
     ],
+    flashcards: [
+      { front: "Forma geral", back: "f(x) = ax² + bx + c, com a ≠ 0." },
+      { front: "Vértice da parábola", back: "xv = −b/2a, yv = −Δ/4a" },
+      { front: "Concavidade", back: "Se a > 0, a parábola tem concavidade para cima (ponto de mínimo). Se a < 0, para baixo (ponto de máximo)." },
+      { front: "Raízes da função", back: "São os valores de x onde f(x) = 0 — encontrados pela fórmula de Bhaskara." },
+    ],
     relatedTopics: [
       { levelId: "medio", topicId: "funcao-primeiro-grau" },
       { levelId: "superior", topicId: "limites-e-derivadas" },

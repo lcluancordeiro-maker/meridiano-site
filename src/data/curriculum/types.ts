@@ -207,6 +207,15 @@ export type VideoLesson = {
   channel: string;
 };
 
+/** A quick-review flip card: front shows a formula/term, back shows its
+ * meaning or derivation. Hand-authored per topic (not generated from
+ * theory/exercises) so the wording is tuned for a glance-and-flip review,
+ * not for reading a full explanation. */
+export type Flashcard = {
+  front: string;
+  back: string;
+};
+
 export type Topic = {
   id: string;
   title: string;
@@ -222,6 +231,9 @@ export type Topic = {
    * handful of topics have these; most don't and that's fine, this is
    * additive. */
   videoLessons?: VideoLesson[];
+  /** Optional quick-review flashcard deck — see Flashcard. Same "only a
+   * handful of topics have these" convention as videoLessons. */
+  flashcards?: Flashcard[];
 };
 
 export type LevelGroup = "serie" | "estatistica" | "econometria" | "programacao" | "financas" | "vestibulares";

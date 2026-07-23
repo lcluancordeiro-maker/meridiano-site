@@ -6,6 +6,7 @@ import SetTutorContext from "@/components/SetTutorContext";
 import PracticeSection from "@/components/PracticeSection";
 import LazyFunctionGrapher from "@/components/LazyFunctionGrapher";
 import VideoLessons from "@/components/VideoLessons";
+import Flashcards from "@/components/Flashcards";
 import InteractiveWidgetRenderer from "@/components/widgets/InteractiveWidgetRenderer";
 import KnowledgeGraph from "@/components/KnowledgeGraph";
 import TheoryCheckQuestion from "@/components/TheoryCheckQuestion";
@@ -190,6 +191,18 @@ export default async function TopicPage({
                   Vídeos curtos de outros canais de matemática sobre este tópico.
                 </p>
                 <VideoLessons videos={topic.videoLessons} />
+              </div>
+            )}
+
+            {topic.flashcards && (
+              <div className="mt-10">
+                <h2 className="mb-1 font-display text-xl font-semibold text-foreground">
+                  Cartões de revisão
+                </h2>
+                <p className="mb-4 text-sm text-muted">
+                  Revise rapidamente as fórmulas e definições deste tópico.
+                </p>
+                <Flashcards cards={topic.flashcards} />
               </div>
             )}
 

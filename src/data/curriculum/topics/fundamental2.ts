@@ -301,6 +301,14 @@ export const fundamental2Topics: Topic[] = [
         channel: "Professora Angela Matemática",
       },
     ],
+    flashcards: [
+      { front: "Fração", back: "Representa uma parte de um todo dividido em partes iguais: numerador/denominador (ex: 3/4 = três de quatro partes)." },
+      { front: "Frações equivalentes", back: "Multiplique (ou divida) numerador e denominador pelo mesmo número: 1/2 = 2/4 = 3/6." },
+      { front: "Soma de frações (denominadores iguais)", back: "Some os numeradores e mantenha o denominador: 1/5 + 2/5 = 3/5." },
+      { front: "Soma de frações (denominadores diferentes)", back: "Tire o MMC dos denominadores, converta as frações e some os numeradores: 1/2 + 1/3 = 3/6 + 2/6 = 5/6." },
+      { front: "Multiplicação de frações", back: "Multiplique numerador por numerador e denominador por denominador: 2/3 × 3/4 = 6/12 = 1/2." },
+      { front: "Divisão de frações", back: "Multiplique pelo inverso da segunda fração: 2/3 ÷ 1/4 = 2/3 × 4/1 = 8/3." },
+    ],
     historicalNote: {
       title: "Pão, terra e o papiro de Rhind",
       body: [
@@ -1105,6 +1113,13 @@ export const fundamental2Topics: Topic[] = [
         channel: "Professora Angela Matemática",
       },
     ],
+    flashcards: [
+      { front: "Regra de três simples", back: "Para grandezas diretamente proporcionais: a/b = c/x, então x = (b · c) / a." },
+      { front: "Porcentagem", back: "x% de um valor V é (x/100) × V. Ex: 20% de 50 = (20/100) × 50 = 10." },
+      { front: "Aumento percentual", back: "Novo valor = V × (1 + x/100). Ex: aumento de 10% sobre 200 = 200 × 1,10 = 220." },
+      { front: "Desconto percentual", back: "Novo valor = V × (1 − x/100). Ex: desconto de 15% sobre 200 = 200 × 0,85 = 170." },
+      { front: "Grandezas inversamente proporcionais", back: "Quando uma aumenta, a outra diminui na mesma proporção: a × b = c × x." },
+    ],
     theory: [
       {
         heading: "Razão e proporção",
@@ -1359,6 +1374,13 @@ export const fundamental2Topics: Topic[] = [
         youtubeId: "iMTcN--jfHM",
         channel: "Professora Angela Matemática",
       },
+    ],
+    flashcards: [
+      { front: "Forma geral", back: "ax² + bx + c = 0, com a ≠ 0." },
+      { front: "Fórmula de Bhaskara", back: "x = (−b ± √Δ) / 2a" },
+      { front: "Discriminante (Δ)", back: "Δ = b² − 4ac. Se Δ > 0: duas raízes reais. Δ = 0: uma raiz (dupla). Δ < 0: nenhuma raiz real." },
+      { front: "Soma das raízes", back: "x₁ + x₂ = −b/a" },
+      { front: "Produto das raízes", back: "x₁ · x₂ = c/a" },
     ],
     theory: [
       {
@@ -1625,6 +1647,13 @@ export const fundamental2Topics: Topic[] = [
         youtubeId: "PGPRh4JBIsg",
         channel: "Professora Angela Matemática",
       },
+    ],
+    flashcards: [
+      { front: "Teorema de Pitágoras", back: "Em um triângulo retângulo: a² = b² + c² (a é a hipotenusa, b e c são os catetos)." },
+      { front: "Área do triângulo", back: "A = (base × altura) / 2" },
+      { front: "Área do retângulo", back: "A = base × altura" },
+      { front: "Área do círculo", back: "A = π × r²" },
+      { front: "Perímetro do círculo", back: "P = 2 × π × r" },
     ],
     historicalNote: {
       title: "Medir a terra deu nome à geometria",
