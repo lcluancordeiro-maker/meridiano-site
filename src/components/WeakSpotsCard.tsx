@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { WeakSpot } from "@/lib/weakSpots";
 import { useTranslation } from "@/i18n/LanguageContext";
+import { askGauss } from "@/lib/gaussPrompt";
 
 const ACCURACY_THRESHOLD = 0.8;
 
@@ -22,10 +23,10 @@ export default function WeakSpotsCard({ weakSpots }: { weakSpots: WeakSpot[] }) 
       ) : (
         <ul className="mt-4 flex flex-col gap-2">
           {toReview.map((spot) => (
-            <li key={`${spot.levelId}/${spot.topicId}`}>
+            <li key={`${spot.levelId}/${spot.topicId}`} className="rounded-xl border border-border px-4 py-3">
               <Link
                 href={`/trilha/${spot.levelId}/${spot.topicId}`}
-                className="flex items-center justify-between gap-3 rounded-xl border border-border px-4 py-3 text-sm transition-colors hover:border-primary"
+                className="flex items-center justify-between gap-3 text-sm transition-colors hover:text-primary"
               >
                 <span className="min-w-0">
                   <span className="block truncate font-medium text-foreground">
@@ -37,6 +38,13 @@ export default function WeakSpotsCard({ weakSpots }: { weakSpots: WeakSpot[] }) 
                   {Math.round(spot.accuracy * 100)}% ({spot.score}/{spot.total})
                 </span>
               </Link>
+              <button
+                type="button"
+                onClick={() => askGauss(t.weakSpotsGaussPromptTemplate.replace("{topic}", spot.topicTitle))}
+                className="mt-2 text-xs font-semibold text-primary hover:underline"
+              >
+                {t.weakSpotsAskGaussButton}
+              </button>
             </li>
           ))}
         </ul>
